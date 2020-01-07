@@ -16,7 +16,7 @@ import frc.robot.Constants;
 import java.util.Map;
 
 /**
- * Base robot class, provides {@link frc.lightning.ConstantBase constants},
+ * Base robot class, provides
  * {@link frc.lightning.logging.DataLogger logging},
  * {@link FaultMonitor fault monitoring}, and loops with varying
  * periods {@link LightningRobot#robotBackgroundPeriodic() background},
@@ -28,6 +28,8 @@ import java.util.Map;
  * a method to register auton commands}. And integrated self test support (still in progress)
  */
 public class LightningRobot extends TimedRobot {
+    private final static double settleTime = 3.0;
+
     public DataLogger dataLogger = DataLogger.getLogger();
 
     private int counter = 0;
@@ -90,6 +92,10 @@ public class LightningRobot extends TimedRobot {
         autoCommandCount += 1;
     }
 
+    public void registerAutonomousCommmand(Command command) {
+        registerAutonomousCommmand(command.getName(), command);
+    }
+
     /**
      * This function is called every robot packet, no matter the mode. Use
      * this for items like diagnostics that you want ran during disabled,
@@ -105,7 +111,7 @@ public class LightningRobot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         double time = Timer.getFPGATimestamp();
-        if (time > Constants.settleTime) {
+        if (time > settleTime) {
             counter += 1;
             if (counter % medPriorityFreq == 0) {
                 robotMediumPriorityPeriodic();
@@ -201,5 +207,11 @@ public class LightningRobot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+    }
+
+    @Override
+    public void testInit() {
+        // Cancels all running commands at the start of test mode.
+        CommandScheduler.getInstance().cancelAll();
     }
 }

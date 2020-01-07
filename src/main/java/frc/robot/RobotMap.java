@@ -7,18 +7,18 @@
 
 package frc.robot;
 
-import frc.lightning.LightningRobot;
+public class RobotMap {
+    // DRIVETRAIN
+    public static final int LEFT_1_CAN_ID  = 1;
+    public static final int LEFT_2_CAN_ID  = 2;
+    public static final int LEFT_3_CAN_ID  = 3;
+    public static final int RIGHT_1_CAN_ID = 4;
+    public static final int RIGHT_2_CAN_ID = 5;
+    public static final int RIGHT_3_CAN_ID = 6;
 
-public class Robot extends LightningRobot {
-    private RobotContainer robotContainer;
+    // CORE
+    public static final int COMPRESSOR_ID = 11;
 
-    @Override
-    public void robotInit() {
-        robotContainer = new RobotContainer();
-        super.robotInit();
-        for (var command : robotContainer.getAutonomousCommands()) {
-            registerAutonomousCommmand(command);
-        }
-    }
+    // HYPERION
+    public static final int PIGEON_ID = 8;
 }
-

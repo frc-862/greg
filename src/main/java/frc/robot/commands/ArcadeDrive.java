@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lightning.util.JoystickFilter;
 import frc.robot.subsystems.Drivetrain;
 
 import java.util.function.DoubleSupplier;
@@ -19,6 +20,11 @@ public class ArcadeDrive extends CommandBase {
   private final Drivetrain drivetrain;
   private final DoubleSupplier throttle;
   private final DoubleSupplier turn;
+  private double deadband = 0.1;
+  private double minPower = 0.1;
+  private double maxPower = 1.0;
+  private final JoystickFilter throttleFilter = new JoystickFilter(deadband, minPower, maxPower, JoystickFilter.Mode.CUBED);
+  private final JoystickFilter turnFilter = new JoystickFilter(deadband, 0, maxPower, JoystickFilter.Mode.LINEAR);
 
   /**
    * Creates a new ExampleCommand.
@@ -42,9 +48,9 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final double speed = throttle.getAsDouble();
-    final double rotation = turn.getAsDouble();
-    final boolean quickTurn = Math.abs(speed) < 0.05 && Math.abs(rotation) > 0.2;
+    final double speed = throttleFilter.filter(throttle.getAsDouble());
+    final double rotation = turnFilter.filter(turn.getAsDouble());
+    final boolean quickTurn = Math.abs(speed) < 0.01 && Math.abs(rotation) > 0.1;
     drivetrain.getDifferentialDrive().curvatureDrive(speed, rotation, quickTurn);
   }
 

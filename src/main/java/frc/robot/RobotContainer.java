@@ -10,12 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lightning.util.XBoxController;
+import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Drivetrain2Motor;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,28 +26,10 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivetrain drivetrain = new Drivetrain();
-  private final XBoxController driver = new XBoxController(JoystickConstants.DRIVER);
-  private final XBoxController copilot = new XBoxController(JoystickConstants.COPILOT);
-
-  public double getRightThrottleInput() { return -driver.getRawAxis(5); }
-  public double getLeftThrottleInput() {
-    return -driver.getRawAxis(1);
-  }
-
-  public double getThrottle() {
-    final double stick = copilot.getLeftStickY();
-    return stick * stick * Math.signum(stick);
-  }
-
-  public double getTurn() {
-    final double stick = copilot.getRightStickX();
-    return stick * stick * Math.signum(-stick);
-  }
-
-  public boolean getQuickTurn() {
-    return copilot.aButton.get();
-  }
+  //  private final Drivetrain drivetrain = new Drivetrain();
+  private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
+  private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+  private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -57,20 +40,20 @@ public class RobotContainer {
 
     // set default commands
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain,
-            () -> driver.getLeftStickY(),
-            () -> driver.getRightStickX()
+            () -> -driver.getY(GenericHID.Hand.kLeft),
+            () -> driver.getX(GenericHID.Hand.kRight)
             ));
   }
 
   private void initializeDashboardCommands() {
     SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-            () -> driver.getLeftStickY(),
-            () -> driver.getRightStickX()
+            () -> -driver.getY(GenericHID.Hand.kLeft),
+            () -> -driver.getY(GenericHID.Hand.kRight)
     ));
     SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-            () -> driver.getLeftStickY(),
-            () -> driver.getRightStickX()
-            ));
+            () -> -driver.getY(GenericHID.Hand.kLeft),
+            () -> -driver.getY(GenericHID.Hand.kRight)
+    ));
   }
 
   /**

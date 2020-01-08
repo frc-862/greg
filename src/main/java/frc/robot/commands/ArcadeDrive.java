@@ -53,8 +53,6 @@ public class ArcadeDrive extends CommandBase {
     final double speed = throttleFilter.filter(throttle.getAsDouble());
     final double rotation = turnFilter.filter(turn.getAsDouble());
     final boolean quickTurn = Math.abs(speed) < 0.01 && Math.abs(rotation) > 0.1;
-    SmartDashboard.putNumber("Speed", speed);
-    SmartDashboard.putNumber("Rotation", rotation);
     drivetrain.getDifferentialDrive().curvatureDrive(speed, rotation, quickTurn);
   }
 

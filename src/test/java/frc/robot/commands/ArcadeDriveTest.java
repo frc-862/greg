@@ -49,9 +49,7 @@ public class ArcadeDriveTest {
 
     @Test
     public void stopAtEnd() {
-        DifferentialDrive ddrive = mock(DifferentialDrive.class);
         LightningDrivetrain drive = mock(LightningDrivetrain.class);
-        when(drive.getDifferentialDrive()).thenReturn(ddrive);
 
         ArcadeDrive arcade = new ArcadeDrive(drive, () -> 0, () -> 1);
         arcade.end(false);

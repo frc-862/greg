@@ -7,13 +7,8 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ControlType;
+import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,50 +20,32 @@ import frc.robot.misc.REVGains;
 
 import java.util.function.Consumer;
 
-public class Drivetrain extends SubsystemBase implements LightningDrivetrain {
+public class Drivetrain2Motor extends SubsystemBase implements LightningDrivetrain {
     // DRIVETRAIN
     public static final int LEFT_1_CAN_ID  = 1;
-    public static final int LEFT_2_CAN_ID  = 2;
-    public static final int LEFT_3_CAN_ID  = 3;
     public static final int RIGHT_1_CAN_ID = 4;
-    public static final int RIGHT_2_CAN_ID = 5;
-    public static final int RIGHT_3_CAN_ID = 6;
-    public static final int SHIFTER_FWD_CHANNEL     = 0;
-    public static final int SHIFTER_REVERSE_CHANNEL = 7;
 
-    private final String name = "DRIVETRAIN";
+    private final String name = "DRIVETRAIN2MOTOR";
 
     private CANSparkMax leftMaster;
-    private CANSparkMax leftSlave1;
-    private CANSparkMax leftSlave2;
 
     private CANEncoder leftEncoder;
     private CANPIDController leftPIDFController;
 
     private CANSparkMax rightMaster;
-    private CANSparkMax rightSlave1;
-    private CANSparkMax rightSlave2;
 
     private CANEncoder rightEncoder;
     private CANPIDController rightPIDFController;
 
-    public Drivetrain() {
+    public Drivetrain2Motor() {
         setName(name);
 
         leftMaster = new CANSparkMax(RobotMap.LEFT_1_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftSlave1 = new CANSparkMax(RobotMap.LEFT_2_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftSlave2 = new CANSparkMax(RobotMap.LEFT_3_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
         leftEncoder = new CANEncoder(leftMaster);
-
         leftPIDFController = leftMaster.getPIDController();
 
         rightMaster = new CANSparkMax(RobotMap.RIGHT_1_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightSlave1 = new CANSparkMax(RobotMap.RIGHT_2_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightSlave2 = new CANSparkMax(RobotMap.RIGHT_3_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-
         rightEncoder = new CANEncoder(rightMaster);
-
         rightPIDFController = rightMaster.getPIDController();
 
         initMotorDirections();
@@ -127,20 +104,12 @@ public class Drivetrain extends SubsystemBase implements LightningDrivetrain {
 
     private void withEachMotor(Consumer<CANSparkMax> op) {
         op.accept(leftMaster);
-        op.accept(leftSlave1);
-        op.accept(leftSlave2);
         op.accept(rightMaster);
-        op.accept(rightSlave1);
-        op.accept(rightSlave2);
     }
 
     private void initMotorDirections() {
         rightMaster.setInverted(true);
-        rightSlave1.follow(rightMaster, true);
-        rightSlave2.follow(rightMaster, false);
         leftMaster.setInverted(false);
-        leftSlave1.follow(leftMaster, true);
-        leftSlave2.follow(leftMaster, false);
     }
 
     public void setPower(double left, double right) {

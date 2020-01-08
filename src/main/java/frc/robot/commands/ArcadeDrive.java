@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.JoystickFilter;
 import frc.robot.subsystems.Drivetrain;
 
@@ -17,7 +19,7 @@ import java.util.function.DoubleSupplier;
  * An example command that uses an example subsystem.
  */
 public class ArcadeDrive extends CommandBase {
-  private final Drivetrain drivetrain;
+  private final LightningDrivetrain drivetrain;
   private final DoubleSupplier throttle;
   private final DoubleSupplier turn;
   private double deadband = 0.1;
@@ -31,7 +33,7 @@ public class ArcadeDrive extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ArcadeDrive(Drivetrain subsystem, DoubleSupplier throttle, DoubleSupplier turn) {
+  public ArcadeDrive(LightningDrivetrain subsystem, DoubleSupplier throttle, DoubleSupplier turn) {
     drivetrain = subsystem;
     this.throttle = throttle;
     this.turn = turn;
@@ -51,6 +53,8 @@ public class ArcadeDrive extends CommandBase {
     final double speed = throttleFilter.filter(throttle.getAsDouble());
     final double rotation = turnFilter.filter(turn.getAsDouble());
     final boolean quickTurn = Math.abs(speed) < 0.01 && Math.abs(rotation) > 0.1;
+    SmartDashboard.putNumber("Speed", speed);
+    SmartDashboard.putNumber("Rotation", rotation);
     drivetrain.getDifferentialDrive().curvatureDrive(speed, rotation, quickTurn);
   }
 

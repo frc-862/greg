@@ -10,6 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.subsystems.LightningDrivetrain;
+import frc.lightning.util.CurvatureDrive;
 import frc.lightning.util.JoystickFilter;
 import frc.robot.subsystems.Drivetrain;
 
@@ -22,6 +23,7 @@ public class ArcadeDrive extends CommandBase {
   private final LightningDrivetrain drivetrain;
   private final DoubleSupplier throttle;
   private final DoubleSupplier turn;
+  private final CurvatureDrive curvatureDrive;
   private double deadband = 0.1;
   private double minPower = 0.1;
   private double maxPower = 1.0;
@@ -40,6 +42,8 @@ public class ArcadeDrive extends CommandBase {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
+    
+    curvatureDrive = new CurvatureDrive();
   }
 
   // Called when the command is initially scheduled.
@@ -53,7 +57,9 @@ public class ArcadeDrive extends CommandBase {
     final double speed = throttleFilter.filter(throttle.getAsDouble());
     final double rotation = turnFilter.filter(turn.getAsDouble());
     final boolean quickTurn = Math.abs(speed) < 0.01 && Math.abs(rotation) > 0.1;
-    drivetrain.getDifferentialDrive().curvatureDrive(speed, rotation, quickTurn);
+
+    final var cmd = curvatureDrive.curvatureDrive(speed, rotation, quickTurn);
+    drivetrain.setPower(cmd);
   }
 
   // Called once the command ends or is interrupted.

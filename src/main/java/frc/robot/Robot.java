@@ -10,6 +10,8 @@ package frc.robot;
 import frc.lightning.LightningRobot;
 
 public class Robot extends LightningRobot {
+    public static final boolean DRIVETRAIN_LOGGING_ENABLED = true;
+
     private RobotContainer robotContainer;
 
     @Override

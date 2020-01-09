@@ -39,6 +39,12 @@ public class LightningRobot extends TimedRobot {
     private int backgroundPriorityFreq = (int) Math.round(10 / getPeriod());
 
     Command autonomousCommand;
+
+    @Override
+    public void disabledPeriodic() {
+        // do nothing
+    }
+
     SendableChooser<Command> chooser = new SendableChooser<>();
 
     /**

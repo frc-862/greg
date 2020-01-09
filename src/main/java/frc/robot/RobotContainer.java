@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -29,21 +30,37 @@ import java.nio.file.Paths;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private static boolean isNebula() {
+    return Files.exists(Paths.get("/home/lvuser/nebula"));
+  }
+
+  private static boolean isTwiki() {
+    return Files.exists(Paths.get("/home/lvuser/twiki"));
+  }
+
+  private static boolean isGreg() {
+    return !(isNebula() || isTwiki());
+  }
 
   private static LightningDrivetrain determineDriveTrain() {
-    if (Files.exists(Paths.get("/home/lvuser/nebula")))
+    if (isNebula()) {
+      System.out.println("Initializing Nebula");
       return NebulaDrivetrain.create();
+    }
 
-    if (Files.exists(Paths.get("/home/lvuser/twiki")))
+    if (isTwiki()) {
+      System.out.println("Initializing Twiki");
       return new TwikiDrivetrain();
+    }
 
     // default to greg
+    System.out.println("Initializing Greg");
     return new GregDrivetrain();
   }
   // The robot's subsystems and commands are defined here...
   // private final Drivetrain drivetrain = new Drivetrain();
   // private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
-  private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
+  private final LightningDrivetrain drivetrain = determineDriveTrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
@@ -56,12 +73,20 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    initializeDashboardCommands();
 
     // set default commands
-    drivetrain.setDefaultCommand(new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> driver.getX(GenericHID.Hand.kRight)
-            ));
+    if (isTwiki()) {
+      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain,
+              () -> -driver.getY(GenericHID.Hand.kLeft),
+              () -> driver.getX(GenericHID.Hand.kRight)
+      ));
+    } else {
+      drivetrain.setDefaultCommand(new TankDrive(drivetrain,
+              () -> -driver.getY(GenericHID.Hand.kLeft),
+              () -> -driver.getY(GenericHID.Hand.kRight)
+      ));
+    }
   }
 
   private void initializeDashboardCommands() {
@@ -69,6 +94,7 @@ public class RobotContainer {
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> -driver.getY(GenericHID.Hand.kRight)
     ));
+
     SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> -driver.getY(GenericHID.Hand.kRight)

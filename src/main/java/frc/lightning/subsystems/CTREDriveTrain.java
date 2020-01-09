@@ -1,0 +1,129 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package frc.lightning.subsystems;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lightning.logging.DataLogger;
+import frc.robot.Robot;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain {
+  private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
+  private static final double OPEN_LOOP_RAMP_RATE = 0.5;
+
+  // DRIVETRAIN
+  private final String name = "DRIVETRAIN";
+
+  private BaseMotorController[] left;
+  private TalonSRX leftMaster;
+//  private CANEncoder leftEncoder;
+//  private CANPIDController leftPIDFController;
+
+  private BaseMotorController[] right;
+  private TalonSRX rightMaster;
+//  private CANEncoder rightEncoder;
+//  private CANPIDController rightPIDFController;
+
+  public CTREDriveTrain(TalonSRX leftMaster, TalonSRX rightMaster, BaseMotorController[] leftSlaves, BaseMotorController[] rightSlaves) {
+    setName(name);
+    this.leftMaster = leftMaster;
+    this.rightMaster = rightMaster;
+    left = leftSlaves;
+    right = rightSlaves;
+
+    brake();
+    init();
+  }
+
+  public void init() {
+    this.resetDistance();
+  }
+
+  protected TalonSRX getLeftMaster() { return leftMaster; }
+  protected TalonSRX getRightMaster() { return rightMaster; }
+
+  protected void withEachMotor(Consumer<BaseMotorController> op) {
+    op.accept(leftMaster);
+    for (var m : left) op.accept(m);
+    op.accept(rightMaster);
+    for (var m : right) op.accept(m);
+  }
+
+  protected void withEachMotorIndexed(BiConsumer<BaseMotorController, Integer> op) {
+    op.accept(leftMaster, 0);
+    op.accept(rightMaster, 0);
+    for (var i = 0; i < left.length; ++i) {
+      op.accept(left[i], i + 1);
+    }
+    for (var i = 0; i < right.length; ++i) {
+      op.accept(right[i], i + 1);
+    }
+  }
+
+  protected void withEachSlaveMotor(BiConsumer<BaseMotorController, TalonSRX> op) {
+    for (var m : left) op.accept(m, leftMaster);
+    for (var m : right) op.accept(m, rightMaster);
+  }
+
+  protected void withEachSlaveMotorIndexed(BiConsumer<BaseMotorController, Integer> op) {
+    for (var i = 0; i < left.length; ++i) {
+      op.accept(left[i], i + 1);
+    }
+    for (var i = 0; i < right.length; ++i) {
+      op.accept(right[i], i + 1);
+    }
+  }
+
+  public void setPower(double left, double right) {
+    rightMaster.set(ControlMode.PercentOutput, left);
+    leftMaster.set(ControlMode.PercentOutput, right);
+  }
+
+  public void setVelocity(double left, double right) {
+    rightMaster.set(ControlMode.Velocity, left);
+    leftMaster.set(ControlMode.Velocity, right);
+  }
+
+  public void resetDistance() {
+    leftMaster.setSelectedSensorPosition(0);
+    rightMaster.setSelectedSensorPosition(0);
+  }
+
+  public double getLeftDistance() {
+    return leftMaster.getSelectedSensorPosition();
+  }
+
+  public double getRightDistance() {
+    return rightMaster.getSelectedSensorPosition();
+  }
+
+  public double getLeftVelocity() {
+    return leftMaster.getSelectedSensorVelocity();
+  }
+
+  public double getRightVelocity() {
+    return rightMaster.getSelectedSensorVelocity();
+  }
+
+  @Override
+  public void brake() {
+    this.withEachMotor(m -> m.setNeutralMode(NeutralMode.Brake));
+  }
+
+  @Override
+  public void coast() {
+    this.withEachMotor(m -> m.setNeutralMode(NeutralMode.Coast));
+  }
+}

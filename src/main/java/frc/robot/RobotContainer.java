@@ -29,7 +29,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // private final Drivetrain drivetrain = new Drivetrain();
   // private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
-  private final LightningDrivetrain drivetrain = new NebulaDrivetrain();
+  private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 

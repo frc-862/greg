@@ -63,11 +63,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         withEachMotor((m) -> m.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE));
         withEachMotor((m) -> m.setClosedLoopRampRate(CLOSE_LOOP_RAMP_RATE));
         brake();
-
-        if (Robot.DRIVETRAIN_LOGGING_ENABLED) {
-            DataLogger.addDataElement("leftVelocity", () -> leftEncoder.getVelocity());
-            DataLogger.addDataElement("rightVelocity", () -> rightEncoder.getVelocity());
-        }
     }
 
     private static void setGains(CANPIDController controller, REVGains gains) {

@@ -13,7 +13,7 @@ import frc.lightning.util.Loop;
 public class DataLogger implements Loop {
     private static final int max_lines = 15000;
     private static DataLogger logger;
-    private static String baseFName = "gemini";
+    private static String baseFName = "greg";
 
     private LogWriter writer;
     private ArrayList<String> fieldNames = new ArrayList<>();

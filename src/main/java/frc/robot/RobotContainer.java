@@ -17,6 +17,7 @@ import frc.robot.commands.VelocityTankDrive;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain2Motor;
+import frc.robot.subsystems.NebulaDrivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,8 +27,9 @@ import frc.robot.subsystems.Drivetrain2Motor;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //  private final Drivetrain drivetrain = new Drivetrain();
-  private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
+  // private final Drivetrain drivetrain = new Drivetrain();
+  // private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
+  private final LightningDrivetrain drivetrain = new NebulaDrivetrain();
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 
@@ -39,7 +41,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // set default commands
-    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain,
+    drivetrain.setDefaultCommand(new TankDrive(drivetrain,
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> driver.getX(GenericHID.Hand.kRight)
             ));

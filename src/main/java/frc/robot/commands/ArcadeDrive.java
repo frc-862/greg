@@ -7,12 +7,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.CurvatureDrive;
 import frc.lightning.util.JoystickFilter;
-import frc.robot.subsystems.Drivetrain;
 
 import java.util.function.DoubleSupplier;
 

@@ -20,7 +20,7 @@ import frc.robot.misc.REVGains;
 
 import java.util.function.Consumer;
 
-public class Drivetrain2Motor extends SubsystemBase implements LightningDrivetrain {
+public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrain {
     // DRIVETRAIN
     public static final int LEFT_1_CAN_ID  = 1;
     public static final int RIGHT_1_CAN_ID = 4;
@@ -37,7 +37,7 @@ public class Drivetrain2Motor extends SubsystemBase implements LightningDrivetra
     private CANEncoder rightEncoder;
     private CANPIDController rightPIDFController;
 
-    public Drivetrain2Motor() {
+    public TwikiDrivetrain() {
         setName(name);
 
         leftMaster = new CANSparkMax(RobotMap.LEFT_1_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);

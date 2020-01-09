@@ -10,14 +10,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.robot.commands.ArcadeDrive;
+import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Drivetrain2Motor;
+import frc.robot.subsystems.GregDrivetrain;
 import frc.robot.subsystems.NebulaDrivetrain;
+import frc.robot.subsystems.TwikiDrivetrain;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,10 +29,24 @@ import frc.robot.subsystems.NebulaDrivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private static LightningDrivetrain determineDriveTrain() {
+    if (Files.exists(Paths.get("/home/lvuser/nebula")))
+      return NebulaDrivetrain.create();
+
+    if (Files.exists(Paths.get("/home/lvuser/twiki")))
+      return new TwikiDrivetrain();
+
+    // default to greg
+    return new GregDrivetrain();
+  }
   // The robot's subsystems and commands are defined here...
   // private final Drivetrain drivetrain = new Drivetrain();
   // private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
   private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
+  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 

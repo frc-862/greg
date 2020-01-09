@@ -24,9 +24,9 @@ import frc.robot.misc.REVGains;
 
 import java.util.function.Consumer;
 
-public class Drivetrain extends NeoDrivetrain {
+public class GregDrivetrain extends NeoDrivetrain {
 
-    public Drivetrain() {
+    public GregDrivetrain() {
         super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID);
         initMotorDirections();
 

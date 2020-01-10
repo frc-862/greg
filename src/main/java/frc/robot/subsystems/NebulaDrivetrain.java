@@ -17,13 +17,17 @@ import frc.lightning.subsystems.CTREDriveTrain;
 public class NebulaDrivetrain extends CTREDriveTrain {
 
   public static NebulaDrivetrain create() {
-    VictorSPX left[] = { new VictorSPX(1) };
-    VictorSPX right[] = { new VictorSPX(14) };
+    VictorSPX[] left = { new VictorSPX(1) };
+    VictorSPX[] right = { new VictorSPX(14) };
 
     return new NebulaDrivetrain(new TalonSRX(0), new TalonSRX(15), left, right);
   }
 
   public NebulaDrivetrain(TalonSRX leftMaster, TalonSRX rightMaster, BaseMotorController[] left, BaseMotorController[] right) {
     super(leftMaster, rightMaster, left, right);
+    rightMaster.setInverted(true);
+    for (var rmotor : right) rmotor.setInverted(true);
+    leftMaster.setInverted(false);
+    for (var lmotor : left) lmotor.setInverted(false);
   }
 }

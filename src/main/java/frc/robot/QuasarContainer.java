@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.GregDrivetrain;
 import frc.robot.subsystems.NebulaDrivetrain;
+import frc.robot.subsystems.drivetrains.*;
 import frc.robot.subsystems.TwikiDrivetrain;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -34,45 +35,10 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
-  private static boolean isNebula() {
-    return Files.exists(Paths.get("/home/lvuser/nebula"));
-  }
-
-  private static boolean isTwiki() {
-    return Files.exists(Paths.get("/home/lvuser/twiki"));
-  }
-
-  private static boolean isGreg() {
-    return !(isNebula() || isTwiki());
-  }
-
-  private static LightningDrivetrain determineDriveTrain() {
-    if (isNebula()) {
-      System.out.println("Initializing Nebula");
-      return NebulaDrivetrain.create();
-    }
-
-    if (isTwiki()) {
-      System.out.println("Initializing Twiki");
-      return new TwikiDrivetrain();
-    }
-
-    // default to greg
-    System.out.println("Initializing Greg");
-    return new GregDrivetrain();
-  }
-  // The robot's subsystems and commands are defined here...
-  // private final Drivetrain drivetrain = new Drivetrain();
-  // private final LightningDrivetrain drivetrain = new Drivetrain2Motor();
-  private final LightningDrivetrain drivetrain = determineDriveTrain();
+public class QuasarContainer {
+  private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-
-  private final Collector collector1 = new Collector(new VictorSPX(4));
-  private final Collector collector2 = new Collector(new VictorSPX(5));
-  private final Collector collector3 = new Collector(new VictorSPX(9));
-  private final Collector collector4 = new Collector(new VictorSPX(10));
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
@@ -80,27 +46,16 @@ public class RobotContainer {
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
+  public QuasarContainer() {
     // Configure the button bindings
     configureButtonBindings();
     initializeDashboardCommands();
 
-    // set default commands
-    if (isTwiki()) {
-      drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain,
-              () -> -driver.getY(GenericHID.Hand.kLeft),
-              () -> driver.getX(GenericHID.Hand.kRight)
-      ));
-    } else {
-      drivetrain.setDefaultCommand(new TankDrive(drivetrain,
-              () -> -driver.getY(GenericHID.Hand.kLeft),
-              () -> -driver.getY(GenericHID.Hand.kRight)
-      ));
-    }
-    collector1.setDefaultCommand(new Collect(collector1,
-              () -> driver.getTriggerAxis(GenericHID.Hand.kLeft),
-              () -> driver.getTriggerAxis(GenericHID.Hand.kRight)
-              )); 
+    drivetrain.setDefaultCommand(new TankDrive(drivetrain,
+            () -> -driver.getY(GenericHID.Hand.kLeft),
+            () -> -driver.getY(GenericHID.Hand.kRight)
+    ));
+    
   }
 
   private void initializeDashboardCommands() {

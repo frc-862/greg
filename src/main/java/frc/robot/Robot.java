@@ -12,11 +12,11 @@ import frc.lightning.LightningRobot;
 public class Robot extends LightningRobot {
     public static final boolean DRIVETRAIN_LOGGING_ENABLED = true;
 
-    private RobotContainer robotContainer;
+    private QuasarContainer robotContainer;
 
     @Override
     public void robotInit() {
-        robotContainer = new RobotContainer();
+        robotContainer = new QuasarContainer();
         super.robotInit();
         for (var command : robotContainer.getAutonomousCommands()) {
             registerAutonomousCommmand(command);

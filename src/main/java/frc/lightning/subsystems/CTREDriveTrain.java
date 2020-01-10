@@ -26,12 +26,12 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
   // DRIVETRAIN
   private final String name = "DRIVETRAIN";
 
-  private BaseMotorController[] left;
+  private BaseMotorController[] leftSlaves;
   private TalonSRX leftMaster;
 //  private CANEncoder leftEncoder;
 //  private CANPIDController leftPIDFController;
 
-  private BaseMotorController[] right;
+  private BaseMotorController[] rightSlaves;
   private TalonSRX rightMaster;
 //  private CANEncoder rightEncoder;
 //  private CANPIDController rightPIDFController;
@@ -40,9 +40,11 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     setName(name);
     this.leftMaster = leftMaster;
     this.rightMaster = rightMaster;
-    left = leftSlaves;
-    right = rightSlaves;
+    this.leftSlaves = leftSlaves;
+    this.rightSlaves = rightSlaves;
 
+    configureFollows();
+    
     brake();
     init();
   }
@@ -56,34 +58,39 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
 
   protected void withEachMotor(Consumer<BaseMotorController> op) {
     op.accept(leftMaster);
-    for (var m : left) op.accept(m);
+    for (var m : leftSlaves) op.accept(m);
     op.accept(rightMaster);
-    for (var m : right) op.accept(m);
+    for (var m : rightSlaves) op.accept(m);
   }
 
   protected void withEachMotorIndexed(BiConsumer<BaseMotorController, Integer> op) {
     op.accept(leftMaster, 0);
     op.accept(rightMaster, 0);
-    for (var i = 0; i < left.length; ++i) {
-      op.accept(left[i], i + 1);
+    for (var i = 0; i < leftSlaves.length; ++i) {
+      op.accept(leftSlaves[i], i + 1);
     }
-    for (var i = 0; i < right.length; ++i) {
-      op.accept(right[i], i + 1);
+    for (var i = 0; i < rightSlaves.length; ++i) {
+      op.accept(rightSlaves[i], i + 1);
     }
   }
 
   protected void withEachSlaveMotor(BiConsumer<BaseMotorController, TalonSRX> op) {
-    for (var m : left) op.accept(m, leftMaster);
-    for (var m : right) op.accept(m, rightMaster);
+    for (var m : leftSlaves) op.accept(m, leftMaster);
+    for (var m : rightSlaves) op.accept(m, rightMaster);
   }
 
   protected void withEachSlaveMotorIndexed(BiConsumer<BaseMotorController, Integer> op) {
-    for (var i = 0; i < left.length; ++i) {
-      op.accept(left[i], i + 1);
+    for (var i = 0; i < leftSlaves.length; ++i) {
+      op.accept(leftSlaves[i], i + 1);
     }
-    for (var i = 0; i < right.length; ++i) {
-      op.accept(right[i], i + 1);
+    for (var i = 0; i < rightSlaves.length; ++i) {
+      op.accept(rightSlaves[i], i + 1);
     }
+  }
+
+  private void configureFollows() {
+    for(var m : leftSlaves) m.follow(getLeftMaster());
+    for(var m : rightSlaves) m.follow(getRightMaster());
   }
 
   public void setPower(double left, double right) {

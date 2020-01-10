@@ -29,4 +29,10 @@ public class TankDrive extends CommandBase {
 
         drivetrain.setPower(targetLeft, targetRight);
     }
+    
+    @Override
+    public void end(boolean interrupted) {
+        drivetrain.stop();
+    }
+
 }

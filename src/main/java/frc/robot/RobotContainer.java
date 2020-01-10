@@ -8,20 +8,25 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.Collect;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.GregDrivetrain;
 import frc.robot.subsystems.NebulaDrivetrain;
 import frc.robot.subsystems.TwikiDrivetrain;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -64,6 +69,11 @@ public class RobotContainer {
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
+  private final Collector collector1 = new Collector(new VictorSPX(4));
+  private final Collector collector2 = new Collector(new VictorSPX(5));
+  private final Collector collector3 = new Collector(new VictorSPX(9));
+  private final Collector collector4 = new Collector(new VictorSPX(10));
+
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 
@@ -87,6 +97,10 @@ public class RobotContainer {
               () -> -driver.getY(GenericHID.Hand.kRight)
       ));
     }
+    collector1.setDefaultCommand(new Collect(collector1,
+              () -> copilot.getTriggerAxis(GenericHID.Hand.kLeft),
+              () -> copilot.getTriggerAxis(GenericHID.Hand.kRight)
+              )); 
   }
 
   private void initializeDashboardCommands() {

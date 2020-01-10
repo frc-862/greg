@@ -10,19 +10,21 @@ package frc.robot;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
-import frc.robot.subsystems.drivetrains.GregDrivetrain;
-import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
-import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
+import frc.robot.robots.GregContainer;
+import frc.robot.robots.NebulaContainer;
+import frc.robot.robots.QuasarContainer;
+import frc.robot.robots.TwikiContainer;
 
 public class Robot extends LightningRobot {
     public static final boolean DRIVETRAIN_LOGGING_ENABLED = true;
 
-    private QuasarContainer robotContainer;
+    private LightningContainer robotContainer;
 
     @Override
     public void robotInit() {
-        robotContainer = new QuasarContainer();
+        robotContainer = getRobot();
         super.robotInit();
         for (var command : robotContainer.getAutonomousCommands()) {
             registerAutonomousCommmand(command);
@@ -32,22 +34,21 @@ public class Robot extends LightningRobot {
     private static LightningContainer getRobot() {
         if (isNebula()) {
             System.out.println("Initializing Nebula");
-            return NebulaDrivetrain.create();
+            return new NebulaContainer();
         }
 
         if (isTwiki()) {
             System.out.println("Initializing Twiki");
-            return new TwikiDrivetrain();
+            return new TwikiContainer();
         }
 
         if (isQuasar()) {
-            System.out.println("Initializing Twiki");
-            return new TwikiDrivetrain();
+            System.out.println("Initializing Quasar");
+            return new QuasarContainer();
         }
 
-        // default to greg
         System.out.println("Initializing Greg");
-        return new GregDrivetrain();
+        return new GregContainer();
     }
 
     private static boolean isNebula() {

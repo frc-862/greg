@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.drivetrains;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;

@@ -14,18 +14,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.Collect;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.GregDrivetrain;
-import frc.robot.subsystems.NebulaDrivetrain;
 import frc.robot.subsystems.drivetrains.*;
-import frc.robot.subsystems.TwikiDrivetrain;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 

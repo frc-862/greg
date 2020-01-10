@@ -20,9 +20,9 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.GregDrivetrain;
-import frc.robot.subsystems.NebulaDrivetrain;
-import frc.robot.subsystems.TwikiDrivetrain;
+import frc.robot.subsystems.drivetrains.GregDrivetrain;
+import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
+import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 

@@ -29,12 +29,12 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     private final String name = "DRIVETRAIN";
     private final int motorCount;
 
-    private CANSparkMax[] left;
+    private CANSparkMax[] leftMotors;
     private CANSparkMax leftMaster;
     private CANEncoder leftEncoder;
     private CANPIDController leftPIDFController;
 
-    private CANSparkMax[] right;
+    private CANSparkMax[] rightMotors;
     private CANSparkMax rightMaster;
     private CANEncoder rightEncoder;
     private CANPIDController rightPIDFController;
@@ -45,18 +45,18 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         this.firstLeftCanId = firstLeftCanId;
         this.firstRightCanId = firstRightCanId;
 
-        left = new CANSparkMax[motorCount];
-        right = new CANSparkMax[motorCount];
+        leftMotors = new CANSparkMax[motorCount];
+        rightMotors = new CANSparkMax[motorCount];
         for (int i = 0; i < motorCount; ++i) {
-            left[i] = new CANSparkMax(i + firstLeftCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
-            right[i] = new CANSparkMax(i + firstRightCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+            leftMotors[i] = new CANSparkMax(i + firstLeftCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+            rightMotors[i] = new CANSparkMax(i + firstRightCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
         }
 
-        leftMaster = left[0];
+        leftMaster = leftMotors[0];
         leftEncoder = new CANEncoder(leftMaster);
         leftPIDFController = leftMaster.getPIDController();
 
-        rightMaster = right[0];
+        rightMaster = rightMotors[0];
         rightEncoder = new CANEncoder(rightMaster);
         rightPIDFController = rightMaster.getPIDController();
 
@@ -72,6 +72,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         controller.setFF(gains.getkFF());
         controller.setIZone(gains.getkIz());
         controller.setOutputRange(gains.getkMinOutput(), gains.getkMaxOutput());
+    }
+
+    public void invertMotor() {
+
     }
 
     public void setLeftGains(REVGains gains) {
@@ -96,36 +100,48 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     protected void withEachMotor(Consumer<CANSparkMax> op) {
         for (var i = 0; i < motorCount; ++i) {
-            op.accept(left[i]);
-            op.accept(right[i]);
+            op.accept(leftMotors[i]);
+            op.accept(rightMotors[i]);
         }
     }
 
     protected void withEachMotorIndexed(BiConsumer<CANSparkMax, Integer> op) {
         for (var i = 0; i < motorCount; ++i) {
-            op.accept(left[i], i);
-            op.accept(right[i], i);
+            op.accept(leftMotors[i], i);
+            op.accept(rightMotors[i], i);
         }
     }
 
     protected void withEachSlaveMotor(BiConsumer<CANSparkMax, CANSparkMax> op) {
         for (var i = 1; i < motorCount; ++i) {
-            op.accept(left[i], leftMaster);
-            op.accept(right[i], rightMaster);
+            op.accept(leftMotors[i], leftMaster);
+            op.accept(rightMotors[i], rightMaster);
         }
     }
 
     protected void withEachSlaveMotorIndexed(BiConsumer<CANSparkMax, Integer> op) {
         for (var i = 1; i < motorCount; ++i) {
-            op.accept(left[i], i);
-            op.accept(right[i], i);
+            op.accept(leftMotors[i], i);
+            op.accept(rightMotors[i], i);
+        }
+    }
+
+    protected void withEachLeftSlaveMotorIndexed(BiConsumer<CANSparkMax, Integer> op) {
+        for (var i = 1; i < motorCount; ++i) {
+            op.accept(leftMotors[i], i);
+        }
+    }
+
+    protected void withEachRightSlaveMotorIndexed(BiConsumer<CANSparkMax, Integer> op) {
+        for (var i = 1; i < motorCount; ++i) {
+            op.accept(rightMotors[i], i);
         }
     }
 
     protected void withEachMotor(BiConsumer<CANSparkMax,CANSparkMax> op) {
         for (var i = 0; i < motorCount; ++i) {
-            op.accept(left[i], left[0]);
-            op.accept(right[i], right[0]);
+            op.accept(leftMotors[i], leftMotors[0]);
+            op.accept(rightMotors[i], rightMotors[0]);
         }
     }
 
@@ -168,6 +184,14 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     @Override
     public void coast() {
         this.withEachMotor(m -> m.setIdleMode(IdleMode.kCoast));
+    }
+
+    protected CANSparkMax[] getRightMotors() {
+        return rightMotors;
+    }
+
+    protected CANSparkMax[] getLeftMotors() {
+        return leftMotors;
     }
 
     protected CANPIDController getLeftPIDFC() {

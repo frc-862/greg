@@ -10,6 +10,7 @@ package frc.robot;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
 import frc.robot.robots.GregContainer;
@@ -34,20 +35,24 @@ public class Robot extends LightningRobot {
     private static LightningContainer getRobot() {
         if (isNebula()) {
             System.out.println("Initializing Nebula");
+            SmartDashboard.putString("Robot: ", "Nebula");
             return new NebulaContainer();
         }
 
         if (isTwiki()) {
-            System.out.println("Initializing Twiki");
+            System.out.println("Initializing Twiki");            
+            SmartDashboard.putString("Robot: ", "Twiki");
             return new TwikiContainer();
         }
 
         if (isQuasar()) {
             System.out.println("Initializing Quasar");
+            SmartDashboard.putString("Robot: ", "Quasar");
             return new QuasarContainer();
         }
 
         System.out.println("Initializing Greg");
+        SmartDashboard.putString("Robot: ", "Greg");
         return new GregContainer();
     }
 

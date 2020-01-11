@@ -44,7 +44,21 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         getLeftMaster().setInverted(false);
         getRightMaster().setInverted(true);
 
-        withEachSlaveMotor((s,m) -> s.follow(m));
-        withEachSlaveMotorIndexed((m,i) -> m.setInverted(i == 1));
+        withEachLeftSlaveMotorIndexed((m,i) -> {
+            if(i == 1) {
+                m.follow(getLeftMaster(), true);
+            } else {
+                m.follow(getLeftMaster(), false);
+            }
+        });
+
+        withEachRightSlaveMotorIndexed((m,i) -> {
+            if(i == 1) {
+                m.follow(getRightMaster(), true);
+            } else {
+                m.follow(getRightMaster(), false);
+            }
+        });
+
     }
 }

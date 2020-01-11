@@ -19,7 +19,7 @@ public class QuasarDrivetrain extends NeoDrivetrain {
    * Creates a new QuasarDrivetrain.
    */
   public QuasarDrivetrain() {
-    super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID);
+    super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID);
         initMotorDirections();
 
         setLeftGains(Constants.quasarLeftGains);

@@ -16,7 +16,7 @@ public class Constants {
 
     // HARDWARE
     public static final double TICS_PER_ROTATION = 4 * 360;
-    public static final int NEO_MAX_RPM = 5676;
+    public static final int NEO_MAX_RPM = 5700;
 
     // DRIVETRAIN
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
@@ -26,8 +26,8 @@ public class Constants {
     public static final double MOVING_VELOCITY = 40;
     public static REVGains leftGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
     public static REVGains rightGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
-    public static REVGains quasarLeftGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
-    public static REVGains quasarRightGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains quasarLeftGains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains quasarRightGains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
 
     // HYPERION
     public static REVGains hyperionGains = new REVGains(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM

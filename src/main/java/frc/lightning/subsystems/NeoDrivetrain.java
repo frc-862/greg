@@ -55,10 +55,12 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         leftMaster = leftMotors[0];
         leftEncoder = new CANEncoder(leftMaster);
         leftPIDFController = leftMaster.getPIDController();
+        leftPIDFController.setFeedbackDevice(leftEncoder);
 
         rightMaster = rightMotors[0];
         rightEncoder = new CANEncoder(rightMaster);
         rightPIDFController = rightMaster.getPIDController();
+        rightPIDFController.setFeedbackDevice(rightEncoder);
 
         withEachMotor((m) -> m.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE));
         withEachMotor((m) -> m.setClosedLoopRampRate(CLOSE_LOOP_RAMP_RATE));

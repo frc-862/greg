@@ -23,6 +23,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Core;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
@@ -41,6 +42,7 @@ public class TwikiContainer extends LightningContainer {
   private final LightningDrivetrain drivetrain = new TwikiDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+  private final Core core = new Core();
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);

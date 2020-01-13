@@ -25,7 +25,8 @@ public class FaultCode {
         NAVX_ERROR,
         INTERNAL_ERROR,
         DRIVETRAIN,
-        ELEVATOR_ERROR
+        LEFT_DRIVE_FAILURE,
+        ELEVATOR_ERROR;
     }
 
     private static HashSet<Codes> faults = new HashSet<>();

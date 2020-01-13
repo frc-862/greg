@@ -21,13 +21,14 @@ import frc.robot.robots.TwikiContainer;
 public class Robot extends LightningRobot {
     public static final boolean DRIVETRAIN_LOGGING_ENABLED = true;
 
-    private LightningContainer robotContainer;
+    public Robot() {
+        super(getRobot());
+    }
 
     @Override
     public void robotInit() {
-        robotContainer = getRobot();
         super.robotInit();
-        for (var command : robotContainer.getAutonomousCommands()) {
+        for (var command : getContainer().getAutonomousCommands()) {
             registerAutonomousCommmand(command);
         }
     }

@@ -12,10 +12,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 /**
  * Add your docs here.
  */
-public abstract class LightningContainer {
+public class LightningContainer {
+    public void configureButtonBindings() {}
+    public void configureDefaultCommands() {}
+    public void releaseDefaultCommands() {}
 
-    public abstract void configureButtonBindings();
-  
-    public abstract Command[] getAutonomousCommands();
+    public Command[] getAutonomousCommands() {
+        Command[] empty = {};
+        return empty;
+    }
     
 }

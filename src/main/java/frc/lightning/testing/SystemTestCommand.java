@@ -20,10 +20,8 @@ public class SystemTestCommand extends CommandBase {
 
     public SystemTestCommand() {
         for (var test : tests) {
-            for (var ss : test.requiresMultiple()) {
-                if (ss != null) {
-                    this.addRequirements(ss);
-                }
+            for (var req : test.getRequirements()) {
+                addRequirements(req);
             }
         }
     }
@@ -39,33 +37,34 @@ public class SystemTestCommand extends CommandBase {
     public void execute() {
         if (current == null) {
             current = itor.next();
-            current.starting();
-            current.setup();
+            current.initialize();
         }
 
         if (current.isFinished()) {
-            current.tearDown();
+            current.end(false);
             if (!current.didPass()) {
                 FaultCode.write(current.getCode());
             }
             current = null;
 
         } else {
-            current.periodic();
+            current.execute();
         }
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     public boolean isFinished() {
-        return itor.hasNext();
+        // only done when I am out of of commands,
+        // and the last command has finished
+        return current == null && !itor.hasNext();
     }
 
     // Called once after isFinished returns true
     @Override
     public void end(boolean interrupted) {
         if (current != null) {
-            current.tearDown();
+            current.end(interrupted);
         }
     }
 

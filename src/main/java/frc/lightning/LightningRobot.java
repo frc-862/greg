@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.logging.DataLogger;
+import frc.lightning.testing.SystemTest;
+import frc.lightning.testing.SystemTestCommand;
 import frc.lightning.util.FaultCode;
 import frc.lightning.util.FaultMonitor;
 import frc.lightning.util.TimedFaultMonitor;
@@ -28,8 +30,8 @@ import java.util.Map;
  * a method to register auton commands}. And integrated self test support (still in progress)
  */
 public class LightningRobot extends TimedRobot {
+    private LightningContainer container;
     private final static double settleTime = 3.0;
-
     public DataLogger dataLogger = DataLogger.getLogger();
 
     private int counter = 0;
@@ -39,6 +41,14 @@ public class LightningRobot extends TimedRobot {
     private int backgroundPriorityFreq = (int) Math.round(10 / getPeriod());
 
     Command autonomousCommand;
+
+    public LightningRobot(LightningContainer container) {
+        this.container = container;
+    }
+
+    public LightningContainer getContainer() {
+        return container;
+    }
 
     @Override
     public void disabledPeriodic() {
@@ -177,11 +187,6 @@ public class LightningRobot extends TimedRobot {
         FaultCode.update();
     }
 
-    @Override
-    public void disabledInit() {
-        System.out.println("disabledInit");
-    }
-
     /**
      * The default implementation handles getting the selected command
      * from Shuffleboard.
@@ -217,7 +222,18 @@ public class LightningRobot extends TimedRobot {
 
     @Override
     public void testInit() {
+        getContainer().releaseDefaultCommands();
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
+
+        SystemTestCommand st = new SystemTestCommand();
+        st.schedule();
+    }
+
+    // We are assuming the only way to transition out of
+    // test mode is through disabledInit
+    @Override
+    public void disabledInit() {
+        getContainer().configureDefaultCommands();
     }
 }

@@ -11,10 +11,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
+import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.commands.ArcadeDrive;
@@ -31,6 +34,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import frc.robot.systemtests.LeftSideMoves;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -51,14 +55,25 @@ public class TwikiContainer extends LightningContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public TwikiContainer() {
-    // Configure the button bindings
     configureButtonBindings();
+    configureDefaultCommands();
     initializeDashboardCommands();
+    configureSystemTests();
+  }
 
+  private void configureSystemTests() {
+    SystemTest.register(new LeftSideMoves(drivetrain));
+  }
+
+  public void configureDefaultCommands() {
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain,
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> driver.getX(GenericHID.Hand.kRight)
     ));
+  }
+
+  public void releaseDefaultCommands() {
+    drivetrain.setDefaultCommand(new RunCommand(() -> {}, drivetrain));
   }
 
   private void initializeDashboardCommands() {
@@ -80,3 +95,4 @@ public class TwikiContainer extends LightningContainer {
     return result;
   }
 }
+

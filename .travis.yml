@@ -2,7 +2,6 @@ language: java
 install: true
 
 jdk: openjdk13
-os: windows
 
 script:
   - ./gradlew build --scan -s

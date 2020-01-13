@@ -1,11 +1,12 @@
 package frc.lightning.testing;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.lightning.util.FaultCode;
 
-abstract public class SystemTest implements Comparable<SystemTest> {
-
+abstract public class SystemTest extends CommandBase implements Comparable<SystemTest> {
     public static void register(SystemTest test) {
         SystemTestCommand.register(test);
     }
@@ -28,33 +29,11 @@ abstract public class SystemTest implements Comparable<SystemTest> {
 
     private double startedAt;
 
-    public void starting() {
-        startedAt = Timer.getFPGATimestamp();
-    }
-
-    public double timeSinceInitialized() {
-        return Timer.getFPGATimestamp() - startedAt;
-    }
-
     public Priority getPriority() {
         return priority;
     }
 
-    public Subsystem requires() {
-        return null;
-    }
-
-    public Subsystem[] requiresMultiple() {
-        return new Subsystem[] { requires() };
-    }
-
-    public void setup() {/* Config - Talon Modes */}
-    public void tearDown() {/* Set Powers to 0.0d */}
     abstract public boolean didPass();
-    public boolean isFinished() {
-        return true;
-    }
-    public void periodic() {/* Actuation Here */}
 
     public FaultCode.Codes getCode() {
         return code;

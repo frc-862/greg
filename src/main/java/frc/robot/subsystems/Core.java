@@ -23,8 +23,8 @@ import frc.robot.RobotMap;
 public class Core extends SubsystemBase {
     private final String name = "CORE";
 
-    PowerDistributionPanel pdp = new PowerDistributionPanel(0);
-    Compressor compressor;
+//    PowerDistributionPanel pdp = new PowerDistributionPanel(0);
+//    Compressor compressor;
 //    PigeonIMU pigeonIMU;
 //    AHRS navx;
 
@@ -36,7 +36,7 @@ public class Core extends SubsystemBase {
 
         if(Constants.CORE_LOGGING_ENABLED){
             DataLogger.addDataElement("Yaw", () -> getYaw());
-            DataLogger.addDataElement("Total Current", () -> pdp.getTotalCurrent());
+//            DataLogger.addDataElement("Total Current", () -> pdp.getTotalCurrent());
 //            DataLogger.addDataElement("Pitch", () -> getPitch());
 //            DataLogger.addDataElement("Roll", () -> getRoll());
 //            DataLogger.addDataElement("Angle", () -> getAngle());

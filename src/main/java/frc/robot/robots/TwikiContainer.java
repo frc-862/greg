@@ -35,6 +35,7 @@ import java.nio.file.Paths;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.systemtests.LeftSideMoves;
+import frc.robot.systemtests.RightSideMoves;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -63,6 +64,7 @@ public class TwikiContainer extends LightningContainer {
 
   private void configureSystemTests() {
     SystemTest.register(new LeftSideMoves(drivetrain));
+    SystemTest.register(new RightSideMoves(drivetrain));
   }
 
   public void configureDefaultCommands() {

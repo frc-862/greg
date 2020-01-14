@@ -26,6 +26,7 @@ public class FaultCode {
         INTERNAL_ERROR,
         DRIVETRAIN,
         LEFT_DRIVE_FAILURE,
+        RIGHT_DRIVE_FAILURE,
         ELEVATOR_ERROR;
     }
 

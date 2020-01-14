@@ -9,15 +9,12 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Collector extends SubsystemBase {
-
-  //Components
-
+public class Vision extends SubsystemBase {
   /**
-   * Creates a new Collector.
+   * Creates a new Vision.
    */
-  public Collector() {
-    // Init
+  public Vision() {
+
   }
 
   @Override
@@ -25,41 +22,20 @@ public class Collector extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void deployGround() {
-
+  public double getDistanceFromTarget() {
+    return 0d;
   }
 
-  public void deployPort() {
-
+  public double getOffsetAngle() {
+    return 0d;
   }
 
-  public void retract() {
-
+  public boolean seePortTarget() {
+    return false;
   }
 
-  public void collect() {
-    collect(1d);
-  }
-
-  public void eject() {
-    eject(-1d);
-  }
-
-  
-  public void collect(double pwr) {
-
-  }
-
-  public void eject(double pwr) {
-
-  }
-
-  public void setPower(double pwr) {
-    collect(pwr);
-  }
-
-  public void stop() {
-    setPower(0d);
+  public boolean seeBayTarget() {
+    return false;
   }
 
 }

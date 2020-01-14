@@ -54,7 +54,7 @@ public class Robot extends LightningRobot {
 
         System.out.println("Initializing Greg");
         SmartDashboard.putString("Robot: ", "Greg");
-        return new GregContainer();
+        return new GregContainer(0);
     }
 
     private static boolean isNebula() {

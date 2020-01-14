@@ -9,14 +9,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Collector extends SubsystemBase {
+public class Shooter extends SubsystemBase {
 
-  //Components
+  // Components
 
   /**
-   * Creates a new Collector.
+   * Creates a new Shooter.
    */
-  public Collector() {
+  public Shooter() {
     // Init
   }
 
@@ -25,41 +25,20 @@ public class Collector extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void deployGround() {
-
-  }
-
-  public void deployPort() {
-
-  }
-
-  public void retract() {
-
-  }
-
-  public void collect() {
-    collect(1d);
-  }
-
-  public void eject() {
-    eject(-1d);
-  }
-
-  
-  public void collect(double pwr) {
-
-  }
-
-  public void eject(double pwr) {
-
-  }
-
   public void setPower(double pwr) {
-    collect(pwr);
+
   }
 
-  public void stop() {
-    setPower(0d);
+  public void setFlywheelVelocity(double vel) {
+
+  }
+
+  public double getFlywheelVelocity() {
+    return 0d;
+  }
+
+  public void aim() {
+    // position robot & other based on vision values
   }
 
 }

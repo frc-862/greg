@@ -9,15 +9,31 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Collector extends SubsystemBase {
+public class CtrlPanelOperator extends SubsystemBase {
+
+  public enum Colors {
+    RED("R", 1),
+    GREEN("G", 2),
+    BLUE("B", 3),
+    YELLOW("Y", 4);
+
+    final String FMSVal;
+    final int order;
+
+    private Colors(String FMSVal, int order){
+      this.FMSVal = FMSVal;
+      this.order = order;
+    }
+
+  }
 
   //Components
 
   /**
-   * Creates a new Collector.
+   * Creates a new CtrlPanelOperator.
    */
-  public Collector() {
-    // Init
+  public CtrlPanelOperator() {
+    //Init
   }
 
   @Override
@@ -25,41 +41,26 @@ public class Collector extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void deployGround() {
+  /**
+   * spin 3-5 times
+   */
+  public void spin() {
 
   }
 
-  public void deployPort() {
+  /**
+   * position to fms deginated color
+   */
+  public void position() {
 
   }
 
-  public void retract() {
-
+  private String getFMSMsg() {
+    return null;
   }
 
-  public void collect() {
-    collect(1d);
-  }
-
-  public void eject() {
-    eject(-1d);
-  }
-
-  
-  public void collect(double pwr) {
-
-  }
-
-  public void eject(double pwr) {
-
-  }
-
-  public void setPower(double pwr) {
-    collect(pwr);
-  }
-
-  public void stop() {
-    setPower(0d);
+  private String getCurrentColor() {
+    return null;
   }
 
 }

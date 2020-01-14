@@ -22,7 +22,13 @@ import frc.robot.commands.Collect;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.CtrlPanelOperator;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Logging;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
@@ -38,9 +44,23 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class GregContainer extends LightningContainer {
+
+  private static int powerCellCapacity = 0;
+
   private final LightningDrivetrain drivetrain = new GregDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+
+  private final Logging loggerSystem = new Logging();
+  private final Vision vision = new Vision();
+
+  private final Collector collector = new Collector();
+  private final Indexer indexer = new Indexer();
+  private final Shooter shooter = new Shooter();
+
+  private final Climber climber = new Climber();
+  private final CtrlPanelOperator jeopardyWheel = new CtrlPanelOperator();
+
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
@@ -48,7 +68,10 @@ public class GregContainer extends LightningContainer {
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public GregContainer() {
+  public GregContainer(int startingPowerCellCapacity) {
+
+    powerCellCapacity = startingPowerCellCapacity;
+
     // Configure the button bindings
     configureButtonBindings();
     initializeDashboardCommands();
@@ -85,5 +108,13 @@ public class GregContainer extends LightningContainer {
   public Command[] getAutonomousCommands() {
     Command[] result = {  };
     return result;
+  }
+
+  public static int getPowerCellCapacity() {
+    return powerCellCapacity;
+  }
+
+  public static void setPowerCellCapacity(int newPowerCellCapacity) {
+    powerCellCapacity = newPowerCellCapacity;
   }
 }

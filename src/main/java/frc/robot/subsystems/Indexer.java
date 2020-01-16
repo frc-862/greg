@@ -28,6 +28,10 @@ public class Indexer extends SubsystemBase {
     updateBallCount();
   }
 
+  public void feed(){
+    
+  }
+  
   public void setPower(double pwr) {
   
   } 

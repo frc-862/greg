@@ -29,6 +29,10 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  public void stop(){
+    setPower(0d);
+  }
+
   public void setFlywheelVelocity(double vel) {
 
   }

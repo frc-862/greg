@@ -12,7 +12,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Collector;
 
-public class Collect extends CommandBase {
+public class _Collect extends CommandBase {
 
   private final Collector collector;
   private final DoubleSupplier leftTrigger;
@@ -21,7 +21,7 @@ public class Collect extends CommandBase {
   /**
    * Creates a new Collect.
    */
-  public Collect(Collector collector, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger) {
+  public _Collect(Collector collector, DoubleSupplier leftTrigger, DoubleSupplier rightTrigger) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.collector = collector;
     this.leftTrigger = leftTrigger;

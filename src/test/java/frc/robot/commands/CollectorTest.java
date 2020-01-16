@@ -9,7 +9,7 @@ public class CollectorTest {
     @Test
     public void stopped() {
         Collector collector = mock(Collector.class);
-        _Collect collect = new _Collect(collector, () -> 0, () -> 0);
+        CollectEject collect = new CollectEject(collector, () -> 0, () -> 0);
         collect.execute();
 
         verify(collector, never()).stop();
@@ -19,17 +19,7 @@ public class CollectorTest {
     @Test
     public void collectIn() {
         Collector collector = mock(Collector.class);
-        _Collect collect = new _Collect(collector, () -> 0, () -> 1);
-        collect.execute();
-
-        verify(collector, never()).stop();
-        verify(collector).setPower(1);
-    }
-
-    @Test
-    public void collectOut() {
-        Collector collector = mock(Collector.class);
-        _Collect collect = new _Collect(collector, () -> 1, () -> 0);
+        CollectEject collect = new CollectEject(collector, () -> 0, () -> 1);
         collect.execute();
 
         verify(collector, never()).stop();
@@ -37,9 +27,19 @@ public class CollectorTest {
     }
 
     @Test
+    public void collectOut() {
+        Collector collector = mock(Collector.class);
+        CollectEject collect = new CollectEject(collector, () -> 1, () -> 0);
+        collect.execute();
+
+        verify(collector, never()).stop();
+        verify(collector).setPower(1);
+    }
+
+    @Test
     public void stopAtEnd() {
         Collector collector = mock(Collector.class);
-        _Collect collect = new _Collect(collector, () -> 0, () -> 1);
+        CollectEject collect = new CollectEject(collector, () -> 0, () -> 1);
         collect.end(false);
 
         verify(collector).stop();

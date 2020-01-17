@@ -17,8 +17,8 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
-import frc.robot.commands.TankDrive;
-import frc.robot.commands.VelocityTankDrive;
+import frc.robot.commands.drivetrain.TankDrive;
+import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrains.*;
 

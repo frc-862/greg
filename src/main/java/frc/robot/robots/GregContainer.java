@@ -17,9 +17,8 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.TankDrive;
-import frc.robot.commands.VelocityTankDrive;
+import frc.robot.commands.drivetrain.TankDrive;
+import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
@@ -29,10 +28,6 @@ import frc.robot.subsystems.Logging;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
-import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
-import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 

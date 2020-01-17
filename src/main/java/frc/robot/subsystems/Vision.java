@@ -34,6 +34,10 @@ public class Vision extends SubsystemBase {
     return false;
   }
 
+  public static double getTargetFlywheelSpeed(){
+    return 0d;
+  }
+
   public boolean seeBayTarget() {
     return false;
   }

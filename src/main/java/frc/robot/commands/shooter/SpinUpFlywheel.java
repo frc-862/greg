@@ -5,31 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.shooter;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
-public class Fire extends CommandBase {
+public class SpinUpFlywheel extends CommandBase {
 
   Shooter shooter;
-  Indexer indexer;
-  DoubleSupplier flyWheelSpeed;
-  BooleanSupplier flyWheelAtVelocity;
+  DoubleSupplier pwr;
 
   /**
    * Creates a new Fire.
    */
-  public Fire(Shooter shooter, Indexer indexer, DoubleSupplier flyWheelSpeed, BooleanSupplier flyWheelAtVelocity) {
+  public SpinUpFlywheel(Shooter shooter, DoubleSupplier pwr) {
 
     this.shooter = shooter;
-    this.indexer = indexer;
-    this.flyWheelSpeed = flyWheelSpeed;
-    this.flyWheelAtVelocity = flyWheelAtVelocity;
+    this.pwr = pwr;
 
     addRequirements(shooter);
 
@@ -39,16 +34,14 @@ public class Fire extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    shooter.setFlywheelVelocity(0d);
-    if (flyWheelAtVelocity.getAsBoolean()){
-      indexer.feed();
-    }
+    shooter.setPower(pwr.getAsDouble());
 
   }
 

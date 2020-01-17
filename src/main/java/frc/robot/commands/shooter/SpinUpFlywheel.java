@@ -11,7 +11,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
 public class SpinUpFlywheel extends CommandBase {
 

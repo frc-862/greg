@@ -28,13 +28,13 @@ public class Indexer extends SubsystemBase {
     updateBallCount();
   }
 
-  public void feed(){
+  public void feed() {
     
   }
   
   public void setPower(double pwr) {
   
-  } 
+  }
 
   /**
    * if ball passes through beam break and indexer moving forward, then add ball
@@ -52,6 +52,12 @@ public class Indexer extends SubsystemBase {
 
   public double getPower() {
     return 0d;
+  }
+
+  public void stop(){
+
+      setPower(0d);
+
   }
 
 

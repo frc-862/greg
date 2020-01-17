@@ -20,17 +20,10 @@ import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.TankDrive;
-import frc.robot.commands.VelocityTankDrive;
+import frc.robot.commands.drivetrain.ArcadeDrive;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Core;
-import frc.robot.subsystems.drivetrains.GregDrivetrain;
-import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.systemtests.LeftSideMoves;

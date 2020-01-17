@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.lightning.subsystems.LightningDrivetrain;
+import frc.robot.commands.drivetrain.ArcadeDrive;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 

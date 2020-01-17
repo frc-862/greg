@@ -26,8 +26,10 @@ import frc.robot.subsystems.Core;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import frc.robot.systemtests.LeftSideMoves;
-import frc.robot.systemtests.RightSideMoves;
+
+import frc.robot.systemtests.drivetrain.LeftSideMoves;
+import frc.robot.systemtests.drivetrain.MoveMasters;
+import frc.robot.systemtests.drivetrain.RightSideMoves;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a

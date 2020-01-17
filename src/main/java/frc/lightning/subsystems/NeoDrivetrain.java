@@ -188,11 +188,11 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         this.withEachMotor(m -> m.setIdleMode(IdleMode.kCoast));
     }
 
-    protected CANSparkMax[] getRightMotors() {
+    public CANSparkMax[] getRightMotors() {
         return rightMotors;
     }
 
-    protected CANSparkMax[] getLeftMotors() {
+    public CANSparkMax[] getLeftMotors() {
         return leftMotors;
     }
 

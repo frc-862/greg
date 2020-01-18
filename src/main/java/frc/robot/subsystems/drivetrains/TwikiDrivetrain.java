@@ -107,7 +107,8 @@ public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrai
         op.accept(rightMaster);
     }
 
-    private void initMotorDirections() {
+    @Override
+    public void initMotorDirections() {
         rightMaster.setInverted(true);
         leftMaster.setInverted(false);
     }
@@ -168,5 +169,17 @@ public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrai
     @Override
     public void coast() {
         this.withEachMotor(m -> m.setIdleMode(IdleMode.kCoast));
+    }
+
+    public CANSparkMax[] getLeftMotors() {
+        CANSparkMax[] motors = new CANSparkMax[1];
+        motors[0] = getLeftMaster();
+        return motors;
+    }
+
+    public CANSparkMax[] getRightMotors() {
+        CANSparkMax[] motors = new CANSparkMax[1];
+        motors[0] = getRightMaster();
+        return motors;
     }
 }

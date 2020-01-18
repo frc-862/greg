@@ -18,6 +18,7 @@ import java.util.function.Consumer;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.fasterxml.jackson.databind.JsonSerializable.Base;
 
 public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain {
   private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
@@ -93,6 +94,9 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     for(var m : rightSlaves) m.follow(getRightMaster());
   }
 
+  @Override
+  public void initMotorDirections() {}
+
   public void setPower(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, left);
     leftMaster.set(ControlMode.PercentOutput, right);
@@ -132,5 +136,19 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
   @Override
   public void coast() {
     this.withEachMotor(m -> m.setNeutralMode(NeutralMode.Coast));
+  }
+
+  public BaseMotorController[] getLeftMotors() {
+    BaseMotorController[] motors = new BaseMotorController[leftSlaves.length + 1];
+    motors[0] = getLeftMaster();
+    for(int i = 1 ; i < motors.length ; i++) motors[i] = leftSlaves[i-1];
+    return motors;
+  }
+
+  public BaseMotorController[] getRightMotors() {
+    BaseMotorController[] motors = new BaseMotorController[rightSlaves.length + 1];
+    motors[0] = getRightMaster();
+    for(int i = 1 ; i < motors.length ; i++) motors[i] = rightSlaves[i-1];
+    return motors;
   }
 }

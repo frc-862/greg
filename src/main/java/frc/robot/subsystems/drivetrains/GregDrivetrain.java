@@ -48,7 +48,8 @@ public class GregDrivetrain extends NeoDrivetrain {
         REVGains.updateGainsFromDash((getName() + "_LEFT"), Constants.leftGains, getLeftPIDFC());
     }
 
-    private void initMotorDirections() {
+    @Override
+    public void initMotorDirections() {
         getLeftMaster().setInverted(false);
         getRightMaster().setInverted(true);
 

@@ -40,7 +40,8 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         REVGains.updateGainsFromDash((getName() + "_LEFT"), Constants.quasarLeftGains, getLeftPIDFC());
     }
 
-    private void initMotorDirections() {
+    @Override
+    public void initMotorDirections() {
         getLeftMaster().setInverted(false);
         getRightMaster().setInverted(true);
 

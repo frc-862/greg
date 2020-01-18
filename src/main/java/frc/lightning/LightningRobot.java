@@ -222,12 +222,17 @@ public class LightningRobot extends TimedRobot {
 
     @Override
     public void testInit() {
+        System.out.println("Test Init");
         getContainer().releaseDefaultCommands();
         // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
 
+        System.out.println("Canceled Things");
+
         SystemTestCommand st = new SystemTestCommand();
         st.schedule();
+        
+        System.out.println("Scheduled Systems Test");
     }
 
     // We are assuming the only way to transition out of

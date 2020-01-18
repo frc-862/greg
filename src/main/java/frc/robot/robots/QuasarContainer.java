@@ -15,12 +15,18 @@ import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
+import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drivetrains.*;
+import frc.robot.systemtests.drivetrain.LeftSideMoves;
+import frc.robot.systemtests.drivetrain.MoveMasters;
+import frc.robot.systemtests.drivetrain.MovePrimarySlaves;
+import frc.robot.systemtests.drivetrain.MoveSecondarySlaves;
+import frc.robot.systemtests.drivetrain.RightSideMoves;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -36,8 +42,6 @@ public class QuasarContainer extends LightningContainer{
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-  // private final Joystick driverLeft = new Joystick(0);
-  // private final Joystick driverRight = new Joystick(1);
   private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 
   /**
@@ -45,13 +49,9 @@ public class QuasarContainer extends LightningContainer{
    */
   public QuasarContainer() {
     // Configure the button bindings
+    configureSystemTests();
     configureButtonBindings();
     initializeDashboardCommands();
-
-    // drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
-    //           () -> -driverLeft.getY(),
-    //           () -> -driverRight.getY()
-    // ));
 
     drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
             () -> -driver.getY(GenericHID.Hand.kLeft),
@@ -70,6 +70,14 @@ public class QuasarContainer extends LightningContainer{
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> -driver.getY(GenericHID.Hand.kRight)
     ));
+  }
+
+  private void configureSystemTests() {
+    SystemTest.register(new LeftSideMoves(drivetrain));
+    SystemTest.register(new RightSideMoves(drivetrain));
+    SystemTest.register(new MoveMasters(drivetrain));
+    SystemTest.register(new MovePrimarySlaves(drivetrain));
+    SystemTest.register(new MoveSecondarySlaves(drivetrain));
   }
 
   /**

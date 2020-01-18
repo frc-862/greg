@@ -70,6 +70,8 @@ public interface LightningDrivetrain extends Subsystem {
 
     public void coast();
 
+    public void initMotorDirections();
+
     public default double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2;
     }

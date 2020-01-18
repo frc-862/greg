@@ -27,8 +27,9 @@ public class FaultCode {
         DRIVETRAIN,
         LEFT_DRIVE_FAILURE,
         RIGHT_DRIVE_FAILURE,
-        INDIVIDUAL_DRIVE_MOTOR_ERROR,
-        ELEVATOR_ERROR;
+        DRIVE_MASTER_ERROR,
+        DRIVE_PRIMARY_SLAVE_ERROR,
+        DRIVE_SECONDARY_SLAVE_ERROR;
     }
 
     private static HashSet<Codes> faults = new HashSet<>();

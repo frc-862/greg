@@ -67,6 +67,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         brake();
     }
 
+    @Override
+    public void initMotorDirections() {}
+
     private static void setGains(CANPIDController controller, REVGains gains) {
         controller.setP(gains.getkP());
         controller.setI(gains.getkI());
@@ -74,10 +77,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         controller.setFF(gains.getkFF());
         controller.setIZone(gains.getkIz());
         controller.setOutputRange(gains.getkMinOutput(), gains.getkMaxOutput());
-    }
-
-    public void invertMotor() {
-
     }
 
     public void setLeftGains(REVGains gains) {
@@ -99,6 +98,13 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     protected CANSparkMax getLeftMaster() { return leftMaster; }
     protected CANSparkMax getRightMaster() { return rightMaster; }
+
+    public void freeSlaves() {
+        for (int i = 0; i < motorCount; ++i) {
+            leftMotors[i] = new CANSparkMax(i + firstLeftCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+            rightMotors[i] = new CANSparkMax(i + firstRightCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
+        }
+    }
 
     protected void withEachMotor(Consumer<CANSparkMax> op) {
         for (var i = 0; i < motorCount; ++i) {

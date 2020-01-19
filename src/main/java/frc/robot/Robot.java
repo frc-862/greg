@@ -19,8 +19,6 @@ import frc.robot.robots.QuasarContainer;
 import frc.robot.robots.TwikiContainer;
 
 public class Robot extends LightningRobot {
-    public static final boolean DRIVETRAIN_LOGGING_ENABLED = true;
-
     public Robot() {
         super(getRobot());
     }

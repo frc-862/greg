@@ -10,7 +10,8 @@ public class ShooterTest {
     @Test
     public void stopped() {
         Shooter shooter = mock(Shooter.class);
-        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, () -> 0);
+        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, 0);
+        shoot.initialize();
         shoot.execute();
 
         verify(shooter, never()).stop();
@@ -20,8 +21,8 @@ public class ShooterTest {
     @Test
     public void shooterOut() {
         Shooter shooter = mock(Shooter.class);
-        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, () -> 1);
-        shoot.execute();
+        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, 1);
+        shoot.initialize();
 
         verify(shooter, never()).stop();
         verify(shooter).setPower(1);
@@ -30,8 +31,8 @@ public class ShooterTest {
     @Test
     public void shooterIn() {
         Shooter shooter = mock(Shooter.class);
-        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, () -> -1);
-        shoot.execute();
+        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, -1);
+        shoot.initialize();
 
         verify(shooter, never()).stop();
         verify(shooter).setPower(-1);
@@ -40,7 +41,7 @@ public class ShooterTest {
     @Test
     public void stopAtEnd() {
         Shooter shooter = mock(Shooter.class);
-        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, () -> 1);
+        SpinUpFlywheelPower shoot = new SpinUpFlywheelPower(shooter, 1);
         shoot.end(false);
 
         verify(shooter).stop();

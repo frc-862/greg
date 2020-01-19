@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
+import frc.robot.commands.Aim;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
@@ -79,6 +81,9 @@ public class GregContainer extends LightningContainer {
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> -driver.getY(GenericHID.Hand.kRight)
     ));
+
+//    JoystickButton exampleButton = new JoystickButton(driver, 1);
+//    exampleButton.whenPressed(new Aim(drivetrain, vision, () -> 0));
   }
 
   private void initializeDashboardCommands() {

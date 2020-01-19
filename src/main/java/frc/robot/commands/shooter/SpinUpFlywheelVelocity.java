@@ -16,30 +16,30 @@ import java.util.function.DoubleSupplier;
 
 public class SpinUpFlywheelVelocity extends CommandBase {
 
-  Shooter shooter;
-  double velocity;
+    Shooter shooter;
+    double velocity;
 
-  /**
-   * Creates a new Fire.
-   */
-  public SpinUpFlywheelVelocity(Shooter shooter, double velocity) {
-    this.shooter = shooter;
-    this.velocity = velocity;
+    /**
+     * Creates a new Fire.
+     */
+    public SpinUpFlywheelVelocity(Shooter shooter, double velocity) {
+        this.shooter = shooter;
+        this.velocity = velocity;
 
-    addRequirements(shooter);
-  }
+        addRequirements(shooter);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    shooter.setShooterVelocity(velocity);
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        shooter.setShooterVelocity(velocity);
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
-            LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
-            LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
+               LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
+               LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);
+    }
 }

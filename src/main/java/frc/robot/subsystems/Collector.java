@@ -11,55 +11,55 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
 
-  //Components
+    //Components
 
-  /**
-   * Creates a new Collector.
-   */
-  public Collector() {
-    // Init
-  }
+    /**
+     * Creates a new Collector.
+     */
+    public Collector() {
+        // Init
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 
-  public void deployGround() {
+    public void deployGround() {
 
-  }
+    }
 
-  public void deployPort() {
+    public void deployPort() {
 
-  }
+    }
 
-  public void retract() {
+    public void retract() {
 
-  }
+    }
 
-  public void collect() {
-    collect(1d);
-  }
+    public void collect() {
+        collect(1d);
+    }
 
-  public void eject() {
-    eject(-1d);
-  }
+    public void eject() {
+        eject(-1d);
+    }
 
-  
-  public void collect(double pwr) {
 
-  }
+    public void collect(double pwr) {
 
-  public void eject(double pwr) {
+    }
 
-  }
+    public void eject(double pwr) {
 
-  public void setPower(double pwr) {
-    collect(pwr);
-  }
+    }
 
-  public void stop() {
-    setPower(0d);
-  }
+    public void setPower(double pwr) {
+        collect(pwr);
+    }
+
+    public void stop() {
+        setPower(0d);
+    }
 
 }

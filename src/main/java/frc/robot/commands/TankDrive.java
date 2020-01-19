@@ -6,7 +6,7 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.JoystickFilter;
 
 import java.util.function.DoubleSupplier;
-    
+
 public class TankDrive extends CommandBase {
     private final LightningDrivetrain drivetrain;
     private final DoubleSupplier leftThrottle;
@@ -33,7 +33,7 @@ public class TankDrive extends CommandBase {
         SmartDashboard.putNumber("leftVelocity", drivetrain.getLeftVelocity());
         SmartDashboard.putNumber("rightVelocity", drivetrain.getRightVelocity());
     }
-    
+
     @Override
     public void end(boolean interrupted) {
         drivetrain.stop();

@@ -17,9 +17,9 @@ public interface LightningDrivetrain extends Subsystem {
         @Override
         public String toString() {
             return "DriveCommand{" +
-                    "leftCommand=" + leftCommand +
-                    ", rightCommand=" + rightCommand +
-                    '}';
+                   "leftCommand=" + leftCommand +
+                   ", rightCommand=" + rightCommand +
+                   '}';
         }
 
         @Override
@@ -28,7 +28,7 @@ public interface LightningDrivetrain extends Subsystem {
             if (o == null || getClass() != o.getClass()) return false;
             DriveCommand that = (DriveCommand) o;
             return Double.compare(that.leftCommand, leftCommand) == 0 &&
-                    Double.compare(that.rightCommand, rightCommand) == 0;
+                   Double.compare(that.rightCommand, rightCommand) == 0;
         }
 
         @Override

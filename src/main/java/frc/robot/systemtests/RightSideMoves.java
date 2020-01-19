@@ -10,8 +10,8 @@ public class RightSideMoves extends AbstractTimedSystemTest {
     private double startPosition;
 
     public RightSideMoves(LightningDrivetrain drivetrain) {
-       super(testLength, FaultCode.Codes.RIGHT_DRIVE_FAILURE);
-       this.drivetrain = drivetrain;
+        super(testLength, FaultCode.Codes.RIGHT_DRIVE_FAILURE);
+        this.drivetrain = drivetrain;
     }
 
     @Override

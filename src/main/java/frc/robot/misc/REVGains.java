@@ -13,19 +13,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
- * Used to set the PID gains on various REV hardware components. 
+ * Used to set the PID gains on various REV hardware components.
  * These gains can be loaded into any CAN REV PID Controller i.e. {@link com.revrobotics.CANPIDController}
  */
 public class REVGains {
 
-    private double kP, 
-        kI, 
-        kD, 
-        kFF,
-        kIz,
-        kMaxOutput,
-        kMinOutput,
-        maxRPM;
+    private double kP,
+            kI,
+            kD,
+            kFF,
+            kIz,
+            kMaxOutput,
+            kMinOutput,
+            maxRPM;
 
     /**
      * Creates a brand new set of PID gains which are all initialized to zero
@@ -90,33 +90,33 @@ public class REVGains {
                 double max = SmartDashboard.getNumber((name + " Max Output"), gains.getkMaxOutput());
                 double min = SmartDashboard.getNumber((name + " Min Output"), gains.getkMinOutput());
                 if((p != gains.getkP())) {
-                    controller.setP(p); 
-                    gains.setkP(p);  
-                } 
+                    controller.setP(p);
+                    gains.setkP(p);
+                }
                 if((i != gains.getkI())) {
-                    controller.setI(i); 
-                    gains.setkI(i);   
+                    controller.setI(i);
+                    gains.setkI(i);
                 }
                 if((d != gains.getkD())) {
-                    controller.setD(d); 
-                    gains.setkD(d); 
-                } 
+                    controller.setD(d);
+                    gains.setkD(d);
+                }
                 if((iz != gains.getkIz())) {
-                    controller.setIZone(iz); 
-                    gains.setkIz(iz); 
+                    controller.setIZone(iz);
+                    gains.setkIz(iz);
                 }
                 if((ff != gains.getkFF())) {
                     controller.setFF(ff);
-                    gains.setkFF(ff); 
+                    gains.setkFF(ff);
                 }
-                if((max != gains.getkMaxOutput()) || (min != gains.getkMinOutput())) { 
-                    controller.setOutputRange(min, max); 
+                if((max != gains.getkMaxOutput()) || (min != gains.getkMinOutput())) {
+                    controller.setOutputRange(min, max);
                     gains.setkMinOutput(min);
                     gains.setkMaxOutput(max);
                 }
             } catch(Exception e) {
                 System.out.println("Error: Couldn't Find Gain On Dash");
-            } 
+            }
         }
     }
 

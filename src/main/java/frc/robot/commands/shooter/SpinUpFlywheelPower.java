@@ -14,38 +14,38 @@ import frc.robot.subsystems.Shooter;
 
 public class SpinUpFlywheelPower extends CommandBase {
 
-  Shooter shooter;
-  double power;
+    Shooter shooter;
+    double power;
 
-  /**
-   * Creates a new Fire.
-   */
-  public SpinUpFlywheelPower(Shooter shooter, double pwr) {
+    /**
+     * Creates a new Fire.
+     */
+    public SpinUpFlywheelPower(Shooter shooter, double pwr) {
 
-    this.shooter = shooter;
-    power=pwr;
+        this.shooter = shooter;
+        power=pwr;
 
-    addRequirements(shooter);
+        addRequirements(shooter);
 
-    // Use addRequirements() here to declare subsystem dependencies...
-  }
+        // Use addRequirements() here to declare subsystem dependencies...
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    shooter.setPower(power);
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        shooter.setPower(power);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    super.end(interrupted);
-    shooter.stop();
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        shooter.stop();
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

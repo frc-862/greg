@@ -8,18 +8,14 @@
 package frc.robot.robots;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
-import frc.robot.commands.Aim;
-import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,12 +27,6 @@ import frc.robot.subsystems.Logging;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
-import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
-import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -46,79 +36,79 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class GregContainer extends LightningContainer {
 
-  private static int powerCellCapacity = 0;
+    private static int powerCellCapacity = 0;
 
-  private final LightningDrivetrain drivetrain = new GregDrivetrain();
-  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+    private final LightningDrivetrain drivetrain = new GregDrivetrain();
+    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
-  private final Logging loggerSystem = new Logging();
-  private final Vision vision = new Vision();
+    private final Logging loggerSystem = new Logging();
+    private final Vision vision = new Vision();
 
-  private final Collector collector = new Collector();
-  private final Indexer indexer = new Indexer();
-  private final Shooter shooter = new Shooter();
+    private final Collector collector = new Collector();
+    private final Indexer indexer = Indexer.create();
+    private final Shooter shooter = new Shooter();
 
-  private final Climber climber = new Climber();
-  private final CtrlPanelOperator jeopardyWheel = new CtrlPanelOperator();
+    private final Climber climber = new Climber();
+    private final CtrlPanelOperator jeopardyWheel = new CtrlPanelOperator();
 
 
-  private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-  private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
+    private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+    private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public GregContainer(int startingPowerCellCapacity) {
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public GregContainer(int startingPowerCellCapacity) {
 
-    powerCellCapacity = startingPowerCellCapacity;
+        powerCellCapacity = startingPowerCellCapacity;
 
-    // Configure the button bindings
-    configureButtonBindings();
-    initializeDashboardCommands();
+        // Configure the button bindings
+        configureButtonBindings();
+        initializeDashboardCommands();
 
-    drivetrain.setDefaultCommand(new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
+        drivetrain.setDefaultCommand(new TankDrive(drivetrain,
+                                     () -> -driver.getY(GenericHID.Hand.kLeft),
+                                     () -> -driver.getY(GenericHID.Hand.kRight)
+                                                  ));
 
 //    JoystickButton exampleButton = new JoystickButton(driver, 1);
 //    exampleButton.whenPressed(new Aim(drivetrain, vision, () -> 0));
-  }
+    }
 
-  private void initializeDashboardCommands() {
-    SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
+    private void initializeDashboardCommands() {
+        SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
+                               () -> -driver.getY(GenericHID.Hand.kLeft),
+                               () -> -driver.getY(GenericHID.Hand.kRight)
+                                                        ));
 
-    SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-  }
+        SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
+                               () -> -driver.getY(GenericHID.Hand.kLeft),
+                               () -> -driver.getY(GenericHID.Hand.kRight)
+                                                                  ));
+    }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  @Override
-  public void configureButtonBindings() {
-  }
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by instantiating a {@link GenericHID} or one of its subclasses
+     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    @Override
+    public void configureButtonBindings() {
+    }
 
-  @Override
-  public Command[] getAutonomousCommands() {
-    Command[] result = {  };
-    return result;
-  }
+    @Override
+    public Command[] getAutonomousCommands() {
+        Command[] result = {  };
+        return result;
+    }
 
-  public static int getPowerCellCapacity() {
-    return powerCellCapacity;
-  }
+    public static int getPowerCellCapacity() {
+        return powerCellCapacity;
+    }
 
-  public static void setPowerCellCapacity(int newPowerCellCapacity) {
-    powerCellCapacity = newPowerCellCapacity;
-  }
+    public static void setPowerCellCapacity(int newPowerCellCapacity) {
+        powerCellCapacity = newPowerCellCapacity;
+    }
 }

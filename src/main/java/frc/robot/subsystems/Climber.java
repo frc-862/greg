@@ -11,17 +11,17 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
 
-  // Components
+    // Components
 
-  /**
-   * Creates a new Climber.
-   */
-  public Climber() {
-    //Init
-  }
+    /**
+     * Creates a new Climber.
+     */
+    public Climber() {
+        //Init
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }

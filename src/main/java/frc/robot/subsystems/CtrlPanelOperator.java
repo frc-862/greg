@@ -11,56 +11,56 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class CtrlPanelOperator extends SubsystemBase {
 
-  public enum Colors {
-    RED("R", 1),
-    GREEN("G", 2),
-    BLUE("B", 3),
-    YELLOW("Y", 4);
+    public enum Colors {
+        RED("R", 1),
+        GREEN("G", 2),
+        BLUE("B", 3),
+        YELLOW("Y", 4);
 
-    final String FMSVal;
-    final int order;
+        final String FMSVal;
+        final int order;
 
-    private Colors(String FMSVal, int order){
-      this.FMSVal = FMSVal;
-      this.order = order;
+        private Colors(String FMSVal, int order) {
+            this.FMSVal = FMSVal;
+            this.order = order;
+        }
+
     }
 
-  }
+    //Components
 
-  //Components
+    /**
+     * Creates a new CtrlPanelOperator.
+     */
+    public CtrlPanelOperator() {
+        //Init
+    }
 
-  /**
-   * Creates a new CtrlPanelOperator.
-   */
-  public CtrlPanelOperator() {
-    //Init
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    /**
+     * spin 3-5 times
+     */
+    public void spin() {
 
-  /**
-   * spin 3-5 times
-   */
-  public void spin() {
+    }
 
-  }
+    /**
+     * position to fms deginated color
+     */
+    public void position() {
 
-  /**
-   * position to fms deginated color
-   */
-  public void position() {
+    }
 
-  }
+    private String getFMSMsg() {
+        return null;
+    }
 
-  private String getFMSMsg() {
-    return null;
-  }
-
-  private String getCurrentColor() {
-    return null;
-  }
+    private String getCurrentColor() {
+        return null;
+    }
 
 }

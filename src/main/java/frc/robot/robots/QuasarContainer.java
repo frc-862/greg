@@ -30,61 +30,61 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class QuasarContainer extends LightningContainer{
-  private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
-  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+public class QuasarContainer extends LightningContainer {
+    private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
+    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
-  private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-  // private final Joystick driverLeft = new Joystick(0);
-  // private final Joystick driverRight = new Joystick(1);
-  private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
+    private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+    // private final Joystick driverLeft = new Joystick(0);
+    // private final Joystick driverRight = new Joystick(1);
+    private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
 
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
-  public QuasarContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-    initializeDashboardCommands();
+    /**
+     * The container for the robot.  Contains subsystems, OI devices, and commands.
+     */
+    public QuasarContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
+        initializeDashboardCommands();
 
-    // drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
-    //           () -> -driverLeft.getY(),
-    //           () -> -driverRight.getY()
-    // ));
+        // drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
+        //           () -> -driverLeft.getY(),
+        //           () -> -driverRight.getY()
+        // ));
 
-    drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-    
-  }
+        drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
+                                     () -> -driver.getY(GenericHID.Hand.kLeft),
+                                     () -> -driver.getY(GenericHID.Hand.kRight)
+                                                          ));
 
-  private void initializeDashboardCommands() {
-    SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
+    }
 
-    SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-  }
+    private void initializeDashboardCommands() {
+        SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
+                               () -> -driver.getY(GenericHID.Hand.kLeft),
+                               () -> -driver.getY(GenericHID.Hand.kRight)
+                                                        ));
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  @Override
-  public void configureButtonBindings() {
-  }
+        SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
+                               () -> -driver.getY(GenericHID.Hand.kLeft),
+                               () -> -driver.getY(GenericHID.Hand.kRight)
+                                                                  ));
+    }
 
-  @Override
-  public Command[] getAutonomousCommands() {
-    Command[] result = {  };
-    return result;
-  }
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by instantiating a {@link GenericHID} or one of its subclasses
+     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    @Override
+    public void configureButtonBindings() {
+    }
+
+    @Override
+    public Command[] getAutonomousCommands() {
+        Command[] result = {  };
+        return result;
+    }
 }

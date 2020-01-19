@@ -52,7 +52,7 @@ public class CurvatureDrive {
         if (isQuickTurn) {
             if (Math.abs(xSpeed) < quickStopThreshold) {
                 quickStopAccumulator = (1 - quickStopAlpha) * quickStopAccumulator
-                        + quickStopAlpha * MathUtil.clamp(zRotation, -1.0, 1.0) * 2;
+                                       + quickStopAlpha * MathUtil.clamp(zRotation, -1.0, 1.0) * 2;
             }
             overPower = true;
             angularPower = zRotation;

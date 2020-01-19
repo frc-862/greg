@@ -97,8 +97,12 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         this.resetDistance();
     }
 
-    protected CANSparkMax getLeftMaster() { return leftMaster; }
-    protected CANSparkMax getRightMaster() { return rightMaster; }
+    protected CANSparkMax getLeftMaster() {
+        return leftMaster;
+    }
+    protected CANSparkMax getRightMaster() {
+        return rightMaster;
+    }
 
     protected void withEachMotor(Consumer<CANSparkMax> op) {
         for (var i = 0; i < motorCount; ++i) {

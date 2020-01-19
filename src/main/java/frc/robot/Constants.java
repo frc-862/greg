@@ -25,6 +25,7 @@ public class Constants {
     public static final double MOVING_CURRENT = 40;
     public static final double MOVING_VELOCITY = 40;
     public static final double FLYWHEEL_EPSILON = 100;
+    public static final double ROTATION_TOLERANCE = 3;
 
     public static REVGains leftGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
     public static REVGains rightGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
@@ -43,4 +44,5 @@ public class Constants {
     public static REVGains Motor1Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static REVGains Motor2Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static REVGains Motor3Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static final double shooterAngleTolerance = 1;
 }

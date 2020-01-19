@@ -17,13 +17,12 @@ import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
-import frc.robot.commands.ArcadeDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IMU;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
-
-import frc.robot.systemtests.LeftSideMoves;
-import frc.robot.systemtests.RightSideMoves;
+import frc.robot.commands.drivetrain.ArcadeDrive;
+import frc.robot.systemtests.drivetrain.LeftSideMoves;
+import frc.robot.systemtests.drivetrain.RightSideMoves;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a

@@ -12,8 +12,8 @@ public class MoveMasters extends AbstractTimedSystemTest {
     private double rightStartPosition;
 
     public MoveMasters(NeoDrivetrain drivetrain) {
-       super(testLength, FaultCode.Codes.INDIVIDUAL_DRIVE_MOTOR_ERROR);
-       this.drivetrain = drivetrain;
+        super(testLength, FaultCode.Codes.INDIVIDUAL_DRIVE_MOTOR_ERROR);
+        this.drivetrain = drivetrain;
     }
 
     @Override

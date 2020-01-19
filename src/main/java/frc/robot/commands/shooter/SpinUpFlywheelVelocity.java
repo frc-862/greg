@@ -7,55 +7,39 @@
 
 package frc.robot.commands.shooter;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lightning.util.LightningMath;
+import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
-public class SpinUpFlywheelPower extends CommandBase {
+import java.util.function.DoubleSupplier;
+
+public class SpinUpFlywheelVelocity extends CommandBase {
 
   Shooter shooter;
-  DoubleSupplier pwr;
+  double velocity;
 
   /**
    * Creates a new Fire.
    */
-  public SpinUpFlywheelPower(Shooter shooter, DoubleSupplier pwr) {
-
+  public SpinUpFlywheelVelocity(Shooter shooter, double velocity) {
     this.shooter = shooter;
-    this.pwr = pwr;
+    this.velocity = velocity;
 
     addRequirements(shooter);
-
-    // Use addRequirements() here to declare subsystem dependencies...
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    shooter.setPower(pwr.getAsDouble());
-
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  
-    super.end(interrupted);
-    shooter.stop();
-
+    shooter.setShooterVelocity(velocity);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
+            LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
+            LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);
   }
 }

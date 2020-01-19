@@ -12,18 +12,18 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
-public class SpinUpFlywheel extends CommandBase {
+public class SpinUpFlywheelPower extends CommandBase {
 
   Shooter shooter;
-  DoubleSupplier pwr;
+  double power;
 
   /**
    * Creates a new Fire.
    */
-  public SpinUpFlywheel(Shooter shooter, DoubleSupplier pwr) {
+  public SpinUpFlywheelPower(Shooter shooter, double pwr) {
 
     this.shooter = shooter;
-    this.pwr = pwr;
+    power=pwr;
 
     addRequirements(shooter);
 
@@ -33,14 +33,12 @@ public class SpinUpFlywheel extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    shooter.setPower(power);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    shooter.setPower(pwr.getAsDouble());
 
   }
 

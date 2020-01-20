@@ -413,9 +413,9 @@
               "_title": "Right Target"
             }
           },
-          "9,2": {
+          "10,3": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -468,6 +468,58 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/r_encoder_rate",
               "_title": "r_encoder_rate"
+            }
+          },
+          "3,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_RIGHT_DRIVE_FAILURE",
+              "_title": "FAULT_RIGHT_DRIVE_FAILURE",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "1,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "_title": "FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "8,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_DRIVE_MASTER_ERROR",
+              "_title": "FAULT_DRIVE_MASTER_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "5,3": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "_title": "FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           }
         }
@@ -904,6 +956,71 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/DRIVETRAIN_LEFT Feed Forward",
               "_title": "/SmartDashboard/DRIVETRAIN_LEFT Feed Forward"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 7",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVETRAIN",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVETRAIN",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVE_MASTER_ERROR",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_MASTER_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
             }
           }
         }

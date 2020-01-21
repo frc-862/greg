@@ -27,7 +27,7 @@ import java.util.function.Consumer;
 public class GregDrivetrain extends NeoDrivetrain {
 
     public GregDrivetrain() {
-        super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID);
+        super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.gregTrackWidth);
         initMotorDirections();
 
         setLeftGains(Constants.leftGains);

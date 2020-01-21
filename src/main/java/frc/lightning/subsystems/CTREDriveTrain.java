@@ -10,6 +10,11 @@ package frc.lightning.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.robot.Robot;
@@ -29,15 +34,16 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
 
   private BaseMotorController[] leftSlaves;
   private TalonSRX leftMaster;
-//  private CANEncoder leftEncoder;
-//  private CANPIDController leftPIDFController;
+  // private CANEncoder leftEncoder;
+  // private CANPIDController leftPIDFController;
 
   private BaseMotorController[] rightSlaves;
   private TalonSRX rightMaster;
-//  private CANEncoder rightEncoder;
-//  private CANPIDController rightPIDFController;
+  // private CANEncoder rightEncoder;
+  // private CANPIDController rightPIDFController;
 
-  public CTREDriveTrain(TalonSRX leftMaster, TalonSRX rightMaster, BaseMotorController[] leftSlaves, BaseMotorController[] rightSlaves) {
+  public CTREDriveTrain(TalonSRX leftMaster, TalonSRX rightMaster, BaseMotorController[] leftSlaves,
+      BaseMotorController[] rightSlaves) {
     setName(name);
     this.leftMaster = leftMaster;
     this.rightMaster = rightMaster;
@@ -45,7 +51,7 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     this.rightSlaves = rightSlaves;
 
     configureFollows();
-    
+
     brake();
     init();
   }
@@ -54,14 +60,21 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     this.resetDistance();
   }
 
-  protected TalonSRX getLeftMaster() { return leftMaster; }
-  protected TalonSRX getRightMaster() { return rightMaster; }
+  protected TalonSRX getLeftMaster() {
+    return leftMaster;
+  }
+
+  protected TalonSRX getRightMaster() {
+    return rightMaster;
+  }
 
   protected void withEachMotor(Consumer<BaseMotorController> op) {
     op.accept(leftMaster);
-    for (var m : leftSlaves) op.accept(m);
+    for (var m : leftSlaves)
+      op.accept(m);
     op.accept(rightMaster);
-    for (var m : rightSlaves) op.accept(m);
+    for (var m : rightSlaves)
+      op.accept(m);
   }
 
   protected void withEachMotorIndexed(BiConsumer<BaseMotorController, Integer> op) {
@@ -76,8 +89,10 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
   }
 
   protected void withEachSlaveMotor(BiConsumer<BaseMotorController, TalonSRX> op) {
-    for (var m : leftSlaves) op.accept(m, leftMaster);
-    for (var m : rightSlaves) op.accept(m, rightMaster);
+    for (var m : leftSlaves)
+      op.accept(m, leftMaster);
+    for (var m : rightSlaves)
+      op.accept(m, rightMaster);
   }
 
   protected void withEachSlaveMotorIndexed(BiConsumer<BaseMotorController, Integer> op) {
@@ -90,12 +105,15 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
   }
 
   private void configureFollows() {
-    for(var m : leftSlaves) m.follow(getLeftMaster());
-    for(var m : rightSlaves) m.follow(getRightMaster());
+    for (var m : leftSlaves)
+      m.follow(getLeftMaster());
+    for (var m : rightSlaves)
+      m.follow(getRightMaster());
   }
 
   @Override
-  public void initMotorDirections() {}
+  public void initMotorDirections() {
+  }
 
   public void setPower(double left, double right) {
     rightMaster.set(ControlMode.PercentOutput, left);
@@ -141,14 +159,52 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
   public BaseMotorController[] getLeftMotors() {
     BaseMotorController[] motors = new BaseMotorController[leftSlaves.length + 1];
     motors[0] = getLeftMaster();
-    for(int i = 1 ; i < motors.length ; i++) motors[i] = leftSlaves[i-1];
+    for (int i = 1; i < motors.length; i++)
+      motors[i] = leftSlaves[i - 1];
     return motors;
   }
 
   public BaseMotorController[] getRightMotors() {
     BaseMotorController[] motors = new BaseMotorController[rightSlaves.length + 1];
     motors[0] = getRightMaster();
-    for(int i = 1 ; i < motors.length ; i++) motors[i] = rightSlaves[i-1];
+    for (int i = 1; i < motors.length; i++)
+      motors[i] = rightSlaves[i - 1];
     return motors;
+  }
+
+  @Override
+  public DifferentialDriveKinematics getKinematics() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Pose2d getPose() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public DifferentialDriveWheelSpeeds getSpeeds() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setOutput(double leftVolts, double rightVolts) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public PIDController getLeftPidController() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public PIDController getRightPidController() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

@@ -9,7 +9,12 @@ package frc.robot.subsystems.drivetrains;
 
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
@@ -22,7 +27,7 @@ import java.util.function.Consumer;
 
 public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrain {
     // DRIVETRAIN
-    public static final int LEFT_1_CAN_ID  = 1;
+    public static final int LEFT_1_CAN_ID = 1;
     public static final int RIGHT_1_CAN_ID = 4;
 
     private final String name = "DRIVETRAIN2MOTOR";
@@ -153,6 +158,7 @@ public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrai
     }
 
     private DifferentialDrive differentialDrive = null;
+
     public DifferentialDrive getDifferentialDrive() {
         if (differentialDrive == null) {
             differentialDrive = new DifferentialDrive(getLeftMaster(), getRightMaster());
@@ -181,5 +187,41 @@ public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrai
         CANSparkMax[] motors = new CANSparkMax[1];
         motors[0] = getRightMaster();
         return motors;
+    }
+
+    @Override
+    public void setOutput(double leftVolts, double rightVolts) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public DifferentialDriveKinematics getKinematics() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Pose2d getPose() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public DifferentialDriveWheelSpeeds getSpeeds() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public PIDController getLeftPidController() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public PIDController getRightPidController() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

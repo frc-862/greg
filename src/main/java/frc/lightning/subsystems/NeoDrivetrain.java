@@ -7,10 +7,22 @@
 
 package frc.lightning.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
+import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.misc.REVGains;
@@ -39,7 +51,21 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     private CANEncoder rightEncoder;
     private CANPIDController rightPIDFController;
 
-    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId) {
+    private AHRS navx;
+
+    private DifferentialDriveKinematics kinematics;
+
+    private DifferentialDriveOdometry odometry;
+
+    private SimpleMotorFeedforward feedforward;
+
+    private PIDController leftPIDController;
+    
+    private PIDController rightPIDController;
+
+    private Pose2d pose;
+
+    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidthFeet) {
         setName(name);
         this.motorCount = motorCountPerSide;
         this.firstLeftCanId = firstLeftCanId;
@@ -65,6 +91,25 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         withEachMotor((m) -> m.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE));
         withEachMotor((m) -> m.setClosedLoopRampRate(CLOSE_LOOP_RAMP_RATE));
         brake();
+
+        navx = new AHRS(Port.kMXP);
+
+        kinematics = new DifferentialDriveKinematics(Units.feetToMeters(trackWidthFeet));
+
+        odometry = new DifferentialDriveOdometry(getHeading() /*, initialPoseMeters*/ );
+
+        feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
+
+        leftPIDController = new PIDController(Constants.left_kP, Constants.left_kI, Constants.left_kD);
+        
+        rightPIDController = new PIDController(Constants.right_kP, Constants.right_kI, Constants.right_kD);
+
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
     }
 
     @Override
@@ -77,6 +122,30 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         controller.setFF(gains.getkFF());
         controller.setIZone(gains.getkIz());
         controller.setOutputRange(gains.getkMinOutput(), gains.getkMaxOutput());
+    }
+
+    @Override
+    public DifferentialDriveKinematics getKinematics() { return kinematics; }
+
+    @Override
+    public Pose2d getPose() { return pose; }
+
+    @Override
+    public PIDController getLeftPidController() { return leftPIDController; }
+    
+    @Override
+    public PIDController getRightPidController() { return rightPIDController; }
+
+    @Override
+    public DifferentialDriveWheelSpeeds getSpeeds() { return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity()); }
+
+    @Override
+    public Rotation2d getHeading() { return Rotation2d.fromDegrees(-navx.getAngle()); }
+
+    @Override
+    public void setOutput(double leftVolts, double rightVolts) {
+        leftMaster.set(leftVolts / 12);
+        rightMaster.set(rightVolts / 12);
     }
 
     public void setLeftGains(REVGains gains) {
@@ -169,19 +238,19 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     }
 
     public double getLeftDistance() {
-        return leftEncoder.getPosition();
+        return LightningMath.rotationsToMetersTraveled(leftEncoder.getPosition());
     }
 
     public double getRightDistance() {
-        return rightEncoder.getPosition();
+        return LightningMath.rotationsToMetersTraveled(rightEncoder.getPosition());
     }
 
     public double getLeftVelocity() {
-        return leftEncoder.getVelocity();
+        return LightningMath.rpmToMetersPerSecond(leftEncoder.getVelocity());
     }
 
     public double getRightVelocity() {
-        return rightEncoder.getVelocity();
+        return LightningMath.rpmToMetersPerSecond(rightEncoder.getVelocity());
     }
 
     @Override
@@ -209,4 +278,17 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     protected CANPIDController getRightPIDFC() {
         return rightPIDFController;
     }
+
+    public SimpleMotorFeedforward getFeedforward() {
+        return feedforward;
+    }
+
+    public PIDController getLeftPIDController() {
+        return leftPIDController;
+    }
+
+    public PIDController getRightPIDController() {
+        return rightPIDController;
+    }
+
 }

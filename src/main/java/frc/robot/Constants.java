@@ -16,9 +16,24 @@ public class Constants {
 
     // HARDWARE
     public static final double TICS_PER_ROTATION = 4 * 360;
+    public static final double NEO_TICKS_PER_REV = 4096;
     public static final int NEO_MAX_RPM = 5700;
 
     // DRIVETRAIN
+    public static final double kS = 0d; // TODO - FIX
+    public static final double kV = 0d; // TODO - FIX
+    public static final double kA = 0d; // TODO - FIX
+    public static final double left_kP = 0d; // TODO - FIX
+    public static final double left_kI = 0d; // TODO - FIX
+    public static final double left_kD = 0d; // TODO - FIX
+    public static final double right_kP = 0d; // TODO - FIX
+    public static final double right_kI = 0d; // TODO - FIX
+    public static final double right_kD = 0d; // TODO - FIX
+
+    public static final double gregTrackWidth = 0d; // TODO - FIX
+    public static final double quasarTrackWidth = 0d; // TODO - FIX
+
+    //DRIVE
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
     public static final double CLOSE_LOOP_RAMP_RATE = 0.5;
     public static final double SETTLE_TIME = 5.0;

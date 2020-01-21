@@ -10,7 +10,14 @@ package frc.robot.robots;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -21,12 +28,15 @@ import frc.robot.Robot;
 import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.drivetrains.*;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
 import frc.robot.systemtests.drivetrain.MoveMasters;
 import frc.robot.systemtests.drivetrain.MovePrimarySlaves;
 import frc.robot.systemtests.drivetrain.MoveSecondarySlaves;
 import frc.robot.systemtests.drivetrain.RightSideMoves;
+
+import java.util.Arrays;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -92,7 +102,35 @@ public class QuasarContainer extends LightningContainer{
 
   @Override
   public Command[] getAutonomousCommands() {
-    Command[] result = {  };
+    Command[] result = { getSimplePath() };
     return result;
   }
+
+  private Command getSimplePath() {
+    
+    final TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(5), Units.feetToMeters(5)); // Max Vel, Max Accel
+    config.setKinematics(drivetrain.getKinematics());
+
+    final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+      Arrays.asList(new Pose2d(), new Pose2d(1d, 0d, new Rotation2d())),
+      config
+    );
+
+    final RamseteCommand cmd = new RamseteCommand(
+      trajectory,
+      drivetrain::getPose,
+      new RamseteController(),
+      drivetrain.getFeedforward(),
+      drivetrain.getKinematics(),
+      drivetrain::getSpeeds,
+      drivetrain.getLeftPidController(),
+      drivetrain.getRightPidController(),
+      drivetrain::setOutput,
+      drivetrain
+    );
+
+    return cmd;
+
+  }
+
 }

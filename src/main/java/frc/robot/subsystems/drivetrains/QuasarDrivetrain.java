@@ -15,11 +15,11 @@ import frc.robot.misc.REVGains;
 
 public class QuasarDrivetrain extends NeoDrivetrain {
 
-  /**
-   * Creates a new QuasarDrivetrain.
-   */
-  public QuasarDrivetrain() {
-    super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID);
+    /**
+     * Creates a new QuasarDrivetrain.
+     */
+    public QuasarDrivetrain() {
+        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.quasarTrackWidth);
         initMotorDirections();
 
         setLeftGains(Constants.quasarLeftGains);
@@ -36,6 +36,7 @@ public class QuasarDrivetrain extends NeoDrivetrain {
 
     @Override
     public void periodic() {
+        super.periodic();
         REVGains.updateGainsFromDash((getName() + "_RIGHT"), Constants.quasarRightGains, getRightPIDFC());
         REVGains.updateGainsFromDash((getName() + "_LEFT"), Constants.quasarLeftGains, getLeftPIDFC());
     }
@@ -45,16 +46,16 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         getLeftMaster().setInverted(false);
         getRightMaster().setInverted(true);
 
-        withEachLeftSlaveMotorIndexed((m,i) -> {
-            if(i == 1) {
+        withEachLeftSlaveMotorIndexed((m, i) -> {
+            if (i == 1) {
                 m.follow(getLeftMaster(), true);
             } else {
                 m.follow(getLeftMaster(), false);
             }
         });
 
-        withEachRightSlaveMotorIndexed((m,i) -> {
-            if(i == 1) {
+        withEachRightSlaveMotorIndexed((m, i) -> {
+            if (i == 1) {
                 m.follow(getRightMaster(), true);
             } else {
                 m.follow(getRightMaster(), false);

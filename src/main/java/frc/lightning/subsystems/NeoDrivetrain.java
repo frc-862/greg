@@ -22,7 +22,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
     private static final double OPEN_LOOP_RAMP_RATE = 0.5;
 
-    // DRIVETRAIN
     public final int firstLeftCanId;
     public final int firstRightCanId;
 
@@ -40,6 +39,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     private CANPIDController rightPIDFController;
 
     public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId) {
+        this(motorCountPerSide, firstLeftCanId, firstRightCanId, false);
+    }
+
+    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, boolean useAlternate) {
         setName(name);
         this.motorCount = motorCountPerSide;
         this.firstLeftCanId = firstLeftCanId;
@@ -53,12 +56,22 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         }
 
         leftMaster = leftMotors[0];
-        leftEncoder = new CANEncoder(leftMaster);
+        if (useAlternate) {
+            leftEncoder = new CANEncoder(leftMaster, AlternateEncoderType.kQuadrature, 8192);
+        } else {
+            leftEncoder = new CANEncoder(leftMaster);
+        }
         leftPIDFController = leftMaster.getPIDController();
         leftPIDFController.setFeedbackDevice(leftEncoder);
 
         rightMaster = rightMotors[0];
         rightEncoder = new CANEncoder(rightMaster);
+        if (useAlternate) {
+            rightEncoder = new CANEncoder(rightMaster, AlternateEncoderType.kQuadrature, 8192);
+        } else {
+            rightEncoder = new CANEncoder(rightMaster);
+        }
+
         rightPIDFController = rightMaster.getPIDController();
         rightPIDFController.setFeedbackDevice(rightEncoder);
 

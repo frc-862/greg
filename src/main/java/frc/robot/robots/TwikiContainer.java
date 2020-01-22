@@ -9,6 +9,8 @@ package frc.robot.robots;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
@@ -19,6 +21,7 @@ import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IMU;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
@@ -31,10 +34,11 @@ import frc.robot.systemtests.drivetrain.RightSideMoves;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class TwikiContainer extends LightningContainer {
-    private final LightningDrivetrain drivetrain = new TwikiDrivetrain();
+    private final TwikiDrivetrain drivetrain = new TwikiDrivetrain();
     private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
     private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-    private final IMU IMU = new IMU();
+//    private final IMU IMU = new IMU();
+    // private final LED led = new LED();
 
     private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
     private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
@@ -62,10 +66,15 @@ public class TwikiContainer extends LightningContainer {
     }
 
     public void releaseDefaultCommands() {
-        drivetrain.setDefaultCommand(new RunCommand(() -> {}, drivetrain));
+        // drivetrain.setDefaultCommand(new RunCommand(() -> {}, drivetrain));
     }
 
     private void initializeDashboardCommands() {
+        SmartDashboard.putData("Followup", new InstantCommand(() -> drivetrain.followup(), drivetrain));
+        SmartDashboard.putData("Left Crawl", new RunCommand(() -> drivetrain.crawlLeft(), drivetrain));
+        SmartDashboard.putData("Right Crawl", new RunCommand(() -> drivetrain.crawlRight(), drivetrain));
+        SmartDashboard.putData("Stop", new InstantCommand(() -> drivetrain.stop(), drivetrain));
+        SmartDashboard.putData("Unfollow", new InstantCommand(() -> drivetrain.unfollow(), drivetrain));
     }
 
     /**

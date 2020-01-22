@@ -45,4 +45,10 @@ public class Constants {
     public static REVGains Motor2Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static REVGains Motor3Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static final double shooterAngleTolerance = 1;
+
+    //PROTOTYPE SHOOTER
+    public static double PShooterKp = 0.25*(1/5000);
+    public static double PShooterKi = 0;
+    public static double PShooterKd = 0;
+    public static double PShooterKf = 0.0001876172608;
 }

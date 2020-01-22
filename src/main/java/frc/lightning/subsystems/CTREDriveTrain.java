@@ -207,4 +207,22 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public double getRightVolts() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public double getLeftVolts() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public void setRamseteOutput(double leftVolts, double rightVolts) {
+    // TODO Auto-generated method stub
+
+  }
 }

@@ -27,6 +27,7 @@ import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
+import frc.robot.commands.drivetrain.VoltDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.subsystems.drivetrains.*;
@@ -52,7 +53,7 @@ public class QuasarContainer extends LightningContainer{
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-  private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
+  private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -63,7 +64,7 @@ public class QuasarContainer extends LightningContainer{
     configureButtonBindings();
     initializeDashboardCommands();
 
-    drivetrain.setDefaultCommand(new VelocityTankDrive(drivetrain,
+    drivetrain.setDefaultCommand(new VoltDrive(drivetrain,
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> -driver.getY(GenericHID.Hand.kRight)
     ));
@@ -112,7 +113,7 @@ public class QuasarContainer extends LightningContainer{
     config.setKinematics(drivetrain.getKinematics());
 
     final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(new Pose2d(), new Pose2d(1d, 0d, new Rotation2d())),
+      Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(5d, 0d, new Rotation2d())),
       config
     );
 
@@ -125,7 +126,7 @@ public class QuasarContainer extends LightningContainer{
       drivetrain::getSpeeds,
       drivetrain.getLeftPidController(),
       drivetrain.getRightPidController(),
-      drivetrain::setOutput,
+      drivetrain::setRamseteOutput,
       drivetrain
     );
 

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
@@ -63,9 +64,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     
     private PIDController rightPIDController;
 
-    private Pose2d pose;
+    private Pose2d pose = new Pose2d(0d, 0d, new Rotation2d());
 
-    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidthFeet) {
+    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidth) {
         setName(name);
         this.motorCount = motorCountPerSide;
         this.firstLeftCanId = firstLeftCanId;
@@ -94,15 +95,18 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         navx = new AHRS(Port.kMXP);
 
-        kinematics = new DifferentialDriveKinematics(Units.feetToMeters(trackWidthFeet));
+        kinematics = new DifferentialDriveKinematics(trackWidth);
 
-        odometry = new DifferentialDriveOdometry(getHeading() /*, initialPoseMeters*/ );
+        odometry = new DifferentialDriveOdometry(getHeading(), pose);
 
         feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
 
         leftPIDController = new PIDController(Constants.left_kP, Constants.left_kI, Constants.left_kD);
         
         rightPIDController = new PIDController(Constants.right_kP, Constants.right_kI, Constants.right_kD);
+        
+        SmartDashboard.putNumber("RequestedLeftVolts", 0d);
+        SmartDashboard.putNumber("RequestedRightVolts", 0d);
 
     }
 
@@ -110,6 +114,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public void periodic() {
         super.periodic();
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
+        SmartDashboard.putNumber("Heading", navx.getAngle());
+        SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
+        SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
     }
 
     @Override
@@ -144,8 +151,17 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void setOutput(double leftVolts, double rightVolts) {
-        leftMaster.set(leftVolts / 12);
-        rightMaster.set(rightVolts / 12);
+
+        SmartDashboard.putNumber("RequestedLeftVolts", leftVolts);
+        SmartDashboard.putNumber("RequestedRightVolts", rightVolts);
+
+        leftMaster.setVoltage(leftVolts);
+        rightMaster.setVoltage(rightVolts);
+    }
+
+    @Override
+    public void setRamseteOutput(double leftVolts, double rightVolts) {
+        setOutput(leftVolts, -rightVolts);
     }
 
     public void setLeftGains(REVGains gains) {
@@ -233,8 +249,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     }
 
     public void resetDistance() {
-        leftEncoder.setPosition(0.0);
-        rightEncoder.setPosition(0.0);
+        leftEncoder.setPosition(0d);
+        rightEncoder.setPosition(0d);
     }
 
     public double getLeftDistance() {
@@ -289,6 +305,16 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     public PIDController getRightPIDController() {
         return rightPIDController;
+    }
+
+    @Override
+    public double getRightVolts() {
+        return rightMaster.getAppliedOutput() * Constants.VOLT_LIMIT;
+    }
+
+    @Override
+    public double getLeftVolts() {
+        return leftMaster.getAppliedOutput() * Constants.VOLT_LIMIT;
     }
 
 }

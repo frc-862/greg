@@ -96,6 +96,12 @@ public interface LightningDrivetrain extends Subsystem {
     
     public PIDController getRightPidController();
 
+    public double getRightVolts();
+    
+    public double getLeftVolts();
+
+    public void setRamseteOutput(double leftVolts, double rightVolts);
+
     public default double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2;
     }

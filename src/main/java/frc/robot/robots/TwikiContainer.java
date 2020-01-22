@@ -44,7 +44,7 @@ public class TwikiContainer extends LightningContainer {
   private final Core core = new Core();
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-  private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
+  private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.

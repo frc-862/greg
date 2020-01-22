@@ -7,17 +7,27 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
 
   //Components
 
+  VictorSPX drive1, drive2;
+
   /**
    * Creates a new Collector.
    */
   public Collector() {
     // Init
+    drive1 = new VictorSPX(9);
+    drive2 = new VictorSPX(10);
+    
+    drive1.setInverted(false);
+    drive2.setInverted(true);
   }
 
   @Override
@@ -55,7 +65,8 @@ public class Collector extends SubsystemBase {
   }
 
   public void setPower(double pwr) {
-    collect(pwr);
+    drive1.set(ControlMode.PercentOutput, pwr);
+    drive2.set(ControlMode.PercentOutput, pwr);
   }
 
   public void stop() {

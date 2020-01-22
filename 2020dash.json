@@ -521,6 +521,138 @@
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
             }
+          },
+          "9,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Elevator Pos/selected",
+              "_title": "Auto Elevator Pos/selected"
+            }
+          },
+          "12,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Specific Destination/selected",
+              "_title": "Auto Specific Destination/selected"
+            }
+          },
+          "0,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Game Piece/selected",
+              "_title": "Auto Game Piece/selected"
+            }
+          },
+          "1,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto General Destination/selected",
+              "_title": "Auto General Destination/selected"
+            }
+          },
+          "2,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Start Pos/selected",
+              "_title": "Auto Start Pos/selected"
+            }
+          },
+          "3,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightVolts",
+              "_title": "RightVolts"
+            }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftVolts",
+              "_title": "LeftVolts"
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Heading",
+              "_title": "Heading"
+            }
+          },
+          "6,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightWheelSpeed",
+              "_title": "RightWheelSpeed"
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftWheelSpeed",
+              "_title": "LeftWheelSpeed"
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedRightVolts",
+              "_title": "RequestedRightVolts"
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedLeftVolts",
+              "_title": "RequestedLeftVolts"
+            }
           }
         }
       }
@@ -575,6 +707,16 @@
                   "Visuals/Starting angle": 180.0,
                   "Visuals/Show tick mark ring": true,
                   "Visuals/Counter clockwise": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]",
+                  "_title": "PIDController[2]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
+                  "_title": "PIDController[1]"
                 }
               ]
             }
@@ -606,6 +748,38 @@
                 {
                   "_type": "Basic Subsystem",
                   "_source0": "network_table:///LiveWindow/QuasarDrivetrain/DRIVETRAIN",
+                  "_title": "DRIVETRAIN"
+                }
+              ]
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/PrototypeCollector",
+              "_title": "PrototypeCollector",
+              "Layout/Label position": "BOTTOM",
+              "_children": []
+            }
+          },
+          "10,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/NebulaDrivetrain",
+              "_title": "NebulaDrivetrain",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Basic Subsystem",
+                  "_source0": "network_table:///LiveWindow/NebulaDrivetrain/DRIVETRAIN",
                   "_title": "DRIVETRAIN"
                 }
               ]
@@ -690,6 +864,94 @@
               "_type": "Text View",
               "_source0": "network_table:///FMSInfo/GameSpecificMessage",
               "_title": "/FMSInfo/GameSpecificMessage"
+            }
+          },
+          "6,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor/Value",
+              "_title": "/LiveWindow/Ungrouped/navX-Sensor/Value"
+            }
+          },
+          "6,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Heading",
+              "_title": "/SmartDashboard/Heading"
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftWheelSpeed",
+              "_title": "/SmartDashboard/LeftWheelSpeed"
+            }
+          },
+          "10,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightWheelSpeed",
+              "_title": "/SmartDashboard/RightWheelSpeed"
+            }
+          },
+          "8,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedLeftVolts",
+              "_title": "/SmartDashboard/RequestedLeftVolts"
+            }
+          },
+          "10,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedRightVolts",
+              "_title": "/SmartDashboard/RequestedRightVolts"
+            }
+          },
+          "8,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Distance",
+              "_title": "/SmartDashboard/Left Distance"
+            }
+          },
+          "10,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Right Distance",
+              "_title": "/SmartDashboard/Right Distance"
             }
           }
         }
@@ -957,6 +1219,17 @@
               "_source0": "network_table:///SmartDashboard/DRIVETRAIN_LEFT Feed Forward",
               "_title": "/SmartDashboard/DRIVETRAIN_LEFT Feed Forward"
             }
+          },
+          "4,3": {
+            "size": [
+              5,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler",
+              "_title": "/LiveWindow/Ungrouped/Scheduler"
+            }
           }
         }
       }
@@ -1021,6 +1294,41 @@
               "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
               "Colors/Color when true": "#7CFC00FF",
               "Colors/Color when false": "#8B0000FF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 8",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftVolts",
+              "_title": "/SmartDashboard/LeftVolts"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightVolts",
+              "_title": "/SmartDashboard/RightVolts"
             }
           }
         }

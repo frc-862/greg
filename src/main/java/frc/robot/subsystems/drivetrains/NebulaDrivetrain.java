@@ -26,8 +26,8 @@ public class NebulaDrivetrain extends CTREDriveTrain {
   public NebulaDrivetrain(TalonSRX leftMaster, TalonSRX rightMaster, BaseMotorController[] left, BaseMotorController[] right) {
     super(leftMaster, rightMaster, left, right);
     rightMaster.setInverted(true);
-    for (var rmotor : right) rmotor.setInverted(true);
+    for (var rmotor : right) rmotor.setInverted(false);//true
     leftMaster.setInverted(false);
-    for (var lmotor : left) lmotor.setInverted(false);
+    for (var lmotor : left) lmotor.setInverted(true);//false
   }
 }

@@ -108,12 +108,25 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RequestedLeftVolts", 0d);
         SmartDashboard.putNumber("RequestedRightVolts", 0d);
 
+        SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
+        SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
+        SmartDashboard.putNumber("PoseTransX", pose.getTranslation().getX());
+        SmartDashboard.putNumber("PoseTransNorm", pose.getTranslation().getNorm());
+
+        SmartDashboard.putNumber("TrackWidthMeters", getKinematics().trackWidthMeters);
+
     }
 
     @Override
     public void periodic() {
         super.periodic();
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
+
+        SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
+        SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
+        SmartDashboard.putNumber("PoseTransX", pose.getTranslation().getX());
+        SmartDashboard.putNumber("PoseTransNorm", pose.getTranslation().getNorm());
+
         SmartDashboard.putNumber("Heading", navx.getAngle());
         SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
         SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);

@@ -653,6 +653,61 @@
               "_source0": "network_table:///SmartDashboard/RequestedLeftVolts",
               "_title": "RequestedLeftVolts"
             }
+          },
+          "10,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseRotationDeg",
+              "_title": "PoseRotationDeg"
+            }
+          },
+          "11,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransY",
+              "_title": "PoseTransY"
+            }
+          },
+          "12,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransX",
+              "_title": "PoseTransX"
+            }
+          },
+          "0,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransNorm",
+              "_title": "PoseTransNorm"
+            }
+          },
+          "1,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
+              "_title": "TrackWidthMeters"
+            }
           }
         }
       }
@@ -952,6 +1007,61 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/Right Distance",
               "_title": "/SmartDashboard/Right Distance"
+            }
+          },
+          "3,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseRotationDeg",
+              "_title": "SmartDashboard/PoseRotationDeg"
+            }
+          },
+          "3,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransNorm",
+              "_title": "SmartDashboard/PoseTransNorm"
+            }
+          },
+          "5,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransX",
+              "_title": "SmartDashboard/PoseTransX"
+            }
+          },
+          "5,5": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransY",
+              "_title": "SmartDashboard/PoseTransY"
+            }
+          },
+          "8,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
+              "_title": "SmartDashboard/TrackWidthMeters"
             }
           }
         }

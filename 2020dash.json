@@ -1009,7 +1009,7 @@
               "_title": "/SmartDashboard/Right Distance"
             }
           },
-          "3,4": {
+          "0,0": {
             "size": [
               2,
               1
@@ -1017,10 +1017,10 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/PoseRotationDeg",
-              "_title": "SmartDashboard/PoseRotationDeg"
+              "_title": "/SmartDashboard/PoseRotationDeg"
             }
           },
-          "3,5": {
+          "0,1": {
             "size": [
               2,
               1
@@ -1028,10 +1028,10 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/PoseTransNorm",
-              "_title": "SmartDashboard/PoseTransNorm"
+              "_title": "/SmartDashboard/PoseTransNorm"
             }
           },
-          "5,4": {
+          "0,2": {
             "size": [
               2,
               1
@@ -1039,10 +1039,10 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/PoseTransX",
-              "_title": "SmartDashboard/PoseTransX"
+              "_title": "/SmartDashboard/PoseTransX"
             }
           },
-          "5,5": {
+          "0,3": {
             "size": [
               2,
               1
@@ -1050,10 +1050,10 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/PoseTransY",
-              "_title": "SmartDashboard/PoseTransY"
+              "_title": "/SmartDashboard/PoseTransY"
             }
           },
-          "8,4": {
+          "3,3": {
             "size": [
               2,
               1
@@ -1061,7 +1061,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
-              "_title": "SmartDashboard/TrackWidthMeters"
+              "_title": "/SmartDashboard/TrackWidthMeters"
             }
           }
         }

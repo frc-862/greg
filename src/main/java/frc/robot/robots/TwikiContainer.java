@@ -90,5 +90,9 @@ public class TwikiContainer extends LightningContainer {
     Command[] result = {  };
     return result;
   }
+
+  @Override
+  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
 }
 

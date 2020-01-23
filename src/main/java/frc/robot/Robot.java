@@ -13,13 +13,14 @@ import java.nio.file.Paths;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
+import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.robots.GregContainer;
 import frc.robot.robots.NebulaContainer;
 import frc.robot.robots.QuasarContainer;
 import frc.robot.robots.TwikiContainer;
 
 public class Robot extends LightningRobot {
-    
+
     public static final boolean DRIVETRAIN_LOGGING_ENABLED = true;
 
     public Robot() {
@@ -32,6 +33,20 @@ public class Robot extends LightningRobot {
         for (var command : getContainer().getAutonomousCommands()) {
             registerAutonomousCommmand(command);
         }
+    }
+
+    @Override
+    public void teleopInit() {
+        super.teleopInit();
+        LightningContainer container = getContainer();
+        LightningDrivetrain drivetrain = container.getDrivetrain();
+        drivetrain.resetSensorVals();
+    }
+
+    @Override
+    public void autonomousInit() {
+        super.autonomousInit();
+        getContainer().getDrivetrain().resetSensorVals();
     }
 
     private static LightningContainer getRobot() {

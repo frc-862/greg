@@ -111,4 +111,20 @@ public class GregContainer extends LightningContainer {
   public static void setPowerCellCapacity(int newPowerCellCapacity) {
     powerCellCapacity = newPowerCellCapacity;
   }
+
+  @Override
+  public void configureDefaultCommands() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void releaseDefaultCommands() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
 }

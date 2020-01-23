@@ -80,6 +80,10 @@ public interface LightningDrivetrain extends Subsystem {
 
     public void initMotorDirections();
 
+    public default void resetSensorVals() {
+        resetDistance();
+    }
+
     public default Rotation2d getHeading() { return new Rotation2d(0d); }
 
     public default SimpleMotorFeedforward getFeedforward() {

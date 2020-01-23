@@ -134,4 +134,19 @@ public class QuasarContainer extends LightningContainer{
 
   }
 
+  @Override
+  public void configureDefaultCommands() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void releaseDefaultCommands() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
 }

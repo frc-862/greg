@@ -90,4 +90,20 @@ public class NebulaContainer extends LightningContainer {
     Command[] result = {  };
     return result;
   }
+
+  @Override
+  public void configureDefaultCommands() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void releaseDefaultCommands() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+  
 }

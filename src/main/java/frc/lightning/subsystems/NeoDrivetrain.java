@@ -108,12 +108,17 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RequestedLeftVolts", 0d);
         SmartDashboard.putNumber("RequestedRightVolts", 0d);
 
-        SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
-        SmartDashboard.putNumber("PoseTransX", pose.getTranslation().getX());
-        SmartDashboard.putNumber("PoseTransNorm", pose.getTranslation().getNorm());
+        SmartDashboard.putNumber("PoseRotationDeg", 0d);
+        SmartDashboard.putNumber("PoseTransY", 0d);
+        SmartDashboard.putNumber("PoseTransX", 0d);
+        SmartDashboard.putNumber("PoseTransNorm", 0d);
 
         SmartDashboard.putNumber("TrackWidthMeters", getKinematics().trackWidthMeters);
+
+        resetDistance();
+
+        odometry.resetPosition(new Pose2d(), new Rotation2d());
+        pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
     }
 
@@ -131,9 +136,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
         SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
     }
-
-    @Override
-    public void initMotorDirections() {}
 
     private static void setGains(CANPIDController controller, REVGains gains) {
         controller.setP(gains.getkP());
@@ -175,6 +177,16 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     @Override
     public void setRamseteOutput(double leftVolts, double rightVolts) {
         setOutput(leftVolts, -rightVolts);
+    }
+
+    @Override
+    public void resetSensorVals() {
+        LightningDrivetrain.super.resetSensorVals();
+        resetNavX();
+    }
+
+    private void resetNavX() {
+        navx.reset();
     }
 
     public void setLeftGains(REVGains gains) {
@@ -329,5 +341,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public double getLeftVolts() {
         return leftMaster.getAppliedOutput() * Constants.VOLT_LIMIT;
     }
+
+    @Override
+    public void initMotorDirections() {}
 
 }

@@ -80,12 +80,12 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         }
 
         leftMaster = leftMotors[0];
-        leftEncoder = new CANEncoder(leftMaster);
+        leftEncoder = leftMaster.getEncoder(EncoderType.kHallSensor, 42);//new CANEncoder(leftMaster);
         leftPIDFController = leftMaster.getPIDController();
         leftPIDFController.setFeedbackDevice(leftEncoder);
 
         rightMaster = rightMotors[0];
-        rightEncoder = new CANEncoder(rightMaster);
+        rightEncoder = rightMaster.getEncoder(EncoderType.kHallSensor, 42);
         rightPIDFController = rightMaster.getPIDController();
         rightPIDFController.setFeedbackDevice(rightEncoder);
 
@@ -115,7 +115,15 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         SmartDashboard.putNumber("TrackWidthMeters", getKinematics().trackWidthMeters);
 
+        SmartDashboard.putNumber("RightTicksPerRev", rightEncoder.getCountsPerRevolution());
+        SmartDashboard.putNumber("LeftTicksPerRev", leftEncoder.getCountsPerRevolution());
+
+        SmartDashboard.putNumber("RightTicConversionFactor", rightEncoder.getPositionConversionFactor());
+        SmartDashboard.putNumber("LeftTicConversionFactor", leftEncoder.getPositionConversionFactor());
+
         resetDistance();
+
+        resetNavX();
 
         odometry.resetPosition(new Pose2d(), new Rotation2d());
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
@@ -135,6 +143,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("Heading", navx.getAngle());
         SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
         SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
+
+        SmartDashboard.putNumber("LeftTicVal", leftEncoder.getPosition());
+        SmartDashboard.putNumber("RightTicVal", rightEncoder.getPosition());
+
     }
 
     private static void setGains(CANPIDController controller, REVGains gains) {

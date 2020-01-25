@@ -413,9 +413,9 @@
               "_title": "Right Target"
             }
           },
-          "9,2": {
+          "10,3": {
             "size": [
-              1,
+              2,
               1
             ],
             "content": {
@@ -468,6 +468,366 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/r_encoder_rate",
               "_title": "r_encoder_rate"
+            }
+          },
+          "3,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_RIGHT_DRIVE_FAILURE",
+              "_title": "FAULT_RIGHT_DRIVE_FAILURE",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "1,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "_title": "FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "8,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_DRIVE_MASTER_ERROR",
+              "_title": "FAULT_DRIVE_MASTER_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "5,3": {
+            "size": [
+              3,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "_title": "FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "9,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Elevator Pos/selected",
+              "_title": "Auto Elevator Pos/selected"
+            }
+          },
+          "12,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Specific Destination/selected",
+              "_title": "Auto Specific Destination/selected"
+            }
+          },
+          "0,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Game Piece/selected",
+              "_title": "Auto Game Piece/selected"
+            }
+          },
+          "1,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto General Destination/selected",
+              "_title": "Auto General Destination/selected"
+            }
+          },
+          "2,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Auto Start Pos/selected",
+              "_title": "Auto Start Pos/selected"
+            }
+          },
+          "3,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightVolts",
+              "_title": "RightVolts"
+            }
+          },
+          "4,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftVolts",
+              "_title": "LeftVolts"
+            }
+          },
+          "5,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Heading",
+              "_title": "Heading"
+            }
+          },
+          "6,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightWheelSpeed",
+              "_title": "RightWheelSpeed"
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftWheelSpeed",
+              "_title": "LeftWheelSpeed"
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedRightVolts",
+              "_title": "RequestedRightVolts"
+            }
+          },
+          "9,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedLeftVolts",
+              "_title": "RequestedLeftVolts"
+            }
+          },
+          "10,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseRotationDeg",
+              "_title": "PoseRotationDeg"
+            }
+          },
+          "11,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransY",
+              "_title": "PoseTransY"
+            }
+          },
+          "12,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransX",
+              "_title": "PoseTransX"
+            }
+          },
+          "0,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransNorm",
+              "_title": "PoseTransNorm"
+            }
+          },
+          "1,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
+              "_title": "TrackWidthMeters"
+            }
+          },
+          "2,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicksPerRev",
+              "_title": "LeftTicksPerRev"
+            }
+          },
+          "3,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicksPerRev",
+              "_title": "RightTicksPerRev"
+            }
+          },
+          "4,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicConversionFactor",
+              "_title": "RightTicConversionFactor"
+            }
+          },
+          "5,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicConversionFactor",
+              "_title": "LeftTicConversionFactor"
+            }
+          },
+          "6,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicVal",
+              "_title": "LeftTicVal"
+            }
+          },
+          "7,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicVal",
+              "_title": "RightTicVal"
+            }
+          },
+          "8,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/PathChooser",
+              "_title": "PathChooser"
+            }
+          },
+          "9,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftRotationConversionFactor",
+              "_title": "LeftRotationConversionFactor"
+            }
+          },
+          "10,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightRotationConversionFactor",
+              "_title": "RightRotationConversionFactor"
+            }
+          },
+          "11,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftRotations",
+              "_title": "LeftRotations"
+            }
+          },
+          "12,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightRotations",
+              "_title": "RightRotations"
             }
           }
         }
@@ -523,6 +883,16 @@
                   "Visuals/Starting angle": 180.0,
                   "Visuals/Show tick mark ring": true,
                   "Visuals/Counter clockwise": false
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[2]",
+                  "_title": "PIDController[2]"
+                },
+                {
+                  "_type": "PID Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
+                  "_title": "PIDController[1]"
                 }
               ]
             }
@@ -554,6 +924,38 @@
                 {
                   "_type": "Basic Subsystem",
                   "_source0": "network_table:///LiveWindow/QuasarDrivetrain/DRIVETRAIN",
+                  "_title": "DRIVETRAIN"
+                }
+              ]
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/PrototypeCollector",
+              "_title": "PrototypeCollector",
+              "Layout/Label position": "BOTTOM",
+              "_children": []
+            }
+          },
+          "10,0": {
+            "size": [
+              2,
+              4
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_source0": "network_table:///LiveWindow/NebulaDrivetrain",
+              "_title": "NebulaDrivetrain",
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Basic Subsystem",
+                  "_source0": "network_table:///LiveWindow/NebulaDrivetrain/DRIVETRAIN",
                   "_title": "DRIVETRAIN"
                 }
               ]
@@ -638,6 +1040,204 @@
               "_type": "Text View",
               "_source0": "network_table:///FMSInfo/GameSpecificMessage",
               "_title": "/FMSInfo/GameSpecificMessage"
+            }
+          },
+          "6,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///LiveWindow/Ungrouped/navX-Sensor/Value",
+              "_title": "/LiveWindow/Ungrouped/navX-Sensor/Value"
+            }
+          },
+          "6,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Heading",
+              "_title": "/SmartDashboard/Heading"
+            }
+          },
+          "8,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftWheelSpeed",
+              "_title": "/SmartDashboard/LeftWheelSpeed"
+            }
+          },
+          "10,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightWheelSpeed",
+              "_title": "/SmartDashboard/RightWheelSpeed"
+            }
+          },
+          "8,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedLeftVolts",
+              "_title": "/SmartDashboard/RequestedLeftVolts"
+            }
+          },
+          "10,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RequestedRightVolts",
+              "_title": "/SmartDashboard/RequestedRightVolts"
+            }
+          },
+          "8,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Left Distance",
+              "_title": "/SmartDashboard/Left Distance"
+            }
+          },
+          "10,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Right Distance",
+              "_title": "/SmartDashboard/Right Distance"
+            }
+          },
+          "0,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseRotationDeg",
+              "_title": "/SmartDashboard/PoseRotationDeg"
+            }
+          },
+          "0,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransNorm",
+              "_title": "/SmartDashboard/PoseTransNorm"
+            }
+          },
+          "0,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransX",
+              "_title": "/SmartDashboard/PoseTransX"
+            }
+          },
+          "0,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/PoseTransY",
+              "_title": "/SmartDashboard/PoseTransY"
+            }
+          },
+          "6,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
+              "_title": "/SmartDashboard/TrackWidthMeters"
+            }
+          },
+          "8,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicConversionFactor",
+              "_title": "/SmartDashboard/LeftTicConversionFactor"
+            }
+          },
+          "10,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicConversionFactor",
+              "_title": "/SmartDashboard/RightTicConversionFactor"
+            }
+          },
+          "10,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicVal",
+              "_title": "/SmartDashboard/RightTicVal"
+            }
+          },
+          "8,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicVal",
+              "_title": "/SmartDashboard/LeftTicVal"
+            }
+          },
+          "4,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/PathChooser",
+              "_title": "/SmartDashboard/PathChooser"
             }
           }
         }
@@ -904,6 +1504,117 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/DRIVETRAIN_LEFT Feed Forward",
               "_title": "/SmartDashboard/DRIVETRAIN_LEFT Feed Forward"
+            }
+          },
+          "4,3": {
+            "size": [
+              5,
+              2
+            ],
+            "content": {
+              "_type": "Network Table Tree",
+              "_source0": "network_table:///LiveWindow/Ungrouped/Scheduler",
+              "_title": "/LiveWindow/Ungrouped/Scheduler"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 7",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVETRAIN",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVETRAIN",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVE_MASTER_ERROR",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_MASTER_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_PRIMARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "3,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///Shuffleboard/Fault Codes/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "_title": "/Shuffleboard/Fault Codes/FAULT_DRIVE_SECONDARY_SLAVE_ERROR",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tab 8",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftVolts",
+              "_title": "/SmartDashboard/LeftVolts"
+            }
+          },
+          "4,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightVolts",
+              "_title": "/SmartDashboard/RightVolts"
             }
           }
         }

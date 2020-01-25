@@ -40,8 +40,8 @@ public class TwikiContainer extends LightningContainer {
 //    private final IMU IMU = new IMU();
     // private final LED led = new LED();
 
-    private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-    private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
+  private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+  private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -87,10 +87,14 @@ public class TwikiContainer extends LightningContainer {
     public void configureButtonBindings() {
     }
 
-    @Override
-    public Command[] getAutonomousCommands() {
-        Command[] result = {  };
-        return result;
-    }
+  @Override
+  public Command[] getAutonomousCommands() {
+    Command[] result = {  };
+    return result;
+  }
+
+  @Override
+  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
 }
 

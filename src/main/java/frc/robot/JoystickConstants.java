@@ -4,7 +4,7 @@ public class JoystickConstants {
 
     // JOYSTICK PORTS
     public static final int DRIVER = 0;
-    public static final int COPILOT = 2;
+    public static final int OPERATOR = 2;
 
     // JOYSTICK AXIS
     public static final int THRUSTMASTER_X_AXIS = 0;

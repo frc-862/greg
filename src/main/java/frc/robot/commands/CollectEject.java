@@ -23,13 +23,10 @@ public class CollectEject extends CommandBase {
      * Creates a new Collect_Eject.
      */
     public CollectEject(Collector collector, DoubleSupplier collectPwr, DoubleSupplier ejectPwr) {
-        this.mCollector = collector;
+        mCollector = collector;
         this.collectPwr = collectPwr;
         this.ejectPwr = ejectPwr;
-
-
         addRequirements(collector);
-
 
         // Use addRequirements() here to declare subsystem dependencies.
     }

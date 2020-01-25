@@ -10,6 +10,7 @@ package frc.robot.robots;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -30,71 +31,85 @@ import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class NebulaContainer extends LightningContainer {
-    private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
-    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+  private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
+  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
-    private  final PrototypeShooter prototypeShooter = new PrototypeShooter();
-    private  final Collector collector= new Collector();
+  private final Collector collector = new Collector();
+  private final PrototypeShooter prototypeShooter = new PrototypeShooter();
 
-    private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-    private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
-    private double dv;
+  private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+  private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
+  private double dv;
 
-    /**
-     * The container for the robot.  Contains subsystems, OI devices, and commands.
-     */
-    public NebulaContainer() {
-        // Configure the button bindings
-        configureButtonBindings();
-        initializeDashboardCommands();
-        //collector.setDefaultCommand(new CollectEject(collector,driver.getTriggerAxis(GenericHID.Hand.kLeft),driver.getTriggerAxis(GenericHID.Hand.kLeft)));
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+  public NebulaContainer() {
+    // Configure the button bindings
+    configureButtonBindings();
+    initializeDashboardCommands();
+    // collector.setDefaultCommand(new
+    // CollectEject(collector,driver.getTriggerAxis(GenericHID.Hand.kLeft),driver.getTriggerAxis(GenericHID.Hand.kLeft)));
 
-        drivetrain.setDefaultCommand(new TankDrive(drivetrain,
-                                     () -> -driver.getY(GenericHID.Hand.kLeft),
-                                     () -> -driver.getY(GenericHID.Hand.kRight)
-                                                  ));
+    drivetrain.setDefaultCommand(new TankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)));
 
-        System.out.println("Building Nebula");
-        prototypeShooter.setDefaultCommand(new RunCommand(() -> {
-            prototypeShooter.setVelocityMShootoer(SmartDashboard.getNumber("Shooter RPM", 0));
-        }, prototypeShooter));
+    System.out.println("Building Nebula");
+    prototypeShooter.setDefaultCommand(new RunCommand(() -> {
+      prototypeShooter.setVelocityMShootoer(SmartDashboard.getNumber("Shooter RPM", 0));
+    }, prototypeShooter));
 
-    }
+    collector.setDefaultCommand(
+        new CollectEject(collector, () -> driver.getTriggerAxis(Hand.kRight), () -> driver.getTriggerAxis(Hand.kLeft)));
 
-    private void initializeDashboardCommands() {
-        double var = SmartDashboard.getNumber("Shooter RPM", 0);
-        SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-                               () -> -driver.getY(GenericHID.Hand.kLeft),
-                               () -> -driver.getY(GenericHID.Hand.kRight)
-                                                        ));
+  }
 
-        SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-                               () -> -driver.getY(GenericHID.Hand.kLeft),
-                               () -> -driver.getY(GenericHID.Hand.kRight)
+  private void initializeDashboardCommands() {
+    double var = SmartDashboard.getNumber("Shooter RPM", 0);
+    SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)));
 
-                                                                  ));
-    }
+    SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)
 
-    /**
-     * Use this method to define your button->command mappings. Buttons can be
-     * created by instantiating a {@link GenericHID} or one of its subclasses
-     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-     */
-    @Override
-    public void configureButtonBindings() {
-    }
+    ));
+  }
 
-    @Override
-    public Command[] getAutonomousCommands() {
-        Command[] result = {  };
-        return result;
-    }
+  /**
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by instantiating a {@link GenericHID} or one of its subclasses
+   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+   */
+  @Override
+  public void configureButtonBindings() {
+  }
+
+  @Override
+  public Command[] getAutonomousCommands() {
+    Command[] result = {};
+    return result;
+  }
+
+  @Override
+  public void configureDefaultCommands() {
+  }
+
+  @Override
+  public void releaseDefaultCommands() {
+  }
+
+  @Override
+  public LightningDrivetrain getDrivetrain() {
+    return drivetrain;
+  }
+
 }

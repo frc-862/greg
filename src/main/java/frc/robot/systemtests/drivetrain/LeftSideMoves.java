@@ -10,14 +10,21 @@ public class LeftSideMoves extends AbstractTimedSystemTest {
     private double startPosition;
 
     public LeftSideMoves(LightningDrivetrain drivetrain) {
-        super(testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
-        this.drivetrain = drivetrain;
+       super(testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
+       this.drivetrain = drivetrain;
+       addRequirements(drivetrain);
     }
 
     @Override
     public void initialize() {
         super.initialize();
+        drivetrain.initMotorDirections();
         startPosition = drivetrain.getLeftDistance();
+    }
+
+    @Override
+    public void execute() {
+        super.execute();
         drivetrain.setPower(0.5, 0.0);
     }
 
@@ -25,6 +32,7 @@ public class LeftSideMoves extends AbstractTimedSystemTest {
     public boolean didPass() {
         return startPosition < drivetrain.getLeftDistance();
     }
+
 
     @Override
     public void end(boolean interrupted) {

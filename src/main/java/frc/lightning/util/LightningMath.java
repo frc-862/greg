@@ -1,10 +1,19 @@
 package frc.lightning.util;
 
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
 import frc.robot.RobotConstants;
 
 public class LightningMath {
-    public static double wheelCircumference =  RobotConstants.WHEEL_DIAMETER * Math.PI;
+    public static double wheelCircumference =  RobotConstants.WHEEL_DIAMETER_INCHES * Math.PI;
+
+    public static double rpmToMetersPerSecond(double rpm) {
+        return rpm / RobotConstants.GEAR_REDUCTION * Units.inchesToMeters(wheelCircumference) / 60;
+    }
+
+    public static double rotationsToMetersTraveled(double rotations) {
+        return (rotations / RobotConstants.GEAR_REDUCTION) * Units.inchesToMeters(wheelCircumference);
+    }
 
     public static double talon2ips(double talon) {
         // multiply 100ms by 10 to get seconds

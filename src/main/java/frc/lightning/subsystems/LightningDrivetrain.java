@@ -1,6 +1,13 @@
 package frc.lightning.subsystems;
 
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.lightning.util.RamseteGains;
 
 import java.util.Objects;
 
@@ -66,9 +73,41 @@ public interface LightningDrivetrain extends Subsystem {
         setPower(0, 0);
     }
 
+    public void setOutput(double leftVolts, double rightVolts);
+
     public void brake();
 
     public void coast();
+
+    public void initMotorDirections();
+
+    public default void resetSensorVals() {
+        resetDistance();
+    }
+
+    public RamseteGains getConstants();
+
+    public default Rotation2d getHeading() { return new Rotation2d(0d); }
+
+    public default SimpleMotorFeedforward getFeedforward() {
+        return null;
+    }
+
+    public DifferentialDriveKinematics getKinematics();
+
+    public Pose2d getPose();
+
+    public DifferentialDriveWheelSpeeds getSpeeds();
+
+    public PIDController getLeftPidController();
+    
+    public PIDController getRightPidController();
+
+    public double getRightVolts();
+    
+    public double getLeftVolts();
+
+    public void setRamseteOutput(double leftVolts, double rightVolts);
 
     public default double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2;

@@ -1,6 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lightning.util.RamseteGains;
 import frc.robot.misc.REVGains;
 
 public class Constants {
@@ -16,9 +16,52 @@ public class Constants {
 
     // HARDWARE
     public static final double TICS_PER_ROTATION = 4 * 360;
+    public static final double NEO_TICKS_PER_REV = 42; 
     public static final int NEO_MAX_RPM = 5700;
 
     // DRIVETRAIN
+    public static final RamseteGains QUASAR = new RamseteGains(0.805076639, // trackWidth 
+                                                                0.118, // kS
+                                                                3.57, // kV
+                                                                0.408, // kA
+                                                                1.4d, // left_kP
+                                                                0d, // left_kI
+                                                                0d, // left_kD
+                                                                1.4d, // right_kP
+                                                                0d, // right_kI
+                                                                0d, // right_kD
+                                                                5d, // maxVelocity (ft/sec)
+                                                                5d); // maxAcceleration (ft/sec^2)
+
+    public static final RamseteGains GREG = new RamseteGains(0.805076639, // trackWidth 
+                                                                0.118, // kS
+                                                                3.57, // kV
+                                                                0.408, // kA
+                                                                1.4d, // left_kP
+                                                                0d, // left_kI
+                                                                0d, // left_kD
+                                                                1.4d, // right_kP
+                                                                0d, // right_kI
+                                                                0d, // right_kD  
+                                                                5d, // maxVelocity (ft/sec)
+                                                                5d); // maxAcceleration (ft/sec^2)
+    
+    public static final RamseteGains ILLUSION = new RamseteGains(0.805076639, // trackWidth 
+                                                                    0.118, // kS
+                                                                    3.57, // kV
+                                                                    0.408, // kA
+                                                                    1.4d, // left_kP
+                                                                    0d, // left_kI
+                                                                    0d, // left_kD
+                                                                    1.4d, // right_kP
+                                                                    0d, // right_kI
+                                                                    0d, // right_kD  
+                                                                    5d, // maxVelocity (ft/sec)
+                                                                    5d); // maxAcceleration (ft/sec^2)
+
+    public static final double VOLT_LIMIT = 12d;
+
+    //DRIVE
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;
     public static final double CLOSE_LOOP_RAMP_RATE = 0.5;
     public static final double SETTLE_TIME = 5.0;

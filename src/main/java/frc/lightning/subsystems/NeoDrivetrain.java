@@ -36,7 +36,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
     private static final double OPEN_LOOP_RAMP_RATE = 0.5;
 
-    // DRIVETRAIN
     public final int firstLeftCanId;
     public final int firstRightCanId;
 
@@ -222,8 +221,12 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         this.resetDistance();
     }
 
-    protected CANSparkMax getLeftMaster() { return leftMaster; }
-    protected CANSparkMax getRightMaster() { return rightMaster; }
+    protected CANSparkMax getLeftMaster() {
+        return leftMaster;
+    }
+    protected CANSparkMax getRightMaster() {
+        return rightMaster;
+    }
 
     public void freeSlaves() {
         for (int i = 0; i < motorCount; ++i) {

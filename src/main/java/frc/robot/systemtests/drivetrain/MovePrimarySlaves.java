@@ -20,7 +20,7 @@ public class MovePrimarySlaves extends AbstractTimedSystemTest {
     CANSparkMax leftNeo;
     CANSparkMax rightNeo;
 
-    BaseMotorController lefttMotor;
+    BaseMotorController leftMotor;
     BaseMotorController rightMotor;
 
     public MovePrimarySlaves(LightningDrivetrain drivetrain) {
@@ -43,7 +43,7 @@ public class MovePrimarySlaves extends AbstractTimedSystemTest {
         }
         if(drivetrain instanceof CTREDriveTrain) {
             CTREDriveTrain ctreDriveTrain = (CTREDriveTrain) drivetrain;
-            lefttMotor = ctreDriveTrain.getLeftMotors()[1];
+            leftMotor = ctreDriveTrain.getLeftMotors()[1];
             rightMotor = ctreDriveTrain.getRightMotors()[1];
         }
     }
@@ -56,7 +56,7 @@ public class MovePrimarySlaves extends AbstractTimedSystemTest {
             rightNeo.set(testSpeed);
         }
         if(drivetrain instanceof CTREDriveTrain) {
-            lefttMotor.set(ControlMode.PercentOutput, testSpeed);
+            leftMotor.set(ControlMode.PercentOutput, testSpeed);
             rightMotor.set(ControlMode.PercentOutput, testSpeed);            
         }
     }

@@ -55,7 +55,7 @@ public class Robot extends LightningRobot {
         }
 
         if (isTwiki()) {
-            System.out.println("Initializing Twiki");            
+            System.out.println("Initializing Twiki");
             SmartDashboard.putString("Robot: ", "Twiki");
             return new TwikiContainer();
         }

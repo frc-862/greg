@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -23,15 +25,17 @@ import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.PrototypeShooter;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class NebulaContainer extends LightningContainer {
   private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
@@ -39,39 +43,43 @@ public class NebulaContainer extends LightningContainer {
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
   private final Collector collector = new Collector();
+  private final PrototypeShooter prototypeShooter = new PrototypeShooter();
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
+  private double dv;
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public NebulaContainer() {
     // Configure the button bindings
     configureButtonBindings();
     initializeDashboardCommands();
+    // collector.setDefaultCommand(new
+    // CollectEject(collector,driver.getTriggerAxis(GenericHID.Hand.kLeft),driver.getTriggerAxis(GenericHID.Hand.kLeft)));
 
-    drivetrain.setDefaultCommand(new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
+    drivetrain.setDefaultCommand(new TankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)));
 
-    collector.setDefaultCommand(new CollectEject(collector,
-            () -> driver.getTriggerAxis(Hand.kRight),
-            () -> driver.getTriggerAxis(Hand.kLeft)
-    ));
+    System.out.println("Building Nebula");
+    prototypeShooter.setDefaultCommand(new RunCommand(() -> {
+      prototypeShooter.setVelocityMShootoer(SmartDashboard.getNumber("Shooter RPM", 0));
+    }, prototypeShooter));
+
+    collector.setDefaultCommand(
+        new CollectEject(collector, () -> driver.getTriggerAxis(Hand.kRight), () -> driver.getTriggerAxis(Hand.kLeft)));
 
   }
 
   private void initializeDashboardCommands() {
-    SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
+    double var = SmartDashboard.getNumber("Shooter RPM", 0);
+    SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)));
 
-    SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
+    SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)
+
     ));
   }
 
@@ -87,23 +95,21 @@ public class NebulaContainer extends LightningContainer {
 
   @Override
   public Command[] getAutonomousCommands() {
-    Command[] result = {  };
+    Command[] result = {};
     return result;
   }
 
   @Override
   public void configureDefaultCommands() {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void releaseDefaultCommands() {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
-  public LightningDrivetrain getDrivetrain() { return drivetrain; }
-  
+  public LightningDrivetrain getDrivetrain() {
+    return drivetrain;
+  }
+
 }

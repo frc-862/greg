@@ -16,6 +16,9 @@ public class RobotMap {
     public static final int RIGHT_1_CAN_ID  = 4;
     public static final int RIGHT_2_CAN_ID  = 5;
     public static final int RIGHT_3_CAN_ID  = 6;
+    public static final int shooter_1 = 7;
+    public static final int shooter_2 = 8;
+    public static final int shooter_3 = 9;
 
     // CORE
     public static final int COMPRESSOR_ID = 11;

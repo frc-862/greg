@@ -45,10 +45,10 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class QuasarContainer extends LightningContainer{
-  private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
-  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+public class QuasarContainer extends LightningContainer {
+    private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
+    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
@@ -83,16 +83,6 @@ public class QuasarContainer extends LightningContainer{
     SystemTest.register(new MoveSecondarySlaves(drivetrain));
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  @Override
-  public void configureButtonBindings() {
-  }
-
   @Override
   public Command[] getAutonomousCommands() {
     Command[] result = { getPathCMD() };
@@ -101,30 +91,6 @@ public class QuasarContainer extends LightningContainer{
 
   private Command getPathCMD() {
     return pathGenerator.getRamseteCommand(drivetrain);
-    
-    // final TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(5), Units.feetToMeters(5)); // Max Vel, Max Accel
-    // config.setKinematics(drivetrain.getKinematics());
-
-    // final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-    //   Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(4d, -1d, new Rotation2d())), // - = right, + = left for rightmost val
-    //   config
-    // );
-
-    // final RamseteCommand cmd = new RamseteCommand(
-    //   trajectory,
-    //   drivetrain::getPose,
-    //   new RamseteController(),
-    //   drivetrain.getFeedforward(),
-    //   drivetrain.getKinematics(),
-    //   drivetrain::getSpeeds,
-    //   drivetrain.getLeftPidController(),
-    //   drivetrain.getRightPidController(),
-    //   drivetrain::setRamseteOutput,
-    //   drivetrain
-    // );
-
-    // return cmd;
-
   }
 
   @Override
@@ -141,5 +107,8 @@ public class QuasarContainer extends LightningContainer{
 
   @Override
   public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
+  @Override
+  public void configureButtonBindings() {}
 
 }

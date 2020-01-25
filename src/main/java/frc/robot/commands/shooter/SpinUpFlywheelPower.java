@@ -5,52 +5,42 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.shooter;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Shooter;
 
-public class CollectEject extends CommandBase {
+public class SpinUpFlywheelPower extends CommandBase {
 
-    Collector mCollector;
-    DoubleSupplier collectPwr;
-    DoubleSupplier ejectPwr;
+    Shooter shooter;
+    double power;
 
     /**
-     *
-     * Creates a new Collect_Eject.
+     * Creates a new Fire.
      */
-    public CollectEject(Collector collector, DoubleSupplier collectPwr, DoubleSupplier ejectPwr) {
-        mCollector = collector;
-        this.collectPwr = collectPwr;
-        this.ejectPwr = ejectPwr;
-        addRequirements(collector);
+    public SpinUpFlywheelPower(Shooter shooter, double pwr) {
 
-        // Use addRequirements() here to declare subsystem dependencies.
+        this.shooter = shooter;
+        power=pwr;
+
+        addRequirements(shooter);
+
+        // Use addRequirements() here to declare subsystem dependencies...
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-
-        mCollector.setPower(collectPwr.getAsDouble() - ejectPwr.getAsDouble());
-
+        shooter.setPower(power);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-
         super.end(interrupted);
-        mCollector.stop();
-
+        shooter.stop();
     }
 
     // Returns true when the command should end.

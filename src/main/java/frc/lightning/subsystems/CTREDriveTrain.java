@@ -27,11 +27,11 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.fasterxml.jackson.databind.JsonSerializable.Base;
 
 public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain {
-  private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
-  private static final double OPEN_LOOP_RAMP_RATE = 0.5;
+    private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
+    private static final double OPEN_LOOP_RAMP_RATE = 0.5;
 
-  // DRIVETRAIN
-  private final String name = "DRIVETRAIN";
+    // DRIVETRAIN
+    private final String name = "DRIVETRAIN";
 
   private BaseMotorController[] leftSlaves;
   private TalonSRX leftMaster;

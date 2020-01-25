@@ -15,147 +15,77 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.logging.DataLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
+import frc.lightning.subsystems.NeoDrivetrain;
 
-import java.util.function.Consumer;
-
-public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrain {
+public class TwikiDrivetrain extends NeoDrivetrain {
     // DRIVETRAIN
     public static final int LEFT_1_CAN_ID = 1;
     public static final int RIGHT_1_CAN_ID = 4;
 
-    private final String name = "DRIVETRAIN2MOTOR";
-
-    private CANSparkMax leftMaster;
-
-    private CANEncoder leftEncoder;
-    private CANPIDController leftPIDFController;
-
-    private CANSparkMax rightMaster;
-
-    private CANEncoder rightEncoder;
-    private CANPIDController rightPIDFController;
+    Encoder rightEncoder = new Encoder(0, 1);
 
     public TwikiDrivetrain() {
-        setName(name);
-
-        leftMaster = new CANSparkMax(RobotMap.LEFT_1_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        leftEncoder = new CANEncoder(leftMaster);
-        leftPIDFController = leftMaster.getPIDController();
-
-        rightMaster = new CANSparkMax(RobotMap.RIGHT_1_CAN_ID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        rightEncoder = new CANEncoder(rightMaster);
-        rightPIDFController = rightMaster.getPIDController();
-
-        initMotorDirections();
-
-        withEachMotor((m) -> m.setOpenLoopRampRate(Constants.OPEN_LOOP_RAMP_RATE));
-        withEachMotor((m) -> m.setClosedLoopRampRate(Constants.CLOSE_LOOP_RAMP_RATE));
-        withEachMotor((m) -> m.setIdleMode(IdleMode.kBrake));
-
-        leftPIDFController.setP(Constants.leftGains.getkP());
-        leftPIDFController.setI(Constants.leftGains.getkI());
-        leftPIDFController.setD(Constants.leftGains.getkD());
-        leftPIDFController.setFF(Constants.leftGains.getkFF());
-        leftPIDFController.setIZone(Constants.leftGains.getkIz());
-        leftPIDFController.setOutputRange(Constants.leftGains.getkMinOutput(), Constants.leftGains.getkMaxOutput());
-
-        rightPIDFController.setP(Constants.rightGains.getkP());
-        rightPIDFController.setI(Constants.rightGains.getkI());
-        rightPIDFController.setD(Constants.rightGains.getkD());
-        rightPIDFController.setFF(Constants.rightGains.getkFF());
-        rightPIDFController.setIZone(Constants.rightGains.getkIz());
-        rightPIDFController.setOutputRange(Constants.rightGains.getkMinOutput(), Constants.leftGains.getkMaxOutput());
-
-        REVGains.putGainsToBeTunedOnDash((name + "_RIGHT"), Constants.rightGains);
-        REVGains.putGainsToBeTunedOnDash((name + "_LEFT"), Constants.leftGains);
-
-        if (Constants.DRIVETRAIN_DASHBOARD_ENABLED) {
-            SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
-            SmartDashboard.putNumber("Left Distance", getLeftDistance());
-            SmartDashboard.putNumber("Right Velocity", getRightVelocity());
-            SmartDashboard.putNumber("Right Distance", getRightDistance());
-        }
-
-        if (Constants.DRIVETRAIN_LOGGING_ENABLED) {
-            DataLogger.addDataElement("leftVelocity", () -> leftEncoder.getVelocity());
-            DataLogger.addDataElement("rightVelocity", () -> rightEncoder.getVelocity());
-        }
-
-    }
-
-    public void init() {
-        this.resetDistance();
+        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, 0d, null);
+        getRightMaster().setInverted(true);
     }
 
     @Override
     public void periodic() {
-        REVGains.updateGainsFromDash((name + "_RIGHT"), Constants.rightGains, rightPIDFController);
-        REVGains.updateGainsFromDash((name + "_LEFT"), Constants.leftGains, leftPIDFController);
-
-        if (Constants.DRIVETRAIN_DASHBOARD_ENABLED) {
-            SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
-            SmartDashboard.putNumber("Left Distance", getLeftDistance());
-            SmartDashboard.putNumber("Right Velocity", getRightVelocity());
-            SmartDashboard.putNumber("Right Distance", getRightDistance());
-        }
-    }
-
-    private void withEachMotor(Consumer<CANSparkMax> op) {
-        op.accept(leftMaster);
-        op.accept(rightMaster);
+        SmartDashboard.putNumber("right encoder", rightEncoder.getDistance());
     }
 
     @Override
     public void initMotorDirections() {
-        rightMaster.setInverted(true);
-        leftMaster.setInverted(false);
+        getRightMaster().setInverted(true);
+        getLeftMaster().setInverted(false);
     }
 
-    public void setPower(double left, double right) {
-        rightMaster.set(right);
-        leftMaster.set(left);
+    public void followup() {
+        getLeftMaster().follow(getRightMaster());
     }
 
-    public void setVelocity(double left, double right) {
-        this.rightPIDFController.setReference(right, ControlType.kVelocity);
-        this.leftPIDFController.setReference(left, ControlType.kVelocity);
+    public void crawlRight() {
+        getRightMaster().set(0.15);
+    }
+
+    public void crawlLeft() {
+        getLeftMaster().set(0.15);
     }
 
     public void resetDistance() {
-        leftEncoder.setPosition(0.0);
-        rightEncoder.setPosition(0.0);
+        // leftEncoder.setPosition(0.0);
+        // rightEncoder.setPosition(0.0);
     }
 
     public double getLeftDistance() {
-        return leftEncoder.getPosition();
+        return 0d; // leftEncoder.getPosition();
     }
 
     public double getRightDistance() {
-        return rightEncoder.getPosition();
+        return 0d; // rightEncoder.getPosition();
     }
 
     public double getLeftVelocity() {
-        return leftEncoder.getVelocity();
+        return 0d; // leftEncoder.getVelocity();
     }
 
     public double getRightVelocity() {
-        return rightEncoder.getVelocity();
+        return 0d; // rightEncoder.getVelocity();
     }
 
     public CANSparkMax getRightMaster() {
-        return rightMaster;
+        return getRightMaster();
     }
 
     public CANSparkMax getLeftMaster() {
-        return leftMaster;
+        return getLeftMaster();
     }
 
     private DifferentialDrive differentialDrive = null;
@@ -176,6 +106,11 @@ public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrai
     @Override
     public void coast() {
         this.withEachMotor(m -> m.setIdleMode(IdleMode.kCoast));
+    }
+
+    public void unfollow() {
+        CANSparkMax.ExternalFollower f = new CANSparkMax.ExternalFollower(0,0);
+        getLeftMaster().follow(f, 0);
     }
 
     public CANSparkMax[] getLeftMotors() {

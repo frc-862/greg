@@ -20,7 +20,7 @@ public class MoveMasters extends AbstractTimedSystemTest {
     CANSparkMax leftNeo;
     CANSparkMax rightNeo;
 
-    BaseMotorController lefttMotor;
+    BaseMotorController leftMotor;
     BaseMotorController rightMotor;
 
     public MoveMasters(LightningDrivetrain drivetrain) {
@@ -43,7 +43,7 @@ public class MoveMasters extends AbstractTimedSystemTest {
         }
         if(drivetrain instanceof CTREDriveTrain) {
             CTREDriveTrain ctreDriveTrain = (CTREDriveTrain) drivetrain;
-            lefttMotor = ctreDriveTrain.getLeftMotors()[0];
+            leftMotor = ctreDriveTrain.getLeftMotors()[0];
             rightMotor = ctreDriveTrain.getRightMotors()[0];
         }
     }
@@ -56,7 +56,7 @@ public class MoveMasters extends AbstractTimedSystemTest {
             rightNeo.set(testSpeed);
         }
         if(drivetrain instanceof CTREDriveTrain) {
-            lefttMotor.set(ControlMode.PercentOutput, testSpeed);
+            leftMotor.set(ControlMode.PercentOutput, testSpeed);
             rightMotor.set(ControlMode.PercentOutput, testSpeed);            
         }
     }

@@ -38,9 +38,7 @@ public class Robot extends LightningRobot {
     @Override
     public void teleopInit() {
         super.teleopInit();
-        LightningContainer container = getContainer();
-        LightningDrivetrain drivetrain = container.getDrivetrain();
-        drivetrain.resetSensorVals();
+        getContainer().getDrivetrain().resetSensorVals();
     }
 
     @Override

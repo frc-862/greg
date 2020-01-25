@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.subsystems.NeoDrivetrain;
+import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
@@ -27,7 +28,7 @@ import java.util.function.Consumer;
 public class GregDrivetrain extends NeoDrivetrain {
 
     public GregDrivetrain() {
-        super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG_GAINS.getTrackWidth(), Constants.GREG_GAINS);
+        super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);
         initMotorDirections();
 
         setLeftGains(Constants.leftGains);
@@ -55,6 +56,11 @@ public class GregDrivetrain extends NeoDrivetrain {
 
         withEachSlaveMotor((s,m) -> s.follow(m));
         withEachSlaveMotorIndexed((m,i) -> m.setInverted(i == 1));
+    }
+
+    @Override
+    public RamseteGains getConstants() {
+        return Constants.GREG;
     }
 
 }

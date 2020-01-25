@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.util.RamseteGains;
 import frc.robot.misc.REVGains;
 
@@ -21,52 +20,46 @@ public class Constants {
     public static final int NEO_MAX_RPM = 5700;
 
     // DRIVETRAIN
-    public static final RamseteGains QUASAR_GAINS = new RamseteGains(0.805076639, // trackWidth 
-                                                                        0.118, // kS
-                                                                        3.57, // kV
-                                                                        0.408, // kA
-                                                                        1.4d, // left_kP
-                                                                        0d, // left_kI
-                                                                        0d, // left_kD
-                                                                        1.4d, // right_kP
-                                                                        0d, // right_kI
-                                                                        0d); // right_kD
+    public static final RamseteGains QUASAR = new RamseteGains(0.805076639, // trackWidth 
+                                                                0.118, // kS
+                                                                3.57, // kV
+                                                                0.408, // kA
+                                                                1.4d, // left_kP
+                                                                0d, // left_kI
+                                                                0d, // left_kD
+                                                                1.4d, // right_kP
+                                                                0d, // right_kI
+                                                                0d, // right_kD
+                                                                5d, // maxVelocity (ft/sec)
+                                                                5d); // maxAcceleration (ft/sec^2)
 
-    public static final RamseteGains GREG_GAINS = new RamseteGains(0.805076639, // trackWidth 
-                                                                        0.118, // kS
-                                                                        3.57, // kV
-                                                                        0.408, // kA
-                                                                        1.4d, // left_kP
-                                                                        0d, // left_kI
-                                                                        0d, // left_kD
-                                                                        1.4d, // right_kP
-                                                                        0d, // right_kI
-                                                                        0d); // right_kD     
+    public static final RamseteGains GREG = new RamseteGains(0.805076639, // trackWidth 
+                                                                0.118, // kS
+                                                                3.57, // kV
+                                                                0.408, // kA
+                                                                1.4d, // left_kP
+                                                                0d, // left_kI
+                                                                0d, // left_kD
+                                                                1.4d, // right_kP
+                                                                0d, // right_kI
+                                                                0d, // right_kD  
+                                                                5d, // maxVelocity (ft/sec)
+                                                                5d); // maxAcceleration (ft/sec^2)
     
-    public static final RamseteGains ILLUSION_GAINS = new RamseteGains(0.805076639, // trackWidth 
-                                                                        0.118, // kS
-                                                                        3.57, // kV
-                                                                        0.408, // kA
-                                                                        1.4d, // left_kP
-                                                                        0d, // left_kI
-                                                                        0d, // left_kD
-                                                                        1.4d, // right_kP
-                                                                        0d, // right_kI
-                                                                        0d); // right_kD                                                                         
-    // public static final double kS = 0.118;
-    // public static final double kV = 3.57;
-    // public static final double kA = 0.408;
-    // public static final double left_kP = 1.4d; // 14d
-    // public static final double left_kI = 0d;
-    // public static final double left_kD = 0d;
-    // public static final double right_kP = 1.4d; // 14d
-    // public static final double right_kI = 0d;
-    // public static final double right_kD = 0d;
+    public static final RamseteGains ILLUSION = new RamseteGains(0.805076639, // trackWidth 
+                                                                    0.118, // kS
+                                                                    3.57, // kV
+                                                                    0.408, // kA
+                                                                    1.4d, // left_kP
+                                                                    0d, // left_kI
+                                                                    0d, // left_kD
+                                                                    1.4d, // right_kP
+                                                                    0d, // right_kI
+                                                                    0d, // right_kD  
+                                                                    5d, // maxVelocity (ft/sec)
+                                                                    5d); // maxAcceleration (ft/sec^2)
 
     public static final double VOLT_LIMIT = 12d;
-
-    // public static final double gregTrackWidth = 0d;
-    // public static final double quasarTrackWidth = 0.805076639;
 
     //DRIVE
     public static final double OPEN_LOOP_RAMP_RATE = 0.5;

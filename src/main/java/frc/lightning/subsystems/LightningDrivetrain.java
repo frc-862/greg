@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.lightning.util.RamseteGains;
 
 import java.util.Objects;
 
@@ -83,6 +84,8 @@ public interface LightningDrivetrain extends Subsystem {
     public default void resetSensorVals() {
         resetDistance();
     }
+
+    public RamseteGains getConstants();
 
     public default Rotation2d getHeading() { return new Rotation2d(0d); }
 

@@ -103,12 +103,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         kinematics = new DifferentialDriveKinematics(trackWidth);
 
         odometry = new DifferentialDriveOdometry(getHeading(), pose);
-
-        // feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
-
-        // leftPIDController = new PIDController(Constants.left_kP, Constants.left_kI, Constants.left_kD);
-
-        // rightPIDController = new PIDController(Constants.right_kP, Constants.right_kI, Constants.right_kD);
         
         feedforward = new SimpleMotorFeedforward(gains.getkS(), gains.getkV(), gains.getkA());
 
@@ -129,14 +123,11 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RightTicksPerRev", rightEncoder.getCountsPerRevolution());
         SmartDashboard.putNumber("LeftTicksPerRev", leftEncoder.getCountsPerRevolution());
 
-        SmartDashboard.putNumber("RightTicConversionFactor", rightEncoder.getPositionConversionFactor());
-        SmartDashboard.putNumber("LeftTicConversionFactor", leftEncoder.getPositionConversionFactor());
+        SmartDashboard.putNumber("RightRotationConversionFactor", rightEncoder.getPositionConversionFactor());
+        SmartDashboard.putNumber("LeftRotationConversionFactor", leftEncoder.getPositionConversionFactor());
 
-        resetDistance();
+        resetSensorVals();
 
-        resetNavX();
-
-        odometry.resetPosition(new Pose2d(), new Rotation2d());
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
     }
@@ -155,8 +146,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
         SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
 
-        SmartDashboard.putNumber("LeftTicVal", leftEncoder.getPosition());
-        SmartDashboard.putNumber("RightTicVal", rightEncoder.getPosition());
+        SmartDashboard.putNumber("LeftRotations", leftEncoder.getPosition());
+        SmartDashboard.putNumber("RightRotations", rightEncoder.getPosition());
 
     }
 
@@ -199,13 +190,15 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void setRamseteOutput(double leftVolts, double rightVolts) {
-        setOutput(leftVolts, rightVolts); //-rightVolts);
+        setOutput(leftVolts, rightVolts);
     }
 
     @Override
     public void resetSensorVals() {
         LightningDrivetrain.super.resetSensorVals();
+        resetDistance();
         resetNavX();
+        odometry.resetPosition(new Pose2d(), new Rotation2d());
     }
 
     private void resetNavX() {
@@ -367,5 +360,11 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void initMotorDirections() {}
+
+    @Override
+    public RamseteGains getConstants() {
+        // Override me!
+        return null;
+    }
 
 }

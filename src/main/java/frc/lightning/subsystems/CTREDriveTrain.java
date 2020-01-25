@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
+import frc.lightning.util.RamseteGains;
 import frc.robot.Robot;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -224,5 +225,11 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
   public void setRamseteOutput(double leftVolts, double rightVolts) {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public RamseteGains getConstants() {
+    // Override me!
+    return null;
   }
 }

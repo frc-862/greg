@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -24,9 +23,8 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
+import frc.robot.PathGenerator;
 import frc.robot.Robot;
-import frc.robot.commands.drivetrain.TankDrive;
-import frc.robot.commands.drivetrain.VelocityTankDrive;
 import frc.robot.commands.drivetrain.VoltDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -55,6 +53,8 @@ public class QuasarContainer extends LightningContainer{
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
+  private final PathGenerator pathGenerator;
+
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -64,6 +64,8 @@ public class QuasarContainer extends LightningContainer{
     configureButtonBindings();
     initializeDashboardCommands();
 
+    pathGenerator = new PathGenerator();
+
     drivetrain.setDefaultCommand(new VoltDrive(drivetrain,
             () -> -driver.getY(GenericHID.Hand.kLeft),
             () -> -driver.getY(GenericHID.Hand.kRight)
@@ -71,17 +73,7 @@ public class QuasarContainer extends LightningContainer{
     
   }
 
-  private void initializeDashboardCommands() {
-    SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-
-    SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-  }
+  private void initializeDashboardCommands() {}
 
   private void configureSystemTests() {
     SystemTest.register(new LeftSideMoves(drivetrain));
@@ -103,34 +95,35 @@ public class QuasarContainer extends LightningContainer{
 
   @Override
   public Command[] getAutonomousCommands() {
-    Command[] result = { getSimplePath() };
+    Command[] result = { getPathCMD() };
     return result;
   }
 
-  private Command getSimplePath() {
+  private Command getPathCMD() {
+    return pathGenerator.getRamseteCommand(drivetrain);
     
-    final TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(5), Units.feetToMeters(5)); // Max Vel, Max Accel
-    config.setKinematics(drivetrain.getKinematics());
+    // final TrajectoryConfig config = new TrajectoryConfig(Units.feetToMeters(5), Units.feetToMeters(5)); // Max Vel, Max Accel
+    // config.setKinematics(drivetrain.getKinematics());
 
-    final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(4d, -1d, new Rotation2d())), // - = right, + = left for rightmost val
-      config
-    );
+    // final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+    //   Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(4d, -1d, new Rotation2d())), // - = right, + = left for rightmost val
+    //   config
+    // );
 
-    final RamseteCommand cmd = new RamseteCommand(
-      trajectory,
-      drivetrain::getPose,
-      new RamseteController(),
-      drivetrain.getFeedforward(),
-      drivetrain.getKinematics(),
-      drivetrain::getSpeeds,
-      drivetrain.getLeftPidController(),
-      drivetrain.getRightPidController(),
-      drivetrain::setRamseteOutput,
-      drivetrain
-    );
+    // final RamseteCommand cmd = new RamseteCommand(
+    //   trajectory,
+    //   drivetrain::getPose,
+    //   new RamseteController(),
+    //   drivetrain.getFeedforward(),
+    //   drivetrain.getKinematics(),
+    //   drivetrain::getSpeeds,
+    //   drivetrain.getLeftPidController(),
+    //   drivetrain.getRightPidController(),
+    //   drivetrain::setRamseteOutput,
+    //   drivetrain
+    // );
 
-    return cmd;
+    // return cmd;
 
   }
 

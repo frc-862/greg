@@ -7,6 +7,8 @@
 
 package frc.lightning.util;
 
+import edu.wpi.first.wpilibj.util.Units;
+
 /**
  * Add your docs here.
  */
@@ -26,6 +28,9 @@ public class RamseteGains {
     private double right_kI;
     private double right_kD;
 
+    private double maxVelocity;
+    private double maxAcceleration;
+
     public RamseteGains (double trackWidth, 
                             double kS,
                             double kV,
@@ -35,7 +40,9 @@ public class RamseteGains {
                             double left_kD,
                             double right_kP,
                             double right_kI,
-                            double right_kD) {
+                            double right_kD,
+                            double maxVelocity,
+                            double maxAcceleration) {
         setTrackWidth(trackWidth);
         setkS(kS);
         setkV(kV);
@@ -46,7 +53,17 @@ public class RamseteGains {
         setRight_kP(right_kP);
         setRight_kI(right_kI);
         setRight_kD(right_kD);
+        setMaxVelocity(maxVelocity);
+        setMaxAcceleration(maxAcceleration);
     }
+    
+    public double getMaxVelocity() { return maxVelocity; }
+
+    public void setMaxVelocity(double maxVelocity) { this.maxVelocity = Units.feetToMeters(maxVelocity); }
+
+    public double getMaxAcceleration() { return maxAcceleration; }
+
+    public void setMaxAcceleration(double maxAcceleration) { this.maxAcceleration = Units.feetToMeters(maxAcceleration); }
 
     public double getTrackWidth() { return trackWidth; }
 

@@ -9,6 +9,7 @@ package frc.robot.subsystems.drivetrains;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.subsystems.NeoDrivetrain;
+import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
@@ -19,7 +20,7 @@ public class QuasarDrivetrain extends NeoDrivetrain {
      * Creates a new QuasarDrivetrain.
      */
     public QuasarDrivetrain() {
-        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR_GAINS.getTrackWidth(), Constants.QUASAR_GAINS);
+        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR.getTrackWidth(), Constants.QUASAR);
         initMotorDirections();
 
         setLeftGains(Constants.quasarLeftGains);
@@ -63,4 +64,10 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         });
 
     }
+
+    @Override
+    public RamseteGains getConstants() {
+        return Constants.QUASAR;
+    }
+
 }

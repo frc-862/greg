@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
+import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
@@ -241,5 +242,11 @@ public class TwikiDrivetrain extends SubsystemBase implements LightningDrivetrai
     public void setRamseteOutput(double leftVolts, double rightVolts) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public RamseteGains getConstants() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

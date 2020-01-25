@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.util.LightningMath;
+import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.misc.REVGains;
@@ -66,11 +67,15 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private Pose2d pose = new Pose2d(0d, 0d, new Rotation2d());
 
-    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidth) {
+    private RamseteGains gains;
+
+    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidth, RamseteGains gains) {
         setName(name);
         this.motorCount = motorCountPerSide;
         this.firstLeftCanId = firstLeftCanId;
         this.firstRightCanId = firstRightCanId;
+
+        this.gains = gains;
 
         leftMotors = new CANSparkMax[motorCount];
         rightMotors = new CANSparkMax[motorCount];
@@ -80,7 +85,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         }
 
         leftMaster = leftMotors[0];
-        leftEncoder = leftMaster.getEncoder(EncoderType.kHallSensor, 42);//new CANEncoder(leftMaster);
+        leftEncoder = leftMaster.getEncoder(EncoderType.kHallSensor, 42);
         leftPIDFController = leftMaster.getPIDController();
         leftPIDFController.setFeedbackDevice(leftEncoder);
 
@@ -99,11 +104,17 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         odometry = new DifferentialDriveOdometry(getHeading(), pose);
 
-        feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
+        // feedforward = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
 
-        leftPIDController = new PIDController(Constants.left_kP, Constants.left_kI, Constants.left_kD);
+        // leftPIDController = new PIDController(Constants.left_kP, Constants.left_kI, Constants.left_kD);
+
+        // rightPIDController = new PIDController(Constants.right_kP, Constants.right_kI, Constants.right_kD);
         
-        rightPIDController = new PIDController(Constants.right_kP, Constants.right_kI, Constants.right_kD);
+        feedforward = new SimpleMotorFeedforward(gains.getkS(), gains.getkV(), gains.getkA());
+
+        leftPIDController = new PIDController(gains.getLeft_kP(), gains.getLeft_kI(), gains.getLeft_kD());
+        
+        rightPIDController = new PIDController(gains.getRight_kP(), gains.getRight_kI(), gains.getRight_kD());
         
         SmartDashboard.putNumber("RequestedLeftVolts", 0d);
         SmartDashboard.putNumber("RequestedRightVolts", 0d);

@@ -54,17 +54,16 @@ public class Collector extends SubsystemBase {
 
 
     public void collect(double pwr) {
-        setPowerLinear(pwr);
-        setPowerLongitudinal(pwr);
+        setPower(pwr);
     }
 
     public void eject(double pwr) {
         linearMotor.set(ControlMode.PercentOutput,pwr);
     }
 
-    public void setPowerLinear(double pwr) {
+    public void setPower(double pwr) {
         linearMotor.set(ControlMode.PercentOutput,pwr);
-        longitudinalMotor.set(ControlMode.PercentOutput,pwr);
+        longitudinalMotor.set(ControlMode.PercentOutput,-pwr);
     }
 
     public void setPowerLongitudinal(double pwr) {

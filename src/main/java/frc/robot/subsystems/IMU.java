@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
@@ -15,9 +16,10 @@ import frc.robot.Constants;
 
 public class IMU extends SubsystemBase {
     private final String name = "IMU";
-
+    AHRS ahrs;
     public IMU() {
-        setName(name);
+
+        //setName(name);
     }
 
     public void init() {

@@ -13,11 +13,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.LightningRobot;
+import frc.lightning.logging.DataLogger;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.misc.REVGains;
 
 public class PrototypeShooter extends SubsystemBase {
+    private final boolean loggingEnabled = true;
 
     private VictorSPX pmotor1;
     private VictorSPX pmotor2;
@@ -52,36 +54,59 @@ public class PrototypeShooter extends SubsystemBase {
         SmartDashboard.putData("Shooter", this);
         SmartDashboard.putNumber("Shooter RPM", 0);
 
-
         System.out.println("Shooter Config");
+
+        DataLogger.addDataElement("motor1rpm", this::getMotor1Rate);
+        DataLogger.addDataElement("motor2rpm", this::getMotor2Rate);
+        DataLogger.addDataElement("motor3rpm", this::getMotor3Rate);
+        DataLogger.addDataElement("setSpeed", this::getsetpower);
     }
+
+    public double getMotor1Rate(){
+        return pmotor1encoder.getRate() * 60 / 2048;
+    }
+
+    public double getMotor2Rate(){
+        return pmotor2encoder.getRate() * 60 / 2048;
+    }
+
+    public double getMotor3Rate(){
+        return pmotor3encoder.getRate() * 60 / 2048;
+    }
+
     @Override
     public void periodic() {
         // super.periodic();
 
-        double rate1 = pmotor1encoder.getRate() * 60 / 2048;
+        double rate1 = getMotor1Rate();
         double output1 = Constants.M1ShooterKf * motor1PIDContoller.getSetpoint() + motor1PIDContoller.calculate(rate1);
         pmotor1.set(ControlMode.PercentOutput, output1);
 
-        double rate2 = pmotor2encoder.getRate()* 60/2048;
+        double rate2 = getMotor2Rate();
         double output2 = Constants.M2shooterKf * motor2PIDContoller.getSetpoint() + motor2PIDContoller.calculate(rate2);
         pmotor2.set(ControlMode.PercentOutput, output2);
 
-        double rate3 = pmotor3encoder.getRate()* 60/2048;
+        double rate3 = getMotor3Rate();
         double output3 = Constants.M3shooterKf * motor2PIDContoller.getSetpoint() + motor2PIDContoller.calculate(rate3);
         pmotor3.set(ControlMode.PercentOutput, output3);
 
         SmartDashboard.putNumber("Motor1 RPM", rate1);
         SmartDashboard.putNumber("Motor2 RPM", rate2);
         SmartDashboard.putNumber("Motor3 RPM", rate3);
-            if (LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate1,500)&&
-                LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate2,500)&&
-                LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate3,500)
+        SmartDashboard.putNumber("Motor1 Error", motor1PIDContoller.getSetpoint() - rate1);
+        SmartDashboard.putNumber("Motor2 Error", motor2PIDContoller.getSetpoint() - rate2);
+        SmartDashboard.putNumber("Motor3 Error", motor3PIDContoller.getSetpoint() - rate3);
+            if (LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate1,250)&&
+                LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate2,250)&&
+                LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate3,250)
                 ){
             atVel=true;
         }else{atVel=false;}
             SmartDashboard.putBoolean("READY TO FIRE", atVel);
 
+    }
+    public double getsetpower(){
+        return SmartDashboard.getNumber("Shooter RPM", 0);
     }
 
     public void setVelocityMotor1(double dV) {

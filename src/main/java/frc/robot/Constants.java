@@ -48,13 +48,20 @@ public class Constants {
 
     //PROTOTYPE SHOOTER
     public static double PShooterKp = 1000 / 5000;//(1200/5000);
-    public static double PShooterKi = 0;
-    public static double PShooterKd = 0;//0.0000025;
-    public static double M1ShooterKf = 0.0002370;
-    public static double M2shooterKf = 0.00024350;
-    public static double M3shooterKf = 0.0002370;
+    public static double PShooterKi = 0;//0.0000000001;
+    public static double PShooterKd =0;// 0.000001;
+    public static double M1ShooterKf = 0.0002350;
+    public static double M2shooterKf=0.00024250;
+    public static double M3shooterKf=0.0002350;
 }
-//    public static double M1ShooterKf = 0.0002350;
-//    public static double M2shooterKf=0.00024250;
-//    public static double M3shooterKf=0.0002350;
+//    public static double M1ShooterKf = 0.0002150;
+//    public static double M2shooterKf=0.0002220;
+//    public static double M3shooterKf=0.0002250;
+//    public static double PShooterKp = .1 / 4500;
+//    public static double M1ShooterKf = 1/4500;
+//    public static double M2shooterKf = 1/4500;
+//    public static double M3shooterKf = 1/4500;
+//
 //}
+
+

@@ -19,9 +19,11 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
+import frc.robot.commands.CollectEject;
 import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.PrototypeShooter;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 
@@ -39,6 +41,7 @@ public class NebulaContainer extends LightningContainer {
     private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
     private  final PrototypeShooter prototypeShooter = new PrototypeShooter();
+    private  final Collector collector= new Collector();
 
     private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
     private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
@@ -51,6 +54,7 @@ public class NebulaContainer extends LightningContainer {
         // Configure the button bindings
         configureButtonBindings();
         initializeDashboardCommands();
+        //collector.setDefaultCommand(new CollectEject(collector,driver.getTriggerAxis(GenericHID.Hand.kLeft),driver.getTriggerAxis(GenericHID.Hand.kLeft)));
 
         drivetrain.setDefaultCommand(new TankDrive(drivetrain,
                                      () -> -driver.getY(GenericHID.Hand.kLeft),

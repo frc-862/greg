@@ -774,6 +774,61 @@
               "_source0": "network_table:///SmartDashboard/RightTicVal",
               "_title": "RightTicVal"
             }
+          },
+          "8,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/PathChooser",
+              "_title": "PathChooser"
+            }
+          },
+          "9,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftRotationConversionFactor",
+              "_title": "LeftRotationConversionFactor"
+            }
+          },
+          "10,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightRotationConversionFactor",
+              "_title": "RightRotationConversionFactor"
+            }
+          },
+          "11,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftRotations",
+              "_title": "LeftRotations"
+            }
+          },
+          "12,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightRotations",
+              "_title": "RightRotations"
+            }
           }
         }
       }
@@ -1119,7 +1174,7 @@
               "_title": "/SmartDashboard/PoseTransY"
             }
           },
-          "3,3": {
+          "6,3": {
             "size": [
               2,
               1
@@ -1172,6 +1227,17 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/LeftTicVal",
               "_title": "/SmartDashboard/LeftTicVal"
+            }
+          },
+          "4,2": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "ComboBox Chooser",
+              "_source0": "network_table:///SmartDashboard/PathChooser",
+              "_title": "/SmartDashboard/PathChooser"
             }
           }
         }

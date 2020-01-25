@@ -7,17 +7,24 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
 
     //Components
+    private VictorSPX linearMotor;
+    private VictorSPX longitudinalMotor;
 
     /**
      * Creates a new Collector.
      */
     public Collector() {
         // Init
+        linearMotor = new WPI_VictorSPX(11);
+        longitudinalMotor = new WPI_VictorSPX(12);
     }
 
     @Override
@@ -47,19 +54,26 @@ public class Collector extends SubsystemBase {
 
 
     public void collect(double pwr) {
-
+        setPowerLinear(pwr);
+        setPowerLongitudinal(pwr);
     }
 
     public void eject(double pwr) {
-
+        linearMotor.set(ControlMode.PercentOutput,pwr);
     }
 
-    public void setPower(double pwr) {
-        collect(pwr);
+    public void setPowerLinear(double pwr) {
+        linearMotor.set(ControlMode.PercentOutput,pwr);
+        longitudinalMotor.set(ControlMode.PercentOutput,pwr);
+    }
+
+    public void setPowerLongitudinal(double pwr) {
+        longitudinalMotor.set(ControlMode.PercentOutput,pwr);
     }
 
     public void stop() {
-        setPower(0d);
+        linearMotor.set(ControlMode.PercentOutput,0);
+        longitudinalMotor.set(ControlMode.PercentOutput,0);
     }
 
 }

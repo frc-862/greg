@@ -27,10 +27,10 @@ public class Constants {
     public static final double FLYWHEEL_EPSILON = 100;
     public static final double ROTATION_TOLERANCE = 3;
 
-    public static REVGains leftGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
-    public static REVGains rightGains = new REVGains(4e-3, 1e-6,  0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
-    public static REVGains quasarLeftGains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
-    public static REVGains quasarRightGains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains leftGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains rightGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains quasarLeftGains = new REVGains(0.00007, 0.0, 0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains quasarRightGains = new REVGains(0.00007, 0.0, 0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
 
     // HYPERION
     public static REVGains hyperionGains = new REVGains(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
@@ -41,14 +41,20 @@ public class Constants {
     public static final double REV_LIMIT_TICKS = REV_LIMIT_DEG / (360 / 76.55);
 
     // SHOOTER
-    public static REVGains Motor1Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
-    public static REVGains Motor2Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
-    public static REVGains Motor3Gains = new REVGains(0.00007, 0.0,  0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static REVGains Motor1Gains = new REVGains(0.00007, 0.0, 0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static REVGains Motor2Gains = new REVGains(0.00007, 0.0, 0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static REVGains Motor3Gains = new REVGains(0.00007, 0.0, 0.0, 0.00018, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static final double shooterAngleTolerance = 1;
 
     //PROTOTYPE SHOOTER
-    public static double PShooterKp = 0.25*(1/5000);
+    public static double PShooterKp = 1000 / 5000;//(1200/5000);
     public static double PShooterKi = 0;
-    public static double PShooterKd = 0;
-    public static double PShooterKf = 0.0001876172608;
+    public static double PShooterKd = 0;//0.0000025;
+    public static double M1ShooterKf = 0.0002370;
+    public static double M2shooterKf = 0.00024350;
+    public static double M3shooterKf = 0.0002370;
 }
+//    public static double M1ShooterKf = 0.0002350;
+//    public static double M2shooterKf=0.00024250;
+//    public static double M3shooterKf=0.0002350;
+//}

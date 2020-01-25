@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -20,6 +22,7 @@ import frc.robot.Robot;
 import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.PrototypeShooter;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -35,8 +38,11 @@ public class NebulaContainer extends LightningContainer {
     private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
     private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
+    private  final PrototypeShooter prototypeShooter = new PrototypeShooter();
+
     private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
     private final XboxController copilot = new XboxController(JoystickConstants.COPILOT);
+    private double dv;
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -50,9 +56,16 @@ public class NebulaContainer extends LightningContainer {
                                      () -> -driver.getY(GenericHID.Hand.kLeft),
                                      () -> -driver.getY(GenericHID.Hand.kRight)
                                                   ));
+
+        System.out.println("Building Nebula");
+        prototypeShooter.setDefaultCommand(new RunCommand(() -> {
+            prototypeShooter.setVelocityMShootoer(SmartDashboard.getNumber("Shooter RPM", 0));
+        }, prototypeShooter));
+
     }
 
     private void initializeDashboardCommands() {
+        double var = SmartDashboard.getNumber("Shooter RPM", 0);
         SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
                                () -> -driver.getY(GenericHID.Hand.kLeft),
                                () -> -driver.getY(GenericHID.Hand.kRight)
@@ -61,6 +74,7 @@ public class NebulaContainer extends LightningContainer {
         SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
                                () -> -driver.getY(GenericHID.Hand.kLeft),
                                () -> -driver.getY(GenericHID.Hand.kRight)
+
                                                                   ));
     }
 

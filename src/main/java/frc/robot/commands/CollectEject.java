@@ -14,48 +14,33 @@ import frc.robot.subsystems.Collector;
 
 public class CollectEject extends CommandBase {
 
-    Collector mCollector;
+    Collector collector;
     DoubleSupplier collectPwr;
     DoubleSupplier ejectPwr;
 
     /**
-     *
      * Creates a new Collect_Eject.
      */
     public CollectEject(Collector collector, DoubleSupplier collectPwr, DoubleSupplier ejectPwr) {
-        mCollector = collector;
+        this.collector = collector;
         this.collectPwr = collectPwr;
         this.ejectPwr = ejectPwr;
         addRequirements(collector);
-
-        // Use addRequirements() here to declare subsystem dependencies.
     }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
 
-        mCollector.setPower(collectPwr.getAsDouble() - ejectPwr.getAsDouble());
+        collector.setPower(collectPwr.getAsDouble() - ejectPwr.getAsDouble());
 
     }
 
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
 
         super.end(interrupted);
-        mCollector.stop();
+        collector.stop();
 
     }
 
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
 }

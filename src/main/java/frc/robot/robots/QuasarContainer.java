@@ -113,7 +113,7 @@ public class QuasarContainer extends LightningContainer{
     config.setKinematics(drivetrain.getKinematics());
 
     final Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(5d, 0d, new Rotation2d())),
+      Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(4d, -1d, new Rotation2d())), // - = right, + = left for rightmost val
       config
     );
 

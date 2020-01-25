@@ -23,10 +23,10 @@ public class Constants {
     public static final double kS = 0.118;
     public static final double kV = 3.57;
     public static final double kA = 0.408;
-    public static final double left_kP = 14d;
+    public static final double left_kP = 1.4d; // 14d
     public static final double left_kI = 0d;
     public static final double left_kD = 0d;
-    public static final double right_kP = 14d;
+    public static final double right_kP = 1.4d; // 14d
     public static final double right_kI = 0d;
     public static final double right_kD = 0d;
 

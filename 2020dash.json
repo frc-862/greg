@@ -708,6 +708,72 @@
               "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
               "_title": "TrackWidthMeters"
             }
+          },
+          "2,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicksPerRev",
+              "_title": "LeftTicksPerRev"
+            }
+          },
+          "3,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicksPerRev",
+              "_title": "RightTicksPerRev"
+            }
+          },
+          "4,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicConversionFactor",
+              "_title": "RightTicConversionFactor"
+            }
+          },
+          "5,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicConversionFactor",
+              "_title": "LeftTicConversionFactor"
+            }
+          },
+          "6,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicVal",
+              "_title": "LeftTicVal"
+            }
+          },
+          "7,5": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicVal",
+              "_title": "RightTicVal"
+            }
           }
         }
       }
@@ -1062,6 +1128,50 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/TrackWidthMeters",
               "_title": "/SmartDashboard/TrackWidthMeters"
+            }
+          },
+          "8,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicConversionFactor",
+              "_title": "/SmartDashboard/LeftTicConversionFactor"
+            }
+          },
+          "10,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicConversionFactor",
+              "_title": "/SmartDashboard/RightTicConversionFactor"
+            }
+          },
+          "10,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/RightTicVal",
+              "_title": "/SmartDashboard/RightTicVal"
+            }
+          },
+          "8,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/LeftTicVal",
+              "_title": "/SmartDashboard/LeftTicVal"
             }
           }
         }

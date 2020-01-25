@@ -15,15 +15,17 @@ import frc.robot.subsystems.Collector;
 public class CollectEject extends CommandBase {
 
     Collector mCollector;
-    double collectPwr;
-    double ejectPwr;
+    DoubleSupplier collectPwr;
+    DoubleSupplier ejectPwr;
 
     /**
      *
      * Creates a new Collect_Eject.
      */
-    public CollectEject(Collector collector, double collectPwr, double ejectPwr) {
-
+    public CollectEject(Collector collector, DoubleSupplier collectPwr, DoubleSupplier ejectPwr) {
+        this.mCollector = collector;
+        this.collectPwr = collectPwr;
+        this.ejectPwr = ejectPwr;
 
 
         addRequirements(collector);
@@ -41,7 +43,7 @@ public class CollectEject extends CommandBase {
     @Override
     public void execute() {
 
-        mCollector.setPower(collectPwr - ejectPwr);
+        mCollector.setPower(collectPwr.getAsDouble() - ejectPwr.getAsDouble());
 
     }
 

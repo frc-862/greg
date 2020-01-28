@@ -1228,17 +1228,6 @@
               "_source0": "network_table:///SmartDashboard/LeftTicVal",
               "_title": "/SmartDashboard/LeftTicVal"
             }
-          },
-          "4,2": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/PathChooser",
-              "_title": "/SmartDashboard/PathChooser"
-            }
           }
         }
       }

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot;
+package frc.robot.auton;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,9 @@ import frc.lightning.subsystems.LightningDrivetrain;
 public class PathGenerator {
 
     public enum Paths {
-        TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(4d, -1d, new Rotation2d()))),
+        // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-2d, -1d, Rotation2d.fromDegrees(90))), true), // new Pose2d(2d, -2d, Rotation2d.fromDegrees(-90)))),
+        TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, Rotation2d.fromDegrees(-90)))),
+        TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-1d, -2d, Rotation2d.fromDegrees(90))), true),
         BACK_OFF_INIT_LINE(null),
         FWD_OFF_INIT_LINE(null),
         INIT_LINE_2_TRENCHRUN(null),
@@ -36,10 +38,18 @@ public class PathGenerator {
         OPP_TRENCHRUN_2_SHOOTING_POSE(null);
 
         private List<Pose2d> waypoints;
+        private boolean reversed;
 
         private Paths (List<Pose2d> waypoints) {
-            this.waypoints = waypoints;
+            this(waypoints, false);
         }
+
+        private Paths (List<Pose2d> waypoints, boolean reversed) {
+            this.waypoints = waypoints;
+            this.reversed = reversed;
+        }
+
+        private boolean getReversed() { return reversed; }
 
         public Trajectory getTrajectory(LightningDrivetrain drivetrain) { 
 
@@ -47,23 +57,28 @@ public class PathGenerator {
                                                             drivetrain.getConstants().getMaxAcceleration());
 
             config.setKinematics(drivetrain.getKinematics());
-            return TrajectoryGenerator.generateTrajectory(waypoints, config); 
+            config = config.setReversed(getReversed());
+
+            Trajectory trajectory = TrajectoryGenerator.generateTrajectory(waypoints, config);
+            
+
+            return trajectory; 
 
         }
 
     }
     
-    private static SendableChooser<Paths> chooser = new SendableChooser<>();
+    // private static SendableChooser<Paths> chooser = new SendableChooser<>();
 
     public PathGenerator() {
-        SmartDashboard.putData("PathChooser", chooser);
-        chooser.setDefaultOption(Paths.TEST_PATH.name(), Paths.TEST_PATH);
-        for (var path : Paths.values()) chooser.addOption(path.name(), path);
+        // SmartDashboard.putData("PathChooser", chooser);
+        // chooser.setDefaultOption(Paths.values()[0].name(), Paths.values()[0]);
+        // for (var path : Paths.values()) chooser.addOption(path.name(), path);
     }
 
-    public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain) {
+    public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain, Paths path) {
 
-        Trajectory trajectory = chooser.getSelected().getTrajectory(drivetrain);
+        Trajectory trajectory = path.getTrajectory(drivetrain); // chooser.getSelected().getTrajectory(drivetrain);
 
         RamseteCommand cmd = new RamseteCommand(
             trajectory,

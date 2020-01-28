@@ -23,11 +23,16 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
-import frc.robot.PathGenerator;
+import frc.robot.auton.*;
+import frc.robot.auton.PathGenerator.Paths;
 import frc.robot.Robot;
 import frc.robot.commands.drivetrain.VoltDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.drivetrains.*;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
 import frc.robot.systemtests.drivetrain.MoveMasters;
@@ -90,7 +95,18 @@ public class QuasarContainer extends LightningContainer {
   }
 
   private Command getPathCMD() {
-    return pathGenerator.getRamseteCommand(drivetrain);
+    return (new SequentialCommandGroup(
+      pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH),
+      new InstantCommand(drivetrain::resetSensorVals, drivetrain),
+      new WaitCommand(1d),
+      pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO)
+    ));
+    // return pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH);
+  }
+
+  @Override
+  public PathGenerator getPathGenerator() {
+    return pathGenerator;
   }
 
   @Override

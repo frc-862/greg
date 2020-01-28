@@ -189,6 +189,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void setRamseteOutput(double leftVolts, double rightVolts) {
+        // setPower(leftVolts/12, rightVolts/12);
         setOutput(leftVolts, rightVolts);
     }
 

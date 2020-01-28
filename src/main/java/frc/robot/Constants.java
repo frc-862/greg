@@ -20,14 +20,14 @@ public class Constants {
     public static final int NEO_MAX_RPM = 5700;
 
     // DRIVETRAIN
-    public static final RamseteGains QUASAR = new RamseteGains(0.805076639, // trackWidth 
-                                                                0.118, // kS
-                                                                3.57, // kV
-                                                                0.408, // kA
-                                                                1.4d, // left_kP
+    public static final RamseteGains QUASAR = new RamseteGains(0.74, // trackWidth 
+                                                                0.141, // kS
+                                                                3.55, // kV
+                                                                0.421, // kA
+                                                                0.119, // left_kP
                                                                 0d, // left_kI
                                                                 0d, // left_kD
-                                                                1.4d, // right_kP
+                                                                0.119, // right_kP
                                                                 0d, // right_kI
                                                                 0d, // right_kD
                                                                 5d, // maxVelocity (ft/sec)

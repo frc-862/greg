@@ -9,6 +9,7 @@ package frc.lightning;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lightning.subsystems.LightningDrivetrain;
+import frc.robot.auton.PathGenerator;
 
 /**
  * Add your docs here.
@@ -17,6 +18,10 @@ public abstract class LightningContainer {
     public abstract void configureButtonBindings();
     public abstract void configureDefaultCommands();
     public abstract void releaseDefaultCommands();
+
+    public PathGenerator getPathGenerator() {
+        return null;
+    }
 
     public abstract LightningDrivetrain getDrivetrain();
 

@@ -51,15 +51,25 @@ public class PrototypeShooter extends SubsystemBase {
         motor1PIDContoller = new PIDController(Constants.PShooterKp,Constants.PShooterKi,Constants.PShooterKd);
         motor2PIDContoller = new PIDController(Constants.PShooterKp,Constants.PShooterKi,Constants.PShooterKd);
         motor3PIDContoller = new PIDController(Constants.PShooterKp,Constants.PShooterKi,Constants.PShooterKd);
-        SmartDashboard.putData("Shooter", this);
+       // SmartDashboard.putData("Shooter", this);
         SmartDashboard.putNumber("Shooter RPM", 0);
 
-        System.out.println("Shooter Config");
+        //System.out.println("Shooter Config");
 
         DataLogger.addDataElement("motor1rpm", this::getMotor1Rate);
         DataLogger.addDataElement("motor2rpm", this::getMotor2Rate);
         DataLogger.addDataElement("motor3rpm", this::getMotor3Rate);
         DataLogger.addDataElement("setSpeed", this::getsetpower);
+        DataLogger.addDataElement("P value", this::getPValue);
+        DataLogger.addDataElement("I value", this::getIValue);
+        DataLogger.addDataElement("D value", this::getDValue);
+        DataLogger.addDataElement("M1 value", this::getFFValue1);
+        DataLogger.addDataElement("M2 value", this::getFFValue2);
+        DataLogger.addDataElement("M3 value", this::getFFValue3);
+        // DataLogger.addDataElement("motor1ff", () -> );
+//        SmartDashboard.putData("Speed controler 1",motor1PIDContoller);
+//        SmartDashboard.putData("Speed controler 2",motor2PIDContoller);
+//        SmartDashboard.putData("Speed controler 3",motor3PIDContoller);
     }
 
     public double getMotor1Rate(){
@@ -80,6 +90,7 @@ public class PrototypeShooter extends SubsystemBase {
 
         double rate1 = getMotor1Rate();
         double output1 = Constants.M1ShooterKf * motor1PIDContoller.getSetpoint() + motor1PIDContoller.calculate(rate1);
+        SmartDashboard.putNumber("output1", output1);
         pmotor1.set(ControlMode.PercentOutput, output1);
 
         double rate2 = getMotor2Rate();
@@ -87,7 +98,7 @@ public class PrototypeShooter extends SubsystemBase {
         pmotor2.set(ControlMode.PercentOutput, output2);
 
         double rate3 = getMotor3Rate();
-        double output3 = Constants.M3shooterKf * motor2PIDContoller.getSetpoint() + motor2PIDContoller.calculate(rate3);
+        double output3 = Constants.M3shooterKf * motor3PIDContoller.getSetpoint() + motor3PIDContoller.calculate(rate3);
         pmotor3.set(ControlMode.PercentOutput, output3);
 
         SmartDashboard.putNumber("Motor1 RPM", rate1);
@@ -110,7 +121,7 @@ public class PrototypeShooter extends SubsystemBase {
     }
 
     public void setVelocityMotor1(double dV) {
-        motor1PIDContoller.setSetpoint(dV);
+        motor1PIDContoller.setSetpoint(dV-625);
 
 //        double error = dV-pmotor1encoder.getRate();
 //        double pValue = error*Constants.PShooterKp;
@@ -123,18 +134,36 @@ public class PrototypeShooter extends SubsystemBase {
         //double error = dV-pmotor2encoder.getRate();
         //pmotor2.set(ControlMode.PercentOutput,error*Constants.PShooterKp+dV*Constants.PShooterKf);
 
-        motor2PIDContoller.setSetpoint(dV);
+        motor2PIDContoller.setSetpoint(dV-625);
     }
     public void setVelocityMotor3(double dV){
         //double error = dV-pmotor3encoder.getRate();
         //pmotor3.set(ControlMode.PercentOutput,error*Constants.PShooterKp+dV*Constants.PShooterKf);
 
-        motor3PIDContoller.setSetpoint(dV);
+        motor3PIDContoller.setSetpoint(dV+450);
     }
     public void setVelocityMShootoer(double dV){
         setVelocityMotor1(dV);
         setVelocityMotor2(dV);
         setVelocityMotor3(dV);
+    }
+    public double getPValue(){
+        return Constants.PShooterKp;
+    }
+    public double getIValue(){
+        return Constants.PShooterKi;
+    }
+    public double getDValue(){
+        return Constants.PShooterKd;
+    }
+    public double getFFValue1(){
+        return Constants.M1ShooterKf;
+    }
+    public double getFFValue2(){
+        return Constants.M2shooterKf;
+    }
+    public double getFFValue3(){
+        return Constants.M3shooterKf;
     }
 
 

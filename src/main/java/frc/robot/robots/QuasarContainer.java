@@ -45,23 +45,24 @@ import java.util.Arrays;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class QuasarContainer extends LightningContainer {
-    private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
-    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+  private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
+  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
-  private final PathGenerator pathGenerator;
+  private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain /*, null, null, null*/ );
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public QuasarContainer() {
     // Configure the button bindings
@@ -69,16 +70,13 @@ public class QuasarContainer extends LightningContainer {
     configureButtonBindings();
     initializeDashboardCommands();
 
-    pathGenerator = new PathGenerator();
+    drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)));
 
-    drivetrain.setDefaultCommand(new VoltDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-    
   }
 
-  private void initializeDashboardCommands() {}
+  private void initializeDashboardCommands() {
+  }
 
   private void configureSystemTests() {
     SystemTest.register(new LeftSideMoves(drivetrain));
@@ -89,25 +87,14 @@ public class QuasarContainer extends LightningContainer {
   }
 
   @Override
-  public Command[] getAutonomousCommands() {
-    Command[] result = { getPathCMD() };
-    return result;
-  }
+  public Command[] getAutonomousCommands() { return autonGenerator.getCommands(); }
 
-  private Command getPathCMD() {
-    return (new SequentialCommandGroup(
-      pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH),
-      new InstantCommand(drivetrain::resetSensorVals, drivetrain),
-      new WaitCommand(1d),
-      pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO)
-    ));
-    // return pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH);
-  }
-
-  @Override
-  public PathGenerator getPathGenerator() {
-    return pathGenerator;
-  }
+  // private Command getPathCMD() {
+  //   return (new SequentialCommandGroup(PathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH),
+  //       new InstantCommand(drivetrain::resetSensorVals, drivetrain), new WaitCommand(1d),
+  //       PathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO)));
+  //   // return pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH);
+  // }
 
   @Override
   public void configureDefaultCommands() {
@@ -122,9 +109,12 @@ public class QuasarContainer extends LightningContainer {
   }
 
   @Override
-  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+  public LightningDrivetrain getDrivetrain() {
+    return drivetrain;
+  }
 
   @Override
-  public void configureButtonBindings() {}
+  public void configureButtonBindings() {
+  }
 
 }

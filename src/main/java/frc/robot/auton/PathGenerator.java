@@ -28,14 +28,16 @@ public class PathGenerator {
 
     public enum Paths {
         // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-2d, -1d, Rotation2d.fromDegrees(90))), true), // new Pose2d(2d, -2d, Rotation2d.fromDegrees(-90)))),
-        TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, Rotation2d.fromDegrees(-90)))),
+        // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, Rotation2d.fromDegrees(-90)))),
+        TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, new Rotation2d()) ,new Pose2d(4d, 0d, new Rotation2d()))),
         TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-1d, -2d, Rotation2d.fromDegrees(90))), true),
-        BACK_OFF_INIT_LINE(null),
-        FWD_OFF_INIT_LINE(null),
-        INIT_LINE_2_TRENCHRUN(null),
-        INIT_LINE_2_OPP_TRENCHRUN(null),
-        TRENCHRUN_2_SHOOTING_POSE(null),
-        OPP_TRENCHRUN_2_SHOOTING_POSE(null);
+        BACK_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        FWD_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        TRENCHRUN_2_SHOOTING_POSE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        OPP_TRENCHRUN_2_SHOOTING_POSE_INNER(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d())));
 
         private List<Pose2d> waypoints;
         private boolean reversed;
@@ -59,26 +61,23 @@ public class PathGenerator {
             config.setKinematics(drivetrain.getKinematics());
             config = config.setReversed(getReversed());
 
-            Trajectory trajectory = TrajectoryGenerator.generateTrajectory(waypoints, config);
-            
+            Trajectory trajectory;
+
+            try{
+                trajectory = TrajectoryGenerator.generateTrajectory(waypoints, config);
+            } catch (RuntimeException e) {
+                trajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(1d, 0d, new Rotation2d())), config);
+            }
 
             return trajectory; 
 
         }
 
     }
-    
-    // private static SendableChooser<Paths> chooser = new SendableChooser<>();
-
-    public PathGenerator() {
-        // SmartDashboard.putData("PathChooser", chooser);
-        // chooser.setDefaultOption(Paths.values()[0].name(), Paths.values()[0]);
-        // for (var path : Paths.values()) chooser.addOption(path.name(), path);
-    }
 
     public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain, Paths path) {
 
-        Trajectory trajectory = path.getTrajectory(drivetrain); // chooser.getSelected().getTrajectory(drivetrain);
+        Trajectory trajectory = path.getTrajectory(drivetrain);
 
         RamseteCommand cmd = new RamseteCommand(
             trajectory,

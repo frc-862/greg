@@ -8,14 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LED;
+import frc.robot.subsystems.LEDs;
 
 public class RunLeds extends CommandBase {
-  private final LED LEDs;
+  private final LEDs LEDs;
   /**
    * Creates a new RunLeds.
    */
-  public RunLeds(LED LEDs) {
+  public RunLeds(LEDs LEDs) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.LEDs = LEDs;
     addRequirements(LEDs);
@@ -29,8 +29,8 @@ public class RunLeds extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
     LEDs.cycle();
-    //LEDs.end();
   }
 
   // Called once the command ends or is interrupted.

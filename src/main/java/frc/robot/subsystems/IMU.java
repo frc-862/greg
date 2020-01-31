@@ -7,31 +7,46 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.robot.Constants;
+import frc.robot.RobotMap;
 
 
 public class IMU extends SubsystemBase {
-    private final String name = "IMU";
-    AHRS ahrs;
-    public IMU() {
 
-        //setName(name);
+    private final String name = "IMU";
+
+    private final PigeonIMU bird;
+
+    private double[] ypr = new double[3];
+
+    public IMU() {
+        setName(name);
+        bird = new PigeonIMU(RobotMap.PIGEON_ID);
+        bird.configFactoryDefault();
+        reset();
     }
 
     public void init() {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Yaw", getYaw());
+        bird.getYawPitchRoll(ypr);
+        SmartDashboard.putNumber("Angle Pigeon", getAngle());
     }
 
-    public double getYaw() {
-        return 0;
+    public double getAngle() {
+        return ((ypr[0] % 360)); // TODO - Doesnt work - do math 
     }
+
+    public void reset() {
+        bird.setYaw(0d);
+    }
+
 }
 
 

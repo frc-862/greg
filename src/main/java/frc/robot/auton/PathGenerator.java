@@ -30,7 +30,7 @@ public class PathGenerator {
         // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-2d, -1d, Rotation2d.fromDegrees(90))), true), // new Pose2d(2d, -2d, Rotation2d.fromDegrees(-90)))),
         // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, Rotation2d.fromDegrees(-90)))),
         TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, new Rotation2d()) ,new Pose2d(4d, 0d, new Rotation2d()))),
-        TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-1d, -2d, Rotation2d.fromDegrees(90))), true),
+        TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-4d, 0d, new Rotation2d())), true),
         BACK_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
         FWD_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
         INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),

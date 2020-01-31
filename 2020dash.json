@@ -1236,8 +1236,19 @@
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/AUTO WAIT",
-              "_title": "/SmartDashboard/AUTO WAIT"
+              "_source0": "network_table:///SmartDashboard/AutoWaitSeconds",
+              "_title": "/SmartDashboard/AutoWaitSeconds"
+            }
+          },
+          "4,3": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Angle Pigeon",
+              "_title": "SmartDashboard/Angle Pigeon"
             }
           }
         }
@@ -1622,9 +1633,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -7.0,
-    "y": 35.0,
-    "width": 1932.0,
-    "height": 1052.0
+    "x": -8.0,
+    "y": 22.0,
+    "width": 1936.0,
+    "height": 1066.0
   }
 }

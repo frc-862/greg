@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.IMU;
 import frc.robot.subsystems.drivetrains.*;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
 import frc.robot.systemtests.drivetrain.MoveMasters;
@@ -41,6 +42,7 @@ import frc.robot.systemtests.drivetrain.MoveSecondarySlaves;
 import frc.robot.systemtests.drivetrain.RightSideMoves;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -55,6 +57,7 @@ public class QuasarContainer extends LightningContainer {
   private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+  private final IMU imu = new IMU();
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
@@ -87,7 +90,7 @@ public class QuasarContainer extends LightningContainer {
   }
 
   @Override
-  public Command[] getAutonomousCommands() { return autonGenerator.getCommands(); }
+  public HashMap<String, Command> getAutonomousCommands() { return autonGenerator.getCommands(); }
 
   // private Command getPathCMD() {
   //   return (new SequentialCommandGroup(PathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH),

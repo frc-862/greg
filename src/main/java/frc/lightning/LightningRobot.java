@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lightning.commands.DashboardWaitCommand;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.testing.SystemTest;
 import frc.lightning.testing.SystemTestCommand;
@@ -72,7 +73,6 @@ public class LightningRobot extends TimedRobot {
         System.out.println("Starting time:" + Timer.getFPGATimestamp());
 
         SmartDashboard.putData("Auto Mode", chooser);
-        SmartDashboard.getNumber("AUTO WAIT", 0);
 
         // By this point all datalog fields should be registered
         DataLogger.preventNewDataElements();
@@ -205,14 +205,13 @@ public class LightningRobot extends TimedRobot {
     public void autonomousInit() {
         // LightningServer.stop_server();
 
-        // autonomousCommand = chooser.getSelected();//changed
-
-        autonomousCommand = (new WaitCommand(SmartDashboard.getNumber("AUTO WAIT", 0))).andThen(chooser.getSelected());
-
-        // autonomousCommand = new SequentialCommandGroup(
-        //     new WaitCommand(SmartDashboard.getNumber("AUTO WAIT", 0)),
-        //     chooser.getSelected()
-        // );
+        autonomousCommand = new DashboardWaitCommand() {
+            @Override
+            public void end(boolean interrupted) {
+                super.end(interrupted);
+                chooser.getSelected().schedule();
+            }
+        };
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {

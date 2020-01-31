@@ -7,8 +7,12 @@
 
 package frc.robot.auton;
 
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.Robot;
 import frc.robot.auton.PathGenerator.Paths;
@@ -22,7 +26,8 @@ public class AutonGenerator {
 
     // Make Drivetrain Test Functions
     private static Command TEST_PATH_1,
-                            TEST_PATH_2;
+                            TEST_PATH_2,
+                            TEST_PATH_COMPILATION;
 
     // Make Shooting Functions
     private static Command SHOOT3,
@@ -66,6 +71,13 @@ public class AutonGenerator {
         // Set Up Drivetrain Test Functions
         TEST_PATH_1 = pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH);
         TEST_PATH_2 = pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO); 
+        TEST_PATH_COMPILATION = new SequentialCommandGroup(pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH), 
+                                                            new InstantCommand(() -> {
+                                                                drivetrain.stop();
+                                                                drivetrain.resetSensorVals();
+                                                            }, drivetrain), 
+                                                            new WaitCommand(2), 
+                                                            pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO));
 
         // // Set Up Shooting Functions
         // SHOOT3 = null;
@@ -97,49 +109,47 @@ public class AutonGenerator {
 
     }
 
-    public Command[] getCommands() {
+    public HashMap<String, Command> getCommands() {
 
-        // Command[] cmdz = {pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH)};
+        HashMap<String, Command> map = new HashMap<>();
 
-        // return cmdz;
+        map.put("Test 2-in-one :)", TEST_PATH_COMPILATION);
+        map.put("Test Path 1", TEST_PATH_1);
+        map.put("Test Path 2", TEST_PATH_2);
 
-        Command[] cmds = {
+        return map;
 
-            // TEST COMMANDS
-            TEST_PATH_1,
-        //     TEST_PATH_2,
-// 
-        //     // // COMPLETE AUTON COMMANDS
-        //     // SHOOT3_MOVE_FWD,
-        //     // SHOOT3_MOVE_REV,
-        //     // MOVE_FWD_SHOOT3,
-        //     // MOVE_REV_SHOOT3,
-        //     // SHOOT3_COLL3TR_SHOOT3,
-        //     // COLL2_OPPTR_SHOOT5,
-        //     // SHOOT3_COLL3,
-        //     // COLL2_MOVEINNERPORT_SHOOT5,
-        //     // SHOOT3_COLL3TR_MOVEINNERPORT,
-// 
-        //     // // PATH CMDS
-        //     // MOVE_OFF_LINE_FWD,
-        //     // MOVE_OFF_LINE_REV,
-        //     // MOVE_LINE_2_TR,
-        //     // MOVE_LINE_2_OPPTR,
-        //     // MOVE_INNERPORT_FROMOPPTR,
-        //     // MOVE_INNERPORT_FROMTR,
-        //     // MOVE_OUTERPORT_FROMOPPTR,
-// 
-        //     // // SHOOTING COMMANDS 
-        //     // SHOOT3,
-        //     // SHOOT5,
-// 
-        //     // // COLLECTING COMMANDS
-        //     // COLL3TR,
-        //     // COLL2_OPPTR
+        // TEST COMMANDS
+        // TEST_PATH_1,
+        // TEST_PATH_2,
 
-        };
+        // COMPLETE AUTON COMMANDS
+        // SHOOT3_MOVE_FWD,
+        // SHOOT3_MOVE_REV,
+        // MOVE_FWD_SHOOT3,
+        // MOVE_REV_SHOOT3,
+        // SHOOT3_COLL3TR_SHOOT3,
+        // COLL2_OPPTR_SHOOT5,
+        // SHOOT3_COLL3,
+        // COLL2_MOVEINNERPORT_SHOOT5,
+        // SHOOT3_COLL3TR_MOVEINNERPORT,
+ 
+        // PATH CMDS
+        // MOVE_OFF_LINE_FWD,
+        // MOVE_OFF_LINE_REV,
+        // MOVE_LINE_2_TR,
+        // MOVE_LINE_2_OPPTR,
+        // MOVE_INNERPORT_FROMOPPTR,
+        // MOVE_INNERPORT_FROMTR,
+        // MOVE_OUTERPORT_FROMOPPTR,
 
-        return cmds;
+        // SHOOTING COMMANDS 
+        // SHOOT3,
+        // SHOOT5,
+ 
+        // COLLECTING COMMANDS
+        // COLL3TR,
+        // COLL2_OPPTR
 
     }
 

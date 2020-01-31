@@ -1,0 +1,148 @@
+<grip:Pipeline>
+  <sources>
+    <grip:MultiImageFile>
+      <property name="path[5]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/25ft/image5.jpg"/>
+      <property name="numImages" value="6"/>
+      <property name="path[0]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/25ft/image0.jpg"/>
+      <property name="path[1]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/25ft/image1.jpg"/>
+      <property name="index" value="1"/>
+      <property name="path[2]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/25ft/image2.jpg"/>
+      <property name="path[3]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/25ft/image3.jpg"/>
+      <property name="path[4]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/25ft/image4.jpg"/>
+    </grip:MultiImageFile>
+    <grip:MultiImageFile>
+      <property name="path[5]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/35ft/image5.jpg"/>
+      <property name="numImages" value="6"/>
+      <property name="path[0]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/35ft/image0.jpg"/>
+      <property name="path[1]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/35ft/image1.jpg"/>
+      <property name="index" value="0"/>
+      <property name="path[2]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/35ft/image2.jpg"/>
+      <property name="path[3]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/35ft/image3.jpg"/>
+      <property name="path[4]" value="/home/jacob/Desktop/Robotics/vision/1-30-20/ring2/35ft/image4.jpg"/>
+    </grip:MultiImageFile>
+  </sources>
+  <steps>
+    <grip:Step name="Blur">
+      <grip:Input step="0" socket="0"/>
+      <grip:Input step="0" socket="1">
+        <value>GAUSSIAN</value>
+      </grip:Input>
+      <grip:Input step="0" socket="2">
+        <value>1.8018018018018018</value>
+      </grip:Input>
+      <grip:Output step="0" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="HSL Threshold">
+      <grip:Input step="1" socket="0"/>
+      <grip:Input step="1" socket="1">
+        <value>
+          <double>55.03597122302158</double>
+          <double>88.31918505942275</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="1" socket="2">
+        <value>
+          <double>0.0</double>
+          <double>255.0</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="1" socket="3">
+        <value>
+          <double>4.586330935251798</double>
+          <double>255.0</double>
+        </value>
+      </grip:Input>
+      <grip:Output step="1" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Find Contours">
+      <grip:Input step="2" socket="0"/>
+      <grip:Input step="2" socket="1">
+        <value>false</value>
+      </grip:Input>
+      <grip:Output step="2" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Filter Contours">
+      <grip:Input step="3" socket="0"/>
+      <grip:Input step="3" socket="1">
+        <value>700.0</value>
+      </grip:Input>
+      <grip:Input step="3" socket="2">
+        <value>0.0</value>
+      </grip:Input>
+      <grip:Input step="3" socket="3">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="3" socket="4">
+        <value>1000</value>
+      </grip:Input>
+      <grip:Input step="3" socket="5">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="3" socket="6">
+        <value>1000</value>
+      </grip:Input>
+      <grip:Input step="3" socket="7">
+        <value>
+          <double>0.0</double>
+          <double>100.0</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="3" socket="8">
+        <value>1000000</value>
+      </grip:Input>
+      <grip:Input step="3" socket="9">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="3" socket="10">
+        <value>0</value>
+      </grip:Input>
+      <grip:Input step="3" socket="11">
+        <value>1000</value>
+      </grip:Input>
+      <grip:Output step="3" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Convex Hulls">
+      <grip:Input step="4" socket="0"/>
+      <grip:Output step="4" socket="0" previewed="false"/>
+    </grip:Step>
+  </steps>
+  <connections>
+    <grip:Connection>
+      <grip:Output step="3" socket="0" previewed="true"/>
+      <grip:Input step="4" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="1" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="1" socket="0" previewed="true"/>
+      <grip:Input step="2" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="3" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="false"/>
+      <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+  </connections>
+  <settings>
+    <teamNumber>0</teamNumber>
+    <publishAddress>roboRIO-0-FRC.local</publishAddress>
+    <deployAddress>roboRIO-0-FRC.local</deployAddress>
+    <deployDir>/home/lvuser</deployDir>
+    <deployUser>lvuser</deployUser>
+    <deployJavaHome>/usr/local/frc/JRE/</deployJavaHome>
+    <deployJvmOptions>-Xmx50m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:MaxNewSize=16m</deployJvmOptions>
+  </settings>
+  <codeGenerationSettings>
+    <language>Java</language>
+    <className>GripPipeline</className>
+    <implementWpilibPipeline>false</implementWpilibPipeline>
+    <saveDir>/home/jacob/GRIP</saveDir>
+    <packageName></packageName>
+    <moduleName>grip</moduleName>
+  </codeGenerationSettings>
+</grip:Pipeline>

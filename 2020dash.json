@@ -1237,18 +1237,7 @@
             "content": {
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/AutoWaitSeconds",
-              "_title": "/SmartDashboard/AutoWaitSeconds"
-            }
-          },
-          "4,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Angle Pigeon",
-              "_title": "SmartDashboard/Angle Pigeon"
+              "_title": "SmartDashboard/AutoWaitSeconds"
             }
           }
         }

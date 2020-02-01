@@ -20,14 +20,14 @@ public class DashboardWaitCommand extends CommandBase {
    * Creates a new DashboardWaitCommand.
    */
   public DashboardWaitCommand() {
-    // SmartDashboard.putNumber("AutoWaitSeconds", time);
+    // SmartDashboard.putNumber("AutoWaitSeconds", 0d); // time??
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     time = SmartDashboard.getNumber("AutoWaitSeconds", 0d);
-    // System.out.println(time + "   <-----------------------TIME!!!!");
+    System.out.println(time + "   <-----------------------TIME!!!!");
     startTime = Timer.getFPGATimestamp();
     targetTime = startTime + time;
   }

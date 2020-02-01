@@ -63,24 +63,24 @@ public class Robot extends LightningRobot {
     private static LightningContainer getRobot() {
         if (isNebula()) {
             System.out.println("Initializing Nebula");
-            SmartDashboard.putString("Robot: ", "Nebula");
+            SmartDashboard.putString("Robot: ", "My Name is Nebula");
             return new NebulaContainer();
         }
 
         if (isTwiki()) {
             System.out.println("Initializing Twiki");
-            SmartDashboard.putString("Robot: ", "Twiki");
+            SmartDashboard.putString("Robot: ", "My Name is Twiki");
             return new TwikiContainer();
         }
 
         if (isQuasar()) {
             System.out.println("Initializing Quasar");
-            SmartDashboard.putString("Robot: ", "Quasar");
+            SmartDashboard.putString("Robot: ", "My Name is Quasar");
             return new QuasarContainer();
         }
 
         System.out.println("Initializing Greg");
-        SmartDashboard.putString("Robot: ", "Greg");
+        SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
         return new GregContainer(0);
     }
 

@@ -57,7 +57,6 @@ public class QuasarContainer extends LightningContainer {
   private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-  private final IMU imu = new IMU();
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);

@@ -29,14 +29,25 @@ public class PathGenerator {
     public enum Paths {
         // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-2d, -1d, Rotation2d.fromDegrees(90))), true), // new Pose2d(2d, -2d, Rotation2d.fromDegrees(-90)))),
         // TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, Rotation2d.fromDegrees(-90)))),
+
+        /* ASSUME SHOOTER FWD, COLLECTOR BACK ON ROBOT */ 
+
         TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(2d, -1d, new Rotation2d()) ,new Pose2d(4d, 0d, new Rotation2d()))),
+        
         TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-4d, 0d, new Rotation2d())), true),
-        BACK_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
-        FWD_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
-        INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
-        INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        
+        BACK_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-1d, 0d, new Rotation2d())), true),
+        
+        FWD_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(1d, 0d, new Rotation2d()))),
+        
+        INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-5.35d, 0d, new Rotation2d())), true),
+        
+        INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(-3.1d, 0d, new Rotation2d())), true),
+        
         TRENCHRUN_2_SHOOTING_POSE(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        
         OPP_TRENCHRUN_2_SHOOTING_POSE_INNER(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d()))),
+        
         OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(0d, 0d, new Rotation2d())));
 
         private List<Pose2d> waypoints;

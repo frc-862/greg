@@ -40,7 +40,7 @@ public class IMU extends SubsystemBase {
     }
 
     public double getAngle() {
-        return ((ypr[0] % 360)); // TODO - Doesnt work - do math 
+        return (((ypr[0]+180)%360)-180); 
     }
 
     public void reset() {

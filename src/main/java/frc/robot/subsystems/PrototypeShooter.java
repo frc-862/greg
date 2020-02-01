@@ -59,13 +59,15 @@ public class PrototypeShooter extends SubsystemBase {
         DataLogger.addDataElement("motor1rpm", this::getMotor1Rate);
         DataLogger.addDataElement("motor2rpm", this::getMotor2Rate);
         DataLogger.addDataElement("motor3rpm", this::getMotor3Rate);
-        DataLogger.addDataElement("setSpeed", this::getsetpower);
+        DataLogger.addDataElement("setSpeed1", this::getsetpower1);
+        DataLogger.addDataElement("setSpeed2", this::getsetpower2);
+        DataLogger.addDataElement("setSpeed3", this::getsetpower3);
         DataLogger.addDataElement("P value", this::getPValue);
         DataLogger.addDataElement("I value", this::getIValue);
         DataLogger.addDataElement("D value", this::getDValue);
-        DataLogger.addDataElement("M1 value", this::getFFValue1);
-        DataLogger.addDataElement("M2 value", this::getFFValue2);
-        DataLogger.addDataElement("M3 value", this::getFFValue3);
+        DataLogger.addDataElement("M1 FF value", this::getFFValue1);
+        DataLogger.addDataElement("M2 FF value", this::getFFValue2);
+        DataLogger.addDataElement("M3 FF value", this::getFFValue3);
         // DataLogger.addDataElement("motor1ff", () -> );
 //        SmartDashboard.putData("Speed controler 1",motor1PIDContoller);
 //        SmartDashboard.putData("Speed controler 2",motor2PIDContoller);
@@ -87,6 +89,7 @@ public class PrototypeShooter extends SubsystemBase {
     @Override
     public void periodic() {
         // super.periodic();
+        SmartDashboard.getNumber("Shooter RPM", 0);
 
         double rate1 = getMotor1Rate();
         double output1 = Constants.M1ShooterKf * motor1PIDContoller.getSetpoint() + motor1PIDContoller.calculate(rate1);
@@ -107,21 +110,29 @@ public class PrototypeShooter extends SubsystemBase {
         SmartDashboard.putNumber("Motor1 Error", motor1PIDContoller.getSetpoint() - rate1);
         SmartDashboard.putNumber("Motor2 Error", motor2PIDContoller.getSetpoint() - rate2);
         SmartDashboard.putNumber("Motor3 Error", motor3PIDContoller.getSetpoint() - rate3);
-            if (LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate1,250)&&
-                LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate2,250)&&
-                LightningMath.epsilonEqual(SmartDashboard.getNumber("Shooter RPM", 0),rate3,250)
+        SmartDashboard.putNumber("Motor1 Set point", motor1PIDContoller.getSetpoint());
+        SmartDashboard.putNumber("Motor3 set point", motor3PIDContoller.getSetpoint());
+            if (LightningMath.epsilonEqual(motor1PIDContoller.getSetpoint(),rate1,200)&&
+                LightningMath.epsilonEqual(motor2PIDContoller.getSetpoint(),rate2,200)&&
+                LightningMath.epsilonEqual(motor3PIDContoller.getSetpoint(),rate3,200)
                 ){
             atVel=true;
         }else{atVel=false;}
             SmartDashboard.putBoolean("READY TO FIRE", atVel);
 
     }
-    public double getsetpower(){
-        return SmartDashboard.getNumber("Shooter RPM", 0);
+    public double getsetpower1(){
+        return motor1PIDContoller.getSetpoint();
+    }
+    public double getsetpower2(){
+        return motor2PIDContoller.getSetpoint();
+    }
+    public double getsetpower3(){
+        return motor3PIDContoller.getSetpoint();
     }
 
     public void setVelocityMotor1(double dV) {
-        motor1PIDContoller.setSetpoint(dV-625);
+        motor1PIDContoller.setSetpoint(dV-900);//800
 
 //        double error = dV-pmotor1encoder.getRate();
 //        double pValue = error*Constants.PShooterKp;
@@ -134,13 +145,13 @@ public class PrototypeShooter extends SubsystemBase {
         //double error = dV-pmotor2encoder.getRate();
         //pmotor2.set(ControlMode.PercentOutput,error*Constants.PShooterKp+dV*Constants.PShooterKf);
 
-        motor2PIDContoller.setSetpoint(dV-625);
+        motor2PIDContoller.setSetpoint(dV-900);//800
     }
     public void setVelocityMotor3(double dV){
         //double error = dV-pmotor3encoder.getRate();
         //pmotor3.set(ControlMode.PercentOutput,error*Constants.PShooterKp+dV*Constants.PShooterKf);
 
-        motor3PIDContoller.setSetpoint(dV+450);
+        motor3PIDContoller.setSetpoint(dV+650);
     }
     public void setVelocityMShootoer(double dV){
         setVelocityMotor1(dV);

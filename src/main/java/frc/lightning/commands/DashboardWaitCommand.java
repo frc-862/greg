@@ -20,8 +20,7 @@ public class DashboardWaitCommand extends CommandBase {
    * Creates a new DashboardWaitCommand.
    */
   public DashboardWaitCommand() {
-    // SmartDashboard.putNumber("AutoWaitSeconds", time); // time??
-    // SmartDashboard.getEntry("AutoWaitSeconds");
+    // SmartDashboard.putNumber("AutoWaitSeconds", time);
     // time = SmartDashboard.getNumber("AutoWaitSeconds", 0d);
   }
 

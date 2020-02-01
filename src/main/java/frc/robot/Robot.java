@@ -9,8 +9,11 @@ package frc.robot;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Set;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -30,9 +33,19 @@ public class Robot extends LightningRobot {
     @Override
     public void robotInit() {
         super.robotInit();
-        for (var command : getContainer().getAutonomousCommands()) {
-            registerAutonomousCommmand(command);
+
+        Set<String> names = getContainer().getAutonomousCommands().keySet();
+        for(var name : names) {
+            registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
+            System.out.println("Registered " + name + " command for auton");
         }
+        // Set<Command> commands = getContainer().getAutonomousCommands().entrySet();
+
+        // for(int i = 0 ; i < getContainer().getAutonomousCommands().size() ; i++) {}
+            
+        // for (var command : getContainer().getAutonomousCommands().) {
+        //     registerAutonomousCommmand(command);
+        // }
     }
 
     @Override
@@ -50,24 +63,24 @@ public class Robot extends LightningRobot {
     private static LightningContainer getRobot() {
         if (isNebula()) {
             System.out.println("Initializing Nebula");
-            SmartDashboard.putString("Robot: ", "Nebula");
+            SmartDashboard.putString("Robot: ", "My Name is Nebula");
             return new NebulaContainer();
         }
 
         if (isTwiki()) {
             System.out.println("Initializing Twiki");
-            SmartDashboard.putString("Robot: ", "Twiki");
+            SmartDashboard.putString("Robot: ", "My Name is Twiki");
             return new TwikiContainer();
         }
 
         if (isQuasar()) {
             System.out.println("Initializing Quasar");
-            SmartDashboard.putString("Robot: ", "Quasar");
+            SmartDashboard.putString("Robot: ", "My Name is Quasar");
             return new QuasarContainer();
         }
 
         System.out.println("Initializing Greg");
-        SmartDashboard.putString("Robot: ", "Greg");
+        SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
         return new GregContainer(0);
     }
 

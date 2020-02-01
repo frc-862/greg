@@ -4,9 +4,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lightning.commands.DashboardWaitCommand;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.testing.SystemTest;
 import frc.lightning.testing.SystemTestCommand;
@@ -42,7 +45,10 @@ public class LightningRobot extends TimedRobot {
 
     Command autonomousCommand;
 
+    SendableChooser<Command> chooser; // = new SendableChooser<>();
+
     public LightningRobot(LightningContainer container) {
+        chooser = new SendableChooser<>();
         this.container = container;
     }
 
@@ -54,8 +60,6 @@ public class LightningRobot extends TimedRobot {
     public void disabledPeriodic() {
         // do nothing
     }
-
-    SendableChooser<Command> chooser = new SendableChooser<>();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -200,7 +204,14 @@ public class LightningRobot extends TimedRobot {
     @Override
     public void autonomousInit() {
         // LightningServer.stop_server();
-        autonomousCommand = chooser.getSelected();//changed
+
+        autonomousCommand = new DashboardWaitCommand() {
+            @Override
+            public void end(boolean interrupted) {
+                super.end(interrupted);
+                chooser.getSelected().schedule();
+            }
+        };
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {

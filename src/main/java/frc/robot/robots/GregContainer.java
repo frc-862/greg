@@ -7,6 +7,8 @@
 
 package frc.robot.robots;
 
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -99,9 +101,9 @@ public class GregContainer extends LightningContainer {
     }
 
     @Override
-    public Command[] getAutonomousCommands() {
+    public HashMap<String, Command> getAutonomousCommands() {
         Command[] result = {  };
-        return result;
+        return null; // result;
     }
 
     public static int getPowerCellCapacity() {

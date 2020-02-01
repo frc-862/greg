@@ -1235,9 +1235,9 @@
               1
             ],
             "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/PathChooser",
-              "_title": "/SmartDashboard/PathChooser"
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/AutoWaitSeconds",
+              "_title": "SmartDashboard/AutoWaitSeconds"
             }
           }
         }
@@ -1622,9 +1622,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -7.0,
-    "y": 35.0,
-    "width": 1932.0,
-    "height": 1052.0
+    "x": -8.0,
+    "y": 22.0,
+    "width": 1936.0,
+    "height": 1066.0
   }
 }

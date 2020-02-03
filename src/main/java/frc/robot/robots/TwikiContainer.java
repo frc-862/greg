@@ -43,7 +43,7 @@ public class TwikiContainer extends LightningContainer {
     // private final LED led = new LED();
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
-  private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
+//  private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -72,11 +72,9 @@ public class TwikiContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
-        SmartDashboard.putData("Followup", new InstantCommand(() -> drivetrain.followup(), drivetrain));
         SmartDashboard.putData("Left Crawl", new RunCommand(() -> drivetrain.crawlLeft(), drivetrain));
         SmartDashboard.putData("Right Crawl", new RunCommand(() -> drivetrain.crawlRight(), drivetrain));
         SmartDashboard.putData("Stop", new InstantCommand(() -> drivetrain.stop(), drivetrain));
-        SmartDashboard.putData("Unfollow", new InstantCommand(() -> drivetrain.unfollow(), drivetrain));
     }
 
     /**

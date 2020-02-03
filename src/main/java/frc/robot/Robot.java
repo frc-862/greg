@@ -34,10 +34,12 @@ public class Robot extends LightningRobot {
     public void robotInit() {
         super.robotInit();
 
-        Set<String> names = getContainer().getAutonomousCommands().keySet();
-        for(var name : names) {
-            registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
-            System.out.println("Registered " + name + " command for auton");
+        if (getContainer() != null && getContainer().getAutonomousCommands() != null) {
+            Set<String> names = getContainer().getAutonomousCommands().keySet();
+            for (var name : names) {
+                registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
+                System.out.println("Registered " + name + " command for auton");
+            }
         }
         // Set<Command> commands = getContainer().getAutonomousCommands().entrySet();
 

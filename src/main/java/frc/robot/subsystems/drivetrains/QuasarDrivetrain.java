@@ -7,28 +7,30 @@
 
 package frc.robot.subsystems.drivetrains;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.subsystems.NeoDrivetrain;
+import frc.lightning.subsystems.PigeonSubsystem;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
 
 public class QuasarDrivetrain extends NeoDrivetrain {
+    PigeonSubsystem bird = new PigeonSubsystem(RobotMap.PIGEON_ID);
 
     /**
      * Creates a new QuasarDrivetrain.
      */
     public QuasarDrivetrain() {
         super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR.getTrackWidth(), Constants.QUASAR);
-        initMotorDirections();
+        setIMU(bird);
 
         setLeftGains(Constants.quasarLeftGains);
         setRightGains(Constants.quasarRightGains);
 
         REVGains.putGainsToBeTunedOnDash((getName() + "_RIGHT"), Constants.quasarRightGains);
         REVGains.putGainsToBeTunedOnDash((getName() + "_LEFT"), Constants.quasarLeftGains);
-
     }
 
     public void init() {

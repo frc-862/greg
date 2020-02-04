@@ -70,7 +70,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private RamseteGains gains;
 
-    private PigeonIMU bird;
+    // private PigeonIMU bird;
 
     private double[] ypr = new double[3];
 
@@ -105,8 +105,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         navx = new AHRS(Port.kMXP);
 
-        bird = new PigeonIMU(RobotMap.PIGEON_ID);
-        bird.configFactoryDefault();
+        // bird = new PigeonIMU(RobotMap.PIGEON_ID);
+        // bird.configFactoryDefault();
 
         kinematics = new DifferentialDriveKinematics(trackWidth);
 
@@ -145,7 +145,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         super.periodic();
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
-        bird.getYawPitchRoll(ypr);
+        // bird.getYawPitchRoll(ypr);
 
         SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
         SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
@@ -187,8 +187,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public Rotation2d getHeading() { 
-        return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
-        // return Rotation2d.fromDegrees(-navx.getAngle()); 
+        // return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
+        return Rotation2d.fromDegrees(-navx.getAngle()); 
     }
 
     @Override
@@ -217,7 +217,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private void resetHeading() {
         navx.reset();
-        bird.setYaw(0d);
+        // bird.setYaw(0d);
     }
 
     public void setLeftGains(REVGains gains) {

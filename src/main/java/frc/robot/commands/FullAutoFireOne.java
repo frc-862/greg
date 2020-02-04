@@ -27,7 +27,7 @@ public class FullAutoFireOne extends SequentialCommandGroup {
         addCommands(
             new WaitForVision(vision),
             new ParallelCommandGroup(
-                new VisionRotate(drivetrain, vision),
+                new VisionRotate(drivetrain,vision),
                 new VisionShooterAngle(shooterAngle, vision),
                 new SpinUpFlywheelVelocity(shooter, vision.getBestShooterVelocity())
             ),

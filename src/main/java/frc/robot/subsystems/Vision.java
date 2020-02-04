@@ -7,19 +7,37 @@
 
 package frc.robot.subsystems;
 
+//import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lightning.util.LightningMath;
+import frc.robot.subsystems.LED;
 
 public class Vision extends SubsystemBase {
+    double XValue=0;
+    double YValue=0;
+    double Found =0;
+    private final LED led = new LED();
     /**
      * Creates a new Vision.
      */
     public Vision() {
-
+        CommandScheduler.getInstance().registerSubsystem(this);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+
+        XValue = SmartDashboard.getNumber("VisionX",0);
+        YValue = SmartDashboard.getNumber("VisionY",0);
+        Found = SmartDashboard.getNumber("VisionFound",0);
+        SmartDashboard.putNumber("X value",XValue);
+        SmartDashboard.putNumber("found",Found);
+        if(seePortTarget()){
+            led.goYellow();
+        }else {led.goOrangeAndBlue();}
     }
 
     public double getDistanceFromTarget() {
@@ -27,11 +45,17 @@ public class Vision extends SubsystemBase {
     }
 
     public double getOffsetAngle() {
-        return 0d;
+        return XValue;
     }
 
+
+
     public boolean seePortTarget() {
-        return false;
+         if(Found>0){
+             return true;
+         }else {
+             return false;
+         }
     }
 
     public static double getTargetFlywheelSpeed() {

@@ -26,6 +26,8 @@ import frc.robot.JoystickConstants;
 import frc.robot.auton.*;
 import frc.robot.auton.PathGenerator.Paths;
 import frc.robot.Robot;
+import frc.robot.commands.CollectEject;
+import frc.robot.commands.PrototypeCollectEject;
 import frc.robot.commands.drivetrain.VoltDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
@@ -34,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.IMU;
+import frc.robot.subsystems.PrototypeCollector;
 import frc.robot.subsystems.drivetrains.*;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
 import frc.robot.systemtests.drivetrain.MoveMasters;
@@ -63,6 +66,8 @@ public class QuasarContainer extends LightningContainer {
 
   private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain /*, null, null, null*/ );
 
+  private final PrototypeCollector collector = new PrototypeCollector();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -74,6 +79,8 @@ public class QuasarContainer extends LightningContainer {
 
     drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
         () -> -driver.getY(GenericHID.Hand.kRight)));
+    
+    collector.setDefaultCommand(new PrototypeCollectEject(collector, () -> driver.getTriggerAxis(GenericHID.Hand.kRight), () -> driver.getTriggerAxis(GenericHID.Hand.kLeft)));
 
   }
 

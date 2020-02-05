@@ -16,66 +16,77 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * Add your docs here.
  */
 public class LEDs extends SubsystemBase{
-    private final int ledCount = 150;
+    private final int ledCount = 256;
     private final AddressableLED led;
-    //private final AddressableLEDSim ledSim;
     private final AddressableLEDBuffer buffer;
+    
     public LEDs() {
         led = new AddressableLED(0);
-        //ledSim = new AddressableLEDSim(0);
         led.setLength(ledCount);
         buffer= new AddressableLEDBuffer(ledCount);
+
+        clearBuffer();
         led.setData(buffer);
         led.start();
     }
 
-    //int r = 0; //red value
     int pos = 0;
     int hue = 0;
-    
+    public boolean toggle = false;
 
-    public void cycle() {
-        led.start();
-        //buffer.setRGB(0, 255, 255, 255);
-        //buffer.setRGB(1, 255, 0, 0);
-        //if(RobotContainer.m_driverController.getAButtonPressed()) {RobotContainer.up = true;}
-        //else if (RobotContainer.m_driverController.getBButtonPressed()) {RobotContainer.up = false;}
-        //if(RobotContainer.up){
-            //for (int i = 0; i < ledCount; i++) {
-            //buffer.setHSV(i, i, 255, 255);
-            //}
-            //led.setData(buffer);
-        //}
-        //if(!RobotContainer.up){
-            //for (int i = 0; i < ledCount; i++) {
-                //buffer.setHSV(i, 180-i, 255, 255);
-                //}
-        //}
-        buffer.setHSV(pos, hue, 255, 200);
+
+    public void setLED2Buffer() {
         led.setData(buffer);
+    }
+
+    public void updateBuffer(int r, int g, int b) {
+        for(var i = 0 ; i < ledCount ; ++i) buffer.setRGB(i, r, g, b);
+    }
+
+    public void clearBuffer() {
+        for (int i = 0; i < ledCount; i++) buffer.setLED(i, new Color(0, 0, 0));
+    }
+
+    public void red() {
+        for (int i = 0; i < ledCount; i++) buffer.setRGB(i, 50, 0, 0);
+    }
+
+    public void green() {
+        for (int i = 0; i < ledCount; i++) buffer.setRGB(i, 0, 50, 0);
+    }
+
+    public void blue() {
+        for (int i = 0; i < ledCount; i++) buffer.setRGB(i, 0, 0, 50);
+    }
+
+    public void Toggle(){
+        if (toggle){
+            toggle = false;
+        }
+        else {
+            toggle = true;
+        }
+    }
+
+    public void rainbow() {
+        //this function relies on the fact that it is being called constantly
+        buffer.setHSV(pos, hue, 255, 50);
 
         hue = (hue + 1) % 255;
         pos = (pos + 1) % ledCount;
-        //System.out.println(RobotContainer.up);
-        System.out.println("Cycle has been run.");
-        //buffer.setRGB(100, 0, 0, 255);
-        led.setData(buffer);
-        //r = (r + 1) % 255;
-        //SmartDashboard.putNumber("pos", pos);
-        //SmartDashboard.putRaw("data", ledSim.getData());
-        //pos = (pos + 1) % ledCount;
-        
+        if (pos == 0) {
+            updateBuffer(0, 0, 0);
+            setLED2Buffer();
+        }
 
+        
     }
-    public void end(){
-        pos = 0;
+    public void stop(){
         for (int i = 0; i < ledCount; i++){
             buffer.setLED(i, new Color(0,0,0));
-            //led.setData(buffer);
-            //System.out.println(i);
         }
+        pos = 0;
+        hue = 0;
         led.setData(buffer);
-        System.out.println("The end has begun.");
-        led.stop();
     }
 }

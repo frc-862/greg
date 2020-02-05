@@ -24,19 +24,33 @@ public class RunLeds extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    LEDs.clearBuffer();
+    LEDs.setLED2Buffer();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    LEDs.cycle();
+    //System.out.println(toggle);
+    if (LEDs.toggle){
+      //LEDs.rainbow();
+      //LEDs.updateBuffer(0, 50, 0);
+      LEDs.green();
+      LEDs.setLED2Buffer();
+    }
+    else {
+      LEDs.updateBuffer(0, 0, 0);
+      LEDs.setLED2Buffer();
+    }
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    LEDs.end();
+    LEDs.stop();
+    //LEDs.clearBuffer();
+    //LEDs.setLED2Buffer();
   }
 
   // Returns true when the command should end.

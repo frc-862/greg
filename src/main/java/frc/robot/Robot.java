@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
 import frc.lightning.subsystems.LightningDrivetrain;
+import frc.robot.robots.EddieContainer;
 import frc.robot.robots.GregContainer;
 import frc.robot.robots.NebulaContainer;
 import frc.robot.robots.QuasarContainer;
@@ -66,6 +67,12 @@ public class Robot extends LightningRobot {
             return new QuasarContainer();
         }
 
+        if (isEddie()) {
+            System.out.println("Initializing Eddie");
+            SmartDashboard.putString("Robot: ", "Eddie");
+            return new EddieContainer();
+        }
+
         System.out.println("Initializing Greg");
         SmartDashboard.putString("Robot: ", "Greg");
         return new GregContainer(0);
@@ -81,6 +88,10 @@ public class Robot extends LightningRobot {
 
     private static boolean isQuasar() {
         return Files.exists(Paths.get("/home/lvuser/quasar"));
+    }
+
+    private static boolean isEddie() {
+        return Files.exists(Paths.get("/home/lvuser/eddie"));
     }
 
     private static boolean isGreg() {

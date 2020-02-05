@@ -17,21 +17,20 @@ import frc.lightning.util.FaultCode;
  */
 public abstract class AbstractInteractiveSystemsTest extends SystemTest {
 
-    BooleanSupplier verify = () -> isVerified();
-    
-    private boolean isVerified = false;
+    private static Verify verify = new Verify();
 
+    static { 
+        SmartDashboard.putData("Verify Systems Test", verify);
+    }
+    
     private String msg = "";
 
-    public AbstractInteractiveSystemsTest(FaultCode.Codes code, BooleanSupplier verify, String msg) {
-        super(code, Priority.DONT_CARE);
-        this.verify = verify;
-        this.msg = msg;
+    public AbstractInteractiveSystemsTest(FaultCode.Codes code, String msg) {
+        this(code, Priority.DONT_CARE, msg);
     }
 
-    public AbstractInteractiveSystemsTest(FaultCode.Codes code, Priority priority, BooleanSupplier verify, String msg) {
+    public AbstractInteractiveSystemsTest(FaultCode.Codes code, Priority priority, String msg) {
         super(code, priority);
-        this.verify = verify;
         this.msg = msg;
     }
 
@@ -42,14 +41,19 @@ public abstract class AbstractInteractiveSystemsTest extends SystemTest {
     }
 
     @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        verify.reset();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return verify.isVerified();
+    }
+
+    @Override
     public boolean didPass() {
-        return verify.getAsBoolean();
+        return false; // verify.isVerified();
     }
-
-    public void verify() {
-        isVerified = true;
-    }
-
-    public boolean isVerified() { return isVerified; }
 
 }

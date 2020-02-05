@@ -10,6 +10,16 @@ public class InterpolatedMap extends TreeMap<Double, Double> {
         super();
     }
 
+    public InterpolatedMap(double... doubles) {
+        if (doubles.length % 2 != 0) {
+            System.err.println("InterpolatedMap constructor should always have an evan number of entries, last value ignored");
+        }
+
+        for (int i = 1; i < doubles.length; i += 2) {
+            this.put(doubles[i-1], doubles[i]);
+        }
+    }
+
     public InterpolatedMap(Double[] doubles) {
         if (doubles.length % 2 != 0) {
             System.err.println("InterpolatedMap constructor should always have an evan number of entries, last value ignored");

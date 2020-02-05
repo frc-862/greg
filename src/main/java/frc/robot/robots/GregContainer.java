@@ -10,6 +10,7 @@ package frc.robot.robots;
 import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
@@ -55,7 +56,9 @@ public class GregContainer extends LightningContainer {
     private final CtrlPanelOperator jeopardyWheel = new CtrlPanelOperator();
 
 
-    private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+    // private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
+    private final Joystick driverLeft =new Joystick(0);
+    private final Joystick driverRight =new Joystick(1);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
     /**
@@ -70,8 +73,8 @@ public class GregContainer extends LightningContainer {
         initializeDashboardCommands();
 
         drivetrain.setDefaultCommand(new TankDrive(drivetrain,
-                                     () -> -driver.getY(GenericHID.Hand.kLeft),
-                                     () -> -driver.getY(GenericHID.Hand.kRight)
+                                     () -> -driverLeft.getY(),
+                                     () -> -driverRight.getY()
                                                   ));
 
 //    JoystickButton exampleButton = new JoystickButton(driver, 1);
@@ -79,15 +82,15 @@ public class GregContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
-        SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
-                               () -> -driver.getY(GenericHID.Hand.kLeft),
-                               () -> -driver.getY(GenericHID.Hand.kRight)
-                                                        ));
-
-        SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
-                               () -> -driver.getY(GenericHID.Hand.kLeft),
-                               () -> -driver.getY(GenericHID.Hand.kRight)
-                                                                  ));
+//        SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain,
+//                               () -> -driver.getY(GenericHID.Hand.kLeft),
+//                               () -> -driver.getY(GenericHID.Hand.kRight)
+//                                                        ));
+//
+//        SmartDashboard.putData("ClosedLoop", new VelocityTankDrive(drivetrain,
+//                               () -> -driver.getY(GenericHID.Hand.kLeft),
+//                               () -> -driver.getY(GenericHID.Hand.kRight)
+//                                                                  ));
     }
 
     /**

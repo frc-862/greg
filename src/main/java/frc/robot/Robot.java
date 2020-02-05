@@ -42,7 +42,7 @@ public class Robot extends LightningRobot {
         // Set<Command> commands = getContainer().getAutonomousCommands().entrySet();
 
         // for(int i = 0 ; i < getContainer().getAutonomousCommands().size() ; i++) {}
-            
+
         // for (var command : getContainer().getAutonomousCommands().) {
         //     registerAutonomousCommmand(command);
         // }
@@ -78,10 +78,12 @@ public class Robot extends LightningRobot {
             SmartDashboard.putString("Robot: ", "My Name is Quasar");
             return new QuasarContainer();
         }
+        else {
 
-        System.out.println("Initializing Greg");
-        SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
-        return new GregContainer(0);
+            System.out.println("Initializing Greg");
+            SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
+            return new GregContainer(0);
+        }
     }
 
     private static boolean isNebula() {

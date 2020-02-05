@@ -138,6 +138,16 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
+        DataLogger.addDataElement("PoseRotationDeg", () -> pose.getRotation().getDegrees());
+        DataLogger.addDataElement("PoseTransY", () -> pose.getTranslation().getY());
+        DataLogger.addDataElement("PoseTransX", () -> pose.getTranslation().getX());
+        DataLogger.addDataElement("PoseTransNorm", () -> pose.getTranslation().getNorm());
+        DataLogger.addDataElement("Heading", () -> getHeading().getDegrees());
+        DataLogger.addDataElement("RightWheelSpeed", () -> getSpeeds().rightMetersPerSecond);
+        DataLogger.addDataElement("LeftWheelSpeed", () -> getSpeeds().leftMetersPerSecond);
+        DataLogger.addDataElement("LeftRotations", () -> leftEncoder.getPosition());
+        DataLogger.addDataElement("RightRotations", () -> rightEncoder.getPosition());
+
     }
 
     @Override
@@ -187,8 +197,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public Rotation2d getHeading() { 
-        return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
-        // return Rotation2d.fromDegrees(-navx.getAngle()); 
+        // return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
+        return Rotation2d.fromDegrees(-navx.getAngle()); 
     }
 
     @Override

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.util.Color;
@@ -24,7 +25,8 @@ public class LED extends SubsystemBase {
         Off,
         Rainbow,
         Yellow,
-        Red
+        SolidGreen,
+        BlinkGreen
     };
 
 
@@ -66,8 +68,11 @@ public class LED extends SubsystemBase {
     public void goYellow() {
         mode = Mode.Yellow;
     }
-    public void goRed() {
-        mode = Mode.Red;
+    public void goBlinkGreen() {
+        mode = Mode.BlinkGreen;
+    }
+    public void SolidGreen() {
+        mode = Mode.BlinkGreen;
     }
 
     @Override
@@ -87,8 +92,14 @@ public class LED extends SubsystemBase {
             case Yellow:
                 withEachLed((b,i) -> b.setLED(i, Color.kYellow));
                 break;
-            case Red:
-                withEachLed((b,i) -> b.setLED(i, Color.kRed));
+            case SolidGreen:
+                withEachLed((b,i) -> b.setLED(i, Color.kGreen));
+                break;
+            case BlinkGreen:
+                if(Timer.getFPGATimestamp()%2==0)
+                {withEachLed((b, i) -> b.setLED(i, Color.kGreen));}else {
+                    withEachLed((b,i) -> b.setLED(i, Color.kBlack));
+                }
                 break;
         }
         //led.setData(buffer);

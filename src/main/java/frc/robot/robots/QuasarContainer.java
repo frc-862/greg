@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -26,6 +27,7 @@ import frc.robot.JoystickConstants;
 import frc.robot.auton.*;
 import frc.robot.auton.PathGenerator.Paths;
 import frc.robot.Robot;
+import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
@@ -34,6 +36,8 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.IMU;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrains.*;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
 import frc.robot.systemtests.drivetrain.MoveMasters;
@@ -57,7 +61,8 @@ public class QuasarContainer extends LightningContainer {
   private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-
+  private final Vision vision = new Vision();
+  private final LED led = new LED();
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
@@ -78,6 +83,9 @@ public class QuasarContainer extends LightningContainer {
   }
 
   private void initializeDashboardCommands() {
+    SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain,vision));
+    SmartDashboard.putData("go blue", new InstantCommand(() -> led.goOrangeAndBlue(), led));
+    SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
   }
 
   private void configureSystemTests() {

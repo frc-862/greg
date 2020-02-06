@@ -56,6 +56,7 @@ public class GregDrivetrain extends NeoDrivetrain {
 
         withEachSlaveMotor((s,m) -> s.follow(m));
         withEachSlaveMotorIndexed((m,i) -> m.setInverted(i == 1));
+
     }
 
     @Override

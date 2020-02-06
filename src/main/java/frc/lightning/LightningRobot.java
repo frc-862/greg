@@ -18,7 +18,10 @@ import frc.lightning.util.FaultMonitor;
 import frc.lightning.util.TimedFaultMonitor;
 import frc.lightning.util.FaultCode.Codes;
 import frc.robot.Constants;
+
+import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Base robot class, provides
@@ -71,6 +74,20 @@ public class LightningRobot extends TimedRobot {
     public void robotInit() {
         System.out.println("LightningRobot.robotInit");
         System.out.println("Starting time:" + Timer.getFPGATimestamp());
+        try
+        {
+            Properties props = new Properties();
+            props.load(ClassLoader.getSystemResourceAsStream("version.properties"));
+            System.out.println("Version: " + props.getProperty("VERSION_NAME", "n/a"));
+            System.out.println("Build: " + props.getProperty("VERSION_BUILD", "n/a"));
+            System.out.println("Built at: " + props.getProperty("BUILD_TIME", "n/a"));
+            System.out.println("Git branch: " + props.getProperty("GIT_BRANCH", "n/a"));
+            System.out.println("Git hash: " + props.getProperty("GIT_HASH", "n/a"));
+            System.out.println("Git status: " + props.getProperty("BUILD_STATUS", "n/a"));
+        } catch (IOException e)
+        {
+            System.out.println("Unable to read build version information.");
+        }
 
         SmartDashboard.putData("Auto Mode", chooser);
 

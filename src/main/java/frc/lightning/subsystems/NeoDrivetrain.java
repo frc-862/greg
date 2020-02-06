@@ -287,6 +287,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     }
 
     public void setPower(double left, double right) {
+        //System.out.println("Setpower " + left + "," + right);
         rightMaster.set(right);
         leftMaster.set(left);
     }

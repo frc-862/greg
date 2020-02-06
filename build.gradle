@@ -35,25 +35,10 @@ deploy {
             directory = '/home/lvuser/deploy'
         }
     }
-
-    def versionPropsFile = file('src/main/deploy/version.properties')
-    def versionBuild
-
-    if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
-        versionProps.load(new FileInputStream(versionPropsFile))
-        versionBuild = versionProps['VERSION_BUILD'].toInteger()
-    } else {
-        throw new FileNotFoundException("Could not read version.properties!")
-    }
-
-    ext.autoIncrementBuildNumber = {
-      throw new FileNotFoundException("BOOM")
-    }
 }
 
 tasks.register("update_version") {
-  def versionPropsFile = file('src/main/deploy/version.properties')
+  def versionPropsFile = file('src/main/resources/version.properties')
   def versionBuild
   def gitHash
 
@@ -104,7 +89,7 @@ tasks.register("update_version") {
   }
 }
 
-tasks.named("deploy") { 
+tasks.named("deploy") {
   dependsOn("update_version")
 }
 

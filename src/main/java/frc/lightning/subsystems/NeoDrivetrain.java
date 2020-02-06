@@ -138,16 +138,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
-        DataLogger.addDataElement("PoseRotationDeg", () -> pose.getRotation().getDegrees());
-        DataLogger.addDataElement("PoseTransY", () -> pose.getTranslation().getY());
-        DataLogger.addDataElement("PoseTransX", () -> pose.getTranslation().getX());
-        DataLogger.addDataElement("PoseTransNorm", () -> pose.getTranslation().getNorm());
-        DataLogger.addDataElement("Heading", () -> getHeading().getDegrees());
-        DataLogger.addDataElement("RightWheelSpeed", () -> getSpeeds().rightMetersPerSecond);
-        DataLogger.addDataElement("LeftWheelSpeed", () -> getSpeeds().leftMetersPerSecond);
-        DataLogger.addDataElement("LeftRotations", () -> leftEncoder.getPosition());
-        DataLogger.addDataElement("RightRotations", () -> rightEncoder.getPosition());
-
     }
 
     @Override
@@ -156,18 +146,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
         bird.getYawPitchRoll(ypr);
-
-        SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
-        SmartDashboard.putNumber("PoseTransX", pose.getTranslation().getX());
-        SmartDashboard.putNumber("PoseTransNorm", pose.getTranslation().getNorm());
-
-        SmartDashboard.putNumber("Heading", getHeading().getDegrees());
-        SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
-        SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
-
-        SmartDashboard.putNumber("LeftRotations", leftEncoder.getPosition());
-        SmartDashboard.putNumber("RightRotations", rightEncoder.getPosition());
 
     }
 

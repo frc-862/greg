@@ -21,7 +21,7 @@ public class LEDs extends SubsystemBase{
     private final AddressableLEDBuffer buffer;
     
     public LEDs() {
-        led = new AddressableLED(0);
+        led = new AddressableLED(9);
         led.setLength(ledCount);
         buffer= new AddressableLEDBuffer(ledCount);
 
@@ -63,7 +63,7 @@ public class LEDs extends SubsystemBase{
         if (toggle){
             toggle = false;
         }
-        else {
+        else { 
             toggle = true;
         }
     }
@@ -72,11 +72,10 @@ public class LEDs extends SubsystemBase{
         //this function relies on the fact that it is being called constantly
         buffer.setHSV(pos, hue, 255, 50);
 
-        hue = (hue + 1) % 255;
+        hue = (hue + 2) % 255;
         pos = (pos + 1) % ledCount;
-        if (pos == 0) {
-            updateBuffer(0, 0, 0);
-            setLED2Buffer();
+        if (pos == ledCount) {
+            stop();
         }
 
         

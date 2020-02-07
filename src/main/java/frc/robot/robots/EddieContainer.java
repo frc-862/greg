@@ -44,7 +44,7 @@ public class EddieContainer extends LightningContainer {
 
     private static int powerCellCapacity = 0;
 
-    private final LEDs Leds = new LEDs();
+    private static final LEDs Leds = new LEDs();
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();
@@ -67,7 +67,7 @@ public class EddieContainer extends LightningContainer {
      */
     //public EddieContainer(int startingPowerCellCapacity) {
 
-    private final LightningDrivetrain drivetrain = new EddieDrivetrain();
+    private static final LightningDrivetrain drivetrain = new EddieDrivetrain();
     
     public EddieContainer() {
         //powerCellCapacity = startingPowerCellCapacity;
@@ -117,8 +117,7 @@ public class EddieContainer extends LightningContainer {
 
     @Override
     public LightningDrivetrain getDrivetrain() {
-        // TODO Auto-generated method stub
-        return null;
+        return drivetrain;
     }
 
   //@Override

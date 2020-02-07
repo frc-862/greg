@@ -11,12 +11,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
-import frc.robot.Constants;
-import frc.robot.RobotMap;
-import frc.robot.misc.REVGains;
 import frc.lightning.subsystems.LightningDrivetrain;
 
 public class EddieDrivetrain implements LightningDrivetrain {

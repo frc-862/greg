@@ -33,9 +33,9 @@ public class RunLeds extends CommandBase {
   public void execute() {
     //System.out.println(toggle);
     if (LEDs.toggle){
-      //LEDs.rainbow();
+      LEDs.rainbow();
       //LEDs.updateBuffer(0, 50, 0);
-      LEDs.green();
+      //LEDs.green();
       LEDs.setLED2Buffer();
     }
     else {

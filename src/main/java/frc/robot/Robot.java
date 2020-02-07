@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
-import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.robots.EddieContainer;
 import frc.robot.robots.GregContainer;
 import frc.robot.robots.NebulaContainer;

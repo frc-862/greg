@@ -42,6 +42,24 @@ public class RunLeds extends CommandBase {
       LEDs.updateBuffer(0, 0, 0);
       LEDs.setLED2Buffer();
     }
+
+    //LEDs.rainbow();
+      //LEDs.updateBuffer(0, 50, 0);
+      //EddieContainer.Leds.green();
+      //EddieContainer.Leds.setLED2Buffer();
+      //EddieContainer.Leds.setFour();
+      //EddieContainer.Leds.setThree();
+      if(LEDs.toggleA){LEDs.setA(); }
+      else if(!LEDs.toggleA){LEDs.clearA();}
+
+      if(LEDs.toggleB){LEDs.setB(); }
+      else if(!LEDs.toggleB){LEDs.clearB();}
+
+      if(LEDs.toggleC){LEDs.setC();}
+      else if(!LEDs.toggleC){LEDs.clearC();}
+
+      if(LEDs.toggleD){LEDs.setD();}
+      else if(!LEDs.toggleD){LEDs.clearD();}
   }
 
 

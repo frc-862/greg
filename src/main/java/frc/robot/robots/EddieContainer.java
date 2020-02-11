@@ -91,8 +91,14 @@ public class EddieContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(1), Leds));
+        (new JoystickButton(driver, Button.kB.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(2), Leds));
+        (new JoystickButton(driver, Button.kY.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(3), Leds));
+        (new JoystickButton(driver, Button.kX.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(4), Leds));
         (new JoystickButton(driver, Button.kA.value)).whenReleased(new RunLeds(Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new InstantCommand(() -> Leds.Toggle(), Leds));
+        (new JoystickButton(driver, Button.kB.value)).whenPressed(new RunLeds(Leds));
+        (new JoystickButton(driver, Button.kY.value)).whenPressed(new RunLeds(Leds));
+        (new JoystickButton(driver, Button.kX.value)).whenPressed(new RunLeds(Leds));
     }
 
     @Override

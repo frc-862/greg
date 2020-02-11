@@ -36,6 +36,9 @@ public class LEDMatrixMap {
     public static HashMap<Integer, Integer[]> mapCreeperDarkGreen = new HashMap<>();
     public static HashMap<Integer, Integer[]> mapLightningGregOrange = new HashMap<>();
     public static HashMap<Integer, Integer[]> mapLightningGregWhite = new HashMap<>();
+    public static HashMap<Integer, Integer[]> mapExclamation = new HashMap<>();
+        
+    
     
     public void setSquareMap(int sideLength){
         this.sideLength = sideLength;
@@ -43,26 +46,277 @@ public class LEDMatrixMap {
 
     public void setPreMap(){
         //A
-        
-        //E
-        mapE.put(0, new Integer[]{0,1,2,3,4,5});
-        mapE.put(1, new Integer[]{0});
-        mapE.put(2, new Integer[]{0,1,2,3,4});
-        mapE.put(3, new Integer[]{0});
-        mapE.put(4, new Integer[]{0,1,2,3,4,5});
-        //G
-        mapG.put(0, new Integer[]{0,1,2,3,4});
-        mapG.put(1, new Integer[]{0});
-        mapG.put(2, new Integer[]{0,3,4});
-        mapG.put(3, new Integer[]{0,4});
-        mapG.put(4, new Integer[]{0,1,2,3,4});
+        mapA.put(0, new Integer[]{2});
+        mapA.put(1, new Integer[]{1, 3});
+        mapA.put(2, new Integer[]{0, 4});
+        mapA.put(3, new Integer[]{0, 4});
+        mapA.put(4, new Integer[]{0, 1, 2, 3, 4});
+        mapA.put(5, new Integer[]{0, 4});
+        mapA.put(6, new Integer[]{0, 4});
+        mapA.put(7, new Integer[]{0, 4});
 
+        //B
+        mapB.put(0, new Integer[]{0, 1, 2, 3});
+        mapB.put(1, new Integer[]{0, 4});
+        mapB.put(2, new Integer[]{0, 4});
+        mapB.put(3, new Integer[]{0, 1, 2, 3});
+        mapB.put(4, new Integer[]{0, 4});
+        mapB.put(5, new Integer[]{0, 4});
+        mapB.put(6, new Integer[]{0, 4});
+        mapB.put(7, new Integer[]{0, 1, 2, 3});
+
+        //C
+        mapC.put(0, new Integer[]{0, 1, 2, 3, 4});
+        mapC.put(1, new Integer[]{0, 4});
+        mapC.put(2, new Integer[]{0});
+        mapC.put(3, new Integer[]{0});
+        mapC.put(4, new Integer[]{0});
+        mapC.put(5, new Integer[]{0});
+        mapC.put(6, new Integer[]{0, 4});
+        mapC.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //D
+        mapD.put(0, new Integer[]{0, 1, 2, 3});
+        mapD.put(1, new Integer[]{0, 3, 4});
+        mapD.put(2, new Integer[]{0, 4});
+        mapD.put(3, new Integer[]{0, 4});
+        mapD.put(4, new Integer[]{0, 4});
+        mapD.put(5, new Integer[]{0, 4});
+        mapD.put(6, new Integer[]{0, 3, 4});
+        mapD.put(7, new Integer[]{0, 1, 2, 3});
+
+        //E
+        mapE.put(0, new Integer[]{0, 1, 2, 3, 4});
+        mapE.put(1, new Integer[]{0});
+        mapE.put(2, new Integer[]{0});
+        mapE.put(3, new Integer[]{0, 1, 2, 3});
+        mapE.put(4, new Integer[]{0});
+        mapE.put(5, new Integer[]{0});
+        mapE.put(6, new Integer[]{0});
+        mapE.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //F
+        mapF.put(0, new Integer[]{0, 1, 2, 3, 4});
+        mapF.put(1, new Integer[]{0});
+        mapF.put(2, new Integer[]{0});
+        mapF.put(3, new Integer[]{0, 1, 2, 3});
+        mapF.put(4, new Integer[]{0});
+        mapF.put(5, new Integer[]{0});
+        mapF.put(6, new Integer[]{0});
+        mapF.put(7, new Integer[]{0});
+        
+        //G
+        mapG.put(0, new Integer[]{1, 2, 3});
+        mapG.put(1, new Integer[]{0, 1, 3, 4});
+        mapG.put(2, new Integer[]{0});
+        mapG.put(3, new Integer[]{0});
+        mapG.put(4, new Integer[]{0, 2, 3, 4});
+        mapG.put(5, new Integer[]{0, 4});
+        mapG.put(6, new Integer[]{0, 1, 3, 4});
+        mapG.put(7, new Integer[]{1, 2, 3});
+
+        //H
+        mapH.put(0, new Integer[]{0, 4});
+        mapH.put(1, new Integer[]{0, 4});
+        mapH.put(2, new Integer[]{0, 4});
+        mapH.put(3, new Integer[]{0, 1, 2, 3, 4});
+        mapH.put(4, new Integer[]{0, 4});
+        mapH.put(5, new Integer[]{0, 4});
+        mapH.put(6, new Integer[]{0, 4});
+        mapH.put(7, new Integer[]{0, 4});
+
+        
+
+        //I
+        mapI.put(0, new Integer[]{0, 1, 2, 3, 4});
+        mapI.put(1, new Integer[]{2});
+        mapI.put(2, new Integer[]{2});
+        mapI.put(3, new Integer[]{2});
+        mapI.put(4, new Integer[]{2});
+        mapI.put(5, new Integer[]{2});
+        mapI.put(6, new Integer[]{2});
+        mapI.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //J
+        mapJ.put(0, new Integer[]{4});
+        mapJ.put(1, new Integer[]{4});
+        mapJ.put(2, new Integer[]{4});
+        mapJ.put(3, new Integer[]{4});
+        mapJ.put(4, new Integer[]{4});
+        mapJ.put(5, new Integer[]{4});
+        mapJ.put(6, new Integer[]{0, 4});
+        mapJ.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //K
+        mapK.put(0, new Integer[]{0, 4});
+        mapK.put(1, new Integer[]{0, 3});
+        mapK.put(2, new Integer[]{0, 3});
+        mapK.put(3, new Integer[]{0, 1, 2});
+        mapK.put(4, new Integer[]{0, 3});
+        mapK.put(5, new Integer[]{0, 3});
+        mapK.put(6, new Integer[]{0, 4});
+        mapK.put(7, new Integer[]{0, 4});
+
+        //L
+        mapL.put(0, new Integer[]{0});
+        mapL.put(1, new Integer[]{0});
+        mapL.put(2, new Integer[]{0});
+        mapL.put(3, new Integer[]{0});
+        mapL.put(4, new Integer[]{0});
+        mapL.put(5, new Integer[]{0});
+        mapL.put(6, new Integer[]{0});
+        mapL.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //M
+        mapM.put(0, new Integer[]{0, 4});
+        mapM.put(1, new Integer[]{0, 1, 3, 4});
+        mapM.put(2, new Integer[]{0, 2, 4});
+        mapM.put(3, new Integer[]{0, 4});
+        mapM.put(4, new Integer[]{0, 4});
+        mapM.put(5, new Integer[]{0, 4});
+        mapM.put(6, new Integer[]{0, 4});
+        mapM.put(7, new Integer[]{0, 4});
+
+        //N
+        mapN.put(0, new Integer[]{0, 4});
+        mapN.put(1, new Integer[]{0, 1, 4});
+        mapN.put(2, new Integer[]{0, 1, 4});
+        mapN.put(3, new Integer[]{0, 2, 4});
+        mapN.put(4, new Integer[]{0, 2, 4});
+        mapN.put(5, new Integer[]{0, 3, 4});
+        mapN.put(6, new Integer[]{0, 3, 4});
+        mapN.put(7, new Integer[]{0, 4});
+
+        //O
+        mapO.put(0, new Integer[]{1, 2, 3});
+        mapO.put(1, new Integer[]{0, 1, 3, 4});
+        mapO.put(2, new Integer[]{0, 4});
+        mapO.put(3, new Integer[]{0, 4});
+        mapO.put(4, new Integer[]{0, 4});
+        mapO.put(5, new Integer[]{0, 4});
+        mapO.put(6, new Integer[]{0, 1, 3, 4});
+        mapO.put(7, new Integer[]{1, 2, 3});
+
+        //P
+        mapP.put(0, new Integer[]{0, 1, 2, 3});
+        mapP.put(1, new Integer[]{0, 4});
+        mapP.put(2, new Integer[]{0, 4});
+        mapP.put(3, new Integer[]{0, 1, 2, 3});
+        mapP.put(4, new Integer[]{0});
+        mapP.put(5, new Integer[]{0});
+        mapP.put(6, new Integer[]{0});
+        mapP.put(7, new Integer[]{0});
+
+        //Q
+        mapQ.put(0, new Integer[]{1, 2, 3});
+        mapQ.put(1, new Integer[]{0, 4});
+        mapQ.put(2, new Integer[]{0, 4});
+        mapQ.put(3, new Integer[]{0, 4});
+        mapQ.put(4, new Integer[]{0, 4});
+        mapQ.put(5, new Integer[]{0, 2, 4});
+        mapQ.put(6, new Integer[]{0, 3});
+        mapQ.put(7, new Integer[]{1, 2, 4});
+        
         //R
-        mapR.put(0, new Integer[]{0,1,2,3});
-        mapR.put(1, new Integer[]{0,4});
-        mapR.put(2, new Integer[]{0,1,2,3});
-        mapR.put(3, new Integer[]{0,4});
-        mapR.put(4, new Integer[]{0,4});
+        mapR.put(0, new Integer[]{0, 1, 2, 3});
+        mapR.put(1, new Integer[]{0, 4});
+        mapR.put(2, new Integer[]{0, 4});
+        mapR.put(3, new Integer[]{0, 1, 2, 3});
+        mapR.put(4, new Integer[]{0, 4});
+        mapR.put(5, new Integer[]{0, 4});
+        mapR.put(6, new Integer[]{0, 4});
+        mapR.put(7, new Integer[]{0, 4});
+
+        //S
+        mapS.put(0, new Integer[]{1, 2, 3, 4});
+        mapS.put(1, new Integer[]{0});
+        mapS.put(2, new Integer[]{0});
+        mapS.put(3, new Integer[]{1, 2, 3});
+        mapS.put(4, new Integer[]{4});
+        mapS.put(5, new Integer[]{4});
+        mapS.put(6, new Integer[]{4});
+        mapS.put(7, new Integer[]{0, 1, 2, 3});
+
+        //T
+        mapT.put(0, new Integer[]{0, 1, 2, 3, 4});
+        mapT.put(1, new Integer[]{2});
+        mapT.put(2, new Integer[]{2});
+        mapT.put(3, new Integer[]{2});
+        mapT.put(4, new Integer[]{2});
+        mapT.put(5, new Integer[]{2});
+        mapT.put(6, new Integer[]{2});
+        mapT.put(7, new Integer[]{2});
+
+        //U
+        mapU.put(0, new Integer[]{0, 4});
+        mapU.put(1, new Integer[]{0, 4});
+        mapU.put(2, new Integer[]{0, 4});
+        mapU.put(3, new Integer[]{0, 4});
+        mapU.put(4, new Integer[]{0, 4});
+        mapU.put(5, new Integer[]{0, 4});
+        mapU.put(6, new Integer[]{0, 4});
+        mapU.put(7, new Integer[]{1, 2, 3});
+
+        //V
+        mapV.put(0, new Integer[]{0, 4});
+        mapV.put(1, new Integer[]{0, 4});
+        mapV.put(2, new Integer[]{0, 4});
+        mapV.put(3, new Integer[]{0, 4});
+        mapV.put(4, new Integer[]{0, 4});
+        mapV.put(5, new Integer[]{1, 3});
+        mapV.put(6, new Integer[]{1, 3});
+        mapV.put(7, new Integer[]{2});
+
+        //W
+        mapW.put(0, new Integer[]{0, 4});
+        mapW.put(1, new Integer[]{0, 4});
+        mapW.put(2, new Integer[]{0, 4});
+        mapW.put(3, new Integer[]{0, 4});
+        mapW.put(4, new Integer[]{0, 2, 4});
+        mapW.put(5, new Integer[]{0, 1, 3, 4});
+        mapW.put(6, new Integer[]{0, 1, 3, 4});
+        mapW.put(7, new Integer[]{0, 4});
+
+        //X
+        mapX.put(0, new Integer[]{0, 4});
+        mapX.put(1, new Integer[]{1, 3});
+        mapX.put(2, new Integer[]{1, 3});
+        mapX.put(3, new Integer[]{2});
+        mapX.put(4, new Integer[]{1, 3});
+        mapX.put(5, new Integer[]{1, 3});
+        mapX.put(6, new Integer[]{0, 4});
+        mapX.put(7, new Integer[]{0, 4});
+
+        //Y
+        mapY.put(0, new Integer[]{0, 4});
+        mapY.put(1, new Integer[]{0, 4});
+        mapY.put(2, new Integer[]{0, 4});
+        mapY.put(3, new Integer[]{0, 1, 2, 3, 4});
+        mapY.put(4, new Integer[]{2});
+        mapY.put(5, new Integer[]{2});
+        mapY.put(6, new Integer[]{2});
+        mapY.put(7, new Integer[]{2});
+
+        //Z
+        mapZ.put(0, new Integer[]{0, 1, 2, 3, 4});
+        mapZ.put(1, new Integer[]{4});
+        mapZ.put(2, new Integer[]{3});
+        mapZ.put(3, new Integer[]{2});
+        mapZ.put(4, new Integer[]{1});
+        mapZ.put(5, new Integer[]{0});
+        mapZ.put(6, new Integer[]{0});
+        mapZ.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //!
+        mapExclamation.put(0, new Integer[]{2});
+        mapExclamation.put(1, new Integer[]{2});
+        mapExclamation.put(2, new Integer[]{2});
+        mapExclamation.put(3, new Integer[]{2});
+        mapExclamation.put(4, new Integer[]{2});
+        mapExclamation.put(5, new Integer[]{2});
+        mapExclamation.put(6, new Integer[]{});
+        mapExclamation.put(7, new Integer[]{2});
+
 
         //Map Creeper Green
         mapCreeperGreen.put(0, new Integer[]{2, 4, 5, 6, 7, 8});

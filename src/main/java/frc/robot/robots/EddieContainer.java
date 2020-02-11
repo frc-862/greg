@@ -7,6 +7,8 @@
 
 package frc.robot.robots;
 
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -102,9 +104,9 @@ public class EddieContainer extends LightningContainer {
     }
 
     @Override
-    public Command[] getAutonomousCommands() {
-        Command[] result = {  };
-        return result;
+    public HashMap<String, Command> getAutonomousCommands() {
+        Command[] empty = {};
+        return null;
     }
 
     public static int getPowerCellCapacity() {

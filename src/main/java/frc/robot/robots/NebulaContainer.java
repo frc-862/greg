@@ -28,6 +28,8 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.PrototypeShooter;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
 
+import java.util.HashMap;
+
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
@@ -94,9 +96,9 @@ public class NebulaContainer extends LightningContainer {
   }
 
   @Override
-  public Command[] getAutonomousCommands() {
-    Command[] result = {};
-    return result;
+  public HashMap<String, Command> getAutonomousCommands() {
+    Command[] result = {  };
+    return null; // result;
   }
 
   @Override

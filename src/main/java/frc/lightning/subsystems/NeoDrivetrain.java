@@ -7,6 +7,7 @@
 
 package frc.lightning.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -27,6 +28,7 @@ import frc.lightning.util.LightningMath;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
 
 import java.util.function.BiConsumer;
@@ -68,6 +70,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private RamseteGains gains;
 
+    private PigeonIMU bird;
+
+    private double[] ypr = new double[3];
+
     public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidth, RamseteGains gains) {
         setName(name);
         this.motorCount = motorCountPerSide;
@@ -98,6 +104,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         brake();
 
         navx = new AHRS(Port.kMXP);
+
+        bird = new PigeonIMU(RobotMap.PIGEON_ID);
+        bird.configFactoryDefault();
 
         kinematics = new DifferentialDriveKinematics(trackWidth);
 
@@ -136,17 +145,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         super.periodic();
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
-        SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
-        SmartDashboard.putNumber("PoseTransX", pose.getTranslation().getX());
-        SmartDashboard.putNumber("PoseTransNorm", pose.getTranslation().getNorm());
-
-        SmartDashboard.putNumber("Heading", navx.getAngle());
-        SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
-        SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
-
-        SmartDashboard.putNumber("LeftRotations", leftEncoder.getPosition());
-        SmartDashboard.putNumber("RightRotations", rightEncoder.getPosition());
+        bird.getYawPitchRoll(ypr);
 
     }
 
@@ -175,7 +174,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public DifferentialDriveWheelSpeeds getSpeeds() { return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity()); }
 
     @Override
-    public Rotation2d getHeading() { return Rotation2d.fromDegrees(-navx.getAngle()); }
+    public Rotation2d getHeading() { 
+        // return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
+        return Rotation2d.fromDegrees(-navx.getAngle()); 
+    }
 
     @Override
     public void setOutput(double leftVolts, double rightVolts) {
@@ -189,6 +191,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void setRamseteOutput(double leftVolts, double rightVolts) {
+        // setPower(leftVolts/12, rightVolts/12);
         setOutput(leftVolts, rightVolts);
     }
 
@@ -196,12 +199,13 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public void resetSensorVals() {
         LightningDrivetrain.super.resetSensorVals();
         resetDistance();
-        resetNavX();
+        resetHeading();
         odometry.resetPosition(new Pose2d(), new Rotation2d());
     }
 
-    private void resetNavX() {
+    private void resetHeading() {
         navx.reset();
+        bird.setYaw(0d);
     }
 
     public void setLeftGains(REVGains gains) {
@@ -283,6 +287,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     }
 
     public void setPower(double left, double right) {
+        //System.out.println("Setpower " + left + "," + right);
         rightMaster.set(right);
         leftMaster.set(left);
     }

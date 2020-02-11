@@ -19,6 +19,6 @@ public class RotateRobot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return LightningMath.epsilonEqual(desiredAngle, imu.getYaw(), Constants.ROTATION_TOLERANCE);
+        return LightningMath.epsilonEqual(desiredAngle, imu.getAngle(), Constants.ROTATION_TOLERANCE);
     }
 }

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -23,11 +24,20 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
-import frc.robot.PathGenerator;
+import frc.robot.auton.*;
+import frc.robot.auton.PathGenerator.Paths;
 import frc.robot.Robot;
+import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.IMU;
+import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrains.*;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
 import frc.robot.systemtests.drivetrain.MoveMasters;
@@ -36,27 +46,30 @@ import frc.robot.systemtests.drivetrain.MoveSecondarySlaves;
 import frc.robot.systemtests.drivetrain.RightSideMoves;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class QuasarContainer extends LightningContainer {
-    private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
-    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-
+  private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
+  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+  private final Vision vision = new Vision();
+  private final LED led = new LED();
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
-  private final PathGenerator pathGenerator;
+  private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain /*, null, null, null*/ );
 
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public QuasarContainer() {
     // Configure the button bindings
@@ -64,16 +77,16 @@ public class QuasarContainer extends LightningContainer {
     configureButtonBindings();
     initializeDashboardCommands();
 
-    pathGenerator = new PathGenerator();
+    drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
+        () -> -driver.getY(GenericHID.Hand.kRight)));
 
-    drivetrain.setDefaultCommand(new VoltDrive(drivetrain,
-            () -> -driver.getY(GenericHID.Hand.kLeft),
-            () -> -driver.getY(GenericHID.Hand.kRight)
-    ));
-    
   }
 
-  private void initializeDashboardCommands() {}
+  private void initializeDashboardCommands() {
+    SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain,vision));
+    SmartDashboard.putData("go blue", new InstantCommand(() -> led.goOrangeAndBlue(), led));
+    SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
+  }
 
   private void configureSystemTests() {
     SystemTest.register(new LeftSideMoves(drivetrain));
@@ -84,14 +97,14 @@ public class QuasarContainer extends LightningContainer {
   }
 
   @Override
-  public Command[] getAutonomousCommands() {
-    Command[] result = { getPathCMD() };
-    return result;
-  }
+  public HashMap<String, Command> getAutonomousCommands() { return autonGenerator.getCommands(); }
 
-  private Command getPathCMD() {
-    return pathGenerator.getRamseteCommand(drivetrain);
-  }
+  // private Command getPathCMD() {
+  //   return (new SequentialCommandGroup(PathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH),
+  //       new InstantCommand(drivetrain::resetSensorVals, drivetrain), new WaitCommand(1d),
+  //       PathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO)));
+  //   // return pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH);
+  // }
 
   @Override
   public void configureDefaultCommands() {
@@ -106,9 +119,12 @@ public class QuasarContainer extends LightningContainer {
   }
 
   @Override
-  public LightningDrivetrain getDrivetrain() { return drivetrain; }
+  public LightningDrivetrain getDrivetrain() {
+    return drivetrain;
+  }
 
   @Override
-  public void configureButtonBindings() {}
+  public void configureButtonBindings() {
+  }
 
 }

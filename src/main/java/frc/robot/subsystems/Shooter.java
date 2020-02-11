@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lightning.util.InterpolatedMap;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
@@ -24,7 +25,7 @@ public class Shooter extends SubsystemBase {
     private CANPIDController motor1PIDFController;
     private CANPIDController motor2PIDFController;
     private CANPIDController motor3PIDFController;
-
+    InterpolatedMap flyWheelSpeed = new InterpolatedMap();
     /**
      * Creates a new Shooter.
      */
@@ -57,6 +58,11 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         // Init
+
+        flyWheelSpeed.put(10.0,2500.0);
+        flyWheelSpeed.put(18.0,2500.0);
+        flyWheelSpeed.put(35.0,3500.0);
+        flyWheelSpeed.put(45.0,3500.0);
         motor1 = new CANSparkMax(RobotMap.shooter_1, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor2 = new CANSparkMax(RobotMap.shooter_2, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor3 = new CANSparkMax(RobotMap.shooter_3, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -94,6 +100,10 @@ public class Shooter extends SubsystemBase {
         setPower(0d);
     }
 
+    public double getDesiredSpeed(double distance){
+        return flyWheelSpeed.get(distance);
+    }
+
     public double getFlywheelMotor1Velocity() {
         return motor1encoder.getVelocity();
     }
@@ -109,4 +119,5 @@ public class Shooter extends SubsystemBase {
     public void aim() {
         // position robot & other based on vision values
     }
+
 }

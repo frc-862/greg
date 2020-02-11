@@ -14,11 +14,15 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.drivetrains.QuasarDrivetrain;
 
 public class VisionRotate extends CommandBase {
-    private static final double VISION_ROTATE_P = 1.0 / 200;
+    private static final double VISION_ROTATE_P = .15 / 320;
+    private static final double MIN_ROTATE_PWR = 0.0125;
+
     LightningDrivetrain drivetrain;
     Vision vision;
+    //private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
 
     /**
      * Creates a new Aim.
@@ -35,15 +39,37 @@ public class VisionRotate extends CommandBase {
     @Override
     public void execute() {
         if (vision.seePortTarget()) {
+
             double visionOffset = vision.getOffsetAngle();
             double pwr = visionOffset * VISION_ROTATE_P;
-            drivetrain.setVelocity(pwr, -pwr);
+
+            if (!inTolerance()) {
+
+            }
+            //System.out.println("VR exec: " + pwr);
+            //pwr = Math.max(Math.abs(pwr), MIN_ROTATE_PWR);
+            if(pwr<MIN_ROTATE_PWR&&pwr>0){
+                pwr=MIN_ROTATE_PWR;
+            }
+            if(pwr>-MIN_ROTATE_PWR&&pwr<0){
+                pwr=-MIN_ROTATE_PWR;
+            }
+            drivetrain.setPower(pwr, -pwr);
         }
+    }
+
+    private boolean inTolerance() {
+        return vision.seePortTarget() && LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.ROTATION_TOLERANCE);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
         return vision.seePortTarget() && LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.ROTATION_TOLERANCE);
+    }
+    
+    @Override
+    public void end(boolean interrupted){
+        drivetrain.stop();
     }
 }

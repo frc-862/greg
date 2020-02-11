@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class AddressableLEDMatrix extends LEDMatrixMap{
 
-    AddressableLED led;
+    AddressableLED led = new AddressableLED(9);
     AddressableLEDBuffer buffer;
     HashMap<Integer, Integer[]> ledMap = new HashMap<>();
     ArrayList<Integer[]> columnArray = new ArrayList<>();
@@ -20,8 +20,7 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
     int sideLength; 
 
     public AddressableLEDMatrix(int _width, int _length, int port){ 
-        AddressableLED _led = new AddressableLED(port);
-        led = _led;
+
         width = _width;
         length = _length;
         ledLength = _length * _width;

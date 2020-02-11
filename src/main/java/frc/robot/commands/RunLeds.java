@@ -8,65 +8,62 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.robots.EddieContainer;
 import frc.robot.subsystems.LEDs;
 
 public class RunLeds extends CommandBase {
-  private final LEDs LEDs;
   /**
    * Creates a new RunLeds.
    */
-  public RunLeds(LEDs LEDs) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.LEDs = LEDs;
-    addRequirements(LEDs);
+  public RunLeds() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    LEDs.clearBuffer();
-    LEDs.setLED2Buffer();
+    EddieContainer.Leds.clearBuffer();
+    EddieContainer.Leds.setLED2Buffer();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //System.out.println(toggle);
-    if (LEDs.toggle){
-      LEDs.rainbow();
-      //LEDs.updateBuffer(0, 50, 0);
-      //LEDs.green();
-      LEDs.setLED2Buffer();
+    if (EddieContainer.Leds.toggle){
+      EddieContainer.Leds.rainbow();
+      //EddieContainer.Leds.updateBuffer(0, 50, 0);
+      //EddieContainer.Leds.green();
+      EddieContainer.Leds.setLED2Buffer();
     }
     else {
-      LEDs.updateBuffer(0, 0, 0);
-      LEDs.setLED2Buffer();
+      EddieContainer.Leds.updateBuffer(0, 0, 0);
+      EddieContainer.Leds.setLED2Buffer();
     }
 
-    //LEDs.rainbow();
-      //LEDs.updateBuffer(0, 50, 0);
-      //EddieContainer.Leds.green();
-      //EddieContainer.Leds.setLED2Buffer();
-      //EddieContainer.Leds.setFour();
-      //EddieContainer.Leds.setThree();
-      if(LEDs.toggleA){LEDs.setA(); }
-      else if(!LEDs.toggleA){LEDs.clearA();}
+    //EddieContainer.Leds.rainbow();
+      //EddieContainer.Leds.updateBuffer(0, 50, 0);
+      //EddieContainer.EddieContainer.Leds.green();
+      //EddieContainer.EddieContainer.Leds.setLED2Buffer();
+      //EddieContainer.EddieContainer.Leds.setFour();
+      //EddieContainer.EddieContainer.Leds.setThree();
+      if(EddieContainer.Leds.toggleA){EddieContainer.Leds.setA(); }
+      else if(!EddieContainer.Leds.toggleA){EddieContainer.Leds.clearA();}
 
-      if(LEDs.toggleB){LEDs.setB(); }
-      else if(!LEDs.toggleB){LEDs.clearB();}
+      if(EddieContainer.Leds.toggleB){EddieContainer.Leds.setB(); }
+      else if(!EddieContainer.Leds.toggleB){EddieContainer.Leds.clearB();}
 
-      if(LEDs.toggleC){LEDs.setC();}
-      else if(!LEDs.toggleC){LEDs.clearC();}
+      if(EddieContainer.Leds.toggleC){EddieContainer.Leds.setC();}
+      else if(!EddieContainer.Leds.toggleC){EddieContainer.Leds.clearC();}
 
-      if(LEDs.toggleD){LEDs.setD();}
-      else if(!LEDs.toggleD){LEDs.clearD();}
+      if(EddieContainer.Leds.toggleD){EddieContainer.Leds.setD();}
+      else if(!EddieContainer.Leds.toggleD){EddieContainer.Leds.clearD();}
   }
 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    LEDs.stop();
+    EddieContainer.Leds.stop();
     //LEDs.clearBuffer();
     //LEDs.setLED2Buffer();
   }

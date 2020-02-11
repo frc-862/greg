@@ -46,7 +46,7 @@ public class EddieContainer extends LightningContainer {
 
     private static int powerCellCapacity = 0;
 
-    private static final LEDs Leds = new LEDs();
+    public static final LEDs Leds = new LEDs();
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();
@@ -70,6 +70,7 @@ public class EddieContainer extends LightningContainer {
     //public EddieContainer(int startingPowerCellCapacity) {
 
     private static final LightningDrivetrain drivetrain = new EddieDrivetrain();
+
     
     public EddieContainer() {
         //powerCellCapacity = startingPowerCellCapacity;
@@ -97,10 +98,10 @@ public class EddieContainer extends LightningContainer {
         (new JoystickButton(driver, Button.kB.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(2), Leds));
         (new JoystickButton(driver, Button.kY.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(3), Leds));
         (new JoystickButton(driver, Button.kX.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(4), Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenReleased(new RunLeds(Leds));
-        (new JoystickButton(driver, Button.kB.value)).whenPressed(new RunLeds(Leds));
-        (new JoystickButton(driver, Button.kY.value)).whenPressed(new RunLeds(Leds));
-        (new JoystickButton(driver, Button.kX.value)).whenPressed(new RunLeds(Leds));
+        (new JoystickButton(driver, Button.kA.value)).whenReleased(new RunLeds());
+        (new JoystickButton(driver, Button.kB.value)).whenPressed(new RunLeds());
+        (new JoystickButton(driver, Button.kY.value)).whenPressed(new RunLeds());
+        (new JoystickButton(driver, Button.kX.value)).whenPressed(new RunLeds());
     }
 
     @Override

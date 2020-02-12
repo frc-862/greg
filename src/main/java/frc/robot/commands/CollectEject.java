@@ -7,31 +7,34 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Indexer;
+
+import java.util.function.DoubleSupplier;
 
 public class CollectEject extends CommandBase {
 
     Collector collector;
+    Indexer indexer;
     DoubleSupplier collectPwr;
     DoubleSupplier ejectPwr;
 
     /**
      * Creates a new Collect_Eject.
      */
-    public CollectEject(Collector collector, DoubleSupplier collectPwr, DoubleSupplier ejectPwr) {
+    public CollectEject(Collector collector,Indexer indexer, DoubleSupplier collectPwr) {
         this.collector = collector;
         this.collectPwr = collectPwr;
-        this.ejectPwr = ejectPwr;
-        addRequirements(collector);
+
+        addRequirements(collector,indexer);
     }
 
     @Override
     public void execute() {
 
-        collector.setPower(collectPwr.getAsDouble() - ejectPwr.getAsDouble());
+        collector.setPower(collectPwr.getAsDouble());
+        indexer.setPower(collectPwr.getAsDouble());
 
     }
 

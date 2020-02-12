@@ -25,4 +25,5 @@ public class RobotMap {
 
     // HYPERION
     public static final int PIGEON_ID = 8;
+    public static int indexerCanID = 11;
 }

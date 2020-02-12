@@ -7,30 +7,39 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
+import frc.robot.RobotMap;
 import frc.robot.robots.GregContainer;
 
 public class Indexer extends SubsystemBase {
     DigitalInput[] pcSensors;
     private final double pwrThreshold = 0.05;
+    private VictorSPX indexer;
 
     // Components
     /**
      * Creates a new Indexer.
      */
+
     public Indexer(DigitalInput[] sensors) {
         pcSensors = sensors;
+        indexer =new VictorSPX(RobotMap.indexerCanID);
     }
 
     public static Indexer create() {
+
+//        indexer = new VictorSPX(11);
         DigitalInput[] pcSensors = new DigitalInput[5];
         for (var i = 0; i < pcSensors.length; ++i) {
             pcSensors[i] = new DigitalInput(RobotConstants.firstPCSensor + i);
         }
         return new Indexer(pcSensors);
     }
+
 
     @Override
     public void periodic() {
@@ -46,7 +55,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public void setPower(double pwr) {
-
+        indexer.set(ControlMode.PercentOutput,pwr);
     }
 
     /**

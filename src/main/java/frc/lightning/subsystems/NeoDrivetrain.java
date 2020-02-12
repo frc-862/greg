@@ -147,18 +147,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         bird.getYawPitchRoll(ypr);
 
-        SmartDashboard.putNumber("PoseRotationDeg", pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("PoseTransY", pose.getTranslation().getY());
-        SmartDashboard.putNumber("PoseTransX", pose.getTranslation().getX());
-        SmartDashboard.putNumber("PoseTransNorm", pose.getTranslation().getNorm());
-
-        SmartDashboard.putNumber("Heading", getHeading().getDegrees());
-        SmartDashboard.putNumber("RightWheelSpeed", getSpeeds().rightMetersPerSecond);
-        SmartDashboard.putNumber("LeftWheelSpeed", getSpeeds().leftMetersPerSecond);
-
-        SmartDashboard.putNumber("LeftRotations", leftEncoder.getPosition());
-        SmartDashboard.putNumber("RightRotations", rightEncoder.getPosition());
-
     }
 
     private static void setGains(CANPIDController controller, REVGains gains) {
@@ -187,8 +175,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public Rotation2d getHeading() { 
-        return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
-        // return Rotation2d.fromDegrees(-navx.getAngle()); 
+        // return Rotation2d.fromDegrees((((ypr[0]+180)%360)-180));
+        return Rotation2d.fromDegrees(-navx.getAngle()); 
     }
 
     @Override

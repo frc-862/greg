@@ -893,6 +893,18 @@
                   "_type": "PID Controller",
                   "_source0": "network_table:///LiveWindow/Ungrouped/PIDController[1]",
                   "_title": "PIDController[1]"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/VictorSP[1]",
+                  "_title": "VictorSP[1]",
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/VictorSP[0]",
+                  "_title": "VictorSP[0]",
+                  "Visuals/Orientation": "HORIZONTAL"
                 }
               ]
             }

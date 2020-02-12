@@ -19,7 +19,7 @@ import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.auton.AutonGenerator;
-import frc.robot.commands.CollectEject;
+import frc.robot.commands.CollectIndex;
 import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
@@ -77,7 +77,7 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverLeft.getY(),
                                      () -> -driverRight.getY()
         ));
-        collector.setDefaultCommand(new CollectEject(collector,indexer,()-> getCollectPower()));
+        collector.setDefaultCommand(new CollectIndex(collector,indexer,()-> getCollectPower()));
 
 
 

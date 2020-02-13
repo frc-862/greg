@@ -21,31 +21,12 @@ public class RunLeds extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    EddieContainer.Leds.clearBuffer();
-    EddieContainer.Leds.setLED2Buffer();
+    //init codes
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println(toggle);
-    if (EddieContainer.Leds.toggle){
-      EddieContainer.Leds.rainbow();
-      //EddieContainer.Leds.updateBuffer(0, 50, 0);
-      //EddieContainer.Leds.green();
-      EddieContainer.Leds.setLED2Buffer();
-    }
-    else {
-      EddieContainer.Leds.updateBuffer(0, 0, 0);
-      EddieContainer.Leds.setLED2Buffer();
-    }
-
-    //EddieContainer.Leds.rainbow();
-      //EddieContainer.Leds.updateBuffer(0, 50, 0);
-      //EddieContainer.EddieContainer.Leds.green();
-      //EddieContainer.EddieContainer.Leds.setLED2Buffer();
-      //EddieContainer.EddieContainer.Leds.setFour();
-      //EddieContainer.EddieContainer.Leds.setThree();
       if(EddieContainer.Leds.toggleA){EddieContainer.Leds.setA(); }
       else if(!EddieContainer.Leds.toggleA){EddieContainer.Leds.clearA();}
 

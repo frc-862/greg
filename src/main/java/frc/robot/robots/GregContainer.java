@@ -7,11 +7,14 @@
 
 package frc.robot.robots;
 
+import edu.wpi.first.hal.sim.PCMSim;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -48,6 +51,7 @@ public class GregContainer extends LightningContainer {
     private final Vision vision = new Vision();
     private final Indexer indexer=new Indexer(sensors);
     private final Collector collector =new Collector();
+    private final PCMSim pcmSim = new PCMSim(21);
 
     // private final Collector collector = new Collector();
     // private final Indexer indexer = Indexer.create();
@@ -83,7 +87,10 @@ public class GregContainer extends LightningContainer {
 
     }
 
-    private void initializeDashboardCommands() {}
+    private void initializeDashboardCommands() {
+        //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
+        //SmartDashboard.putData("in",new InstantCommand(()->collector.puterOuterIn(),collector));
+    }
 
     /**
      * Use this method to define your button->command mappings. Buttons can be
@@ -93,7 +100,8 @@ public class GregContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-
+        (new JoystickButton(operator, 5)).whenPressed(new InstantCommand(collector::puterOuterIn, collector));
+        (new JoystickButton(operator, 6)).whenPressed(new InstantCommand(collector::puterOuterOut, collector));
     }
 
     @Override

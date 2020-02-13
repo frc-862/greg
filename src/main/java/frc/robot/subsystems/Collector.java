@@ -11,13 +11,16 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class Collector extends SubsystemBase {
 
     //Components
     private VictorSPX linearMotor;
     private VictorSPX longitudinalMotor;
+    private DoubleSolenoid putterOutter;
 
     /**
      * Creates a new Collector.
@@ -26,6 +29,7 @@ public class Collector extends SubsystemBase {
         // Init
         linearMotor = new WPI_VictorSPX(11);
         longitudinalMotor = new WPI_VictorSPX(12);
+        putterOutter =new DoubleSolenoid(21, RobotMap.colletorPistonin, RobotMap.colletorPistonOut);
     }
 
     @Override
@@ -74,6 +78,13 @@ public class Collector extends SubsystemBase {
     public void stop() {
         linearMotor.set(ControlMode.PercentOutput,0);
         longitudinalMotor.set(ControlMode.PercentOutput,0);
+    }
+    public void puterOuterOut(){
+        putterOutter.set(DoubleSolenoid.Value.kForward);
+    }
+
+    public void puterOuterIn(){
+        putterOutter.set(DoubleSolenoid.Value.kReverse);
     }
 
 }

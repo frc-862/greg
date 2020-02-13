@@ -7,20 +7,17 @@
 
 package frc.robot;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.Set;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
-import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.robots.GregContainer;
 import frc.robot.robots.NebulaContainer;
 import frc.robot.robots.QuasarContainer;
 import frc.robot.robots.TwikiContainer;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Set;
 
 public class Robot extends LightningRobot {
 

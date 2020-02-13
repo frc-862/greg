@@ -7,16 +7,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.logging.DataLogger;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
@@ -24,13 +16,13 @@ public class Core extends SubsystemBase {
     private final String name = "CORE";
 
     // PowerDistributionPanel pdp = new PowerDistributionPanel(0);
-    // Compressor compressor;
+    Compressor compressor;
     // PigeonIMU pigeonIMU;
     // AHRS navx;
 
     public Core() {
         setName(name);
-        // compressor = new Compressor(RobotMap.COMPRESSOR_ID);
+        compressor = new Compressor(RobotMap.COMPRESSOR_ID);
         // pigeonIMU = new PigeonIMU(12);
         // navx = new AHRS(SPI.Port.kMXP);
 
@@ -73,5 +65,7 @@ public class Core extends SubsystemBase {
     // public double getAngle() { return navx.getAngle(); }
     // public double getAngleAdj() { return navx.getAngleAdjustment(); }
     // public double getContinuousHeading() { return navx.getAngle(); }
-
+    public void enableComperser(){
+        compressor.enabled();
+    }
 }

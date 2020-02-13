@@ -30,13 +30,8 @@ public class TankDrive extends CommandBase {
 
         drivetrain.setPower(targetLeft, targetRight);
 
-<<<<<<< Updated upstream
         // SmartDashboard.putNumber("leftVelocity", drivetrain.getLeftVelocity());
         // SmartDashboard.putNumber("rightVelocity", drivetrain.getRightVelocity());
-=======
-    //    SmartDashboard.putNumber("leftVelocity", drivetrain.getLeftVelocity());
-     //   SmartDashboard.putNumber("rightVelocity", drivetrain.getRightVelocity());
->>>>>>> Stashed changes
     }
 
     @Override

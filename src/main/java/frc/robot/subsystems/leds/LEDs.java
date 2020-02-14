@@ -5,16 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.leds;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.util.AddressableLEDMatrix;
-import frc.lightning.util.LEDMatrixMap;
-
+import frc.robot.subsystems.leds.AddressableLEDMatrix;
 /**
  * Add your docs here.
  */
@@ -97,7 +94,7 @@ public class LEDs extends SubsystemBase{
       matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 100);
     }
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     public void setA(){
       //matrix.setMap(AddressableLEDMatrix.mapSquare,1, 1, 120, 255, 50);
       //matrix.setWord("i", 1, 1, 100,255,50);

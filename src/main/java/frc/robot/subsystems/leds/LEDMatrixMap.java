@@ -1,7 +1,9 @@
-package frc.lightning.util;
+package frc.robot.subsystems.leds;
 import java.util.HashMap;
 
-public class LEDMatrixMap {
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+public class LEDMatrixMap extends SubsystemBase {
     private int sideLength;
 
     public static HashMap<Integer, Integer[]> mapA = new HashMap<>();
@@ -348,7 +350,7 @@ public class LEDMatrixMap {
         mapCreeperDarkGreen.put(6, new Integer[]{});
         mapCreeperDarkGreen.put(7, new Integer[]{4, 7});
 
-        //Map Lightning Greg Orange
+        //Map Lightning Greg Orange Part
         mapLightningGregOrange.put(0, new Integer[]{5, 6, 7});
         mapLightningGregOrange.put(1, new Integer[]{4, 5, 6, 13, 14, 17, 18, 19, 21, 22, 23, 26, 27});
         mapLightningGregOrange.put(2, new Integer[]{4, 5, 12, 17, 19, 21, 25});
@@ -358,7 +360,7 @@ public class LEDMatrixMap {
         mapLightningGregOrange.put(6, new Integer[]{2, 3, 4, 5, 6, 7, 8, 13, 14, 17, 19, 21, 22, 23, 26, 27});
         mapLightningGregOrange.put(7, new Integer[]{2, 5, 8, 9});
 
-        //Map Lightning Greg White
+        //Map Lightning Greg White Part
         mapLightningGregWhite.put(0, new Integer[]{});
         mapLightningGregWhite.put(1, new Integer[]{3, 7, 8});
         mapLightningGregWhite.put(2, new Integer[]{2, 9});

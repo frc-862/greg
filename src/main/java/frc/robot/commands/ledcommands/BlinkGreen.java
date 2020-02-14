@@ -11,7 +11,7 @@ import java.util.function.IntSupplier;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.leds.LEDs;
 
 public class BlinkGreen extends CommandBase {
 
@@ -29,15 +29,18 @@ public class BlinkGreen extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    boolean toggleForTimer = true;
-    double timerAtor = Timer.getFPGATimestamp();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    boolean toggleForTimer;
-    double timerAtor;
+    double timerAtor = Timer.getFPGATimestamp();
+    boolean toggleForTimer = false;
+    //Goal: initialize these variables only once, maybe using initialize()?
+    //If these variables are not commented out, the blinking will not work
+    
+
     if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
       if (toggleForTimer) {
         leds.greenMatrix(square.getAsInt());
@@ -54,6 +57,7 @@ public class BlinkGreen extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    leds.clearMatrix(square.getAsInt());
   }
 
   // Returns true when the command should end.

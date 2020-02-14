@@ -9,7 +9,6 @@ package frc.robot.commands.ledcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.robots.EddieContainer;
-import frc.robot.subsystems.LEDs;
 
 public class RunLeds extends CommandBase {
   /**
@@ -40,7 +39,9 @@ public class RunLeds extends CommandBase {
       //else if(!EddieContainer.Leds.toggleD){EddieContainer.Leds.clearD();}
       //EddieContainer.Leds.rainbow();
       System.out.println("If you are seeing this, the command is being called");
-      EddieContainer.Leds.setA();
+      EddieContainer.Leds.setA(); /* We should be able to reference the LEDs subsystem
+      directly, but it throws an error.
+      try to fix this. */
   }
 
 

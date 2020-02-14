@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
-import frc.robot.subsystems.LED;
+import frc.robot.subsystems.leds.LED;
 
 public class Vision extends SubsystemBase {
     double XValue=0;

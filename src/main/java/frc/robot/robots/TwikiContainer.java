@@ -23,7 +23,7 @@ import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IMU;
-import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.leds.LEDs;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;

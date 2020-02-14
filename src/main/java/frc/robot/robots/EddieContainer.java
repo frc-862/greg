@@ -12,27 +12,14 @@ import java.util.HashMap;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
-import frc.lightning.LightningRobot;
-import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
-import frc.robot.commands.RunLeds;
-import frc.robot.commands.drivetrain.TankDrive;
-import frc.robot.commands.drivetrain.VelocityTankDrive;
+import frc.robot.commands.ledcommands.RunLeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.CtrlPanelOperator;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Logging;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 
@@ -94,14 +81,14 @@ public class EddieContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(1), Leds));
-        (new JoystickButton(driver, Button.kB.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(2), Leds));
-        (new JoystickButton(driver, Button.kY.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(3), Leds));
-        (new JoystickButton(driver, Button.kX.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(4), Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenReleased(new RunLeds());
-        (new JoystickButton(driver, Button.kB.value)).whenPressed(new RunLeds());
-        (new JoystickButton(driver, Button.kY.value)).whenPressed(new RunLeds());
-        (new JoystickButton(driver, Button.kX.value)).whenPressed(new RunLeds());
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(1), Leds));
+        //(new JoystickButton(driver, Button.kB.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(2), Leds));
+        //(new JoystickButton(driver, Button.kY.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(3), Leds));
+        //(new JoystickButton(driver, Button.kX.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(4), Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whenReleased(new RunLeds());
+        //(new JoystickButton(driver, Button.kB.value)).whenPressed(new RunLeds());
+        //(new JoystickButton(driver, Button.kY.value)).whenPressed(new RunLeds());
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new RunLeds());
     }
 
     @Override

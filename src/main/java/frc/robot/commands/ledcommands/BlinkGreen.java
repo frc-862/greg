@@ -5,48 +5,55 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.ledcommands;
 
+import java.util.function.IntSupplier;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.robots.EddieContainer;
 import frc.robot.subsystems.LEDs;
 
-public class RunLeds extends CommandBase {
+public class BlinkGreen extends CommandBase {
+
+  LEDs leds;
+  IntSupplier square;
   /**
-   * Creates a new RunLeds.
+   * Creates a new BlinkGreen.
    */
-  public RunLeds() {
+  public BlinkGreen(IntSupplier square) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    this.square = square;
+    addRequirements(leds);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //init codes
+    boolean toggleForTimer = true;
+    double timerAtor = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if(EddieContainer.Leds.toggleA){EddieContainer.Leds.setA(); }
-      else if(!EddieContainer.Leds.toggleA){EddieContainer.Leds.clearA();}
-
-      if(EddieContainer.Leds.toggleB){EddieContainer.Leds.setB(); }
-      else if(!EddieContainer.Leds.toggleB){EddieContainer.Leds.clearB();}
-
-      if(EddieContainer.Leds.toggleC){EddieContainer.Leds.setC();}
-      else if(!EddieContainer.Leds.toggleC){EddieContainer.Leds.clearC();}
-
-      if(EddieContainer.Leds.toggleD){EddieContainer.Leds.setD();}
-      else if(!EddieContainer.Leds.toggleD){EddieContainer.Leds.clearD();}
+    boolean toggleForTimer;
+    double timerAtor;
+    if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
+      if (toggleForTimer) {
+        leds.greenMatrix(square.getAsInt());
+        toggleForTimer = false;
+      }
+      else {
+        leds.clearMatrix(square.getAsInt());
+        toggleForTimer = true;
+      }
+      timerAtor = Timer.getFPGATimestamp();
+    }
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    EddieContainer.Leds.stop();
-    //LEDs.clearBuffer();
-    //LEDs.setLED2Buffer();
   }
 
   // Returns true when the command should end.

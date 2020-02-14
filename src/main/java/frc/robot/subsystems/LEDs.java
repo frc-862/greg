@@ -9,9 +9,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.AddressableLEDMatrix;
+import frc.lightning.util.LEDMatrixMap;
 
 /**
  * Add your docs here.
@@ -33,6 +35,8 @@ public class LEDs extends SubsystemBase{
     public static boolean toggleB = false;
     public static boolean toggleC = false;
     public static boolean toggleD = false;
+    boolean toggleForTimer = true;
+    double timerAtor;
 
 
     public void start(){
@@ -49,13 +53,14 @@ public class LEDs extends SubsystemBase{
     }
 
     public void ToggleLED(int LEDSection){
-        switch(LEDSection){
-          case 1: toggleA = !toggleA; break;
-          case 2:toggleB = !toggleB; break;
-          case 3:toggleC = !toggleC; break;
-          case 4:toggleD = !toggleD; break;
-        }
+      switch(LEDSection){
+        case 1: toggleA = !toggleA; break;
+        case 2:toggleB = !toggleB; break;
+        case 3:toggleC = !toggleC; break;
+        case 4:toggleD = !toggleD; break;
       }
+    }
+
 
     public void rainbow() {
         //this function relies on the fact that it is being called constantly
@@ -68,14 +73,65 @@ public class LEDs extends SubsystemBase{
         }
     }
 
+    public void setSquareWidth(int squarewidth) {
+      matrix.setSquareMap(squarewidth);
+    }
+
+    public void clearMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 0, 0);
+    }
+
+    public void greenMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 60, 255, 100);
+    }
+
+    public void yellowMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 30, 255, 100);
+    }
+
+    public void redMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 100);
+    }
+
     @SuppressWarnings("unchecked")
     public void setA(){
       //matrix.setMap(AddressableLEDMatrix.mapSquare,1, 1, 120, 255, 50);
-      matrix.setWord("i", 1, 1, 100,255,50);
+      //matrix.setWord("i", 1, 1, 100,255,50);
+      //matrix.setMap(LEDMatrixMap.mapB, 1, 1, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapR, 1, 7, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapU, 1, 13, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapH, 1, 19, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapExclamation, 1, 25, 7, 255, 50);
+      matrix.setSquareMap(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 60, 255, 100);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 30, 255, 100);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 0, 255, 100);
+
+      if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
+        if (toggleForTimer) {
+          matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 60, 255, 100);
+          toggleForTimer = false;
+        }
+        else {
+          matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 0, 0, 0);
+          toggleForTimer = true;
+        }
+        timerAtor = Timer.getFPGATimestamp();
+      }
+      //best green = RGB(0, 255, 0), HSV(60, 255, 100)
+      //best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
+      //matrix.setColor(1, 1, 0, 255, 0);
+      //matrix.setColor(1, 2, 255, 128, 0);
+
     }
     public void setB(){
       matrix.setSquareMap(8);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 10, 255, 50);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50);
     }
     public void setC(){
       matrix.setSquareMap(8);

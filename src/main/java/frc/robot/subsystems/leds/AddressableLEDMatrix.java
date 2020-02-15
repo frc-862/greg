@@ -100,21 +100,22 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
     }
 
 
-    //public void setMaps(ArrayList<HashMap<Integer, Integer[]>> patternMaps, int topLeftRow, int topLeftColumn, int h, int s, int v, int space){
-        //int _patternInt = 0;
-        //int startPoint = 0;
-        //for(int t = 0; t < patternMaps.size(); t ++){
-            //for(int i = 0; i < patternMaps.get(t).size(); i ++){
-            //Timer.delay(0.001);
-                //for(int patternInt : patternMaps.get(i).get(i)){
-                    //buffer.setHSV(ledMap.get((topLeftRow-1) + i)[(topLeftColumn-1) + patternInt + startPoint], h, s, v);
-                    //_patternInt = patternInt;
-                //}
-                //startPoint += topLeftColumn + _patternInt + space;
-            //}
-       //}
-        //led.setData(buffer);
-    //}
+    /*
+    public void setMaps(ArrayList<HashMap<Integer, Integer[]>> patternMaps, int topLeftRow, int topLeftColumn, int h, int s, int v, int space){
+        int _patternInt = 0;
+        int startPoint = 0;
+        for(int t = 0; t < patternMaps.size(); t ++){
+            for(int i = 0; i < patternMaps.get(t).size(); i ++){
+            Timer.delay(0.001);
+                for(int patternInt : patternMaps.get(i).get(i)){
+                    buffer.setHSV(ledMap.get((topLeftRow-1) + i)[(topLeftColumn-1) + patternInt + startPoint], h, s, v);
+                    _patternInt = patternInt;
+                }
+                startPoint += topLeftColumn + _patternInt + space;
+            }
+       }
+        led.setData(buffer);
+    } */
 
     public void setChase(Color backgroundColor, Color chaseColor){
         for(int i = 0; i < (width * length); i ++){
@@ -160,7 +161,8 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
                 case 'z': mapArray.add(mapZ);
             }
         }
-/*
+        
+        /*
         for(HashMap<Integer, Integer[]> map : mapArray){
             setMap(map, row, column, h, s, v);
         }

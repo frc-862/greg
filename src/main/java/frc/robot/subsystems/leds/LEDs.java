@@ -15,6 +15,7 @@ import frc.robot.subsystems.leds.AddressableLEDMatrix;
  * Add your docs here.
  */
 public class LEDs extends SubsystemBase{
+
   //private final int ledCount = 256;
   //private final AddressableLED led;
   //private final AddressableLEDBuffer buffer;
@@ -82,33 +83,37 @@ public class LEDs extends SubsystemBase{
     matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 10);
   }
 
-    //@SuppressWarnings("unchecked")
-    //public void setA(){
-      //best green = RGB(0, 255, 0), HSV(60, 255, 100)
-      //best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
 
-    //}
-    //public void setB(){
-      //matrix.setSquareMap(8);
-      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
-      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50);
-    //}
-    //public void setC(){
-      //matrix.setSquareMap(8);
-      //matrix.setMap(AddressableLEDMatrix.mapSquare,1, 17, 130, 255, 50);
-    //}
-    //public void setD(){
-      //matrix.setSquareMap(8);
-      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 180, 255, 50);
-    //}
+  /*@SuppressWarnings("unchecked")
+  public void setA(){
+    best green = RGB(0, 255, 0), HSV(60, 255, 100)
+    best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
+
+  }
+  public void setB(){
+    matrix.setSquareMap(8);
+    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
+    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50);
+  }
+  public void setC(){
+    matrix.setSquareMap(8);
+    matrix.setMap(AddressableLEDMatrix.mapSquare,1, 17, 130, 255, 50);
+  }
+  public void setD(){
+    matrix.setSquareMap(8);
+    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 180, 255, 50);
+  }*/
 
   public void stop(){
-    System.out.println("The End Has Begun");
-    //for (int i = 0; i < ledCount; i++){
-    //    buffer.setLED(i, new Color(0,0,0));
-    //}
-    //pos = 0;
-    //hue = 0;
+    System.out.println("The End Has Begun" + " 4 hours till lunch");
+
+    /*
+    for (int i = 0; i < ledCount; i++){
+      buffer.setLED(i, new Color(0,0,0));
+    }
+    pos = 0;
+    hue = 0;
+    */
     clearMatrix(1);
     clearMatrix(2);
     clearMatrix(3);

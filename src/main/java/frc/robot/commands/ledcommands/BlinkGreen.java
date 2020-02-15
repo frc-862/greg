@@ -46,7 +46,6 @@ public class BlinkGreen extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
     if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
       if (toggleForTimer) {
         leds.greenMatrix(square.getAsInt());

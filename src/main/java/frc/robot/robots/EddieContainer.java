@@ -19,6 +19,7 @@ import frc.robot.Robot;
 import frc.robot.commands.ledcommands.BlinkGreen;
 import frc.robot.commands.ledcommands.BlinkRed;
 import frc.robot.commands.ledcommands.BlinkYellow;
+import frc.robot.commands.ledcommands.Pong;
 import frc.robot.commands.ledcommands.RunLeds;
 import frc.robot.commands.ledcommands.SolidGreen;
 import frc.robot.commands.ledcommands.SolidRed;
@@ -26,8 +27,10 @@ import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.leds.AddressableLEDMatrix;
 import frc.robot.subsystems.leds.LED;
 import frc.robot.subsystems.leds.LEDs;
+import frc.robot.subsystems.leds.PongFunctions;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 
 /**
@@ -41,6 +44,7 @@ public class EddieContainer extends LightningContainer {
     private static int powerCellCapacity = 0;
 
     public static final LEDs Leds = new LEDs();
+    public static final PongFunctions pongFunctions = new PongFunctions();
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();
@@ -91,9 +95,9 @@ public class EddieContainer extends LightningContainer {
         //(new JoystickButton(driver, Button.kA.value)).whileHeld(new BlinkYellow(() -> 1, Leds));
         //(new JoystickButton(driver, Button.kB.value)).whileHeld(new BlinkGreen(() -> 2, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whileHeld(new SolidGreen(() -> 3, Leds));
-        (new JoystickButton(driver, Button.kY.value)).whileHeld(new SolidRed(() -> 4, Leds));
-        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new InstantCommand(() -> Leds.stop()));
-        (new JoystickButton(driver, Button.kY.value)).whenReleased(new RunLeds(Leds));
+        //(new JoystickButton(driver, Button.kY.value)).whileHeld(new SolidRed(() -> 4, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new InstantCommand(() -> ));
+        (new JoystickButton(driver, Button.kA.value)).whileHeld(new Pong(pongFunctions, () -> 4, () -> 4));
     }
 
     @Override

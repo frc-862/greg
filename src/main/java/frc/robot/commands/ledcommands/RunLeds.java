@@ -8,6 +8,7 @@
 package frc.robot.commands.ledcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.leds.AddressableLEDMatrix;
 import frc.robot.subsystems.leds.LEDs;
 
 public class RunLeds extends CommandBase {

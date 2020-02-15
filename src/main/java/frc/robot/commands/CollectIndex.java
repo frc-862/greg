@@ -34,7 +34,7 @@ public class CollectIndex extends CommandBase {
     // you make me un poco loco, un pocititito loco!!!
     // BBBBBBBBBBB
     // haBiBi confirmed
-    // programing cult or mafia
+    // programing cult
     // i will continue to type until i am stopped
     // muahahahah 'evil laugh'
     // you are my dad, you're my dad! boogie woogie woogie

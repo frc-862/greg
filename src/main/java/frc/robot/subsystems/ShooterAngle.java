@@ -15,10 +15,11 @@ public class ShooterAngle extends SubsystemBase {
         adjuster =new TalonSRX(11);
 
         //data sheet
-        shooterAngle.put(10.0,200.0);
+        shooterAngle.put(10.0,400.0);
         shooterAngle.put(18.0,300.0);
         shooterAngle.put(35.0,250.0);
-        shooterAngle.put(35.0,300.0);
+        shooterAngle.put(45.0,200.0);
+        //left is in encoder ticks
 
         //motion magic configs
         adjuster.config_kF(0,Constants.kAdjusterF);
@@ -41,7 +42,7 @@ public class ShooterAngle extends SubsystemBase {
         return shooterAngle.get(distance);
     }
     public void setDesiredAngle(double distance) {
-
+        adjuster.set(ControlMode.MotionMagic,shooterAngle.get(distance));
     }
     public void setShooterAngle(double angle){
         adjuster.set(ControlMode.MotionMagic,angle);

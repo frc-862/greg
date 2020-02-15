@@ -84,9 +84,9 @@ public class Constants {
     public static final double REV_LIMIT_TICKS = REV_LIMIT_DEG / (360 / 76.55);
 
     // SHOOTER
-    public static REVGains Motor1Gains = new REVGains(0.0002350, 0.0, 0.0, 0.0002350, 0.0, 1.0, -1.0, NEO_MAX_RPM);
-    public static REVGains Motor2Gains = new REVGains(0.00024250, 0.0, 0.0, 0.00024250, 0.0, 1.0, -1.0, NEO_MAX_RPM);
-    public static REVGains Motor3Gains = new REVGains(0.0002350, 0.0, 0.0, 0.0002350, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static REVGains Motor1Gains = new REVGains(.00026, 0.000000004, 0.0, 0.000175, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static REVGains Motor2Gains = new REVGains(.00026, 0.000000004, 0.0, 0.000175, 0.0, 1.0, -1.0, NEO_MAX_RPM);
+    public static REVGains Motor3Gains = new REVGains(.00026, 0.000000004, 0.0, 0.000175, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static final double shooterAngleTolerance = 1;
 
     //PROTOTYPE SHOOTER

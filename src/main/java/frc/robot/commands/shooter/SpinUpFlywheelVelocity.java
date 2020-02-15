@@ -12,8 +12,6 @@ import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
 
-import java.util.function.DoubleSupplier;
-
 public class SpinUpFlywheelVelocity extends CommandBase {
 
     Shooter shooter;
@@ -38,6 +36,7 @@ public class SpinUpFlywheelVelocity extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+
         return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
                LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
                LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);

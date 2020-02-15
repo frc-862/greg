@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -25,8 +26,10 @@ import frc.robot.commands.PositionWheel;
 import frc.robot.commands.SpinWheelofF;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
+import frc.robot.commands.shooter.SpinUpFlywheelVelocity;
 import frc.robot.subsystems.CtrlPanelOperator;
 import frc.robot.subsystems.LED;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrains.QuasarDrivetrain;
 import frc.robot.systemtests.drivetrain.*;
@@ -42,7 +45,7 @@ import java.util.function.DoubleSupplier;
  * commands, and button mappings) should be declared here.
  */
 public class QuasarContainer extends LightningContainer {
-  private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
+  private final QuasarDrivetrain drivetrain = new QuasarDrivetrain();
   private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
   private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
   private final Vision vision = new Vision();
@@ -50,7 +53,7 @@ public class QuasarContainer extends LightningContainer {
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
   private final CtrlPanelOperator WheelofFortune = new CtrlPanelOperator();
-
+  private final Shooter shooter = new Shooter();
   private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain /*, null, null, null*/ );
 
   /**
@@ -62,9 +65,13 @@ public class QuasarContainer extends LightningContainer {
     configureButtonBindings();
     initializeDashboardCommands();
 
+    configureDefaultCommands();
+
     drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
         () -> -driver.getY(GenericHID.Hand.kRight)));
     WheelofFortune.setDefaultCommand(new Manual(WheelofFortune,getCtrlPower()));
+    shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,3000));
+
   }
 
   private void initializeDashboardCommands() {
@@ -73,6 +80,8 @@ public class QuasarContainer extends LightningContainer {
     SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
     SmartDashboard.putData("Spin the wheel", new SpinWheelofF(WheelofFortune));
     SmartDashboard.putData("Position WoF", new PositionWheel(WheelofFortune));
+
+    SmartDashboard.putData("Test SmartD", new RunCommand(drivetrain::smartdashBTest,  drivetrain));
   }
 
   private void configureSystemTests() {
@@ -95,6 +104,8 @@ public class QuasarContainer extends LightningContainer {
 
   @Override
   public void configureDefaultCommands() {
+
+
     // TODO Auto-generated method stub
 
   }
@@ -103,6 +114,9 @@ public class QuasarContainer extends LightningContainer {
   public void releaseDefaultCommands() {
     // TODO Auto-generated method stub
 
+  }
+  private double speed(){
+    return SmartDashboard.getNumber("speed of Flywheels",0);
   }
 private DoubleSupplier getCtrlPower(){
     return ()-> operator.getTriggerAxis(GenericHID.Hand.kRight);

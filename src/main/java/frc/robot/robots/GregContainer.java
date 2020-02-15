@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,10 +25,7 @@ import frc.robot.Robot;
 import frc.robot.auton.AutonGenerator;
 import frc.robot.commands.CollectIndex;
 import frc.robot.commands.drivetrain.VoltDrive;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Logging;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
 import java.util.HashMap;
@@ -55,7 +53,7 @@ public class GregContainer extends LightningContainer {
 
     // private final Collector collector = new Collector();
     // private final Indexer indexer = Indexer.create();
-    // private final Shooter shooter = new Shooter();
+    private final Shooter shooter = new Shooter();
 
     // private final Climber climber = new Climber();
     // private final CtrlPanelOperator jeopardyWheel = new CtrlPanelOperator();
@@ -82,14 +80,15 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverRight.getY()
         ));
         collector.setDefaultCommand(new CollectIndex(collector,indexer,()-> getCollectPower()));
-
+//        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,SmartDashboard.getNumber("speed of Flywheels",0)));
 
 
     }
 
     private void initializeDashboardCommands() {
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
-        //SmartDashboard.putData("in",new InstantCommand(()->collector.puterOuterIn(),collector));
+        SmartDashboard.putData("safty in",new InstantCommand(()->indexer.safetyOn()));
+        SmartDashboard.putData("safty out",new InstantCommand(()->indexer.safetyOff()));
     }
 
     /**

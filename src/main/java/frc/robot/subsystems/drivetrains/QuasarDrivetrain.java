@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems.drivetrains;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
@@ -19,6 +19,8 @@ public class QuasarDrivetrain extends NeoDrivetrain {
     /**
      * Creates a new QuasarDrivetrain.
      */
+    private double pwr = 0;
+
     public QuasarDrivetrain() {
         super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR.getTrackWidth(), Constants.QUASAR);
         initMotorDirections();
@@ -29,10 +31,12 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         REVGains.putGainsToBeTunedOnDash((getName() + "_RIGHT"), Constants.quasarRightGains);
         REVGains.putGainsToBeTunedOnDash((getName() + "_LEFT"), Constants.quasarLeftGains);
 
+
     }
 
     public void init() {
         this.resetDistance();
+        SmartDashboard.putNumber("Test Smartdash Power", 0);
     }
 
     @Override
@@ -40,6 +44,9 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         super.periodic();
         REVGains.updateGainsFromDash((getName() + "_RIGHT"), Constants.quasarRightGains, getRightPIDFC());
         REVGains.updateGainsFromDash((getName() + "_LEFT"), Constants.quasarLeftGains, getLeftPIDFC());
+
+       pwr = SmartDashboard.getNumber("Test Smartdash Power", 0);
+
     }
 
     @Override
@@ -70,4 +77,7 @@ public class QuasarDrivetrain extends NeoDrivetrain {
         return Constants.QUASAR;
     }
 
+    public void smartdashBTest() {
+        setPower(pwr, pwr);
+    }
 }

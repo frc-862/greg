@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
@@ -20,6 +21,7 @@ public class Indexer extends SubsystemBase {
     DigitalInput[] pcSensors;
     private final double pwrThreshold = 0.05;
     private VictorSPX indexer;
+    private DoubleSolenoid safty;
 
     // Components
     /**
@@ -27,6 +29,7 @@ public class Indexer extends SubsystemBase {
      */
 
     public Indexer(DigitalInput[] sensors) {
+        safty =new DoubleSolenoid(21, RobotMap.saftyin, RobotMap.saftyOut);
         pcSensors = sensors;
         indexer =new VictorSPX(RobotMap.indexerCanID);
 
@@ -79,9 +82,15 @@ public class Indexer extends SubsystemBase {
         return 0d;
     }
 
-    public void safetyOn() {}
+    public void safetyOn() {
+        safty.set(DoubleSolenoid.Value.kForward);
+    }
 
-    public void safetyOff() {}
+    public void safetyOff() {
+        safty.set(DoubleSolenoid.Value.kReverse);
+    }
+
+
 
     public int getPowerCellCount() {
         return 0;

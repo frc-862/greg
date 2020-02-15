@@ -7,14 +7,11 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.drivetrains.QuasarDrivetrain;
 
 public class VisionRotate extends CommandBase {
     private static final double VISION_ROTATE_P = .15 / 320;
@@ -43,18 +40,19 @@ public class VisionRotate extends CommandBase {
             double visionOffset = vision.getOffsetAngle();
             double pwr = visionOffset * VISION_ROTATE_P;
 
-            if (!inTolerance()) {
 
-            }
             //System.out.println("VR exec: " + pwr);
             //pwr = Math.max(Math.abs(pwr), MIN_ROTATE_PWR);
-            if(pwr<MIN_ROTATE_PWR&&pwr>0){
-                pwr=MIN_ROTATE_PWR;
+            if(pwr < MIN_ROTATE_PWR && pwr>0){
+                pwr = MIN_ROTATE_PWR;
             }
-            if(pwr>-MIN_ROTATE_PWR&&pwr<0){
-                pwr=-MIN_ROTATE_PWR;
+            if(pwr > -MIN_ROTATE_PWR && pwr <0){
+                pwr = -MIN_ROTATE_PWR;
             }
             drivetrain.setPower(pwr, -pwr);
+            //right is pos
+            //left is neg
+
         }
     }
 
@@ -65,7 +63,7 @@ public class VisionRotate extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return vision.seePortTarget() && LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.ROTATION_TOLERANCE);
+        return inTolerance();
     }
     
     @Override

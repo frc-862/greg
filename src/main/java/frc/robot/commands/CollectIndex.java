@@ -86,7 +86,7 @@ public class CollectIndex extends CommandBase {
             collector.setPower(1);
             indexer.setPower(1);
         }else {
-            indexer.setPower(0);
+            indexer.setPower(collectPwr.getAsDouble());
             collector.setPower(collectPwr.getAsDouble());
         }
 

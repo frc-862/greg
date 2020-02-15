@@ -23,8 +23,10 @@ import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.auton.AutonGenerator;
+import frc.robot.commands.CollectEject;
 import frc.robot.commands.CollectIndex;
 import frc.robot.commands.drivetrain.VoltDrive;
+import frc.robot.commands.shooter.SpinUpFlywheelVelocity;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -80,15 +82,19 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverRight.getY()
         ));
         collector.setDefaultCommand(new CollectIndex(collector,indexer,()-> getCollectPower()));
-//        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,SmartDashboard.getNumber("speed of Flywheels",0)));
+        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,500));
 
 
     }
 
     private void initializeDashboardCommands() {
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
+        SmartDashboard.putData("collect",new CollectEject(collector,
+                ()->operator.getTriggerAxis(GenericHID.Hand.kRight),
+                ()->operator.getTriggerAxis(GenericHID.Hand.kLeft)));
         SmartDashboard.putData("safty in",new InstantCommand(()->indexer.safetyOn()));
         SmartDashboard.putData("safty out",new InstantCommand(()->indexer.safetyOff()));
+
     }
 
     /**

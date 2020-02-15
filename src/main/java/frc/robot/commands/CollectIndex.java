@@ -81,15 +81,13 @@ public class CollectIndex extends CommandBase {
     @Override
     public void execute() {
 
-
         if(collectPwr.getAsDouble()>.1){
             collector.setPower(1);
             indexer.setPower(1);
-        }else {
+        } else {
             indexer.setPower(0);
             collector.setPower(collectPwr.getAsDouble());
         }
-
 
     }
 

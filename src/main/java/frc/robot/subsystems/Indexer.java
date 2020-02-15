@@ -29,9 +29,9 @@ public class Indexer extends SubsystemBase {
      */
 
     public Indexer(DigitalInput[] sensors) {
-        safty =new DoubleSolenoid(21, RobotMap.saftyin, RobotMap.saftyOut);
+        safty = new DoubleSolenoid(21, RobotMap.saftyin, RobotMap.saftyOut);
         pcSensors = sensors;
-        indexer =new VictorSPX(RobotMap.indexerCanID);
+        indexer = new VictorSPX(RobotMap.indexerCanID);
 
         CommandScheduler.getInstance().registerSubsystem(this);
     }
@@ -82,15 +82,22 @@ public class Indexer extends SubsystemBase {
         return 0d;
     }
 
-    public void safetyOn() {
+    public void safteyClosed() {
         safty.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void safetyOff() {
+    public void safteyOpen() {
         safty.set(DoubleSolenoid.Value.kReverse);
     }
 
+    public void toggleSaftey() {
+        if(safty.get().equals(DoubleSolenoid.Value.kForward)) safteyOpen();
+        else safteyClosed();   
+    }
 
+    public void spit() {
+        setPower(-1d);
+    }
 
     public int getPowerCellCount() {
         return 0;

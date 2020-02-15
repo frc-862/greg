@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -47,8 +48,8 @@ public class GregContainer extends LightningContainer {
 
     private final Logging loggerSystem = new Logging();
     private final Vision vision = new Vision();
-    private final Indexer indexer=new Indexer(sensors);
-    private final Collector collector =new Collector();
+    private final Indexer indexer = new Indexer(sensors);
+    private final Collector collector = new Collector();
     private final PCMSim pcmSim = new PCMSim(21);
 
     // private final Collector collector = new Collector();
@@ -80,15 +81,15 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverRight.getY()
         ));
         collector.setDefaultCommand(new CollectIndex(collector,indexer,()-> getCollectPower()));
-//        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,SmartDashboard.getNumber("speed of Flywheels",0)));
+        // shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,SmartDashboard.getNumber("speed of Flywheels",0)));
 
 
     }
 
     private void initializeDashboardCommands() {
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
-        SmartDashboard.putData("safty in",new InstantCommand(()->indexer.safetyOn()));
-        SmartDashboard.putData("safty out",new InstantCommand(()->indexer.safetyOff()));
+        SmartDashboard.putData("safty in",new InstantCommand(()->indexer.safteyClosed()));
+        SmartDashboard.putData("safty out",new InstantCommand(()->indexer.safteyOpen()));
     }
 
     /**
@@ -99,8 +100,10 @@ public class GregContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-        (new JoystickButton(operator, 5)).whenPressed(new InstantCommand(collector::puterOuterIn, collector));
-        (new JoystickButton(operator, 6)).whenPressed(new InstantCommand(collector::puterOuterOut, collector));
+        (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterOut(); }, collector));
+        (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
+        (new JoystickButton(operator, JoystickConstants.Y)).whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
+        (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
     }
 
     @Override

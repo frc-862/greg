@@ -24,8 +24,10 @@ import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.auton.AutonGenerator;
+import frc.robot.commands.CollectEject;
 import frc.robot.commands.CollectIndex;
 import frc.robot.commands.drivetrain.VoltDrive;
+import frc.robot.commands.shooter.SpinUpFlywheelVelocity;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -39,7 +41,7 @@ import java.util.HashMap;
  */
 public class GregContainer extends LightningContainer {
 
-    private static int powerCellCapacity = 0;
+    // private static int powerCellCapacity = 0;
 
     private final LightningDrivetrain drivetrain = new GregDrivetrain();
     private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
@@ -70,7 +72,7 @@ public class GregContainer extends LightningContainer {
      */
     public GregContainer(int startingPowerCellCapacity) {
 
-        powerCellCapacity = startingPowerCellCapacity;
+        //powerCellCapacity = startingPowerCellCapacity;
 
         // Configure the button bindings
         configureButtonBindings();
@@ -80,16 +82,21 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverLeft.getY(),
                                      () -> -driverRight.getY()
         ));
-        collector.setDefaultCommand(new CollectIndex(collector,indexer,()-> getCollectPower()));
-        // shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter,SmartDashboard.getNumber("speed of Flywheels",0)));
+        collector.setDefaultCommand(new CollectIndex(collector, indexer,() -> getCollectPower()));
+        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter, 500));
 
-
+        shooter.setWhenBallShot((n) -> shooter.shotBall());
     }
 
     private void initializeDashboardCommands() {
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
         SmartDashboard.putData("safty in",new InstantCommand(()->indexer.safteyClosed()));
         SmartDashboard.putData("safty out",new InstantCommand(()->indexer.safteyOpen()));
+        SmartDashboard.putData("collect",new CollectEject(collector,
+                ()->operator.getTriggerAxis(GenericHID.Hand.kRight),
+                ()->operator.getTriggerAxis(GenericHID.Hand.kLeft)));
+        SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
+
     }
 
     /**
@@ -104,21 +111,23 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
         (new JoystickButton(operator, JoystickConstants.Y)).whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
+        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(indexer::resetBallCount, indexer);
+        (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
     }
 
     @Override
     public HashMap<String, Command> getAutonomousCommands() { return autonGenerator.getCommands(); }
 
-    public static int getPowerCellCapacity() {
-        return powerCellCapacity;
-    }
+    // public static int getPowerCellCapacity() {
+    //     return powerCellCapacity;
+    // }
 
-    public static void setPowerCellCapacity(int newPowerCellCapacity) {
-        powerCellCapacity = newPowerCellCapacity;
-    }
+    // public static void setPowerCellCapacity(int newPowerCellCapacity) {
+    //     powerCellCapacity = newPowerCellCapacity;
+    // }
+
     public double getCollectPower(){
-        return operator.getTriggerAxis(GenericHID.Hand.kRight)
-                -operator.getTriggerAxis(GenericHID.Hand.kLeft);
+        return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 
 

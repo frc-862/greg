@@ -54,7 +54,7 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
     public void setColor(int row, int column, int r, int g, int b){
         buffer.setLED(ledMap.get(row - 1)[column - 1], new Color(r, g, b));
         led.setData(buffer);
-        System.out.println(ledMap.get(row - 1)[column - 1]);
+        //System.out.println(ledMap.get(row - 1)[column - 1]);
     }
 
     public void setColor(int[] rows, int column, int r, int g, int b){
@@ -92,8 +92,8 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
             Timer.delay(0.001);
             for(int patternInt : patternMap.get(i)){
                 buffer.setHSV(ledMap.get((topLeftRow-1) + i)[(topLeftColumn-1) + patternInt], hue, saturation, v);
-                System.out.println(topLeftRow);
-                System.out.println(topLeftColumn);
+                //System.out.println(topLeftRow);
+                //System.out.println(topLeftColumn);
             }
         }
         led.setData(buffer);

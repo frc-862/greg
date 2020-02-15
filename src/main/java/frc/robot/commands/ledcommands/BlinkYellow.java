@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.leds.LEDs;
 
-public class BlinkGreen extends CommandBase {
+public class BlinkYellow extends CommandBase {
 
   LEDs leds;
   IntSupplier square;
@@ -22,7 +22,7 @@ public class BlinkGreen extends CommandBase {
   /**
    * Creates a new BlinkGreen.
    */
-  public BlinkGreen(IntSupplier square, LEDs leds) {
+  public BlinkYellow(IntSupplier square, LEDs leds) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.leds = leds;
     this.square = square;
@@ -52,7 +52,7 @@ public class BlinkGreen extends CommandBase {
 
     if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
       if (toggleForTimer) {
-        leds.greenMatrix(square.getAsInt());
+        leds.yellowMatrix(square.getAsInt());
         toggleForTimer = false;
       }
       else {

@@ -81,17 +81,17 @@ public class LEDs extends SubsystemBase{
 
     public void greenMatrix(int square) {
       setSquareWidth(8);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 60, 255, 100);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 60, 255, 10);
     }
 
     public void yellowMatrix(int square) {
       setSquareWidth(8);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 30, 255, 100);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 30, 255, 10);
     }
 
     public void redMatrix(int square) {
       setSquareWidth(8);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 100);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 10);
     }
 
     //@SuppressWarnings("unchecked")
@@ -103,22 +103,22 @@ public class LEDs extends SubsystemBase{
       //matrix.setMap(LEDMatrixMap.mapU, 1, 13, 10, 255, 50);
       //matrix.setMap(LEDMatrixMap.mapH, 1, 19, 10, 255, 50);
       //matrix.setMap(LEDMatrixMap.mapExclamation, 1, 25, 7, 255, 50);
-      matrix.setSquareMap(8);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 60, 255, 100);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 30, 255, 100);
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 0, 255, 100);
+      //matrix.setSquareMap(8);
+      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 60, 255, 10);
+      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 30, 255, 10);
+      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 0, 255, 10);
 
-      if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
-        if (toggleForTimer) {
-          matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 60, 255, 100);
-          toggleForTimer = false;
-        }
-        else {
-          matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 0, 0, 0);
-          toggleForTimer = true;
-        }
-        timerAtor = Timer.getFPGATimestamp();
-      }
+      //if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
+        //if (toggleForTimer) {
+          //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 60, 255, 100);
+          //toggleForTimer = false;
+        //}
+        //else {
+          //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 0, 0, 0);
+          //toggleForTimer = true;
+        //}
+        //timerAtor = Timer.getFPGATimestamp();
+      //}
       //best green = RGB(0, 255, 0), HSV(60, 255, 100)
       //best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
       //matrix.setColor(1, 1, 0, 255, 0);

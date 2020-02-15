@@ -7,51 +7,45 @@
 
 package frc.robot.commands.ledcommands;
 
+import java.util.function.IntSupplier;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.leds.LEDs;
 
-public class RunLeds extends CommandBase {
-  /**
-   * Creates a new RunLeds.
-   */
-  LEDs leds;
+public class SolidGreen extends CommandBase {
 
-  public RunLeds(LEDs leds) {
+  LEDs leds;
+  IntSupplier square;
+  double timerAtor = Timer.getFPGATimestamp();
+  boolean toggleForTimer = false;
+  /**
+   * Creates a new BlinkGreen.
+   */
+  public SolidGreen(IntSupplier square, LEDs leds) {
+    // Use addRequirements() here to declare subsystem dependencies.
     this.leds = leds;
+    this.square = square;
+    addRequirements(leds);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //init codes
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      //if(EddieContainer.Leds.toggleA){EddieContainer.Leds.setA(); }
-      //else if(!EddieContainer.Leds.toggleA){EddieContainer.Leds.clearA();}
-
-      //if(EddieContainer.Leds.toggleB){EddieContainer.Leds.setB(); }
-      //else if(!EddieContainer.Leds.toggleB){EddieContainer.Leds.clearB();}
-
-      //if(EddieContainer.Leds.toggleC){EddieContainer.Leds.setC();}
-      //else if(!EddieContainer.Leds.toggleC){EddieContainer.Leds.clearC();}
-
-      //if(EddieContainer.Leds.toggleD){EddieContainer.Leds.setD();}
-      //else if(!EddieContainer.Leds.toggleD){EddieContainer.Leds.clearD();}
-      //EddieContainer.Leds.rainbow();
-      //System.out.println("If you are seeing this, the command is being called");
-      leds.setA();
+    leds.greenMatrix(square.getAsInt());
+    
   }
-
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    leds.stop();
-    //LEDs.clearBuffer();
-    //LEDs.setLED2Buffer();
+    leds.clearMatrix(square.getAsInt());
   }
 
   // Returns true when the command should end.

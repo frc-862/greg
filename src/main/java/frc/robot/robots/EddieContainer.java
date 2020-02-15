@@ -16,7 +16,13 @@ import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
+import frc.robot.commands.ledcommands.BlinkGreen;
+import frc.robot.commands.ledcommands.BlinkRed;
+import frc.robot.commands.ledcommands.BlinkYellow;
 import frc.robot.commands.ledcommands.RunLeds;
+import frc.robot.commands.ledcommands.SolidGreen;
+import frc.robot.commands.ledcommands.SolidRed;
+import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -81,14 +87,11 @@ public class EddieContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(1), Leds));
-        //(new JoystickButton(driver, Button.kB.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(2), Leds));
-        //(new JoystickButton(driver, Button.kY.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(3), Leds));
-        //(new JoystickButton(driver, Button.kX.value)).whenPressed(new InstantCommand(() -> Leds.ToggleLED(4), Leds));
-        //(new JoystickButton(driver, Button.kA.value)).whenReleased(new RunLeds());
-        //(new JoystickButton(driver, Button.kB.value)).whenPressed(new RunLeds());
-        //(new JoystickButton(driver, Button.kY.value)).whenPressed(new RunLeds());
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new RunLeds());
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkGreen(() -> 17, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkYellow(() -> 17, Leds));
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidYellow(() -> 1, Leds));
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidGreen(() -> 9, Leds));
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidRed(() -> 17, Leds));
     }
 
     @Override

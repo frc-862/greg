@@ -26,6 +26,7 @@ import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.leds.LED;
 import frc.robot.subsystems.leds.LEDs;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 
@@ -87,11 +88,12 @@ public class EddieContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkGreen(() -> 17, Leds));
-        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkYellow(() -> 17, Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidYellow(() -> 1, Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidGreen(() -> 9, Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidRed(() -> 17, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new BlinkYellow(() -> 1, Leds));
+        //(new JoystickButton(driver, Button.kB.value)).whileHeld(new BlinkGreen(() -> 2, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new SolidGreen(() -> 3, Leds));
+        (new JoystickButton(driver, Button.kY.value)).whileHeld(new SolidRed(() -> 4, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new InstantCommand(() -> Leds.stop()));
+        (new JoystickButton(driver, Button.kY.value)).whenReleased(new RunLeds(Leds));
     }
 
     @Override

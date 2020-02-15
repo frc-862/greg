@@ -29,20 +29,7 @@ public class RunLeds extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      //if(EddieContainer.Leds.toggleA){EddieContainer.Leds.setA(); }
-      //else if(!EddieContainer.Leds.toggleA){EddieContainer.Leds.clearA();}
-
-      //if(EddieContainer.Leds.toggleB){EddieContainer.Leds.setB(); }
-      //else if(!EddieContainer.Leds.toggleB){EddieContainer.Leds.clearB();}
-
-      //if(EddieContainer.Leds.toggleC){EddieContainer.Leds.setC();}
-      //else if(!EddieContainer.Leds.toggleC){EddieContainer.Leds.clearC();}
-
-      //if(EddieContainer.Leds.toggleD){EddieContainer.Leds.setD();}
-      //else if(!EddieContainer.Leds.toggleD){EddieContainer.Leds.clearD();}
-      //EddieContainer.Leds.rainbow();
-      //System.out.println("If you are seeing this, the command is being called");
-      leds.setA();
+    
   }
 
 

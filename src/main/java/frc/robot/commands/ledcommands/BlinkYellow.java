@@ -46,9 +46,6 @@ public class BlinkYellow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Goal: initialize these variables only once, maybe using initialize()?
-    //If these variables are not commented out, the blinking will not work
-    
 
     if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
       if (toggleForTimer) {
@@ -66,6 +63,7 @@ public class BlinkYellow extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    leds.stop();
     leds.clearMatrix(square.getAsInt());
   }
 

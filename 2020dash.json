@@ -905,6 +905,35 @@
                   "_source0": "network_table:///LiveWindow/Ungrouped/VictorSP[0]",
                   "_title": "VictorSP[0]",
                   "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[21,1]/Value",
+                  "_title": "DoubleSolenoid[21,1]/Value"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Victor SPX [11]",
+                  "_title": "Victor SPX [11]",
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Speed Controller",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/Victor SPX [12]",
+                  "_title": "Victor SPX [12]",
+                  "Visuals/Orientation": "HORIZONTAL"
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DoubleSolenoid[21,5]/Value",
+                  "_title": "DoubleSolenoid[21,5]/Value"
+                },
+                {
+                  "_type": "Boolean Box",
+                  "_source0": "network_table:///LiveWindow/Ungrouped/DigitalInput[4]/Value",
+                  "_title": "DigitalInput[4]/Value",
+                  "Colors/Color when true": "#7CFC00FF",
+                  "Colors/Color when false": "#8B0000FF"
                 }
               ]
             }
@@ -982,6 +1011,17 @@
               "_type": "Basic Subsystem",
               "_source0": "network_table:///LiveWindow/TwikiDrivetrain/DRIVETRAIN",
               "_title": "TwikiDrivetrain/DRIVETRAIN"
+            }
+          },
+          "2,4": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///LiveWindow/GregDrivetrain/DRIVETRAIN",
+              "_title": "GregDrivetrain/DRIVETRAIN"
             }
           }
         }
@@ -2089,12 +2129,60 @@
           }
         }
       }
+    },
+    {
+      "title": "Tab 10",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "tiles": {
+          "3,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/BallSeenBeamBreak",
+              "_title": "/SmartDashboard/BallSeenBeamBreak",
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "6,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/BallsHeld",
+              "_title": "SmartDashboard/BallsHeld"
+            }
+          },
+          "8,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/ResetBallCount",
+              "_title": "SmartDashboard/ResetBallCount"
+            }
+          }
+        }
+      }
     }
   ],
   "windowGeometry": {
-    "x": -8.0,
-    "y": -8.0,
-    "width": 1936.0,
-    "height": 1066.0
+    "x": 0.0,
+    "y": 0.0,
+    "width": 1920.0,
+    "height": 806.0
   }
 }

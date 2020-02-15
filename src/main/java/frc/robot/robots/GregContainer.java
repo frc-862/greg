@@ -90,9 +90,9 @@ public class GregContainer extends LightningContainer {
 
     private void initializeDashboardCommands() {
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
-        SmartDashboard.putData("safty in",new InstantCommand(()->indexer.safteyClosed()));
-        SmartDashboard.putData("safty out",new InstantCommand(()->indexer.safteyOpen()));
-        SmartDashboard.putData("collect",new CollectEject(collector,
+        SmartDashboard.putData("safty in", new InstantCommand(()->indexer.safteyClosed()));
+        SmartDashboard.putData("safty out", new InstantCommand(()->indexer.safteyOpen()));
+        SmartDashboard.putData("collect", new CollectEject(collector,
                 ()->operator.getTriggerAxis(GenericHID.Hand.kRight),
                 ()->operator.getTriggerAxis(GenericHID.Hand.kLeft)));
         SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
@@ -107,7 +107,7 @@ public class GregContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-        (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterOut(); }, collector));
+        (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
         (new JoystickButton(operator, JoystickConstants.Y)).whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);

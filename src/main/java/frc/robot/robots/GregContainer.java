@@ -8,10 +8,14 @@
 package frc.robot.robots;
 
 import edu.wpi.first.hal.sim.PCMSim;
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -32,6 +36,8 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -83,7 +89,16 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverRight.getY()
         ));
         collector.setDefaultCommand(new CollectIndex(collector, indexer,() -> getCollectPower()));
-        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter, 500));
+
+        final var flyWheelSpeed = Shuffleboard.getTab("Shooter")
+                .add("SetPoint", 1)
+                .withWidget(BuiltInWidgets.kNumberSlider)
+                .withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
+                .getEntry();
+        flyWheelSpeed.addListener((n) -> {
+            shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter, flyWheelSpeed.getDouble(0)));
+        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter, 0));
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
     }

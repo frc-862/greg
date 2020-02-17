@@ -56,6 +56,7 @@ public class GregContainer extends LightningContainer {
     // private final Collector collector = new Collector();
     // private final Indexer indexer = Indexer.create();
     private final Shooter shooter = new Shooter();
+    private final ShooterAngle shooterAngle = new ShooterAngle();
 
     // private final Climber climber = new Climber();
     // private final CtrlPanelOperator jeopardyWheel = new CtrlPanelOperator();

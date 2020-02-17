@@ -80,8 +80,6 @@ public class QuasarContainer extends LightningContainer {
     SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
     SmartDashboard.putData("Spin the wheel", new SpinWheelofF(WheelofFortune));
     SmartDashboard.putData("Position WoF", new PositionWheel(WheelofFortune));
-
-    SmartDashboard.putData("Test SmartD", new RunCommand(drivetrain::smartdashBTest,  drivetrain));
   }
 
   private void configureSystemTests() {

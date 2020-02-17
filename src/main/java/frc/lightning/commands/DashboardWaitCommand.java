@@ -7,29 +7,37 @@
 
 package frc.lightning.commands;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import java.util.Map;
+
 public class DashboardWaitCommand extends CommandBase {
-  private double time = 0d;
-  private double startTime = 0d;
-  private double targetTime = startTime + time;
+  private final NetworkTableEntry entry;
+  private double targetTime;
 
   /**
    * Creates a new DashboardWaitCommand.
    */
-  public DashboardWaitCommand() {
-    // SmartDashboard.putNumber("AutoWaitSeconds", time);
-    // time = SmartDashboard.getNumber("AutoWaitSeconds", 0d);
+  public DashboardWaitCommand() { this("AutoWaitSeconds"); }
+  public DashboardWaitCommand(String key) { this(key, "Autonomous"); }
+  public DashboardWaitCommand(String key, String tab_name) {
+    entry = Shuffleboard.getTab(tab_name)
+            .add(key, 0d)
+            .withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", 0, "max", 15)) // specify widget properties here
+            .getEntry();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    time = SmartDashboard.getNumber("AutoWaitSeconds", 0d);
+    final double time = (entry != null) ? entry.getDouble(0) : 0;
     System.out.println(time + "   <-----------------------TIME!!!!");
-    startTime = Timer.getFPGATimestamp();
+    final double startTime = Timer.getFPGATimestamp();
     targetTime = startTime + time;
   }
 

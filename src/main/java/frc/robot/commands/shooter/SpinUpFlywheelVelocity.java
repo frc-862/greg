@@ -36,6 +36,7 @@ public class SpinUpFlywheelVelocity extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+//        return false;
         return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
                LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
                LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);

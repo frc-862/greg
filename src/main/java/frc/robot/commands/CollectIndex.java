@@ -96,7 +96,7 @@ public class CollectIndex extends CommandBase {
                 indexTimer = Timer.getFPGATimestamp();
             } 
 
-            if((Timer.getFPGATimestamp() - indexTimer) < 1.5) {
+            if((Timer.getFPGATimestamp() - indexTimer) < 2d) {
                 indexer.setPower(1d);
             } else {
                 indexer.setPower(0d);

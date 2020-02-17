@@ -9,7 +9,6 @@ package frc.robot.robots;
 
 import edu.wpi.first.hal.sim.PCMSim;
 import edu.wpi.first.networktables.EntryListenerFlags;
-import edu.wpi.first.networktables.EntryNotification;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,13 +30,11 @@ import frc.robot.auton.AutonGenerator;
 import frc.robot.commands.CollectEject;
 import frc.robot.commands.CollectIndex;
 import frc.robot.commands.drivetrain.VoltDrive;
-import frc.robot.commands.shooter.SpinUpFlywheelVelocity;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -71,6 +68,7 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverLeft = new Joystick(JoystickConstants.DRIVER_LEFT);
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
+    private final XboxController test = new XboxController(3);
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain /*, null, null, null*/ );
 
@@ -91,20 +89,22 @@ public class GregContainer extends LightningContainer {
         ));
         collector.setDefaultCommand(new CollectIndex(collector, indexer,() -> getCollectPower()));
 
+
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter")
                 .add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider)
                 .withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
                 .getEntry();
         flyWheelSpeed.addListener((n) -> {
-            shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter, flyWheelSpeed.getDouble(0)));
+            shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-        shooter.setDefaultCommand(new SpinUpFlywheelVelocity(shooter, 0));
+
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
     }
 
     private void initializeDashboardCommands() {
+
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
         SmartDashboard.putData("safty in", new InstantCommand(()->indexer.safteyClosed()));
         SmartDashboard.putData("safty out", new InstantCommand(()->indexer.safteyOpen()));

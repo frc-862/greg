@@ -10,11 +10,12 @@ import frc.lightning.util.InterpolatedMap;
 import frc.robot.Constants;
 
 public class ShooterAngle extends SubsystemBase {
+
     InterpolatedMap shooterAngle = new InterpolatedMap();
     private TalonSRX adjuster;
 
     public ShooterAngle (){
-        adjuster = new TalonSRX(11);
+        adjuster = new TalonSRX(15);
         System.out.println("Adjuster created: " + adjuster);
 
         //data sheet
@@ -49,7 +50,9 @@ public class ShooterAngle extends SubsystemBase {
     public void setDesiredAngle(double distance) {
         adjuster.set(ControlMode.MotionMagic,shooterAngle.get(distance));
     }
-
+    public void setPower(double pwr){
+        adjuster.set(ControlMode.PercentOutput,pwr);
+    }
     public void setShooterAngle(double angle){
         adjuster.set(ControlMode.MotionMagic,angle);
     }

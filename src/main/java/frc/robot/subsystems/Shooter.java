@@ -7,7 +7,11 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.Function;
+
 import com.revrobotics.*;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +19,7 @@ import frc.lightning.util.InterpolatedMap;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
+import java.util.function.IntConsumer;
 
 public class Shooter extends SubsystemBase {
     // Components
@@ -30,6 +35,8 @@ public class Shooter extends SubsystemBase {
     private int ballsFired;
     private double setSpeed = 0;
     InterpolatedMap flyWheelSpeed = new InterpolatedMap();
+    private boolean armed = false;
+    private IntConsumer whenBallShot;
     /**
      * Creates a new Shooter.
      */
@@ -93,15 +100,38 @@ public class Shooter extends SubsystemBase {
 
 
     }
+
+    public void setWhenBallShot(IntConsumer whenBallShot) {
+        this.whenBallShot = whenBallShot;
+    }
+
+    public void shotBall() { ballsFired--; }
+
     @Override
-    public void periodic(){
+    public void periodic() {
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
 
-        if((setSpeed-motor2encoder.getVelocity())<300){
-            ballsFired++;
+        if(setSpeed > 400){
+            final double speedError = (setSpeed - motor2encoder.getVelocity());
+            if(armed) {
+                if (speedError > 300) {
+                    ballsFired++;
+                    if(whenBallShot != null) {
+                        whenBallShot.accept(ballsFired);
+                    }
+                    armed = false;
+                }
+            } else {
+                if(speedError < 100) {
+                    armed = true;
+                }
+            }
+        } else {
+            armed = false;
         }
+
     }
 
     public void setPower(double pwr) {
@@ -111,7 +141,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVelocity(double velocity) {
-        setSpeed=velocity;
+        setSpeed = velocity;
         this.motor1PIDFController.setReference(velocity, ControlType.kVelocity);
         this.motor2PIDFController.setReference(velocity, ControlType.kVelocity);
         this.motor3PIDFController.setReference(velocity, ControlType.kVelocity);
@@ -127,7 +157,7 @@ public class Shooter extends SubsystemBase {
         setPower(0d);
     }
 
-    public double getDesiredSpeed(double distance){
+    public double getDesiredSpeed(double distance) {
         return flyWheelSpeed.get(distance);
     }
 

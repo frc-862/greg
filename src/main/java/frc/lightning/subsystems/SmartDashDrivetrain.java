@@ -1,44 +1,30 @@
 package frc.lightning.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.Map;
+
 public class SmartDashDrivetrain extends SubsystemBase {
-    private final LightningDrivetrain drivetrain;
+    public SmartDashDrivetrain(LightningDrivetrain drivetrain) {
+        final var tab = Shuffleboard.getTab("Drivetrain");
 
-    public SmartDashDrivetrain(LightningDrivetrain dt) {
-        this.drivetrain = dt;
+        tab.addNumber("Left Velocity", () -> drivetrain.getLeftVelocity())
+                .withWidget(BuiltInWidgets.kNumberBar)
+                .withProperties(Map.of("min", -13d, "max", 13d));
+        tab.addNumber("Right Velocity", () -> drivetrain.getRightVelocity());
 
-        SmartDashboard.putNumber("Left Velocity", drivetrain.getLeftVelocity());
-        SmartDashboard.putNumber("Left Distance", drivetrain.getLeftDistance());
-        SmartDashboard.putNumber("Right Velocity", drivetrain.getRightVelocity());
-        SmartDashboard.putNumber("Right Distance", drivetrain.getRightDistance());
+        tab.addNumber("Left Distance", () -> drivetrain.getLeftDistance());
+        tab.addNumber("Right Distance", () -> drivetrain.getRightDistance());
 
-        SmartDashboard.putNumber("Pose Rotation Deg", drivetrain.getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("Pose Trans Y", drivetrain.getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Pose Trans X", drivetrain.getPose().getTranslation().getX());
-        SmartDashboard.putNumber("Pose Trans Norm", drivetrain.getPose().getTranslation().getNorm());
+        tab.addNumber("Pose Rotation Deg", () -> drivetrain.getPose().getRotation().getDegrees());
+        tab.addNumber("Pose Trans Y", () -> drivetrain.getPose().getTranslation().getY());
+        tab.addNumber("Pose Trans X", () -> drivetrain.getPose().getTranslation().getX());
+        tab.addNumber("Pose Trans Norm", () -> drivetrain.getPose().getTranslation().getNorm());
 
-        SmartDashboard.putNumber("Heading", drivetrain.getHeading().getDegrees());
-        SmartDashboard.putNumber("Right Wheel Speed", drivetrain.getSpeeds().rightMetersPerSecond);
-        SmartDashboard.putNumber("Left Wheel Speed", drivetrain.getSpeeds().leftMetersPerSecond);
-
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Left Velocity", drivetrain.getLeftVelocity());
-        SmartDashboard.putNumber("Left Distance", drivetrain.getLeftDistance());
-        SmartDashboard.putNumber("Right Velocity", drivetrain.getRightVelocity());
-        SmartDashboard.putNumber("Right Distance", drivetrain.getRightDistance());
-        
-        SmartDashboard.putNumber("Pose Rotation Deg", drivetrain.getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("Pose Trans Y", drivetrain.getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Pose Trans X", drivetrain.getPose().getTranslation().getX());
-        SmartDashboard.putNumber("Pose Trans Norm", drivetrain.getPose().getTranslation().getNorm());
-
-        SmartDashboard.putNumber("Heading", drivetrain.getHeading().getDegrees());
-        SmartDashboard.putNumber("Right Wheel Speed", drivetrain.getSpeeds().rightMetersPerSecond);
-        SmartDashboard.putNumber("Left Wheel Speed", drivetrain.getSpeeds().leftMetersPerSecond);
+        tab.addNumber("Heading", () -> drivetrain.getHeading().getDegrees());
+        tab.addNumber("Right Wheel Speed", () -> drivetrain.getSpeeds().rightMetersPerSecond);
+        tab.addNumber("Left Wheel Speed", () -> drivetrain.getSpeeds().leftMetersPerSecond);
     }
 }

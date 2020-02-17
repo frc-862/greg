@@ -22,14 +22,14 @@ public class FeedPowerCell extends CommandBase {
     public void initialize() {
         shooter.reeeeesetBallsFired();
         startingPCCount = indexer.getPowerCellCount();
-        indexer.safetyOff();
+        indexer.safteyOpen();
         indexer.feed();
     }
 
     @Override
     public void end(boolean interrupted) {
         if (!fullAuto) {
-            indexer.safetyOn();
+            indexer.safteyClosed();
         }
         indexer.stop();
         shooter.reeeeesetBallsFired();

@@ -36,13 +36,7 @@ public class Robot extends LightningRobot {
             registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
             System.out.println("Registered " + name + " command for auton");
         }
-        // Set<Command> commands = getContainer().getAutonomousCommands().entrySet();
-
-        // for(int i = 0 ; i < getContainer().getAutonomousCommands().size() ; i++) {}
-
-        // for (var command : getContainer().getAutonomousCommands().) {
-        //     registerAutonomousCommmand(command);
-        // }
+        
     }
 
     @Override

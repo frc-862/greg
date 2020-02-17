@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
@@ -23,15 +25,18 @@ public class Indexer extends SubsystemBase {
     private VictorSPX indexer;
     private DoubleSolenoid safty;
 
+    public int ballCount;
+    DigitalInput collectSensor = new DigitalInput(4);
+
     // Components
     /**
      * Creates a new Indexer.
      */
 
     public Indexer(DigitalInput[] sensors) {
-        safty =new DoubleSolenoid(21, RobotMap.saftyin, RobotMap.saftyOut);
+        safty = new DoubleSolenoid(21, RobotMap.saftyin, RobotMap.saftyOut);
         pcSensors = sensors;
-        indexer =new VictorSPX(RobotMap.indexerCanID);
+        indexer = new VictorSPX(RobotMap.indexerCanID);
 
         CommandScheduler.getInstance().registerSubsystem(this);
     }
@@ -46,11 +51,36 @@ public class Indexer extends SubsystemBase {
         return new Indexer(pcSensors);
     }
 
+    boolean armed = true;
+    double armedTimer = 0d;
+    boolean ballSeen = false;
 
     @Override
     public void periodic() {
-        updateBallCount();
+
+        ballSeen = !collectSensor.get();
+        SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
+        SmartDashboard.putNumber("BallsHeld", ballCount);
+        SmartDashboard.putBoolean("IndexerArmed", armed);
+
+        if(ballSeen) {
+            if(armed){
+                ballCount++;
+                armed = false;
+            }
+            armedTimer = Timer.getFPGATimestamp();
+        } 
+        if(!ballSeen && !armed && ((Timer.getFPGATimestamp() - armedTimer) > 0.1)) { // TODO constant
+            armed = true;
+        }
+        
     }
+
+    public boolean isBallSeen() { return ballSeen; }
+
+    public void resetBallCount() { ballCount = 0; }
+
+    public int getBallCount() { return ballCount; }
 
     public void stop() {
         setPower(0);
@@ -70,8 +100,8 @@ public class Indexer extends SubsystemBase {
      * else do nothing - ideling
      */
     private void updateBallCount() {
-        if(getBeamBreak() && (getPower() > pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() + 1);
-        else if (getBeamBreak() && (getPower() < -pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() - 1);
+        // if(getBeamBreak() && (getPower() > pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() + 1);
+        // else if (getBeamBreak() && (getPower() < -pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() - 1);
     }
 
     private boolean getBeamBreak() {
@@ -82,15 +112,26 @@ public class Indexer extends SubsystemBase {
         return 0d;
     }
 
-    public void safetyOn() {
+    public void safteyClosed() {
         safty.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void safetyOff() {
+    public void safteyOpen() {
         safty.set(DoubleSolenoid.Value.kReverse);
     }
 
+    public void toggleSaftey() {
+        if(safty.get().equals(DoubleSolenoid.Value.kForward)) safteyOpen();
+        else safteyClosed();   
+    }
 
+    public void spit() {
+        setPower(-1d);
+    }
+
+    public void toShooter() {
+        setPower(1d);
+    }
 
     public int getPowerCellCount() {
         return 0;

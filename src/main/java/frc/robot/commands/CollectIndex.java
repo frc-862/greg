@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
@@ -78,18 +79,32 @@ public class CollectIndex extends CommandBase {
     // red to black, black to red
     // i am tired
 
+    double indexTimer = 0d;
+
     @Override
     public void execute() {
 
-
         if(collectPwr.getAsDouble()>.1){
             collector.setPower(1);
-            indexer.setPower(1);
-        }else {
-            indexer.setPower(collectPwr.getAsDouble());
+        } else {
             collector.setPower(collectPwr.getAsDouble());
         }
 
+        if(indexer.isBallSeen()) {
+
+            if(indexer.ballCount <= 4) {
+                indexTimer = Timer.getFPGATimestamp();
+            } 
+
+            if((Timer.getFPGATimestamp() - indexTimer) < 1.5) {
+                indexer.setPower(1d);
+            } else {
+                indexer.setPower(0d);
+            }
+            
+        } else {
+            indexer.setPower(0d);
+        }
 
     }
 

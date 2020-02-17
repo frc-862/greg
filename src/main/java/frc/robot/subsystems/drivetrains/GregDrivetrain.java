@@ -34,19 +34,12 @@ public class GregDrivetrain extends NeoDrivetrain {
         setLeftGains(Constants.leftGains);
         setRightGains(Constants.rightGains);
 
-        REVGains.putGainsToBeTunedOnDash((getName() + "_RIGHT"), Constants.rightGains);
-        REVGains.putGainsToBeTunedOnDash((getName() + "_LEFT"), Constants.leftGains);
-
+        REVGains.putGainsToBeTunedOnDash((getName() + "_RIGHT"), Constants.rightGains, getRightPIDFC());
+        REVGains.putGainsToBeTunedOnDash((getName() + "_LEFT"), Constants.leftGains, getLeftPIDFC());
     }
 
     public void init() {
         this.resetDistance();
-    }
-
-    @Override
-    public void periodic() {
-        REVGains.updateGainsFromDash((getName() + "_RIGHT"), Constants.rightGains, getRightPIDFC());
-        REVGains.updateGainsFromDash((getName() + "_LEFT"), Constants.leftGains, getLeftPIDFC());
     }
 
     @Override

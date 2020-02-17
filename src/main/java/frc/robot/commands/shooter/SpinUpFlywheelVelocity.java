@@ -27,16 +27,15 @@ public class SpinUpFlywheelVelocity extends CommandBase {
         addRequirements(shooter);
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
+    // Called when command starts
     @Override
-    public void execute() {
+    public void initialize() {
         shooter.setShooterVelocity(velocity);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-
         return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
                LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
                LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);

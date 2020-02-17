@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class PongFunctions extends SubsystemBase{
 
     Random random = new Random();
+    public static final LEDs leds = new LEDs();
+
     public int P1Y = 4;
     public int P2Y = 4;
     public int BallX = 20; //ranges from 1 to 32
@@ -33,12 +35,14 @@ public class PongFunctions extends SubsystemBase{
     int[] downDirs  =  {6, 5, 4};
 
     public void drawPixel(int x, int y){
-    System.out.println("Dreweds X){ " + Integer.toString(x) + " Y){ " + Integer.toString(y));
-    //Draw The Pixels Here
+        leds.drawPixel(x, y);
+        System.out.println("Dreweds X){ " + Integer.toString(x) + " Y){ " + Integer.toString(y));
+        //Draw The Pixels Here
     }
     public void clearPixel(int x, int y){
-    System.out.println("cleared X){ " + Integer.toString(x) + " Y){ " + Integer.toString(y));
-    //Draw The Pixels Here
+        leds.clearPixel(x, y);
+        System.out.println("cleared X){ " + Integer.toString(x) + " Y){ " + Integer.toString(y));
+        //Draw The Pixels Here
     }
     public void UpdateBallDir(){
         if (Contact1) {

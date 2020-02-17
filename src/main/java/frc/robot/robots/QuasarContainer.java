@@ -69,8 +69,8 @@ public class QuasarContainer extends LightningContainer {
 
   private void initializeDashboardCommands() {
     SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain,vision));
-    SmartDashboard.putData("go blue", new InstantCommand(() -> led.goOrangeAndBlue(), led));
-    SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
+    //SmartDashboard.putData("go blue", new InstantCommand(() -> led.goOrangeAndBlue(), led));
+    //SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
     SmartDashboard.putData("Spin the wheel", new SpinWheelofF(WheelofFortune));
     SmartDashboard.putData("Position WoF", new PositionWheel(WheelofFortune));
   }

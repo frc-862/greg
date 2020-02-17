@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
-import frc.robot.subsystems.leds.LED;
+//import frc.robot.subsystems.leds.LED;
 
 public class Vision extends SubsystemBase {
     double XValue=0;
     double YValue=0;
     double Found =0;
-    private final LED led = new LED();
+    //private final LED led = new LED();
     /**
      * Creates a new Vision.
      */
@@ -36,8 +36,8 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("X value",XValue);
         SmartDashboard.putNumber("found",Found);
         if(seePortTarget()){
-            led.goYellow();
-        }else {led.goOrangeAndBlue();}
+            //led.goYellow();
+        }else {/*led.goOrangeAndBlue();*/}
     }
 
     public double getDistanceFromTarget() {

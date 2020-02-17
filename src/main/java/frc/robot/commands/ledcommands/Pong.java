@@ -16,7 +16,9 @@ import java.util.function.IntSupplier;
 public class Pong extends CommandBase {
 
   /*
-   * /* BallDirs /* 0 1 2 /* 7 3 /* 6 5 4
+   * /* BallDirs /* 0 1 2 
+   * /* 7 3 
+   * /* 6 5 4
    */
 
   /**
@@ -71,12 +73,12 @@ public class Pong extends CommandBase {
     System.out.println("X: " + Integer.toString(pongFunctions.BallX) + " Y: " + Integer.toString(pongFunctions.BallY));
     System.out.println("P1: " + Integer.toString(pongFunctions.P1Score) + " P2: " + Integer.toString(pongFunctions.P2Score));
     if (pongFunctions.BallX > 32 || pongFunctions.BallX < 1){
-        //print("BallX: " + str(pong.BallX) + " out of Range!");
-        //exit();
+        System.out.println("BallX: " + Integer.toString(pongFunctions.BallX) + " out of Range!");
+        end(false);
     }
     else if (pongFunctions.BallY > 32 || pongFunctions.BallY < 1){
-        //print("BallY: " + str(pong.BallY) + " out of range!");
-        //exit();
+        System.out.println("BallY: " + Integer.toString(pongFunctions.BallY) + " out of range!");
+        end(false);
     }
     Timer.delay(1.0);
   }

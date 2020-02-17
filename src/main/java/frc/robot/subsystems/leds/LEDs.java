@@ -8,14 +8,27 @@
 package frc.robot.subsystems.leds;
 
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.leds.AddressableLEDMatrix;
+import frc.robot.commands.ledcommands.RunLeds;
+import frc.robot.robots.EddieContainer;
+
 /**
  * Add your docs here.
  */
 public class LEDs extends SubsystemBase{
+
+  public int BallDirection = 0;
+  public int ballColumn = 16;
+  public int ballRow = 5;
+  boolean gameRunning = true;
+  Joystick joystick = new Joystick(0);
+
     private final int ledCount = 256;
    // private final AddressableLED led;
     private final AddressableLEDBuffer buffer;
@@ -23,7 +36,9 @@ public class LEDs extends SubsystemBase{
     public LEDs() {
         buffer= new AddressableLEDBuffer(ledCount);
         matrix = new AddressableLEDMatrix(8, 32, 9);
-    }
+    
+      }
+
 
     int pos = 0;
     int hue = 0;
@@ -96,6 +111,89 @@ public class LEDs extends SubsystemBase{
 
     //@SuppressWarnings("unchecked")
     public void setA(){
+      /*
+      var a = new RunLeds(null);
+      */
+      while (gameRunning){
+
+        if (BallDirection==0){
+          if (ballColumn == 28 && ballRow == 0){
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+            BallDirection = 2;
+          } else if (ballColumn == 28) {
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+            BallDirection = 3;
+          } else if (ballRow == 0){
+            ballRow = ballRow + 1;
+            ballColumn = ballColumn + 1;
+            BallDirection = 1;
+          } else {
+            ballRow = ballRow - 1;
+            ballColumn = ballColumn + 1;
+          }
+        } else if (BallDirection==1){
+          if (ballColumn == 28 && ballRow == 7){
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+            BallDirection = 3;
+          } else if (ballColumn == 28) {
+            BallDirection = 2;
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+          } else if (ballRow == 7){
+            BallDirection = 0;
+            ballRow = ballRow - 1;
+            ballColumn = ballColumn + 1;
+          } else {
+            ballRow = ballRow + 1;
+            ballColumn = ballColumn + 1;
+          }
+        } else if (BallDirection==2){
+          if (ballColumn == 3 && ballRow == 7){
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow - 1;
+            BallDirection = 0;
+          } else if (ballColumn == 3) {
+            BallDirection = 1;
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow + 1;
+          } else if (ballRow == 7){
+            BallDirection = 3;
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+          } else {
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+          }
+        } else if (BallDirection == 3){
+          if (ballColumn == 3 && ballRow == 0){
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow + 1;
+            BallDirection = 1;
+          } else if (ballColumn == 3) {
+            BallDirection = 0;
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow - 1;
+          } else if (ballRow == 0){
+            BallDirection = 2;
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+          } else {
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+          }
+        }
+        matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapPaddle, 0, 2, 100, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapPaddle, 0, 29, 0, 0, 100);
+        
+        System.out.println(joystick.getY(Hand.kLeft));
+        Timer.delay(0.1);
+        matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 0, 0, 0);
+
+      }
       //matrix.setMap(AddressableLEDMatrix.mapSquare,1, 1, 120, 255, 50);
       //matrix.setWord("i", 1, 1, 100,255,50);
       //matrix.setMap(LEDMatrixMap.mapB, 1, 1, 10, 255, 50);

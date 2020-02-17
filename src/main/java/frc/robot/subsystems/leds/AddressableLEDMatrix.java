@@ -87,11 +87,11 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
         return ledMapCollection;
     }
 
-    public void setMap(HashMap<Integer, Integer[]> patternMap, int topLeftRow, int topLeftColumn, int hue, int saturation, int v){
+    public void setMap(HashMap<Integer, Integer[]> patternMap, int topLeftRow, int topLeftColumn, int red, int green, int blue){
         for(int i = 0; i < patternMap.size(); i ++){
             Timer.delay(0.001);
             for(int patternInt : patternMap.get(i)){
-                buffer.setHSV(ledMap.get((topLeftRow-1) + i)[(topLeftColumn-1) + patternInt], hue, saturation, v);
+                buffer.setRGB(ledMap.get((topLeftRow) + i)[(topLeftColumn) + patternInt], red, green, blue);
                 //System.out.println(topLeftRow);
                 //System.out.println(topLeftColumn);
             }

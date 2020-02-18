@@ -259,27 +259,34 @@ public class LEDs extends SubsystemBase{
     }
 
     public void stop(){
-        for (int i = 0; i < ledCount; i++){
-            buffer.setLED(i, new Color(0,0,0));
-        }
-        pos = 0;
-        hue = 0;
-        matrix.stop();
+      for (int i = 0; i < ledCount; i++){
+          buffer.setLED(i, new Color(0,0,0));
+      }
+      pos = 0;
+      hue = 0;
+      matrix.stop();
     }
 
     public void clearA(){
         matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 150, 0, 0);
-      }
+    }
 
-      public void clearB(){
-        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 150, 0, 0);
-      }
+    public void clearB(){
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 150, 0, 0);
+    }
 
-      public void clearC(){
-        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 150, 0, 0);
-      }
+    public void clearC(){
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 150, 0, 0);
+    }
 
-      public void clearD(){
-        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
-      }
+  public void clearD(){
+    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
+  }
+  public void clearPixel(int x, int y) {
+
+  }
+
+  public void drawPixel(int x, int y) {
+    
+  }
 }

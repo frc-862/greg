@@ -26,8 +26,10 @@ public class LEDs extends SubsystemBase{
   public int BallDirection = 0;
   public int ballColumn = 16;
   public int ballRow = 5;
+  public int leftPaddleHeight = 0;
+  public int rightPaddleHeight = 0;
   boolean gameRunning = true;
-  Joystick joystick = new Joystick(0);
+  XboxController controller = new XboxController(0);
 
     private final int ledCount = 256;
    // private final AddressableLED led;
@@ -186,11 +188,30 @@ public class LEDs extends SubsystemBase{
           }
         }
         matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 100, 100, 100);
-        matrix.setMap(LEDMatrixMap.mapPaddle, 0, 2, 100, 0, 0);
-        matrix.setMap(LEDMatrixMap.mapPaddle, 0, 29, 0, 0, 100);
-        
-        System.out.println(joystick.getY(Hand.kLeft));
+        matrix.setMap(LEDMatrixMap.mapPaddle, leftPaddleHeight, 2, 100, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapPaddle, rightPaddleHeight, 29, 0, 0, 100);
+        System.out.println();
         Timer.delay(0.1);
+
+        int oldLeftPaddle = leftPaddleHeight;
+        int oldRightPaddle = rightPaddleHeight;
+
+        double doubleLeftPaddleHeight = controller.getY(Hand.kLeft);
+        leftPaddleHeight = (int) ((doubleLeftPaddleHeight + 1) * 2.5);
+
+        if (oldLeftPaddle == leftPaddleHeight){
+        } else {
+          matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
+        };
+
+        double doubleRightPaddleHeight = controller.getY(Hand.kRight);
+        rightPaddleHeight = (int) ((doubleRightPaddleHeight + 1) * 2.5);
+
+        if (oldRightPaddle == rightPaddleHeight){
+        } else {
+          matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
+        };
+        
         matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 0, 0, 0);
 
       }

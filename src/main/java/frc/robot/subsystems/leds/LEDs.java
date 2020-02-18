@@ -7,130 +7,279 @@
 
 package frc.robot.subsystems.leds;
 
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.leds.AddressableLEDMatrix;
+import frc.robot.commands.ledcommands.RunLeds;
+import frc.robot.robots.EddieContainer;
 
 /**
  * Add your docs here.
  */
 public class LEDs extends SubsystemBase{
 
-  private final int ledCount = 300;
-  //private final AddressableLED led;
-  //private final AddressableLEDBuffer buffer;
-  private final AddressableLEDMatrix matrix;
+  public int BallDirection = 0;
+  public int ballColumn = 16;
+  public int ballRow = 5;
+  public int leftPaddleHeight = 0;
+  public int rightPaddleHeight = 0;
+  boolean gameRunning = true;
+  XboxController controller = new XboxController(0);
 
-  public LEDs() {
-    // led = new AddressableLED(9);
-    // buffer = new AddressableLEDBuffer(ledCount);
-    matrix = new AddressableLEDMatrix(8, 32, 9);
-  }
-
-  public boolean toggle = false;
-  public static boolean toggleA = false;
-  public static boolean toggleB = false;
-  public static boolean toggleC = false;
-  public static boolean toggleD = false;
-
-  public void start() {
-    matrix.start();
-  }
-
-  /*
-   * public void ToggleLED(int LEDSection){ switch(LEDSection){ case 1: toggleA =
-   * !toggleA; break; case 2:toggleB = !toggleB; break; case 3:toggleC = !toggleC;
-   * break; case 4:toggleD = !toggleD; break; } }
-   */
-
-  /*
-  int pos = 0; 
-  int hue = 0; 
-  public void rainbow() { 
-    //this function relies on the fact that it is being called constantly 
-    buffer.setHSV(pos, hue, 255, 50);
+    private final int ledCount = 256;
+   // private final AddressableLED led;
+    private final AddressableLEDBuffer buffer;
+    private final AddressableLEDMatrix matrix;
+    public LEDs() {
+        buffer= new AddressableLEDBuffer(ledCount);
+        matrix = new AddressableLEDMatrix(8, 32, 9);
     
-    hue = (hue + 2) % 255; pos = (pos + 1) % ledCount; 
-    if (pos == ledCount) {
-      stop(); 
-    } 
-  }
-  */
-   
+      }
 
-  public void drawPixel(int x, int y) {
-    matrix.setMap(AddressableLEDMatrix.mapPixel, x, y, 0, 0, 255);
-  }
 
-  public void clearPixel(int x, int y) {
-    matrix.setMap(AddressableLEDMatrix.mapPixel, x, y, 0, 0, 0);
-  }
+    int pos = 0;
+    int hue = 0;
+    public boolean toggle = false;
+    public static boolean toggleA = false;
+    public static boolean toggleB = false;
+    public static boolean toggleC = false;
+    public static boolean toggleD = false;
+    boolean toggleForTimer = true;
+    double timerAtor;
 
-  public void setSquareWidth(int squarewidth) {
-    matrix.setSquareMap(squarewidth);
-  }
 
-  public void clearMatrix(int square) {
-    // setSquareWidth(square);
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 0, 0);
-  }
+    public void start(){
+      matrix.start();
+    }
 
-  public void greenMatrix(int square) {
-    // setSquareWidth(square);
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 60, 255, 10);
-  }
+    public void Toggle(){
+        if (toggle){
+            toggle = false;
+        }
+        else { 
+            toggle = true;
+        }
+    }
 
-  public void yellowMatrix(int square) {
-    // setSquareWidth(square);
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 30, 255, 10);
-  }
+    public void ToggleLED(int LEDSection){
+      switch(LEDSection){
+        case 1: toggleA = !toggleA; break;
+        case 2:toggleB = !toggleB; break;
+        case 3:toggleC = !toggleC; break;
+        case 4:toggleD = !toggleD; break;
+      }
+    }
 
-  public void redMatrix(int square) {
-    // setSquareWidth(square);
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 10);
-  }
 
-  /*
-   * @SuppressWarnings("unchecked") public void setA(){ best green = RGB(0, 255,
-   * 0), HSV(60, 255, 100) best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
-   * 
-   * } public void setB(){ matrix.setSquareMap(8);
-   * matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
-   * matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50); } public
-   * void setC(){ matrix.setSquareMap(8);
-   * matrix.setMap(AddressableLEDMatrix.mapSquare,1, 17, 130, 255, 50); } public
-   * void setD(){ matrix.setSquareMap(8);
-   * matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 180, 255, 50); }
-   */
+    public void rainbow() {
+        //this function relies on the fact that it is being called constantly
+        buffer.setHSV(pos, hue, 255, 50);
 
-  public void stop() {
-    System.out.println("The End Has Begun" + " 4 hours till lunch");
+        hue = (hue + 2) % 255;
+        pos = (pos + 1) % ledCount;
+        if (pos == ledCount) {
+            stop();
+        }
+    }
 
-    /*
-     * for (int i = 0; i < ledCount; i++){ buffer.setLED(i, new Color(0,0,0)); }
-     */
-    // pos = 0;
-    // hue = 0;
+    public void setSquareWidth(int squarewidth) {
+      matrix.setSquareMap(squarewidth);
+    }
 
-    clearMatrix(1);
-    clearMatrix(2);
-    clearMatrix(3);
-    clearMatrix(4);
-    //matrix.stop();
-  }
-  /*
-  public void clearA(){
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 150, 0, 0);
-  }
+    public void clearMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 0, 0);
+    }
 
-  public void clearB(){
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 150, 0, 0);
-  }
+    public void greenMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 60, 255, 10);
+    }
 
-  public void clearC(){
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 150, 0, 0);
-  }
+    public void yellowMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 30, 255, 10);
+    }
 
-  public void clearD(){
-    matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
-  }*/
+    public void redMatrix(int square) {
+      setSquareWidth(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 10);
+    }
+
+    //@SuppressWarnings("unchecked")
+    public void setA(){
+      /*
+      var a = new RunLeds(null);
+      */
+      while (gameRunning){
+
+        if (BallDirection==0){
+          if (ballColumn == 28 && ballRow == 0){
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+            BallDirection = 2;
+          } else if (ballColumn == 28) {
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+            BallDirection = 3;
+          } else if (ballRow == 0){
+            ballRow = ballRow + 1;
+            ballColumn = ballColumn + 1;
+            BallDirection = 1;
+          } else {
+            ballRow = ballRow - 1;
+            ballColumn = ballColumn + 1;
+          }
+        } else if (BallDirection==1){
+          if (ballColumn == 28 && ballRow == 7){
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+            BallDirection = 3;
+          } else if (ballColumn == 28) {
+            BallDirection = 2;
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+          } else if (ballRow == 7){
+            BallDirection = 0;
+            ballRow = ballRow - 1;
+            ballColumn = ballColumn + 1;
+          } else {
+            ballRow = ballRow + 1;
+            ballColumn = ballColumn + 1;
+          }
+        } else if (BallDirection==2){
+          if (ballColumn == 3 && ballRow == 7){
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow - 1;
+            BallDirection = 0;
+          } else if (ballColumn == 3) {
+            BallDirection = 1;
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow + 1;
+          } else if (ballRow == 7){
+            BallDirection = 3;
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+          } else {
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+          }
+        } else if (BallDirection == 3){
+          if (ballColumn == 3 && ballRow == 0){
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow + 1;
+            BallDirection = 1;
+          } else if (ballColumn == 3) {
+            BallDirection = 0;
+            ballColumn = ballColumn + 1;
+            ballRow = ballRow - 1;
+          } else if (ballRow == 0){
+            BallDirection = 2;
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow + 1;
+          } else {
+            ballColumn = ballColumn - 1;
+            ballRow = ballRow - 1;
+          }
+        }
+        matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapPaddle, leftPaddleHeight, 2, 100, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapPaddle, rightPaddleHeight, 29, 0, 0, 100);
+        System.out.println();
+        Timer.delay(0.1);
+
+        int oldLeftPaddle = leftPaddleHeight;
+        int oldRightPaddle = rightPaddleHeight;
+
+        double doubleLeftPaddleHeight = controller.getY(Hand.kLeft);
+        leftPaddleHeight = (int) ((doubleLeftPaddleHeight + 1) * 2.5);
+
+        if (oldLeftPaddle == leftPaddleHeight){
+        } else {
+          matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
+        };
+
+        double doubleRightPaddleHeight = controller.getY(Hand.kRight);
+        rightPaddleHeight = (int) ((doubleRightPaddleHeight + 1) * 2.5);
+
+        if (oldRightPaddle == rightPaddleHeight){
+        } else {
+          matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
+        };
+        
+        matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 0, 0, 0);
+
+      }
+      //matrix.setMap(AddressableLEDMatrix.mapSquare,1, 1, 120, 255, 50);
+      //matrix.setWord("i", 1, 1, 100,255,50);
+      //matrix.setMap(LEDMatrixMap.mapB, 1, 1, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapR, 1, 7, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapU, 1, 13, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapH, 1, 19, 10, 255, 50);
+      //matrix.setMap(LEDMatrixMap.mapExclamation, 1, 25, 7, 255, 50);
+      //matrix.setSquareMap(8);
+      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 60, 255, 10);
+      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 30, 255, 10);
+      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 0, 255, 10);
+
+      //if ((Timer.getFPGATimestamp() - timerAtor) >= 1.0) { 
+        //if (toggleForTimer) {
+          //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 60, 255, 100);
+          //toggleForTimer = false;
+        //}
+        //else {
+          //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 0, 0, 0);
+          //toggleForTimer = true;
+        //}
+        //timerAtor = Timer.getFPGATimestamp();
+      //}
+      //best green = RGB(0, 255, 0), HSV(60, 255, 100)
+      //best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
+      //matrix.setColor(1, 1, 0, 255, 0);
+      //matrix.setColor(1, 2, 255, 128, 0);
+
+    }
+    public void setB(){
+      matrix.setSquareMap(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50);
+    }
+    public void setC(){
+      matrix.setSquareMap(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare,1, 17, 130, 255, 50);
+    }
+    public void setD(){
+      matrix.setSquareMap(8);
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 180, 255, 50);
+    }
+
+    public void stop(){
+        for (int i = 0; i < ledCount; i++){
+            buffer.setLED(i, new Color(0,0,0));
+        }
+        pos = 0;
+        hue = 0;
+        matrix.stop();
+    }
+
+    public void clearA(){
+        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 150, 0, 0);
+      }
+
+      public void clearB(){
+        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 150, 0, 0);
+      }
+
+      public void clearC(){
+        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 150, 0, 0);
+      }
+
+      public void clearD(){
+        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
+      }
 }

@@ -8,14 +8,21 @@
 package frc.robot.commands.ledcommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.leds.AddressableLEDMatrix;
 import frc.robot.subsystems.leds.LEDs;
+
 
 public class RunLeds extends CommandBase {
   /**
    * Creates a new RunLeds.
    */
   LEDs leds;
+  public int ballColumn = 16;
+  public int ballRow = 5;
+  
+  int BallDirection = 0;
+  boolean gameRunning = true;
+
+
 
   public RunLeds(LEDs leds) {
     this.leds = leds;

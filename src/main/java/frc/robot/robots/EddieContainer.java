@@ -10,6 +10,7 @@ package frc.robot.robots;
 import java.util.HashMap;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.lightning.LightningContainer;
@@ -75,7 +76,6 @@ public class EddieContainer extends LightningContainer {
         //l
         //l
         //l
-        //JoystickButton exampleButton = new JoystickButton(driver, 1);
         //exampleButton.whenPressed(new Aim(drivetrain, vision, () -> 0));
     }
 
@@ -89,13 +89,11 @@ public class EddieContainer extends LightningContainer {
      */
     @Override
     public void configureButtonBindings() {
-        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new BlinkYellow(() -> 1, Leds));
-        //(new JoystickButton(driver, Button.kB.value)).whileHeld(new BlinkGreen(() -> 2, Leds));
-        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new SolidGreen(() -> 3, Leds));
-        //(new JoystickButton(driver, Button.kY.value)).whileHeld(new SolidRed(() -> 4, Leds));
-        //(new JoystickButton(driver, Button.kA.value)).whileHeld(new InstantCommand(() -> ));
-        //It doesn't work :( :()
-        (new JoystickButton(driver, Button.kA.value)).whileHeld(new Pong(pongFunctions, () -> 4, () -> 4));
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkGreen(() -> 17, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkYellow(() -> 17, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidYellow(() -> 1, Leds));
+        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidGreen(() -> 9, Leds));
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new RunLeds(Leds));
     }
 
     @Override

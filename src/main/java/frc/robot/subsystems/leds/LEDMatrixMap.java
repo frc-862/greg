@@ -41,6 +41,8 @@ public class LEDMatrixMap extends SubsystemBase {
     public static HashMap<Integer, Integer[]> mapExclamation = new HashMap<>();
     public static HashMap<Integer, Integer[]> mapPixel = new HashMap<>();
     public static HashMap<Integer, Integer[]> mapPaddle = new HashMap<>();
+    public static HashMap<Integer, Integer[]> map1 = new HashMap<>();
+    public static HashMap<Integer, Integer[]> map2 = new HashMap<>();
         
         
     
@@ -382,6 +384,26 @@ public class LEDMatrixMap extends SubsystemBase {
         mapPixel.put(5, new Integer[]{});
         mapPixel.put(6, new Integer[]{});
         mapPixel.put(7, new Integer[]{});
+
+        //map 1
+        map1.put(0, new Integer[]{0, 1, 2});
+        map1.put(1, new Integer[]{2});
+        map1.put(2, new Integer[]{2});
+        map1.put(3, new Integer[]{2});
+        map1.put(4, new Integer[]{2});
+        map1.put(5, new Integer[]{2});
+        map1.put(6, new Integer[]{2});
+        map1.put(7, new Integer[]{2});
+        
+        //map 2
+        map2.put(0, new Integer[]{1, 2, 3});
+        map2.put(1, new Integer[]{0, 4});
+        map2.put(2, new Integer[]{4});
+        map2.put(3, new Integer[]{3});
+        map2.put(4, new Integer[]{3});
+        map2.put(5, new Integer[]{2});
+        map2.put(6, new Integer[]{1});
+        map2.put(7, new Integer[]{0, 1, 2, 3, 4});
 
         //map paddle
         mapPaddle.put(0, new Integer[]{0});

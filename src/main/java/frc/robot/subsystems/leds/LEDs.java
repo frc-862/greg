@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.leds;
 
+import java.sql.Time;
+
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,12 +25,17 @@ import frc.robot.robots.EddieContainer;
  */
 public class LEDs extends SubsystemBase{
 
-  public int BallDirection = 0;
+  public int BallDirection = 3;
   public int ballColumn = 16;
-  public int ballRow = 5;
+  public int ballRow = 4;
   public int leftPaddleHeight = 0;
   public int rightPaddleHeight = 0;
-  boolean gameRunning = true;
+  public int oldLeftPaddle = 0;
+  public int oldRightPaddle = 0;
+  public int playerWin = 0;
+  public double pongSpeed = 0.25;
+  //boolean freezePong = false;
+  public int gameRunning = 0;
   XboxController controller = new XboxController(0);
 
     private final int ledCount = 256;
@@ -116,17 +123,38 @@ public class LEDs extends SubsystemBase{
       /*
       var a = new RunLeds(null);
       */
-      while (gameRunning){
-
+      while (gameRunning == 0){
+        matrix.setMap(LEDMatrixMap.mapPaddle, leftPaddleHeight, 2, 100, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapPaddle, rightPaddleHeight, 29, 0, 0, 100);
         if (BallDirection==0){
           if (ballColumn == 28 && ballRow == 0){
-            ballColumn = ballColumn - 1;
-            ballRow = ballRow + 1;
-            BallDirection = 2;
+            if (rightPaddleHeight == 0){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              ballColumn = ballColumn - 1;
+              ballRow = ballRow + 1;
+              BallDirection = 2; 
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn + 1;
+              playerWin = 2;
+            }
           } else if (ballColumn == 28) {
-            ballColumn = ballColumn - 1;
-            ballRow = ballRow - 1;
-            BallDirection = 3;
+            if (rightPaddleHeight == (ballRow) || rightPaddleHeight == (ballRow-1) || rightPaddleHeight == (ballRow-2)){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              ballColumn = ballColumn - 1;
+              ballRow = ballRow - 1;
+              BallDirection = 3;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn + 1;
+              playerWin = 2;
+            }
           } else if (ballRow == 0){
             ballRow = ballRow + 1;
             ballColumn = ballColumn + 1;
@@ -135,15 +163,36 @@ public class LEDs extends SubsystemBase{
             ballRow = ballRow - 1;
             ballColumn = ballColumn + 1;
           }
+    
         } else if (BallDirection==1){
           if (ballColumn == 28 && ballRow == 7){
-            ballColumn = ballColumn - 1;
-            ballRow = ballRow - 1;
-            BallDirection = 3;
+            if (rightPaddleHeight == 5){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              ballColumn = ballColumn - 1;
+              ballRow = ballRow - 1;
+              BallDirection = 3;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn + 1;
+              playerWin = 2;
+            }
           } else if (ballColumn == 28) {
-            BallDirection = 2;
-            ballColumn = ballColumn - 1;
-            ballRow = ballRow + 1;
+            if (rightPaddleHeight == (ballRow) || rightPaddleHeight == (ballRow-1) || rightPaddleHeight == (ballRow-2)){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              BallDirection = 2;
+              ballColumn = ballColumn - 1;
+              ballRow = ballRow + 1;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn + 1;
+              playerWin = 2;
+            }
           } else if (ballRow == 7){
             BallDirection = 0;
             ballRow = ballRow - 1;
@@ -152,15 +201,36 @@ public class LEDs extends SubsystemBase{
             ballRow = ballRow + 1;
             ballColumn = ballColumn + 1;
           }
+    
         } else if (BallDirection==2){
           if (ballColumn == 3 && ballRow == 7){
-            ballColumn = ballColumn + 1;
-            ballRow = ballRow - 1;
-            BallDirection = 0;
+            if (leftPaddleHeight == 5){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              ballColumn = ballColumn + 1;
+              ballRow = ballRow - 1;
+              BallDirection = 0;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn - 1;
+              playerWin = 1;
+            }
           } else if (ballColumn == 3) {
-            BallDirection = 1;
-            ballColumn = ballColumn + 1;
-            ballRow = ballRow + 1;
+            if (leftPaddleHeight == (ballRow) || leftPaddleHeight == (ballRow-1) || leftPaddleHeight == (ballRow-2)){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              BallDirection = 1;
+              ballColumn = ballColumn + 1;
+              ballRow = ballRow + 1;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn - 1;
+              playerWin = 1;
+            }
           } else if (ballRow == 7){
             BallDirection = 3;
             ballColumn = ballColumn - 1;
@@ -169,15 +239,36 @@ public class LEDs extends SubsystemBase{
             ballColumn = ballColumn - 1;
             ballRow = ballRow + 1;
           }
+    
         } else if (BallDirection == 3){
           if (ballColumn == 3 && ballRow == 0){
-            ballColumn = ballColumn + 1;
-            ballRow = ballRow + 1;
-            BallDirection = 1;
+            if (leftPaddleHeight == 0){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              ballColumn = ballColumn + 1;
+              ballRow = ballRow + 1;
+              BallDirection = 1;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn - 1;
+              playerWin = 1;
+            }
           } else if (ballColumn == 3) {
-            BallDirection = 0;
-            ballColumn = ballColumn + 1;
-            ballRow = ballRow - 1;
+            if (leftPaddleHeight == (ballRow) || leftPaddleHeight == (ballRow-1) || leftPaddleHeight == (ballRow-2)){
+              if (pongSpeed == 0.05){
+              } else {
+                pongSpeed = pongSpeed - 0.01;
+              }
+              BallDirection = 0;
+              ballColumn = ballColumn + 1;
+              ballRow = ballRow - 1;
+            } else {
+              gameRunning = 1;
+              ballColumn = ballColumn - 1;
+              playerWin = 1;
+            }
           } else if (ballRow == 0){
             BallDirection = 2;
             ballColumn = ballColumn - 1;
@@ -188,33 +279,33 @@ public class LEDs extends SubsystemBase{
           }
         }
         matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 100, 100, 100);
-        matrix.setMap(LEDMatrixMap.mapPaddle, leftPaddleHeight, 2, 100, 0, 0);
-        matrix.setMap(LEDMatrixMap.mapPaddle, rightPaddleHeight, 29, 0, 0, 100);
-        System.out.println();
-        Timer.delay(0.1);
-
-        int oldLeftPaddle = leftPaddleHeight;
-        int oldRightPaddle = rightPaddleHeight;
-
+        
+        Timer.delay(pongSpeed);
+    
+        matrix.setMap(LEDMatrixMap.mapPixel, ballRow, ballColumn, 0, 0, 0);
+    
+    
+        oldLeftPaddle = leftPaddleHeight;
+        oldRightPaddle = rightPaddleHeight;
+    
         double doubleLeftPaddleHeight = controller.getY(Hand.kLeft);
         leftPaddleHeight = (int) ((doubleLeftPaddleHeight + 1) * 2.5);
-
+    
         if (oldLeftPaddle == leftPaddleHeight){
         } else {
           matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
         };
-
+    
         double doubleRightPaddleHeight = controller.getY(Hand.kRight);
         rightPaddleHeight = (int) ((doubleRightPaddleHeight + 1) * 2.5);
-
+    
         if (oldRightPaddle == rightPaddleHeight){
         } else {
           matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
         };
-        
-        matrix.setMap(LEDMatrixMap.mapPixel, ballRow , ballColumn, 0, 0, 0);
-
+    
       }
+
       //matrix.setMap(AddressableLEDMatrix.mapSquare,1, 1, 120, 255, 50);
       //matrix.setWord("i", 1, 1, 100,255,50);
       //matrix.setMap(LEDMatrixMap.mapB, 1, 1, 10, 255, 50);
@@ -242,8 +333,29 @@ public class LEDs extends SubsystemBase{
       //best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
       //matrix.setColor(1, 1, 0, 255, 0);
       //matrix.setColor(1, 2, 255, 128, 0);
-
-    }
+      matrix.setMap(LEDMatrixMap.mapPixel, ballRow, ballColumn-1, 100, 100, 100);
+      Timer.delay(0.05);
+      matrix.setMap(LEDMatrixMap.mapPixel, ballRow, ballColumn-1, 0, 0, 0);
+      Timer.delay(0.05);
+      //matrix.clearColor();
+      if (playerWin == 2){
+        matrix.setMap(LEDMatrixMap.mapP, 0, 1, 255, 0, 0);
+        matrix.setMap(LEDMatrixMap.map1, 0, 7, 255, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapW, 0, 15, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapI, 0, 21, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapN, 0, 27, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
+      } else {
+        matrix.setMap(LEDMatrixMap.mapP, 0, 1, 0, 0, 255);
+        matrix.setMap(LEDMatrixMap.map2, 0, 7, 0, 0, 255);
+        matrix.setMap(LEDMatrixMap.mapW, 0, 15, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapI, 0, 21, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapN, 0, 27, 100, 100, 100);
+        matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
+      }
+  }
     public void setB(){
       matrix.setSquareMap(8);
       matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);

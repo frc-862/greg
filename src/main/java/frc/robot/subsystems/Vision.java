@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lightning.logging.DataLogger;
 
 public class Vision extends SubsystemBase {
     double XValue=0;
@@ -34,6 +35,9 @@ public class Vision extends SubsystemBase {
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
         Found = SmartDashboard.getNumber("VisionFound",0);
+        DataLogger.addDataElement("XValue",()->XValue);
+        DataLogger.addDataElement("YValue",()->YValue);
+        DataLogger.addDataElement("Found",()->Found);
         SmartDashboard.putNumber("X value",XValue);
         SmartDashboard.putNumber("found",Found);
         if(seePortTarget()){

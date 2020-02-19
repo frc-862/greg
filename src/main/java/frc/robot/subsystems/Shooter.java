@@ -146,9 +146,9 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
-        this.motor1PIDFController.setReference(LightningMath.constrain(velocity-1000,0,5000), ControlType.kVelocity);
-        this.motor2PIDFController.setReference(LightningMath.constrain(velocity+1000,0,5000), ControlType.kVelocity);
-        this.motor3PIDFController.setReference(LightningMath.constrain(velocity-1000,0,5000), ControlType.kVelocity);
+        this.motor1PIDFController.setReference(LightningMath.constrain(velocity-1500,0,5000), ControlType.kVelocity);
+        this.motor2PIDFController.setReference(LightningMath.constrain(velocity+1500,0,5000), ControlType.kVelocity);
+        this.motor3PIDFController.setReference(LightningMath.constrain(velocity-1500,0,5000), ControlType.kVelocity);
     }
 
     public void resetDistance() {

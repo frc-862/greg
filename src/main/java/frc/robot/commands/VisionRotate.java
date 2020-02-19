@@ -14,8 +14,8 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Vision;
 
 public class VisionRotate extends CommandBase {
-    private static final double VISION_ROTATE_P = .15 / 320;
-    private static final double MIN_ROTATE_PWR = 0.0125;
+    private static final double VISION_ROTATE_P = .1 / 320;
+    private static final double MIN_ROTATE_PWR = 0.05;
 
     LightningDrivetrain drivetrain;
     Vision vision;

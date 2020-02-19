@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class PongFunctions extends SubsystemBase{
 
     Random random = new Random();
-    public static final LEDs leds = new LEDs();
+    //public static final LEDs leds = new LEDs();
 
     public int P1Y = 4;
     public int P2Y = 4;
@@ -35,12 +35,12 @@ public class PongFunctions extends SubsystemBase{
     int[] downDirs  =  {6, 5, 4};
 
     public void drawPixel(int x, int y){
-        leds.drawPixel(x, y);
+       // leds.drawPixel(x, y);
         System.out.println("Dreweds X){ " + Integer.toString(x) + " Y){ " + Integer.toString(y));
         //Draw The Pixels Here
     }
     public void clearPixel(int x, int y){
-        leds.clearPixel(x, y);
+       // leds.clearPixel(x, y);
         System.out.println("cleared X){ " + Integer.toString(x) + " Y){ " + Integer.toString(y));
         //Draw The Pixels Here
     }

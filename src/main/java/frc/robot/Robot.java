@@ -37,13 +37,13 @@ public class Robot extends LightningRobot {
     @Override
     public void robotInit() {
         super.robotInit();
-
+/*
         Set<String> names = getContainer().getAutonomousCommands().keySet();
         for(var name : names) {
             registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
             System.out.println("Registered " + name + " command for auton");
         }
-        
+        */
     }
 
     @Override

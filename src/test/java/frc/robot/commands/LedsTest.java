@@ -19,8 +19,15 @@ import frc.robot.subsystems.leds.LEDs;
 /**
  * Add your docs here.
  */
-public class LedsTest {
-    
+public class LedsTest {/*
+    @Test
+    public void testTest(){
+        LEDs leds = mock(LEDs.class);
+            SolidGreen green = new SolidGreen(() -> 1, leds);
+            green.execute();
+            verify(leds).greenMatrix(1);
+        
+    }
     @Test
     public void square1(){
         LEDs leds = mock(LEDs.class);
@@ -139,5 +146,5 @@ public class LedsTest {
 
         solidRed.end(false);
         verify(leds).stop();
-    }
+    }*/
 }

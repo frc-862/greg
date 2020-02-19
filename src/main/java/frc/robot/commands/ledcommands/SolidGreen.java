@@ -43,6 +43,7 @@ public class SolidGreen extends CommandBase {
     if (square.getAsInt() == 4) {
       square = () -> 25;
     }
+    leds.greenMatrix(square.getAsInt());
   }
 
   // Called every time the scheduler runs while the command is scheduled.

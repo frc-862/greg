@@ -333,6 +333,8 @@ public class LEDs extends SubsystemBase{
 
     }
     public void setB(){
+      //this better fricking work
+      matrix.setMap(LEDMatrixMap.mapA, 0, 0, 0, 255, 50);
       //matrix.setSquareMap(8);
      // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
       //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50);

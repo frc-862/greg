@@ -120,7 +120,7 @@ public class LEDs extends SubsystemBase{
       /*
       var a = new RunLeds(null);
       */
-      while (gameRunning){
+      while (gameRunning == 0){
 
         if (BallDirection==0){
           if (ballColumn == 28 && ballRow == 0){

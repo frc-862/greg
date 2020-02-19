@@ -73,7 +73,11 @@ tasks.register("update_version") {
         if (versionPropsFile.canRead()) {
             def Properties versionProps = new Properties()
             versionProps.load(new FileInputStream(versionPropsFile))
-            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            if (versionProps['VERSION_BUILD'] == null) {
+                versionBuild = 1
+            } else {
+                versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            }
             versionProps['VERSION_BUILD'] = versionBuild.toString()
 
             gitHash = getGitHash()

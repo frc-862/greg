@@ -8,21 +8,22 @@
 package frc.robot.subsystems;
 
 //import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.util.LightningMath;
-import frc.robot.subsystems.LED;
 
 public class Vision extends SubsystemBase {
     double XValue=0;
     double YValue=0;
     double Found =0;
+    private final Solenoid blindedByTheLight;
     private final LED led = new LED();
     /**
      * Creates a new Vision.
      */
     public Vision() {
+        blindedByTheLight =new Solenoid(21,3);
         CommandScheduler.getInstance().registerSubsystem(this);
     }
 
@@ -72,5 +73,13 @@ public class Vision extends SubsystemBase {
 
     public double getBestShooterVelocity() {
         return 0;
+    }
+
+    public void  ringOn(){
+        blindedByTheLight.set(true);
+    }
+
+    public void  ringOff(){
+        blindedByTheLight.set(false);
     }
 }

@@ -37,7 +37,7 @@ public class VisionRotate extends CommandBase {
     public void execute() {
         if (vision.seePortTarget()) {
 
-            double visionOffset = vision.getOffsetAngle();
+            double visionOffset = vision.getOffsetAngle()-320;
             double pwr = visionOffset * VISION_ROTATE_P;
 
 

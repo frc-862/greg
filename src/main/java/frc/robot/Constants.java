@@ -98,12 +98,12 @@ public class Constants {
     public static double M3shooterKf=0.0002350;
 
     //Shooter Angle
-    public static int kTimeoutMs = 10;
+    public static int kTimeoutMs = 100;
     public static int kPIDLoopIdx = 0;
     public static double kAdjusterF = 0;
     public static double kAdjusterD = 0;
     public static double kAdjusterI = 0;
-    public static double kAdjusterP = 0.0001;
+    public static double kAdjusterP = 0.013333333333;
 }
 //    public static double M1ShooterKf = 0.0002150;
 //    public static double M2shooterKf=0.0002220;

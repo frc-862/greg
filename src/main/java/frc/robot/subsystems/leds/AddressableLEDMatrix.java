@@ -99,13 +99,13 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
         }
     }
 
-<<<<<<< HEAD
-    public void clearColor(){
+    public void clearColor(int ledLength){
         for(int i = 0; i < ledLength; i ++){
             Timer.delay(0.01);
             buffer.setHSV(i, 0,0,0);
             led.setData(buffer);
-=======
+        }
+    }
     public void setRange (int startPixel, int endPixel, int h, int s, int v){
         for(int t = startPixel - 1; t < endPixel - startPixel; t ++){
             buffer.setHSV(t, h, s, v);
@@ -118,7 +118,6 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
         matrixPixel = matrixNumber == 1 ? ledLength1 : matrixNumber == 2 ? ledLength2 : matrixNumber == 3 ? ledLength2 + ledLength1 : 0;
         for(int t = 0; t < matrixPixel; t ++){
             buffer.setHSV(t, h, s, v);       System.out.println(matrixPixel);
->>>>>>> LEDs
         }
        led.setData(buffer);
     }

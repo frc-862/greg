@@ -29,6 +29,7 @@ import frc.robot.Robot;
 import frc.robot.auton.AutonGenerator;
 import frc.robot.commands.CollectEject;
 import frc.robot.commands.CollectIndex;
+import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
@@ -88,7 +89,7 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverRight.getY()
         ));
         collector.setDefaultCommand(new CollectIndex(collector, indexer,() -> getCollectPower()));
-
+//        shooterAngle.setDefaultCommand(new RunCommand(()->shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)),shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter")
                 .add("SetPoint", 1)
@@ -99,6 +100,15 @@ public class GregContainer extends LightningContainer {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
+        final var flyWheelAngle = Shuffleboard.getTab("Shooter")
+                .add("SetAngle", 50)
+                .withWidget(BuiltInWidgets.kNumberSlider)
+                .withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
+                .getEntry();
+        flyWheelAngle.addListener((n) -> {
+            shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
     }
@@ -106,6 +116,13 @@ public class GregContainer extends LightningContainer {
     private void initializeDashboardCommands() {
 
         //SmartDashboard.putData("out", new InstantCommand(()-> collector.puterOuterOut(),collector));
+        SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain,vision));
+        SmartDashboard.putData("Ring on",new InstantCommand(()->vision.ringOn()));
+        SmartDashboard.putData("Ring off",new InstantCommand(()->vision.ringOff()));
+        SmartDashboard.putData("set to zero", new InstantCommand(()->shooterAngle.setShooterAngle(80),shooterAngle));
+        SmartDashboard.putData("test pos1", new InstantCommand(()->shooterAngle.setShooterAngle(100),shooterAngle));
+        SmartDashboard.putData("test pos2", new InstantCommand(()->shooterAngle.setShooterAngle(130),shooterAngle));
+        SmartDashboard.putData("set to max", new InstantCommand(()->shooterAngle.setShooterAngle(150),shooterAngle));
         SmartDashboard.putData("safty in", new InstantCommand(()->indexer.safteyClosed()));
         SmartDashboard.putData("safty out", new InstantCommand(()->indexer.safteyOpen()));
         SmartDashboard.putData("collect", new CollectEject(collector,

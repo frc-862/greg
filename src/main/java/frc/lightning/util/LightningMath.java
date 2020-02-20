@@ -172,4 +172,8 @@ public class LightningMath {
         return rotations * Constants.TICS_PER_ROTATION;
     }
 
+    public static double in2meters(double inches) {
+        // hey look 254 is in our code.... (again)
+        return inches * 0.0254;
+    }
 }

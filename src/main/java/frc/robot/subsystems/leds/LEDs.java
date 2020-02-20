@@ -362,7 +362,6 @@ public class LEDs extends SubsystemBase{
       //best yellow = RGB(255, 128, 0), HSV(30, 255, 100)
       //matrix.setColor(1, 1, 0, 255, 0);
       //matrix.setColor(1, 2, 255, 128, 0);
-<<<<<<< HEAD
       matrix.setMap(LEDMatrixMap.mapPixel, ballRow, ballColumn-1, 100, 100, 100);
       Timer.delay(0.05);
       matrix.setMap(LEDMatrixMap.mapPixel, ballRow, ballColumn-1, 0, 0, 0);
@@ -443,10 +442,6 @@ public class LEDs extends SubsystemBase{
     }
     setA();
 }
-=======
-
-    }
->>>>>>> LEDs
     public void setB(){
       //this better fricking work
       matrix.setMap(LEDMatrixMap.mapA, 0, 0, 0, 255, 50);
@@ -484,21 +479,8 @@ public class LEDs extends SubsystemBase{
     //  matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 150, 0, 0);
     }
 
-<<<<<<< HEAD
-      public void clearD(){
-        matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
-      }
+    public void clearD(){
+      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
+    }
     
-=======
-  public void clearD(){
-   // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
-  }
-  public void clearPixel(int x, int y) {
-
-  }
-
-  public void drawPixel(int x, int y) {
-    
-  }
->>>>>>> LEDs
 }

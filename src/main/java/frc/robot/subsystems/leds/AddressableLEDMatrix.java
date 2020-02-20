@@ -73,6 +73,7 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
 
     public void clearColor(){
         for(int i = 0; i < ledLength; i ++){
+            Timer.delay(0.01);
             buffer.setHSV(i, 0,0,0);
             led.setData(buffer);
         }

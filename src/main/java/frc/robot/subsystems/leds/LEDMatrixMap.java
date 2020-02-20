@@ -41,8 +41,12 @@ public class LEDMatrixMap extends SubsystemBase {
     public static HashMap<Integer, Integer[]> mapExclamation = new HashMap<>();
     public static HashMap<Integer, Integer[]> mapPixel = new HashMap<>();
     public static HashMap<Integer, Integer[]> mapPaddle = new HashMap<>();
+    public static HashMap<Integer, Integer[]> map0 = new HashMap<>();
     public static HashMap<Integer, Integer[]> map1 = new HashMap<>();
     public static HashMap<Integer, Integer[]> map2 = new HashMap<>();
+    public static HashMap<Integer, Integer[]> map3 = new HashMap<>();
+    public static HashMap<Integer, Integer[]> map4 = new HashMap<>();
+    public static HashMap<Integer, Integer[]> map5 = new HashMap<>();
         
         
     
@@ -386,9 +390,9 @@ public class LEDMatrixMap extends SubsystemBase {
         mapPixel.put(7, new Integer[]{});
 
         //map 1
-        map1.put(0, new Integer[]{0, 1, 2});
-        map1.put(1, new Integer[]{2});
-        map1.put(2, new Integer[]{2});
+        map1.put(0, new Integer[]{2});
+        map1.put(1, new Integer[]{1, 2});
+        map1.put(2, new Integer[]{0, 2});
         map1.put(3, new Integer[]{2});
         map1.put(4, new Integer[]{2});
         map1.put(5, new Integer[]{2});
@@ -404,6 +408,36 @@ public class LEDMatrixMap extends SubsystemBase {
         map2.put(5, new Integer[]{2});
         map2.put(6, new Integer[]{1});
         map2.put(7, new Integer[]{0, 1, 2, 3, 4});
+
+        //map 3
+        map3.put(0, new Integer[]{1, 2, 3});
+        map3.put(1, new Integer[]{0, 4});
+        map3.put(2, new Integer[]{4});
+        map3.put(3, new Integer[]{2, 3});
+        map3.put(4, new Integer[]{4});
+        map3.put(5, new Integer[]{4});
+        map3.put(6, new Integer[]{0, 4});
+        map3.put(7, new Integer[]{1, 2, 3});
+
+        //map 4
+        map4.put(0, new Integer[]{0, 4});
+        map4.put(1, new Integer[]{0, 4});
+        map4.put(2, new Integer[]{0, 4});
+        map4.put(3, new Integer[]{0, 1, 2, 3, 4});
+        map4.put(4, new Integer[]{4});
+        map4.put(5, new Integer[]{4});
+        map4.put(6, new Integer[]{4});
+        map4.put(7, new Integer[]{4});
+
+        //map 5
+        map5.put(0, new Integer[]{0, 1, 2, 3, 4});
+        map5.put(1, new Integer[]{0});
+        map5.put(2, new Integer[]{0});
+        map5.put(3, new Integer[]{0, 1, 2, 3});
+        map5.put(4, new Integer[]{4});
+        map5.put(5, new Integer[]{4});
+        map5.put(6, new Integer[]{4});
+        map5.put(7, new Integer[]{0, 1, 2, 3});
 
         //map paddle
         mapPaddle.put(0, new Integer[]{0});

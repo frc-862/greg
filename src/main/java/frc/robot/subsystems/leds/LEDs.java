@@ -33,10 +33,14 @@ public class LEDs extends SubsystemBase{
   public int oldLeftPaddle = 0;
   public int oldRightPaddle = 0;
   public int playerWin = 0;
-  public double pongSpeed = 0.25;
+  int player1Score = 0;
+  int player2Score = 0;
+  int gameInProgress= 0;
+  public double pongSpeed = 0.15;
   //boolean freezePong = false;
   public int gameRunning = 0;
   XboxController controller = new XboxController(0);
+  XboxController controllertwo = new XboxController (1);
 
     private final int ledCount = 256;
    // private final AddressableLED led;
@@ -123,6 +127,23 @@ public class LEDs extends SubsystemBase{
       /*
       var a = new RunLeds(null);
       */
+      if (gameInProgress == 1){
+      } else {
+
+      BallDirection = (int) (Math.random())*3;
+      ballColumn = 16;
+      ballRow = 4;
+      leftPaddleHeight = 0;
+      rightPaddleHeight = 0;
+      oldLeftPaddle = 0;
+      oldRightPaddle = 0;
+      playerWin = 0;
+      pongSpeed = 0.15;
+      gameRunning = 0;
+      player1Score = 0;
+      player2Score = 0;
+
+      
       while (gameRunning == 0){
         matrix.setMap(LEDMatrixMap.mapPaddle, leftPaddleHeight, 2, 100, 0, 0);
         matrix.setMap(LEDMatrixMap.mapPaddle, rightPaddleHeight, 29, 0, 0, 100);
@@ -137,9 +158,11 @@ public class LEDs extends SubsystemBase{
               ballRow = ballRow + 1;
               BallDirection = 2; 
             } else {
+              player1Score = player1Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn + 1;
               playerWin = 2;
+              
             }
           } else if (ballColumn == 28) {
             if (rightPaddleHeight == (ballRow) || rightPaddleHeight == (ballRow-1) || rightPaddleHeight == (ballRow-2)){
@@ -151,9 +174,11 @@ public class LEDs extends SubsystemBase{
               ballRow = ballRow - 1;
               BallDirection = 3;
             } else {
+              player1Score = player1Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn + 1;
               playerWin = 2;
+              
             }
           } else if (ballRow == 0){
             ballRow = ballRow + 1;
@@ -175,9 +200,11 @@ public class LEDs extends SubsystemBase{
               ballRow = ballRow - 1;
               BallDirection = 3;
             } else {
+              player1Score = player1Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn + 1;
               playerWin = 2;
+              
             }
           } else if (ballColumn == 28) {
             if (rightPaddleHeight == (ballRow) || rightPaddleHeight == (ballRow-1) || rightPaddleHeight == (ballRow-2)){
@@ -189,6 +216,7 @@ public class LEDs extends SubsystemBase{
               ballColumn = ballColumn - 1;
               ballRow = ballRow + 1;
             } else {
+              player1Score = player1Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn + 1;
               playerWin = 2;
@@ -213,6 +241,7 @@ public class LEDs extends SubsystemBase{
               ballRow = ballRow - 1;
               BallDirection = 0;
             } else {
+              player2Score = player2Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn - 1;
               playerWin = 1;
@@ -227,6 +256,7 @@ public class LEDs extends SubsystemBase{
               ballColumn = ballColumn + 1;
               ballRow = ballRow + 1;
             } else {
+              player2Score = player2Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn - 1;
               playerWin = 1;
@@ -251,6 +281,7 @@ public class LEDs extends SubsystemBase{
               ballRow = ballRow + 1;
               BallDirection = 1;
             } else {
+              player2Score = player2Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn - 1;
               playerWin = 1;
@@ -265,6 +296,7 @@ public class LEDs extends SubsystemBase{
               ballColumn = ballColumn + 1;
               ballRow = ballRow - 1;
             } else {
+              player2Score = player2Score + 1;
               gameRunning = 1;
               ballColumn = ballColumn - 1;
               playerWin = 1;
@@ -296,7 +328,7 @@ public class LEDs extends SubsystemBase{
           matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
         };
     
-        double doubleRightPaddleHeight = controller.getY(Hand.kRight);
+        double doubleRightPaddleHeight = controllertwo.getY(Hand.kLeft);
         rightPaddleHeight = (int) ((doubleRightPaddleHeight + 1) * 2.5);
     
         if (oldRightPaddle == rightPaddleHeight){
@@ -339,23 +371,80 @@ public class LEDs extends SubsystemBase{
       Timer.delay(0.05);
       //matrix.clearColor();
       if (playerWin == 2){
-        matrix.setMap(LEDMatrixMap.mapP, 0, 1, 255, 0, 0);
-        matrix.setMap(LEDMatrixMap.map1, 0, 7, 255, 0, 0);
-        matrix.setMap(LEDMatrixMap.mapW, 0, 15, 100, 100, 100);
-        matrix.setMap(LEDMatrixMap.mapI, 0, 21, 100, 100, 100);
-        matrix.setMap(LEDMatrixMap.mapN, 0, 27, 100, 100, 100);
         matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
         matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapP, 0, 0, 255, 0, 0);
+        matrix.setMap(LEDMatrixMap.map1, 0, 6, 255, 0, 0);
+        if (player1Score < 5){
+          switch(player1Score){
+            case 0: matrix.setMap(AddressableLEDMatrix.map0, 0, 24, 100, 100, 100);
+            case 1: matrix.setMap(AddressableLEDMatrix.map1, 0, 24, 100, 100, 100);
+            case 2: matrix.setMap(AddressableLEDMatrix.map2, 0, 24, 100, 100, 100);
+            case 3: matrix.setMap(AddressableLEDMatrix.map3, 0, 24, 100, 100, 100);
+            case 4: matrix.setMap(AddressableLEDMatrix.map4, 0, 24, 100, 100, 100);
+          }
+        } else {
+          gameInProgress = 0;
+        }
       } else {
-        matrix.setMap(LEDMatrixMap.mapP, 0, 1, 0, 0, 255);
-        matrix.setMap(LEDMatrixMap.map2, 0, 7, 0, 0, 255);
-        matrix.setMap(LEDMatrixMap.mapW, 0, 15, 100, 100, 100);
-        matrix.setMap(LEDMatrixMap.mapI, 0, 21, 100, 100, 100);
-        matrix.setMap(LEDMatrixMap.mapN, 0, 27, 100, 100, 100);
         matrix.setMap(LEDMatrixMap.mapPaddle, oldLeftPaddle, 2, 0, 0, 0);
         matrix.setMap(LEDMatrixMap.mapPaddle, oldRightPaddle, 29, 0, 0, 0);
+        matrix.setMap(LEDMatrixMap.mapP, 0, 0, 0, 0, 255);
+        matrix.setMap(LEDMatrixMap.map2, 0, 6, 0, 0, 255);
+        if (player2Score < 5){
+          switch(player2Score){
+            case 0: matrix.setMap(AddressableLEDMatrix.map0, 0, 24, 100, 100, 100);
+            case 1: matrix.setMap(AddressableLEDMatrix.map1, 0, 24, 100, 100, 100);
+            case 2: matrix.setMap(AddressableLEDMatrix.map2, 0, 24, 100, 100, 100);
+            case 3: matrix.setMap(AddressableLEDMatrix.map3, 0, 24, 100, 100, 100);
+            case 4: matrix.setMap(AddressableLEDMatrix.map4, 0, 24, 100, 100, 100);
+          }
+        } else {
+          gameInProgress = 0;
+        }
       }
-  }
+
+      
+      Timer.delay(3);
+
+
+      if (playerWin == 2){
+          matrix.setMap(LEDMatrixMap.mapP, 0, 0, 0, 0, 0);
+          matrix.setMap(LEDMatrixMap.map1, 0, 6, 0, 0, 0);
+          switch(player1Score){
+            case 0: matrix.setMap(AddressableLEDMatrix.map0, 0, 24, 0, 0, 0);
+            case 1: matrix.setMap(AddressableLEDMatrix.map1, 0, 24, 0, 0, 0);
+            case 2: matrix.setMap(AddressableLEDMatrix.map2, 0, 24, 0, 0, 0);
+            case 3: matrix.setMap(AddressableLEDMatrix.map3, 0, 24, 0, 0, 0);
+            case 4: matrix.setMap(AddressableLEDMatrix.map4, 0, 24, 0, 0, 0);
+          }
+      } else {
+          matrix.setMap(LEDMatrixMap.mapP, 0, 0, 0, 0, 0);
+          matrix.setMap(LEDMatrixMap.map2, 0, 6, 0, 0, 0);
+          switch(player1Score){
+            case 0: matrix.setMap(AddressableLEDMatrix.map0, 0, 24, 0, 0, 0);
+            case 1: matrix.setMap(AddressableLEDMatrix.map1, 0, 24, 0, 0, 0);
+            case 2: matrix.setMap(AddressableLEDMatrix.map2, 0, 24, 0, 0, 0);
+            case 3: matrix.setMap(AddressableLEDMatrix.map3, 0, 24, 0, 0, 0);
+            case 4: matrix.setMap(AddressableLEDMatrix.map4, 0, 24, 0, 0, 0);
+          }
+      }
+      matrix.setMap(LEDMatrixMap.mapH, 0, 0, 100, 100, 100);
+      matrix.setMap(LEDMatrixMap.mapO, 0, 6, 100, 100, 100);
+      matrix.setMap(LEDMatrixMap.mapL, 0, 12, 100, 100, 100);
+      matrix.setMap(LEDMatrixMap.mapD, 0, 18, 100, 100, 100);
+      matrix.setMap(LEDMatrixMap.mapA, 0, 25, 0, 255, 0);
+      while (controller.getAButton() == false /*|| controllertwo.getAButton() == false*/){
+        Timer.delay(0.5);
+      }
+      matrix.setMap(LEDMatrixMap.mapH, 0, 0, 0, 0, 0);
+      matrix.setMap(LEDMatrixMap.mapO, 0, 6, 0, 0, 0);
+      matrix.setMap(LEDMatrixMap.mapL, 0, 12, 0, 0, 0);
+      matrix.setMap(LEDMatrixMap.mapD, 0, 18, 0, 0, 0);
+      matrix.setMap(LEDMatrixMap.mapA, 0, 25, 0, 0, 0);
+    }
+    setA();
+}
     public void setB(){
       matrix.setSquareMap(8);
       matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
@@ -394,4 +483,5 @@ public class LEDs extends SubsystemBase{
       public void clearD(){
         matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
       }
+    
 }

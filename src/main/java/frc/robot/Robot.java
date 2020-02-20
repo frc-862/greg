@@ -14,10 +14,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
 import frc.robot.robots.EddieContainer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lightning.LightningContainer;
+import frc.lightning.LightningRobot;
 import frc.robot.robots.GregContainer;
 import frc.robot.robots.NebulaContainer;
 import frc.robot.robots.QuasarContainer;
 import frc.robot.robots.TwikiContainer;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Set;
 
 public class Robot extends LightningRobot {
 
@@ -30,19 +37,13 @@ public class Robot extends LightningRobot {
     @Override
     public void robotInit() {
         super.robotInit();
-
-        //Set<String> names = getContainer().getAutonomousCommands().keySet();
-        //for(var name : names) {
-            //registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
-            //System.out.println("Registered " + name + " command for auton");
-        //}
-        // Set<Command> commands = getContainer().getAutonomousCommands().entrySet();
-
-        // for(int i = 0 ; i < getContainer().getAutonomousCommands().size() ; i++) {}
-
-        // for (var command : getContainer().getAutonomousCommands().) {
-        //     registerAutonomousCommmand(command);
-        // }
+/*
+        Set<String> names = getContainer().getAutonomousCommands().keySet();
+        for(var name : names) {
+            registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
+            System.out.println("Registered " + name + " command for auton");
+        }
+        */
     }
 
     @Override

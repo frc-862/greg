@@ -1,22 +1,18 @@
 package frc.robot.subsystems.leds;
 
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.util.Color8Bit;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.awt.*;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 
 public class LED extends SubsystemBase {
-    private final int ledCount = 150;
+    //private final int ledCount = 150;
     //private final AddressableLED led;
-    private final AddressableLEDBuffer buffer;
+    //private final AddressableLEDBuffer buffer;
 
 
     enum Mode {
@@ -36,46 +32,47 @@ public class LED extends SubsystemBase {
         //led = new AddressableLED(0);
         //led.setLength(ledCount);
 
-        buffer = new AddressableLEDBuffer(ledCount);
+        //buffer = new AddressableLEDBuffer(ledCount);
         //led.setData(buffer);
         //led.start();
-        goOrangeAndBlue();
+        //goOrangeAndBlue();
 
 
     }
 
     public static final Color LightningOrange = new Color(1, .5, 0);
-    public void withEachLed(BiConsumer<AddressableLEDBuffer, Integer> l) {
+    /*public void withEachLed(BiConsumer<AddressableLEDBuffer, Integer> l) {
         for (int i = 0; i < ledCount; ++i) {
             l.accept(buffer, i);
         }
-    }
+    }*/
 
-    public void setAllRGB(int r, int g, int b) {
+    /*public void setAllRGB(int r, int g, int b) {
         withEachLed((buf, i) -> buf.setRGB(i, r, g, b));
-    }
+    }*/
 
-    int hue = 0;
-    int pos = 0;
-    double timer = 0;
+    //int hue = 0;
+    //int pos = 0;
+    //double timer = 0;
 
-    public void goOrangeAndBlue() {
+    /*public void goOrangeAndBlue() {
         mode = Mode.OrangeAndBlue;
     }
     public void goOff() {
         mode = Mode.Off;
     }
+    public void goRainbow() { mode = Mode.Rainbow; }
     public void goYellow() {
         mode = Mode.Yellow;
     }
     public void goBlinkGreen() {
         mode = Mode.BlinkGreen;
     }
-    public void SolidGreen() {
-        mode = Mode.BlinkGreen;
+    public void goSolidGreen() {
+        mode = Mode.SolidGreen;
     }
 
-    @Override
+    /*@Override
     public void periodic() {
         switch (mode) {
             case Manual:
@@ -97,11 +94,13 @@ public class LED extends SubsystemBase {
                 break;
             case BlinkGreen:
                 if(Timer.getFPGATimestamp()%2==0)
-                {withEachLed((b, i) -> b.setLED(i, Color.kGreen));}else {
+                {withEachLed((b, i) -> b.setLED(i, Color.kGreen));}
+                else {
                     withEachLed((b,i) -> b.setLED(i, Color.kBlack));
                 }
                 break;
         }
+        */
         //led.setData(buffer);
-    }
+    //}
 }

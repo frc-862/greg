@@ -21,9 +21,15 @@ public class RobotMap {
     public static final int shooter_3 = 9;
 
     // CORE
-    public static final int COMPRESSOR_ID = 11;
+    public static final int COMPRESSOR_ID = 21;
 
     // HYPERION
     public static final int PIGEON_ID = 8;
-    public static int indexerCanID = 11;
+    public static int indexerCanID = 13;
+
+    public static int colletorPistonOut=2;
+    public static int colletorPistonin=5;
+
+    public static int saftyin=1;
+    public static int saftyOut=6;
 }

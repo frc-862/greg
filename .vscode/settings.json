@@ -11,5 +11,18 @@
     "**/.project": true,
     "**/.settings": true,
     "**/.factorypath": true
-  }
+  },
+  "java.test.config": [
+    {
+        "name": "WPIlibUnitTests",
+        "workingDirectory": "C:/Users/zimin/Desktop/greg/build/tmp/jniExtractDir",
+        "vmargs": [ "-Djava.library.path=C:/Users/zimin/Desktop/greg/build/tmp/jniExtractDir" ],
+        "env": { "LD_LIBRARY_PATH": "C:/Users/zimin/Desktop/greg/build/tmp/jniExtractDir" ,
+          "DYLD_LIBRARY_PATH": "C:/Users/zimin/Desktop/greg/build/tmp/jniExtractDir" }
+        
+    },
+  ],
+  "java.test.defaultConfig": "WPIlibUnitTests"
+
 }
+

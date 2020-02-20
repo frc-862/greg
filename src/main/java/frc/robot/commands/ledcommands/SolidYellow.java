@@ -32,7 +32,15 @@ public class SolidYellow extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    if (square.getAsInt() == 2) {
+      square = () -> 9;
+    }
+    if (square.getAsInt() == 3) {
+      square = () -> 17;
+    }
+    if (square.getAsInt() == 4) {
+      square = () -> 25;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +53,7 @@ public class SolidYellow extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    leds.stop();
     leds.clearMatrix(square.getAsInt());
   }
 

@@ -20,14 +20,15 @@ import frc.robot.Robot;
 import frc.robot.commands.ledcommands.BlinkGreen;
 import frc.robot.commands.ledcommands.BlinkRed;
 import frc.robot.commands.ledcommands.BlinkYellow;
+import frc.robot.commands.ledcommands.Pong;
 import frc.robot.commands.ledcommands.RunLeds;
 import frc.robot.commands.ledcommands.SolidGreen;
 import frc.robot.commands.ledcommands.SolidRed;
 import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.leds.LEDs;
+import frc.robot.subsystems.leds.PongFunctions;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 
 /**
@@ -41,6 +42,7 @@ public class EddieContainer extends LightningContainer {
     private static int powerCellCapacity = 0;
 
     public static final LEDs Leds = new LEDs();
+    public static final PongFunctions pongFunctions = new PongFunctions();
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();

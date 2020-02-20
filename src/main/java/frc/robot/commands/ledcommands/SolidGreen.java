@@ -19,9 +19,11 @@ public class SolidGreen extends CommandBase {
   IntSupplier square;
   double timerAtor = Timer.getFPGATimestamp();
   boolean toggleForTimer = false;
+
   /**
    * Creates a new BlinkGreen.
    */
+  
   public SolidGreen(IntSupplier square, LEDs leds) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.leds = leds;
@@ -32,7 +34,16 @@ public class SolidGreen extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    if (square.getAsInt() == 2) {
+      square = () -> 9;
+    }
+    if (square.getAsInt() == 3) {
+      square = () -> 17;
+    }
+    if (square.getAsInt() == 4) {
+      square = () -> 25;
+    }
+    leds.greenMatrix(square.getAsInt());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,6 +56,7 @@ public class SolidGreen extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    leds.stop();
     leds.clearMatrix(square.getAsInt());
   }
 

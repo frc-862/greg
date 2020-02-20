@@ -9,6 +9,8 @@ package frc.robot.misc;
 
 import com.revrobotics.CANPIDController;
 
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -61,62 +63,63 @@ public class REVGains {
      * @param name Name of gains to be tuned (must match the name of the gains when they are retrieved)
      * @param gains The gains to be tuned
      */
-    public static void putGainsToBeTunedOnDash(String name, REVGains gains) {
+    public static void putGainsToBeTunedOnDash(String name, REVGains gains, CANPIDController controller) {
         if(Constants.TUNING_ENABLED) {
-            SmartDashboard.putNumber((name + " P Gain"), gains.getkP());
-            SmartDashboard.putNumber((name + " I Gain"), gains.getkI());
-            SmartDashboard.putNumber((name + " D Gain"), gains.getkD());
-            SmartDashboard.putNumber((name + " I Zone"), gains.getkIz());
-            SmartDashboard.putNumber((name + " Feed Forward"), gains.getkFF());
-            SmartDashboard.putNumber((name + " Max Output"), gains.getkMaxOutput());
-            SmartDashboard.putNumber((name + " Min Output"), gains.getkMinOutput());
-        }
-    }
+            final var tab = Shuffleboard.getTab("PID Tuning");
 
-    /**
-     * Updates a set of gains using the corresponding numbers on {@link edu.wpi.first.wpilibj.smartdashboard.SmartDashboard}
-     * @param Name of gains to be tuned (must match the name of the gains when they are retrieved)
-     * @param gains The gains to be tuned
-     * @param controller Controller in which to load changed gains
-     */
-    public static void updateGainsFromDash(String name, REVGains gains, CANPIDController controller) {
-        if(Constants.TUNING_ENABLED) {
-            try {
-                double p = SmartDashboard.getNumber((name + " P Gain"), gains.getkP());
-                double i = SmartDashboard.getNumber((name + " I Gain"), gains.getkI());
-                double d = SmartDashboard.getNumber((name + " D Gain"), gains.getkD());
-                double iz = SmartDashboard.getNumber((name + " I Zone"), gains.getkIz());
-                double ff = SmartDashboard.getNumber((name + " Feed Forward"), gains.getkFF());
-                double max = SmartDashboard.getNumber((name + " Max Output"), gains.getkMaxOutput());
-                double min = SmartDashboard.getNumber((name + " Min Output"), gains.getkMinOutput());
-                if((p != gains.getkP())) {
-                    controller.setP(p);
-                    gains.setkP(p);
-                }
-                if((i != gains.getkI())) {
-                    controller.setI(i);
-                    gains.setkI(i);
-                }
-                if((d != gains.getkD())) {
-                    controller.setD(d);
-                    gains.setkD(d);
-                }
-                if((iz != gains.getkIz())) {
-                    controller.setIZone(iz);
-                    gains.setkIz(iz);
-                }
-                if((ff != gains.getkFF())) {
-                    controller.setFF(ff);
-                    gains.setkFF(ff);
-                }
-                if((max != gains.getkMaxOutput()) || (min != gains.getkMinOutput())) {
-                    controller.setOutputRange(min, max);
-                    gains.setkMinOutput(min);
-                    gains.setkMaxOutput(max);
-                }
-            } catch(Exception e) {
-                System.out.println("Error: Couldn't Find Gain On Dash");
-            }
+            tab.add(name + " P Gain", gains.getkP())
+               .getEntry().addListener((n) -> {
+                            final var v = n.getEntry().getDouble(gains.getkP());
+                            controller.setP(v);
+                            gains.setkP(v);
+                            },
+               EntryListenerFlags.kUpdate);
+
+            tab.add(name + " I Gain", gains.getkI())
+               .getEntry().addListener((n) -> {
+                        final var v = n.getEntry().getDouble(gains.getkI());
+                        controller.setI(v);
+                        gains.setkI(v);
+                    },
+               EntryListenerFlags.kUpdate);
+
+            tab.add(name + " D Gain", gains.getkD())
+               .getEntry().addListener((n) -> {
+                        final var v = n.getEntry().getDouble(gains.getkD());
+                        controller.setD(v);
+                        gains.setkD(v);
+                    },
+               EntryListenerFlags.kUpdate);
+
+            tab.add(name + " I Zone", gains.getkIz())
+               .getEntry().addListener((n) -> {
+                        final var v = n.getEntry().getDouble(gains.getkIz());
+                        controller.setI(v);
+                        gains.setkI(v);
+                    },
+               EntryListenerFlags.kUpdate);
+
+            tab.add(name + " Feed Forward", gains.getkFF())
+               .getEntry().addListener((n) -> {
+                        final var v = n.getEntry().getDouble(gains.getkFF());
+                        controller.setFF(v);
+                        gains.setkFF(v);
+                    },
+               EntryListenerFlags.kUpdate);
+
+            tab.add(name + " Max Output", gains.getkMaxOutput())
+               .getEntry().addListener((n) -> {
+                        gains.setkMaxOutput(n.getEntry().getDouble(gains.getkMaxOutput()));
+                        controller.setOutputRange(gains.getkMinOutput(), gains.getkMaxOutput());
+                    },
+               EntryListenerFlags.kUpdate);
+
+            tab.add(name + " Min Output", gains.getkMinOutput())
+               .getEntry().addListener((n) -> {
+                        gains.setkMinOutput(n.getEntry().getDouble(gains.getkMinOutput()));
+                        controller.setOutputRange(gains.getkMinOutput(), gains.getkMaxOutput());
+                    },
+               EntryListenerFlags.kUpdate);
         }
     }
 

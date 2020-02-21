@@ -36,17 +36,17 @@ public class Pong extends CommandBase {
 
   LEDs leds;
   LEDMatrixMap ledMatrixMap;
-  AddressableLEDMatrix addressableLEDMatrix;
+  //AddressableLEDMatrix addressableLEDMatrix;
   /**
    * Creates a new Pong.
    */
-  public Pong(LEDs leds, LEDMatrixMap ledMatrixMap, AddressableLEDMatrix addressableLEDMatrix) {
+  public Pong(LEDs leds, LEDMatrixMap ledMatrixMap) {
     
     this.leds = leds;
     this.ledMatrixMap = ledMatrixMap;
-    this.addressableLEDMatrix = addressableLEDMatrix;
+    //this.addressableLEDMatrix = addressableLEDMatrix;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(leds, ledMatrixMap, addressableLEDMatrix);
+    addRequirements(leds, ledMatrixMap);
   }
 
   // Called when the command is initially scheduled.
@@ -361,11 +361,11 @@ public class Pong extends CommandBase {
        leds.matrix.setMap(LEDMatrixMap.map1, 0, 6, 255, 0, 0);
         if (player1Score < 5){
           switch(player1Score){
-            case 0:leds.matrix.setMap(AddressableLEDMatrix.map0, 0, 24, 100, 100, 100);
-            case 1:leds.matrix.setMap(AddressableLEDMatrix.map1, 0, 24, 100, 100, 100);
-            case 2:leds.matrix.setMap(AddressableLEDMatrix.map2, 0, 24, 100, 100, 100);
-            case 3:leds.matrix.setMap(AddressableLEDMatrix.map3, 0, 24, 100, 100, 100);
-            case 4:leds.matrix.setMap(AddressableLEDMatrix.map4, 0, 24, 100, 100, 100);
+            case 0:leds.matrix.setMap(LEDMatrixMap.map0, 0, 24, 100, 100, 100);
+            case 1:leds.matrix.setMap(LEDMatrixMap.map1, 0, 24, 100, 100, 100);
+            case 2:leds.matrix.setMap(LEDMatrixMap.map2, 0, 24, 100, 100, 100);
+            case 3:leds.matrix.setMap(LEDMatrixMap.map3, 0, 24, 100, 100, 100);
+            case 4:leds.matrix.setMap(LEDMatrixMap.map4, 0, 24, 100, 100, 100);
           }
         } else {
           gameInProgress = 0;

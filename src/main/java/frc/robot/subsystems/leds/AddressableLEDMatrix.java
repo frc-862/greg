@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class AddressableLEDMatrix extends LEDMatrixMap{
 
-    AddressableLED led;
+    AddressableLED led = null;
     AddressableLEDBuffer buffer;
     HashMap<Integer, Integer[]> ledMap = new HashMap<>();
     ArrayList<Integer[]> columnArray = new ArrayList<>();
@@ -23,11 +23,11 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
 
     public AddressableLEDMatrix(int matrixWidth1, int matrixLength1, int port){ 
 
-        //led = new AddressableLED(port);
+        led = new AddressableLED(port);
         width1 = matrixWidth1;
         length1 = matrixLength1;
         ledLength1 = matrixLength1 * matrixWidth1;
-        //buffer = new AddressableLEDBuffer(ledLength1);
+        buffer = new AddressableLEDBuffer(ledLength1);
         led.setLength(ledLength1);
         setArray(); 
         setPreMap();
@@ -35,14 +35,14 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
     }
 
     public AddressableLEDMatrix(int matrixWidth1, int matrixLength1, int matrixWidth2, int matrixLength2, int port){ 
-        //led = new AddressableLED(port);
+        led = new AddressableLED(port);
         width1 = matrixWidth1;
         width2 = matrixWidth2;
         length1 = matrixLength1;
         length2 = matrixLength2;
         ledLength1 = matrixLength1 * matrixWidth1;
         ledLength2 = matrixWidth2 * matrixLength2;
-        //buffer = new AddressableLEDBuffer(ledLength1 + ledLength2);
+        buffer = new AddressableLEDBuffer(ledLength1 + ledLength2);
         led.setLength(ledLength1 + ledLength2);
         setArray(); 
         setPreMap();

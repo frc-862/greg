@@ -30,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.leds.AddressableLEDMatrix;
 import frc.robot.subsystems.leds.LEDMatrixMap;
 import frc.robot.subsystems.leds.LEDs;
-import frc.robot.subsystems.leds.PongFunctions;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 
 /**
@@ -45,7 +44,7 @@ public class EddieContainer extends LightningContainer {
 
     public static final LEDs Leds = new LEDs();
     public static final LEDMatrixMap ledMatrixMap = new LEDMatrixMap();
-    public static final AddressableLEDMatrix addressableLEDMatrix = new AddressableLEDMatrix(8, 32, 9);
+    //public static final AddressableLEDMatrix addressableLEDMatrix = new AddressableLEDMatrix(8, 32, 9);
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();
@@ -95,23 +94,23 @@ public class EddieContainer extends LightningContainer {
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkGreen(() -> 17, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkYellow(() -> 17, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidYellow(() -> 1, Leds));
-        //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidGreen(() -> 9, Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new Pong(Leds, ledMatrixMap, addressableLEDMatrix));
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new Pong(Leds, ledMatrixMap));
     }
 
-    @Override
+    
+    /*
     public HashMap<String, Command> getAutonomousCommands() {
         Command[] empty = {};
         return null;
-    }
+    }*/
+    //@Override
+    //public static int getPowerCellCapacity() {
+        //return powerCellCapacity;
+    //}
 
-    public static int getPowerCellCapacity() {
-        return powerCellCapacity;
-    }
-
-    public static void setPowerCellCapacity(int newPowerCellCapacity) {
-        powerCellCapacity = newPowerCellCapacity;
-    }
+    //public static void setPowerCellCapacity(int newPowerCellCapacity) {
+        //powerCellCapacity = newPowerCellCapacity;
+    //}
 
     @Override
   public void configureDefaultCommands() {}

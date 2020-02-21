@@ -25,10 +25,10 @@ public class LEDs extends SubsystemBase{
 
     private final int ledCount = 256;
    // private final AddressableLED led;
-    private final AddressableLEDBuffer buffer;
+    //private final AddressableLEDBuffer buffer;
     public final AddressableLEDMatrix matrix;
     public LEDs() {
-        buffer= new AddressableLEDBuffer(256);
+        //buffer= new AddressableLEDBuffer(256);
         matrix = new AddressableLEDMatrix(8, 32, 1, 150, 9);
       }
 
@@ -69,7 +69,7 @@ public class LEDs extends SubsystemBase{
 
     public void rainbow() {
         //this function relies on the fact that it is being called constantly
-        buffer.setHSV(pos, hue, 255, 50);
+        //buffer.setHSV(pos, hue, 255, 50);
 
         hue = (hue + 2) % 255;
         pos = (pos + 1) % ledCount;
@@ -122,7 +122,7 @@ public class LEDs extends SubsystemBase{
 
     public void stop(){
       for (int i = 0; i < ledCount; i++){
-          buffer.setLED(i, new Color(0,0,0));
+          //buffer.setLED(i, new Color(0,0,0));
       }
       pos = 0;
       hue = 0;

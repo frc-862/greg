@@ -29,7 +29,6 @@ public class LED extends SubsystemBase {
     private Mode mode = Mode.Off;
 
     public LED() {
-        //led = new AddressableLED(0);
         //led.setLength(ledCount);
 
         //buffer = new AddressableLEDBuffer(ledCount);

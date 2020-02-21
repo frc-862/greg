@@ -45,7 +45,7 @@ public class EddieContainer extends LightningContainer {
 
     public static final LEDs Leds = new LEDs();
     public static final LEDMatrixMap ledMatrixMap = new LEDMatrixMap();
-    public static final AddressableLEDMatrix addressableLEDMatrix = new AddressableLEDMatrix(8, 32, 1, 150, 9);
+    public static final AddressableLEDMatrix addressableLEDMatrix = new AddressableLEDMatrix(8, 32, 9);
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();

@@ -27,6 +27,8 @@ import frc.robot.commands.ledcommands.SolidRed;
 import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.leds.AddressableLEDMatrix;
+import frc.robot.subsystems.leds.LEDMatrixMap;
 import frc.robot.subsystems.leds.LEDs;
 import frc.robot.subsystems.leds.PongFunctions;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
@@ -42,7 +44,8 @@ public class EddieContainer extends LightningContainer {
     private static int powerCellCapacity = 0;
 
     public static final LEDs Leds = new LEDs();
-    public static final PongFunctions pongFunctions = new PongFunctions();
+    public static final LEDMatrixMap ledMatrixMap = new LEDMatrixMap();
+    public static final AddressableLEDMatrix addressableLEDMatrix = new AddressableLEDMatrix(8, 32, 1, 150, 9);
 
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();
@@ -93,7 +96,7 @@ public class EddieContainer extends LightningContainer {
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkYellow(() -> 17, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidYellow(() -> 1, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidGreen(() -> 9, Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new RunLeds(Leds));
+        (new JoystickButton(driver, Button.kA.value)).whenPressed(new Pong(Leds, ledMatrixMap, addressableLEDMatrix));
     }
 
     @Override

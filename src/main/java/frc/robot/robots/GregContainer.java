@@ -119,6 +119,7 @@ public class GregContainer extends LightningContainer {
                 new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight),
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));
         SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
+        SmartDashboard.putData("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
     }
 
     /**

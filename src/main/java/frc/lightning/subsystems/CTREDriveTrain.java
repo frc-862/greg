@@ -238,4 +238,16 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     // TODO Auto-generated method stub
 
   }
+
+  @Override
+  public Pose2d getRelativePose() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setRelativePose() {
+    // TODO Auto-generated method stub
+
+  }
 }

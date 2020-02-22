@@ -30,12 +30,14 @@ public class PathGenerator {
 
         /* ASSUME SHOOTER FWD, COLLECTOR BACK ON ROBOT */ 
 
-        TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                new Pose2d(2d, -1d, Rotation2d.fromDegrees(0d)),
-                                new Pose2d(4d, 0d, Rotation2d.fromDegrees(0d)))),
+        TEST_PATH(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                                new Pose2d(2d, -2d, Rotation2d.fromDegrees(-90d)))),
+                                // new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+                                // new Pose2d(4d, -1d, Rotation2d.fromDegrees(0d)),
+                                // new Pose2d(8d, 0d, Rotation2d.fromDegrees(0d)))),
         
         TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                    new Pose2d(-4d, 0d, Rotation2d.fromDegrees(0d))), 
+                                    new Pose2d(-2d, -2d, Rotation2d.fromDegrees(90d))), 
                                     true),
         
         BACK_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
@@ -110,7 +112,7 @@ public class PathGenerator {
 
         RamseteCommand cmd = new RamseteCommand(
             trajectory,
-            drivetrain::getPose,
+            drivetrain::getRelativePose,
             new RamseteController(),
             drivetrain.getFeedforward(),
             drivetrain.getKinematics(),
@@ -119,7 +121,13 @@ public class PathGenerator {
             drivetrain.getRightPidController(),
             drivetrain::setRamseteOutput,
             drivetrain
-        );
+        ) {
+            @Override
+            public void initialize() {
+                super.initialize();
+                drivetrain.setRelativePose();
+            }
+        };
 
         return cmd;
         

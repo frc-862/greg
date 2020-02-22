@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems.leds;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,60 +24,36 @@ import frc.robot.robots.EddieContainer;
  * Add your docs here.
  */
 public class LEDs extends SubsystemBase{
+    private final int ledPort = 9;
+    private final int stripLength = 12;
+    private final Integer[] phase1 = new Integer[]{1,2};
+    private final Integer[] phase2 = new Integer[]{3,4,5};
+    private final Integer[] phase3 = new Integer[]{6,7,8};
+    private final Integer[] phase4 = new Integer[]{9,10,11,12};
+    private final Integer[] phase5 = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
+    private final Integer[] phase1Color = new Integer[]{};
+    private final Integer[] phase2Color = new Integer[]{};
+    private final Integer[] phase3Color = new Integer[]{};
+    private final Integer[] phase4Color = new Integer[]{};
+    private final Integer[] phase5Color = new Integer[]{};
+    public final AddressableLEDMatrix matrix = new AddressableLEDMatrix(1, stripLength, 1, stripLength, ledPort);
+    // DO NOT instantiate AddressableLED or AddressableLEDMatrix more than once
 
-    private final int ledCount = 256;
-   // private final AddressableLED led;
-    //private final AddressableLEDBuffer buffer;
-    public final AddressableLEDMatrix matrix;
     public LEDs() {
-        //buffer= new AddressableLEDBuffer(256);
-        matrix = new AddressableLEDMatrix(8, 32, 1, 150, 9);
+
       }
-
-
-    int pos = 0;
-    int hue = 0;
-    public boolean toggle = false;
-    public static boolean toggleA = false;
-    public static boolean toggleB = false;
-    public static boolean toggleC = false;
-    public static boolean toggleD = false;
-    boolean toggleForTimer = true;
-    double timerAtor;
-
-
     public void start(){
-     // matrix.start();
+      matrix.start();
     }
 
-    public void Toggle(){
-        if (toggle){
-            toggle = false;
-        }
-        else { 
-            toggle = true;
-        }
-    }
-
-    public void ToggleLED(int LEDSection){
-      switch(LEDSection){
-        case 1: toggleA = !toggleA; break;
-        case 2:toggleB = !toggleB; break;
-        case 3:toggleC = !toggleC; break;
-        case 4:toggleD = !toggleD; break;
+    public void TogglePhase(int ledPhase){
+      switch(ledPhase){
+        case 1: matrix.setColor(1, phase1, 100, phase1Color[0], phase1Color[1], phase1Color[2]);
+        case 2: matrix.setColor(1, phase2, 100, phase2Color[0], phase2Color[1], phase2Color[2]);
+        case 3: matrix.setColor(1, phase3, 100, phase3Color[0], phase3Color[1], phase3Color[2]);
+        case 4: matrix.setColor(1, phase4, 100, phase4Color[0], phase4Color[1], phase4Color[2]);
+        case 5: matrix.setColor(1, phase5, 100, phase5Color[0], phase5Color[1], phase5Color[2]);
       }
-    }
-
-
-    public void rainbow() {
-        //this function relies on the fact that it is being called constantly
-        //buffer.setHSV(pos, hue, 255, 50);
-
-        hue = (hue + 2) % 255;
-        pos = (pos + 1) % ledCount;
-        if (pos == ledCount) {
-            stop();
-        }
     }
 
     public void setSquareWidth(int squarewidth) {
@@ -84,69 +62,30 @@ public class LEDs extends SubsystemBase{
 
     public void clearMatrix(int square) {
       setSquareWidth(8);
+      //matrix.setMap(AddressableLEDMatrix.mapQuad(8, 8), 1, square, 0, 0, 0);
      // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 0, 0);
     }
 
     public void greenMatrix(int square) {
       setSquareWidth(8);
+      //matrix.setMap(AddressableLEDMatrix.mapQuad(8, 8), 1, square, 60, 255, 10);
      // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 60, 255, 10);
     }
 
     public void yellowMatrix(int square) {
       setSquareWidth(8);
+      //matrix.setMap(AddressableLEDMatrix.mapQuad(8, 8), 1, square, 30, 255, 10);
      // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 30, 255, 10);
     }
 
     public void redMatrix(int square) {
       setSquareWidth(8);
+      //matrix.setMap(AddressableLEDMatrix.mapQuad(8, 8), 1, square, 0, 255, 10);
      // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, square, 0, 255, 10);
     }
-
-    //@SuppressWarnings("unchecked")
-    public void setA(){
-      matrix.setMap(AddressableLEDMatrix.mapF, 0, 0, 0, 255, 10);
-      matrix.setMap(AddressableLEDMatrix.mapR, 0, 6, 0, 255, 10);
-      matrix.setMap(AddressableLEDMatrix.mapI, 0, 12, 0, 255, 10);
-      matrix.setMap(AddressableLEDMatrix.mapT, 0, 18, 0, 255, 10);
-      matrix.setMap(AddressableLEDMatrix.mapZ, 0, 24, 0, 255, 10);
-    }
-    public void setB(){
-      //matrix.setSquareMap(8);
-      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 120, 255, 50);
-      //matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 60, 255, 50);
-    }
-    public void setC(){
-      //matrix.setSquareMap(8);
-     // matrix.setMap(AddressableLEDMatrix.mapSquare,1, 17, 130, 255, 50);
-    }
-    public void setD(){
-     // matrix.setSquareMap(8);
-     // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 180, 255, 50);
-    }
-
-    public void stop(){
-      for (int i = 0; i < ledCount; i++){
-          //buffer.setLED(i, new Color(0,0,0));
-      }
-      pos = 0;
-      hue = 0;
-     // matrix.stop();
-    }
-
-    public void clearA(){
-       // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 1, 150, 0, 0);
-    }
-
-    public void clearB(){
-     // matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 9, 150, 0, 0);
-    }
-
-    public void clearC(){
-    //  matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 17, 150, 0, 0);
-    }
-
-    public void clearD(){
-      matrix.setMap(AddressableLEDMatrix.mapSquare, 1, 25, 150, 0, 0);
-    }
     
+    public void stop(){
+      
+    }
+
 }

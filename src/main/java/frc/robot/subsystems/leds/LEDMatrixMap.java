@@ -460,4 +460,16 @@ public class LEDMatrixMap extends SubsystemBase {
         
     
 }
+
+public static HashMap<Integer, Integer[]> mapQuad(int length, int width){
+    HashMap<Integer, Integer[]> quadMap = new HashMap<>();
+    Integer[] inte = new Integer[width];
+        for(int i = 0; i < inte.length; i ++){
+            inte[i] = i;
+        }
+        for(int y = 0; y < length; y ++){
+            quadMap.put(y, inte);
+        }
+    return quadMap;
+}
 }

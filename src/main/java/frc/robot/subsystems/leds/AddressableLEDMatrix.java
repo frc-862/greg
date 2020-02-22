@@ -79,25 +79,25 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
         }
     }
 
-    public void setColor(int row, int column, int h, int s, int v){
-        buffer.setHSV(ledMap.get(row - 1)[column - 1], h, s, v);
-        led.setData(buffer);
+    public void setColor(int row, int column, int h, int s, int v, int matrix){
+        int startingRow = matrix == 1 ? 0 : matrix == 2 ? width1 : 0;
+        int endColumn = matrix == 1 ? length1 : matrix == 2 ? ledLength2 : ledLength2;
+        for(int i = 0 ; i < endColumn; i ++){
+            buffer.setHSV(ledMap.get(row - 1 + startingRow)[column - 1], h, s, v);
+            led.setData(buffer);
+            }
         //System.out.println(ledMap.get(row - 1)[column - 1]);
     }
 
-    public void setColor(int[] rows, int column, int h, int s, int v){
-        for(int i = 0 ; i < rows.length; i ++){
-            buffer.setHSV(ledMap.get(rows[i] - 1)[column - 1], h, s, v);
+    public void setColor(int row, Integer[] columns, int h, int s, int v, int matrix){
+        int startingRow = matrix == 1 ? 0 : matrix == 2 ? width1 : 0;
+        int endColumn = matrix == 1 ? length1 : matrix == 2 ? ledLength2 : ledLength2;
+         for(int i = 0 ; i < endColumn; i ++){
+            buffer.setHSV(ledMap.get(row - 1 + startingRow)[columns[i] - 1], h, s, v);
             led.setData(buffer);
-        }
+            }
     }
-
-    public void setColor(int row, int[] columns, int h, int s, int v){
-        for(int i = 0 ; i < columns.length; i ++){
-            buffer.setHSV(ledMap.get(row - 1)[columns[i] - 1], h, s, v);
-            led.setData(buffer);
-        }
-    }
+    
 
     public void clearColor(int ledLength){
         for(int i = 0; i < ledLength; i ++){
@@ -141,7 +141,7 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
         for(int i = 0; i < patternMap.size(); i ++){
             Timer.delay(0.001);
             for(int patternInt : patternMap.get(i)){
-                buffer.setHSV(ledMap.get((topLeftRow) + i)[(topLeftColumn) + patternInt], hue, saturation, v);
+                buffer.setHSV(ledMap.get((topLeftRow - 1) + i)[(topLeftColumn - 1) + patternInt], hue, saturation, v);
                 //System.out.println(topLeftRow);
                 //System.out.println(topLeftColumn);
             }

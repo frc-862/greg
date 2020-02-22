@@ -16,13 +16,6 @@ public class RunLeds extends CommandBase {
    * Creates a new RunLeds.
    */
   LEDs leds;
-  public int ballColumn = 16;
-  public int ballRow = 5;
-  
-  int BallDirection = 0;
-  boolean gameRunning = true;
-
-
 
   public RunLeds(LEDs leds) {
     this.leds = leds;
@@ -37,7 +30,7 @@ public class RunLeds extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.setA();
+    leds.TogglePhase(1);
   }
 
 

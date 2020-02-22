@@ -25,6 +25,8 @@ public class DashboardWaitCommand extends CommandBase {
   public DashboardWaitCommand() { this("AutoWaitSeconds"); }
   public DashboardWaitCommand(String key) { this(key, "Autonomous"); }
   public DashboardWaitCommand(String key, String tab_name) {
+
+    final var tab = Shuffleboard.getTab(tab_name);
     entry = Shuffleboard.getTab(tab_name)
             .add(key, 0d)
             .withWidget(BuiltInWidgets.kNumberSlider)

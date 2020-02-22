@@ -55,7 +55,7 @@ public class Constants {
     public static final double MOVING_CURRENT = 40;
     public static final double MOVING_VELOCITY = 40;
     public static final double FLYWHEEL_EPSILON = 100;
-    public static final double ROTATION_TOLERANCE = 20;
+    public static final double ROTATION_TOLERANCE = 75;
 
     public static REVGains leftGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
     public static REVGains rightGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM

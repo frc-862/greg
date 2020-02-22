@@ -94,11 +94,12 @@ public class GregContainer extends LightningContainer {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
+
         final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 50)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
                 .getEntry();
         flyWheelAngle.addListener((n) -> {
-            shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+//            shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());

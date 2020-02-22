@@ -11,12 +11,13 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.Map;
 
 public class DashboardWaitCommand extends CommandBase {
-  private final NetworkTableEntry entry;
+  private NetworkTableEntry entry;
   private double targetTime;
 
   /**
@@ -25,13 +26,21 @@ public class DashboardWaitCommand extends CommandBase {
   public DashboardWaitCommand() { this("AutoWaitSeconds"); }
   public DashboardWaitCommand(String key) { this(key, "Autonomous"); }
   public DashboardWaitCommand(String key, String tab_name) {
-
     final var tab = Shuffleboard.getTab(tab_name);
-    entry = Shuffleboard.getTab(tab_name)
-            .add(key, 0d)
-            .withWidget(BuiltInWidgets.kNumberSlider)
-            .withProperties(Map.of("min", 0, "max", 15)) // specify widget properties here
-            .getEntry();
+
+    for (final var elem : tab.getComponents()) {
+      if (elem.getTitle().equals(key) && elem instanceof SimpleWidget) {
+        entry = ((SimpleWidget) elem).getEntry();
+      }
+    }
+
+    if (entry == null) {
+      entry = Shuffleboard.getTab(tab_name)
+              .add(key, 0d)
+              .withWidget(BuiltInWidgets.kNumberSlider)
+              .withProperties(Map.of("min", 0, "max", 15)) // specify widget properties here
+              .getEntry();
+    }
   }
 
   // Called when the command is initially scheduled.

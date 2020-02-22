@@ -70,6 +70,8 @@ tasks.register("update_version") {
   }
 
   doLast {
+	mkdir("src/main/resources")
+        ant.touch(file:"src/main/resources/version.properties")
         if (versionPropsFile.canRead()) {
             def Properties versionProps = new Properties()
             versionProps.load(new FileInputStream(versionPropsFile))

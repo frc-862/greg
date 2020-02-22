@@ -92,6 +92,10 @@ public class CtrlPanelOperator extends SubsystemBase {
         //green=3
         //yellow=4
         //???=0
+        SmartDashboard.putBoolean("is Yellow",color==3);
+        SmartDashboard.putBoolean("is Red",color==2);
+        SmartDashboard.putBoolean("is Green",color==1);
+        SmartDashboard.putBoolean("is Blue",color==0);
     }
 
     /**

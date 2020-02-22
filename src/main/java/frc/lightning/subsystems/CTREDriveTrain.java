@@ -232,4 +232,10 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     // Override me!
     return null;
   }
+
+  @Override
+  public void resetSensorVals() {
+    // TODO Auto-generated method stub
+
+  }
 }

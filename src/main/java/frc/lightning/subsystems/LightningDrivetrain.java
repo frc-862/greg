@@ -82,9 +82,7 @@ public interface LightningDrivetrain extends Subsystem {
 
     public void initMotorDirections();
 
-    public default void resetSensorVals() {
-        resetDistance();
-    }
+    public void resetSensorVals();
 
     public RamseteGains getConstants();
 

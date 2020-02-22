@@ -82,12 +82,10 @@ public class Indexer extends SubsystemBase {
 
     public int getBallCount() { return ballCount; }
 
+    public void shotBall() { ballCount--; }
+
     public void stop() {
         setPower(0);
-    }
-
-    public void feed() {
-
     }
 
     public void setPower(double pwr) {

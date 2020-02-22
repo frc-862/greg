@@ -76,7 +76,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getBestShooterVelocity() {
-        return 0;
+        return 2000;
     }
 
     public void  ringOn(){

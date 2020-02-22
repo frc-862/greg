@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -80,7 +81,7 @@ public class AutonGenerator {
                                                             pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO));
 
         // Set Up Shooting Functions
-        // SHOOT3 = null;
+        SHOOT3 = null;
         // SHOOT5 = null;
 
         // Set Up Moving Functions

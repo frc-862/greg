@@ -8,28 +8,47 @@
 package frc.robot;
 
 public class RobotMap {
+
     // DRIVETRAIN
     public static final int MOTORS_PER_SIDE = 3;
-    public static final int LEFT_1_CAN_ID   = 1;
+    public static final int LEFT_1_CAN_ID   = 1; // MASTER
     public static final int LEFT_2_CAN_ID   = 2;
     public static final int LEFT_3_CAN_ID   = 3;
-    public static final int RIGHT_1_CAN_ID  = 4;
+    public static final int RIGHT_1_CAN_ID  = 4; // MASTER
     public static final int RIGHT_2_CAN_ID  = 5;
     public static final int RIGHT_3_CAN_ID  = 6;
-    public static final int shooter_1 = 7;
-    public static final int shooter_2 = 8;
-    public static final int shooter_3 = 9;
+    public static final int LEFT_ENCODER_CHANNEL_A = 0;
+    public static final int LEFT_ENCODER_CHANNEL_B = 1;
+    public static final int RIGHT_ENCODER_CHANNEL_A = 2;
+    public static final int RIGHT_ENCODER_CHANNEL_B = 3;
+
+    // SHOOTER
+    public static final int SHOOTER_1 = 7; // TOP LEFT
+    public static final int SHOOTER_2 = 8; // BOTTOM
+    public static final int SHOOTER_3 = 9; // TOP RIGHT
+    public static final int SHOOTER_ANGLE = 13;
 
     // CORE
-    public static final int COMPRESSOR_ID = 21;
-
-    // HYPERION
+    public static final int COMPRESSOR_ID = 20;
     public static final int PIGEON_ID = 8;
-    public static int indexerCanID = 13;
+    public static final int VISION_SOLENOID = 3;
 
-    public static int colletorPistonOut=2;
-    public static int colletorPistonin=5;
+    // COLLECTOR
+    public static final int LONGITUDNAL_MOTOR = 10; // LEFT SIDE
+    public static final int LINEAR_MOTOR = 11; // RIGHT SIDE
+    public static final int COLLECTOR_OUT_CHANNEL = 2;
+    public static final int COLLECTOR_IN_CHANNEL = 5;
 
-    public static int saftyin=1;
-    public static int saftyOut=6;
+    // INDEXER
+    public static final int INDEXER = 12;
+    public static final int SAFTEY_IN_CHANNEL = 1;
+    public static final int SAFTEY_OUT_CHANNEL = 6;
+    public static final int COLLECT_SENSOR = 4;
+
+    // CONTROL PANEL
+    public static final int CONTROL_PANEL = 15;
+
+    // CLIMBER
+    public static final int CLIMBER = 14;
+
 }

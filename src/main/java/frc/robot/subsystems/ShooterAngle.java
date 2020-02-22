@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.InterpolatedMap;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
+import frc.robot.RobotMap;
 
 import java.util.function.DoubleSupplier;
 
@@ -25,7 +26,7 @@ public class ShooterAngle extends SubsystemBase {
     private TalonSRX adjuster;
 
     public ShooterAngle () {
-        adjuster = new TalonSRX(15);
+        adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
         System.out.println("Adjuster created: " + adjuster);
 
         shooterAngleConfig();
@@ -35,19 +36,16 @@ public class ShooterAngle extends SubsystemBase {
 
         adjuster.configForwardSoftLimitEnable(false);
         adjuster.configReverseSoftLimitEnable(false);
-
 //        adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
 //        adjuster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
 //        adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
 //        adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
 
-
-
         //motion magic configs
-        adjuster.config_kF(0,Constants.kAdjusterF);
-        adjuster.config_kD(0,Constants.kAdjusterD);
-        adjuster.config_kI(0,Constants.kAdjusterI);
-        adjuster.config_kP(0,Constants.kAdjusterP);
+        adjuster.config_kF(0, Constants.kAdjusterF);
+        adjuster.config_kD(0, Constants.kAdjusterD);
+        adjuster.config_kI(0, Constants.kAdjusterI);
+        adjuster.config_kP(0, Constants.kAdjusterP);
 
         adjuster.configMotionCruiseVelocity(8, 0);
         adjuster.configMotionAcceleration(8, 0);
@@ -112,6 +110,7 @@ public class ShooterAngle extends SubsystemBase {
     public DoubleSupplier getMax(){
         return ()->FORWARD_SENSOR_LIMIT;
     }
+
     private void shooterAngleConfig(){
         //data sheet
         shooterAngle.put(10.0, 400.0);

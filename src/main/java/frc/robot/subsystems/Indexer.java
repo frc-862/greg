@@ -26,7 +26,7 @@ public class Indexer extends SubsystemBase {
     private DoubleSolenoid safty;
 
     public int ballCount;
-    DigitalInput collectSensor = new DigitalInput(4);
+    DigitalInput collectSensor;
 
     // Components
     /**
@@ -34,16 +34,16 @@ public class Indexer extends SubsystemBase {
      */
 
     public Indexer(DigitalInput[] sensors) {
-        safty = new DoubleSolenoid(21, RobotMap.saftyin, RobotMap.saftyOut);
+        safty = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.SAFTEY_IN_CHANNEL, RobotMap.SAFTEY_OUT_CHANNEL);
         pcSensors = sensors;
-        indexer = new VictorSPX(RobotMap.indexerCanID);
+        indexer = new VictorSPX(RobotMap.INDEXER);
+        indexer.setInverted(true);
+        collectSensor = new DigitalInput(RobotMap.COLLECT_SENSOR);
 
         CommandScheduler.getInstance().registerSubsystem(this);
     }
 
     public static Indexer create() {
-
-//        indexer = new VictorSPX(11);
         DigitalInput[] pcSensors = new DigitalInput[5];
         for (var i = 0; i < pcSensors.length; ++i) {
             pcSensors[i] = new DigitalInput(RobotConstants.firstPCSensor + i);
@@ -51,9 +51,9 @@ public class Indexer extends SubsystemBase {
         return new Indexer(pcSensors);
     }
 
-    boolean armed = true;
-    double armedTimer = 0d;
-    boolean ballSeen = false;
+    private boolean armed = true;
+    private double armedTimer = 0d;
+    private boolean ballSeen = false;
 
     @Override
     public void periodic() {
@@ -64,7 +64,7 @@ public class Indexer extends SubsystemBase {
         SmartDashboard.putBoolean("IndexerArmed", armed);
 
         if(ballSeen) {
-            if(armed){
+            if(armed) {
                 ballCount++;
                 armed = false;
             }

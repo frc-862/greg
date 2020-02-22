@@ -71,9 +71,9 @@ public class Shooter extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
 
         configShooterSpeed();
-        motor1 = new CANSparkMax(RobotMap.shooter_1, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor2 = new CANSparkMax(RobotMap.shooter_2, CANSparkMaxLowLevel.MotorType.kBrushless);
-        motor3 = new CANSparkMax(RobotMap.shooter_3, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor1 = new CANSparkMax(RobotMap.SHOOTER_1, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor2 = new CANSparkMax(RobotMap.SHOOTER_2, CANSparkMaxLowLevel.MotorType.kBrushless);
+        motor3 = new CANSparkMax(RobotMap.SHOOTER_3, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor1.setIdleMode(CANSparkMax.IdleMode.kCoast);
         motor2.setIdleMode(CANSparkMax.IdleMode.kCoast);
         motor3.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -146,9 +146,16 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
-        this.motor1PIDFController.setReference(LightningMath.constrain(velocity-1500,0,5000), ControlType.kVelocity);
-        this.motor2PIDFController.setReference(LightningMath.constrain(velocity+1500,0,5000), ControlType.kVelocity);
-        this.motor3PIDFController.setReference(LightningMath.constrain(velocity-1500,0,5000), ControlType.kVelocity);
+        if(!(setSpeed == 0)){
+            this.motor1PIDFController.setReference(LightningMath.constrain(velocity - 1500, 0, 5000), ControlType.kVelocity);
+            this.motor2PIDFController.setReference(LightningMath.constrain(velocity + 1500, 0, 5000), ControlType.kVelocity);
+            this.motor3PIDFController.setReference(LightningMath.constrain(velocity - 1500, 0, 5000), ControlType.kVelocity);
+        } else {
+            this.motor1PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
+            this.motor2PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
+            this.motor3PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
+        }
+        
     }
 
     public void resetDistance() {

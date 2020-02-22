@@ -73,7 +73,7 @@ public class Robot extends LightningRobot {
 
             System.out.println("Initializing Greg");
             SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
-            return new GregContainer(0);
+            return new GregContainer();
         }
     }
 

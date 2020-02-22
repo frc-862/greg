@@ -11,7 +11,6 @@ public class RobotConstants {
 
     public static final double WHEEL_DIAMETER = 6;
     public static final int firstPCSensor = 0;
-    public static final double ENCODER_PULSES_PER_REVOLUTION = 8192;
-    public static final double ENCODER_PULSE_TO_METERS = ENCODER_PULSES_PER_REVOLUTION /
-                                                         LightningMath.in2meters(WHEEL_CIRCUMFERENCE_INCHES);
+    public static final double ENCODER_PULSES_PER_REVOLUTION = 2048;
+    public static final double ENCODER_PULSE_TO_METERS = LightningMath.in2meters(WHEEL_CIRCUMFERENCE_INCHES) / ENCODER_PULSES_PER_REVOLUTION;
 }

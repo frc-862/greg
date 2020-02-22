@@ -19,13 +19,15 @@ public class Vision extends SubsystemBase {
     double XValue = 0;
     double YValue = 0;
     double Found = 0;
+    private final Solenoid blindedByScience;
     private final Solenoid blindedByTheLight;
     private final LED led = new LED();
     /**
      * Creates a new Vision.
      */
     public Vision() {
-        blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SOLENOID); // 21
+        blindedByScience = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_BIG_SOLENOID);
+        blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SMALL_SOLENOID); // 21
         CommandScheduler.getInstance().registerSubsystem(this);
         DataLogger.addDataElement("XValue", () -> XValue);
         DataLogger.addDataElement("YValue", () -> YValue);
@@ -38,7 +40,7 @@ public class Vision extends SubsystemBase {
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
         Found = SmartDashboard.getNumber("VisionFound",0);
-        SmartDashboard.putNumber("X value",XValue);
+        SmartDashboard.putNumber("X value",XValue-320);
         SmartDashboard.putNumber("found",Found);
         if(seePortTarget()){
             led.goYellow();

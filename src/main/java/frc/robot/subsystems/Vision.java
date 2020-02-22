@@ -50,7 +50,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getOffsetAngle() {
-        return XValue;
+        return XValue-320;
     }
 
 

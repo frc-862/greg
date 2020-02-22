@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lightning.LightningContainer;
@@ -89,7 +90,7 @@ public class GregContainer extends LightningContainer {
                                      () -> -driverRight.getY()
         ));
         collector.setDefaultCommand(new CollectIndex(collector, indexer,() -> getCollectPower()));
-//        shooterAngle.setDefaultCommand(new RunCommand(()->shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)),shooterAngle));
+        shooterAngle.setDefaultCommand(new RunCommand(()->shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)),shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter")
                 .add("SetPoint", 1)
@@ -103,10 +104,10 @@ public class GregContainer extends LightningContainer {
         final var flyWheelAngle = Shuffleboard.getTab("Shooter")
                 .add("SetAngle", 50)
                 .withWidget(BuiltInWidgets.kNumberSlider)
-                .withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
+                .withProperties(Map.of("min", shooterAngle.getMin().getAsDouble(), "max", shooterAngle.getMax().getAsDouble())) // specify widget properties here
                 .getEntry();
         flyWheelAngle.addListener((n) -> {
-            shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+//            shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
 

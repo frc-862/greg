@@ -20,28 +20,28 @@ public class GregDrivetrain extends NeoDrivetrain {
     Encoder rightEncoder = new Encoder(2,3);
 
     // needs to return meters
-    @Override
-    public double getLeftDistance() {
-        return leftEncoder.getDistance();
-    }
-
-    // needs to return meters
-    @Override
-    public double getRightDistance() {
-        return rightEncoder.getDistance();
-    }
-
-    // needs to return meters/sec
-    @Override
-    public double getLeftVelocity() {
-        return leftEncoder.getRate();
-    }
-
-    // needs to return meters/sec
-    @Override
-    public double getRightVelocity() {
-        return rightEncoder.getRate();
-    }
+//    @Override
+//    public double getLeftDistance() {
+//        return leftEncoder.getDistance();
+//    }
+//
+//    // needs to return meters
+//    @Override
+//    public double getRightDistance() {
+//        return rightEncoder.getDistance();
+//    }
+//
+//    // needs to return meters/sec
+//    @Override
+//    public double getLeftVelocity() {
+//        return leftEncoder.getRate();
+//    }
+//
+//    // needs to return meters/sec
+//    @Override
+//    public double getRightVelocity() {
+////        return rightEncoder.getRate();
+//    }
 
     public GregDrivetrain() {
         super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);

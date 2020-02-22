@@ -35,8 +35,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain {
-    private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
-    private static final double OPEN_LOOP_RAMP_RATE = 0.5;
+    private static final double CLOSE_LOOP_RAMP_RATE = 0.6; // 0.5
+    private static final double OPEN_LOOP_RAMP_RATE = 0.6; // 0.5
 
     public final int firstLeftCanId;
     public final int firstRightCanId;
@@ -136,7 +136,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         resetSensorVals();
 
-        pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
+        // pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
     }
 

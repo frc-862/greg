@@ -27,9 +27,11 @@ public class Collector extends SubsystemBase {
      */
     public Collector() {
         // Init
-        linearMotor = new WPI_VictorSPX(11);
-        longitudinalMotor = new WPI_VictorSPX(12);
-        putterOutter =new DoubleSolenoid(21, RobotMap.colletorPistonin, RobotMap.colletorPistonOut);
+        linearMotor = new WPI_VictorSPX(RobotMap.LINEAR_MOTOR);
+        linearMotor.setInverted(true);
+        longitudinalMotor = new WPI_VictorSPX(RobotMap.LONGITUDNAL_MOTOR);
+        longitudinalMotor.setInverted(true);
+        putterOutter = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.COLLECTOR_IN_CHANNEL, RobotMap.COLLECTOR_OUT_CHANNEL);
     }
 
     @Override
@@ -76,8 +78,8 @@ public class Collector extends SubsystemBase {
     }
 
     public void stop() {
-        linearMotor.set(ControlMode.PercentOutput,0);
-        longitudinalMotor.set(ControlMode.PercentOutput,0);
+        linearMotor.set(ControlMode.PercentOutput, 0);
+        longitudinalMotor.set(ControlMode.PercentOutput, 0);
     }
     public void puterOuterOut(){
         putterOutter.set(DoubleSolenoid.Value.kForward);

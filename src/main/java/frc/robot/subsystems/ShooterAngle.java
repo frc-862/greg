@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.InterpolatedMap;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
+import frc.robot.RobotMap;
 
 public class ShooterAngle extends SubsystemBase {
     public static final int REVERSE_SENSOR_LIMIT = 75;
@@ -16,13 +17,13 @@ public class ShooterAngle extends SubsystemBase {
 
     InterpolatedMap shooterAngle = new InterpolatedMap();
     private double setPoint = 100;
-    private double Kp = .2;
+    private double kP = .2;
 
 
     private TalonSRX adjuster;
 
     public ShooterAngle () {
-        adjuster = new TalonSRX(15);
+        adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
         System.out.println("Adjuster created: " + adjuster);
 
         shooterAngleConfig();
@@ -30,16 +31,16 @@ public class ShooterAngle extends SubsystemBase {
 
         //left is in encoder ticks
 
-        adjuster.configForwardSoftLimitEnable(true);
-        adjuster.configReverseSoftLimitEnable(true);
+        adjuster.configForwardSoftLimitEnable(false);
+        adjuster.configReverseSoftLimitEnable(false);
         adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
         adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
 
         //motion magic configs
-        adjuster.config_kF(0,Constants.kAdjusterF);
-        adjuster.config_kD(0,Constants.kAdjusterD);
-        adjuster.config_kI(0,Constants.kAdjusterI);
-        adjuster.config_kP(0,Constants.kAdjusterP);
+        adjuster.config_kF(0, Constants.kAdjusterF);
+        adjuster.config_kD(0, Constants.kAdjusterD);
+        adjuster.config_kI(0, Constants.kAdjusterI);
+        adjuster.config_kP(0, Constants.kAdjusterP);
 
         adjuster.configMotionCruiseVelocity(8, 0);
         adjuster.configMotionAcceleration(8, 0);
@@ -55,15 +56,15 @@ public class ShooterAngle extends SubsystemBase {
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Shooter angle",getAngle());
-        adjusterControlLoop();
+        // adjusterControlLoop(); TODO - not this
     }
 
     private void adjusterControlLoop() {
         if (!(LightningMath.epsilonEqual(setPoint,getAngle(),2))) {
             if(setPoint-getAngle() < 0) {
-                setPower(LightningMath.constrain((setPoint-getAngle())*Kp,-1,1));
+                setPower(LightningMath.constrain((setPoint-getAngle())*kP,-1,1));
             }else {
-                setPower(LightningMath.constrain((setPoint-getAngle())*Kp,-1,1));
+                setPower(LightningMath.constrain((setPoint-getAngle())*kP,-1,1));
             }
 
         } else {

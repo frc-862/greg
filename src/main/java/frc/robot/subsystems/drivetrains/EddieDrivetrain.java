@@ -167,6 +167,20 @@ public class EddieDrivetrain implements LightningDrivetrain {
 
     }
 
+    @Override
+    public void setRelativePose(){
+        // TODO Auto-generated method stub
+    }
+
+    public Pose2d getRelativePose(){
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void resetSensorVals(){
+        // TODO Auto-generated method stub
+    }
+
    // @Override
    // public void periodic() {
    //     REVGains.updateGainsFromDash((getName() + "_RIGHT"), Constants.rightGains, getRightPIDFC());

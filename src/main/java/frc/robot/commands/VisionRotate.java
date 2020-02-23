@@ -7,7 +7,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lightning.logging.CommandLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
@@ -17,6 +19,7 @@ public class VisionRotate extends CommandBase {
     private static final double VISION_ROTATE_P = .1 / 320;
     private static final double MIN_ROTATE_PWR = 0.05;
 
+    private CommandLogger logger = new CommandLogger("VisionRotate");
     LightningDrivetrain drivetrain;
     Vision vision;
     //private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
@@ -30,44 +33,68 @@ public class VisionRotate extends CommandBase {
 
         // note not adding vision on purpose (multi-use subsystem)
         addRequirements(drivetrain);
+
+        logger.addDataElement("error");
+        logger.addDataElement("power");
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (vision.seePortTarget()) {
+        vision.ringOn();
+        //if (vision.seePortTarget()) {
 
-            double visionOffset = vision.getOffsetAngle()-320;
+            double visionOffset = vision.getOffsetAngle();
             double pwr = visionOffset * VISION_ROTATE_P;
 
+            logger.set("error", visionOffset);
+            logger.set("power", pwr);
 
             //System.out.println("VR exec: " + pwr);
             //pwr = Math.max(Math.abs(pwr), MIN_ROTATE_PWR);
-            if(pwr < MIN_ROTATE_PWR && pwr>0){
-                pwr = MIN_ROTATE_PWR;
+
+            if ( visionOffset>0){
+                pwr=MIN_ROTATE_PWR;
             }
-            if(pwr > -MIN_ROTATE_PWR && pwr <0){
-                pwr = -MIN_ROTATE_PWR;
+            if (visionOffset<0){
+                pwr=-MIN_ROTATE_PWR;
             }
-            drivetrain.setPower(pwr, -pwr);
+
+        if(Math.abs(vision.getOffsetAngle())<10){
+            pwr =0;
+        }
+
+            drivetrain.setOutput(12*pwr, -pwr*12);
+            SmartDashboard.putBoolean("in tolerance",inTolerance());
+
             //right is pos
             //left is neg
 
+
         }
-    }
+//    }
 
     private boolean inTolerance() {
-        return vision.seePortTarget() && LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.ROTATION_TOLERANCE);
+        if(LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.ROTATION_TOLERANCE)){
+            return true;
+        }else {
+            return false;
+        }
+
+
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return inTolerance();
+        return false;
+//        return Math.abs(vision.getOffsetAngle())<10;
     }
     
     @Override
     public void end(boolean interrupted){
+        logger.flush();
+
         drivetrain.stop();
     }
 }

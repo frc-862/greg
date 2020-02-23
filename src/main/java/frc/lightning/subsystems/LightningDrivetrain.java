@@ -49,6 +49,7 @@ public interface LightningDrivetrain extends Subsystem {
 
     public void setPower(double left, double right);
 
+
     public default void setPower(DriveCommand cmd) {
         setPower(cmd.leftCommand, cmd.rightCommand);
     }
@@ -81,9 +82,7 @@ public interface LightningDrivetrain extends Subsystem {
 
     public void initMotorDirections();
 
-    public default void resetSensorVals() {
-        resetDistance();
-    }
+    public void resetSensorVals();
 
     public RamseteGains getConstants();
 
@@ -96,6 +95,10 @@ public interface LightningDrivetrain extends Subsystem {
     public DifferentialDriveKinematics getKinematics();
 
     public Pose2d getPose();
+
+    public Pose2d getRelativePose();
+
+    public void setRelativePose();
 
     public DifferentialDriveWheelSpeeds getSpeeds();
 

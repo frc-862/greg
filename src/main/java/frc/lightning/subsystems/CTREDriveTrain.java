@@ -232,4 +232,22 @@ public class CTREDriveTrain extends SubsystemBase implements LightningDrivetrain
     // Override me!
     return null;
   }
+
+  @Override
+  public void resetSensorVals() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public Pose2d getRelativePose() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public void setRelativePose() {
+    // TODO Auto-generated method stub
+
+  }
 }

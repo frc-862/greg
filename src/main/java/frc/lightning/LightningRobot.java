@@ -223,6 +223,10 @@ public class LightningRobot extends TimedRobot {
         // LightningServer.stop_server();
 
         autonomousCommand = new DashboardWaitCommand() {
+            // @Override
+            // public void initialize() {
+            //     getContainer().getDrivetrain().setRelativePose();
+            // }
             @Override
             public void end(boolean interrupted) {
                 super.end(interrupted);

@@ -49,13 +49,13 @@ public class Robot extends LightningRobot {
     @Override
     public void teleopInit() {
         super.teleopInit();
-        getContainer().getDrivetrain().resetSensorVals();
+        // getContainer().getDrivetrain().resetSensorVals();
     }
 
     @Override
     public void autonomousInit() {
         super.autonomousInit();
-        getContainer().getDrivetrain().resetSensorVals();
+        // getContainer().getDrivetrain().resetSensorVals();
     }
 
     private static LightningContainer getRobot() {
@@ -83,8 +83,8 @@ public class Robot extends LightningRobot {
         }
         else {
             System.out.println("Initializing Greg");
-            SmartDashboard.putString("Robot: ", "Greg");
-            return new GregContainer(0);
+            SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
+            return new GregContainer();
         }
     }
 

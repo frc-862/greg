@@ -14,31 +14,31 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.robot.subsystems.leds.LED;
+import frc.robot.RobotMap;
 
 public class Vision extends SubsystemBase {
-    double XValue=0;
-    double YValue=0;
-    double Found =0;
+    double XValue = 0;
+    double YValue = 0;
+    double Found = 0;
     private final Solenoid blindedByTheLight;
     private final LED led = new LED();
     /**
      * Creates a new Vision.
      */
     public Vision() {
-        blindedByTheLight =new Solenoid(21,3);
+        blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SOLENOID); // 21
         CommandScheduler.getInstance().registerSubsystem(this);
+        DataLogger.addDataElement("XValue", () -> XValue);
+        DataLogger.addDataElement("YValue", () -> YValue);
+        DataLogger.addDataElement("Found", () -> Found);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
         Found = SmartDashboard.getNumber("VisionFound",0);
-        DataLogger.addDataElement("XValue",()->XValue);
-        DataLogger.addDataElement("YValue",()->YValue);
-        DataLogger.addDataElement("Found",()->Found);
         SmartDashboard.putNumber("X value",XValue);
         SmartDashboard.putNumber("found",Found);
         if(seePortTarget()){
@@ -51,7 +51,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getOffsetAngle() {
-        return XValue;
+        return XValue-320;
     }
 
 
@@ -77,7 +77,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getBestShooterVelocity() {
-        return 0;
+        return 2000;
     }
 
     public void  ringOn(){

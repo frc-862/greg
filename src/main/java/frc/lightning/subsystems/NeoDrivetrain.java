@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -35,8 +36,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain {
-    private static final double CLOSE_LOOP_RAMP_RATE = 0.5;
-    private static final double OPEN_LOOP_RAMP_RATE = 0.5;
+    private static final double CLOSE_LOOP_RAMP_RATE = 0.6; // 0.5
+    private static final double OPEN_LOOP_RAMP_RATE = 0.6; // 0.5
 
     public final int firstLeftCanId;
     public final int firstRightCanId;
@@ -67,6 +68,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     private PIDController rightPIDController;
 
     private Pose2d pose = new Pose2d(0d, 0d, new Rotation2d());
+
+    private Pose2d poseOffset = null;
 
     private RamseteGains gains;
 
@@ -134,15 +137,22 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RightRotationConversionFactor", rightEncoder.getPositionConversionFactor());
         SmartDashboard.putNumber("LeftRotationConversionFactor", leftEncoder.getPositionConversionFactor());
 
+        SmartDashboard.putNumber("RightMasterHeat", rightMaster.getMotorTemperature());
+        SmartDashboard.putNumber("LeftMasterHeat", leftMaster.getMotorTemperature());
+
         resetSensorVals();
 
-        pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
+        // pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
     }
 
     @Override
     public void periodic() {
         super.periodic();
+
+        SmartDashboard.putNumber("RightMasterHeat", rightMaster.getMotorTemperature());
+        SmartDashboard.putNumber("LeftMasterHeat", leftMaster.getMotorTemperature());
+
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
         bird.getYawPitchRoll(ypr);
@@ -197,10 +207,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void resetSensorVals() {
-        LightningDrivetrain.super.resetSensorVals();
         resetDistance();
         resetHeading();
-        odometry.resetPosition(new Pose2d(), new Rotation2d());
+        // odometry.resetPosition(new Pose2d(), new Rotation2d());
+        odometry.resetPosition(new Pose2d(new Translation2d(0d, 0d), Rotation2d.fromDegrees(0d)), Rotation2d.fromDegrees(0d));
     }
 
     private void resetHeading() {
@@ -373,6 +383,16 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public RamseteGains getConstants() {
         // Override me!
         return null;
+    }
+
+    @Override
+    public Pose2d getRelativePose() {
+        return pose.relativeTo(poseOffset);
+    }
+
+    @Override
+    public void setRelativePose() {
+        poseOffset = pose;
     }
 
 }

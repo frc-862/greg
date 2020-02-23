@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -74,13 +75,13 @@ public class AutonGenerator {
         TEST_PATH_COMPILATION = new SequentialCommandGroup(pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH), 
                                                             new InstantCommand(() -> {
                                                                 drivetrain.stop();
-                                                                drivetrain.resetSensorVals();
+                                                                // drivetrain.resetSensorVals();
                                                             }, drivetrain), 
                                                             new WaitCommand(2), 
                                                             pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO));
 
         // Set Up Shooting Functions
-        // SHOOT3 = null;
+        SHOOT3 = null;
         // SHOOT5 = null;
 
         // Set Up Moving Functions
@@ -106,7 +107,7 @@ public class AutonGenerator {
         COLL2_OPPTR_SHOOT5 = new SequentialCommandGroup(pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN),
                                                         new InstantCommand(() -> {
                                                             drivetrain.stop();
-                                                            for(int i = 0 ; i < 10 ; i++) drivetrain.resetSensorVals(); // Just to be sure...
+                                                            // for(int i = 0 ; i < 10 ; i++) drivetrain.resetSensorVals(); // Just to be sure...
                                                         }, drivetrain), 
                                                         new WaitCommand(2),
                                                         pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER));
@@ -121,9 +122,9 @@ public class AutonGenerator {
         HashMap<String, Command> map = new HashMap<>();
 
         // For Testing
-        map.put("Test 2-in-one :)", TEST_PATH_COMPILATION);
-        map.put("Test Path 1", TEST_PATH_1);
-        map.put("Test Path 2", TEST_PATH_2);
+        map.put("### TEST MAIN ###", TEST_PATH_COMPILATION);
+        map.put("Test Path #1", TEST_PATH_1);
+        map.put("Test Path #2", TEST_PATH_2);
 
         map.put("Off Line Forward", MOVE_OFF_LINE_FWD);
         map.put("Off Line Reverse", MOVE_OFF_LINE_REV);

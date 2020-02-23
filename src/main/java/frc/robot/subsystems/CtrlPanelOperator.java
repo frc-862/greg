@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class CtrlPanelOperator extends SubsystemBase {
@@ -25,11 +26,11 @@ public class CtrlPanelOperator extends SubsystemBase {
     private final Color kYellowTarget = ColorMatch.makeColor(0.33, 0.525, 0.14);
     private final Color kFalseGreenTarget = ColorMatch.makeColor(.322, 0.46, 0.21);
     private final Color kFalseYellowTarget = ColorMatch.makeColor(.312, 0.469, 0.219);
-    private int color =0;
+    private int color = 0;
     private  int targetColor;
-        VictorSP spinner = new VictorSP(0);
-        LightningColorSensor I_Can_Taste_Color = new LightningColorSensor(I2C.Port.kOnboard);
-        ColorMatch colorMatch = new ColorMatch();
+    VictorSP spinner = new VictorSP(RobotMap.CONTROL_PANEL); // 0?
+    LightningColorSensor I_Can_Taste_Color = new LightningColorSensor(I2C.Port.kOnboard);
+    ColorMatch colorMatch = new ColorMatch();
 
     public enum Colors {
         RED("R", 1),
@@ -91,6 +92,10 @@ public class CtrlPanelOperator extends SubsystemBase {
         //green=3
         //yellow=4
         //???=0
+        SmartDashboard.putBoolean("is Yellow",color==3);
+        SmartDashboard.putBoolean("is Red",color==2);
+        SmartDashboard.putBoolean("is Green",color==1);
+        SmartDashboard.putBoolean("is Blue",color==0);
     }
 
     /**

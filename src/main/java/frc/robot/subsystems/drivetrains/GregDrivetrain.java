@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.drivetrains;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
@@ -16,8 +17,8 @@ import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
 
 public class GregDrivetrain extends NeoDrivetrain {
-    Encoder leftEncoder = new Encoder(0,1);
-    Encoder rightEncoder = new Encoder(2,3);
+    Encoder leftEncoder; 
+    Encoder rightEncoder;
 
     // needs to return meters
     @Override
@@ -44,7 +45,11 @@ public class GregDrivetrain extends NeoDrivetrain {
     }
 
     public GregDrivetrain() {
-        super(3, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);
+        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);
+
+        leftEncoder = new Encoder(new DigitalInput(RobotMap.LEFT_ENCODER_CHANNEL_A), new DigitalInput(RobotMap.LEFT_ENCODER_CHANNEL_B), false);
+        rightEncoder = new Encoder(new DigitalInput(RobotMap.RIGHT_ENCODER_CHANNEL_A), new DigitalInput(RobotMap.RIGHT_ENCODER_CHANNEL_B), true);
+        
         initMotorDirections();
 
         leftEncoder.setDistancePerPulse(RobotConstants.ENCODER_PULSE_TO_METERS);

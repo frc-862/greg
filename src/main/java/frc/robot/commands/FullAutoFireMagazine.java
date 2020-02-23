@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.subsystems.Indexer;
@@ -10,7 +11,7 @@ import frc.robot.subsystems.Vision;
 public class FullAutoFireMagazine extends PerpetualCommand {
     private final Indexer indexer;
     private final Shooter shooter;
-    private int fired=0;
+    private int fired = 0;
 
     public FullAutoFireMagazine(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
         super(new FullAutoFireOne(dt, v, s, sa, i,true));
@@ -19,9 +20,13 @@ public class FullAutoFireMagazine extends PerpetualCommand {
         this.shooter = s;
         fired++;
     }
+
+    double entryTime;
+
     @Override
     public void initialize(){
-        fired=0;
+        entryTime = Timer.getFPGATimestamp();
+        fired = 0;
     }
     @Override
     public boolean isFinished() {
@@ -30,7 +35,8 @@ public class FullAutoFireMagazine extends PerpetualCommand {
 //        } else {
 //            return false;
 //        }
-        return fired == 5;
+        // return fired == 5;
+        return ((entryTime - Timer.getFPGATimestamp()) > 5d);
     }
 
     @Override

@@ -221,18 +221,7 @@ public class LightningRobot extends TimedRobot {
     @Override
     public void autonomousInit() {
         // LightningServer.stop_server();
-
-        autonomousCommand = new DashboardWaitCommand() {
-            // @Override
-            // public void initialize() {
-            //     getContainer().getDrivetrain().setRelativePose();
-            // }
-            @Override
-            public void end(boolean interrupted) {
-                super.end(interrupted);
-                chooser.getSelected().schedule();
-            }
-        };
+        autonomousCommand = new SequentialCommandGroup(new DashboardWaitCommand(), chooser.getSelected());
 
         // schedule the autonomous command (example)
         if (autonomousCommand != null) {

@@ -9,6 +9,7 @@ package frc.robot.robots;
 
 import java.util.HashMap;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -28,8 +29,11 @@ import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.leds.AddressableLEDMatrix;
+import frc.robot.subsystems.leds.GeometryDash;
 import frc.robot.subsystems.leds.LEDMatrixMap;
 import frc.robot.subsystems.leds.LEDs;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 
 /**
@@ -41,11 +45,12 @@ import frc.robot.subsystems.drivetrains.EddieDrivetrain;
 public class EddieContainer extends LightningContainer {
 
     private static int powerCellCapacity = 0;
-
     public static final LEDs Leds = new LEDs();
+    public static final GeometryDash geoDash = new GeometryDash();
     public static final LEDMatrixMap ledMatrixMap = new LEDMatrixMap();
-    //public static final AddressableLEDMatrix addressableLEDMatrix = new AddressableLEDMatrix(8, 32, 9);
-
+    //private final DigitalInput sensors[] = new DigitalInput[0];
+    //private final Indexer indexer = new Indexer(sensors);
+    //private final Shooter shooter = new Shooter();
     //private final Logging loggerSystem = new Logging();
     //private final Vision vision = new Vision();
 
@@ -94,7 +99,8 @@ public class EddieContainer extends LightningContainer {
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkGreen(() -> 17, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new BlinkYellow(() -> 17, Leds));
         //(new JoystickButton(driver, Button.kA.value)).whenPressed(new SolidYellow(() -> 1, Leds));
-        (new JoystickButton(driver, Button.kA.value)).whenPressed(new Pong(Leds, ledMatrixMap));
+       // (new JoystickButton(driver, Button.kA.value)).whenPressed(new Pong(Leds, ledMatrixMap));
+       (new JoystickButton(driver, Button.kA.value)).whenPressed(new RunLeds(Leds));
     }
 
     

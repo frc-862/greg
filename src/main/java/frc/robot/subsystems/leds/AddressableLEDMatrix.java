@@ -16,35 +16,36 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
     AddressableLEDBuffer buffer;
     HashMap<Integer, Integer[]> ledMap = new HashMap<>();
     ArrayList<Integer[]> columnArray = new ArrayList<>();
-    int width1, length1, width2, length2;
+    Integer[] widths;
+    Integer[] lengths;
+    int ledLengths;
     int chaseInt = 0;
-    int ledLength1, ledLength2;
     int sideLength; 
 
     public AddressableLEDMatrix(int matrixWidth1, int matrixLength1, int port){ 
-
         led = new AddressableLED(port);
-        width1 = matrixWidth1;
-        length1 = matrixLength1;
-        ledLength1 = matrixLength1 * matrixWidth1;
-        buffer = new AddressableLEDBuffer(ledLength1);
-        led.setLength(ledLength1);
+        widths[0] = matrixWidth1;
+        lengths[0] = matrixLength1;
+        ledLengths = matrixLength1 * matrixWidth1;
+        buffer = new AddressableLEDBuffer(ledLengths);
+        led.setLength(ledLengths);
         setArray(); 
         setPreMap();
         led.start();
     }
 
-    public AddressableLEDMatrix(int matrixWidth1, int matrixLength1, int matrixWidth2, int matrixLength2, int port){ 
+    public AddressableLEDMatrix(Integer matrixWidth[], Integer matrixLength[], int port){ 
         led = new AddressableLED(port);
-        width1 = matrixWidth1;
-        width2 = matrixWidth2;
-        length1 = matrixLength1;
-        length2 = matrixLength2;
-        ledLength1 = matrixLength1 * matrixWidth1;
-        ledLength2 = matrixWidth2 * matrixLength2;
-        buffer = new AddressableLEDBuffer(ledLength1 + ledLength2);
-        led.setLength(ledLength1 + ledLength2);
-        setArray(); 
+
+        for(int i = 0; i < matrixWidth.length; i ++){
+            ledLengths += matrixLength[i] * matrixWidth[i];
+        }
+
+        widths = matrixWidth;
+        lengths = matrixLength;
+        buffer = new AddressableLEDBuffer(ledLengths);
+        led.setLength(ledLengths);
+        setArrays(); 
         setPreMap();
         led.start();
     }
@@ -52,60 +53,75 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
     /*
     Store LED Matrix into coordinate grids
     */
-    private void setArray(){ 
-        if(ledLength1 != 0){ // matrix #1
-            for(int i = 0; i < width1; i ++){ // cycle through row number
-                Integer[] rowArray = new Integer[length1]; 
-                for(int t = 0; t < length1; t ++){ // cycle through column number
-                    if(i%2 == 0){rowArray[t] = (i * length1) + t; } 
-                    else {rowArray[t] = ((i+1) * length1) - (t+1);}
+    private void setArray(){
+        for(int i = 0; i < widths[0]; i ++){ // cycle through row number
+            Integer[] rowArray = new Integer[lengths[0]]; 
+            for(int t = 0; t < lengths[0]; t ++){ // cycle through column number
+                if(i%2 == 0){rowArray[t] = (i * lengths[0]) + t; } 
+                else {rowArray[t] = ((i+1) * lengths[0]) - (t+1);}
             }
-            columnArray.add(rowArray);
-            }
+            ledMap.put(i, rowArray);
         }
-        if(ledLength2 != 0){ // matrix #2
-             for(int i = 0; i < width2; i ++){
-                 Integer[] rowArray = new Integer[length2];
-                 for(int t = 0; t < length2; t ++){
-                    if(i%2 == 0){rowArray[t] = (ledLength1 +  (i * length2)) + t; }
-                     else {rowArray[t] = (ledLength1 + ((i+1) * length2)) - (t+1);}
-                 }
+    }
+
+    private void setArrays(){ 
+        int startingPoint = 0;
+        for(int i = 0; i < widths.length; i ++){
+            startingPoint = i != 0 ? startingPoint + widths[i-1] * lengths[i-1] : 0;
+        
+            for(int n = 0; n < widths[i]; n ++){
+                Integer[] rowArray = new Integer[lengths[i]]; 
+        
+                for(int t = 0; t < lengths[i]; t ++){ // cycle through column number
+                    if(n%2 == 0){rowArray[t] = (startingPoint + (n * lengths[i])) + t; } 
+                    else {rowArray[t] = (startingPoint + ((n+1) * lengths[i])) - (t+1);}
+                }
             columnArray.add(rowArray);
-             }
+            }   
         }
-        // put all saved coordinates into grid
-        for(int n = 0; n < columnArray.size(); n ++){
-             ledMap.put(n, columnArray.get(n));
+        
+        for(int x = 0; x < columnArray.size(); x++){
+            ledMap.put(x, columnArray.get(x));
         }
     }
 
     public void setColor(int row, int column, int h, int s, int v, int matrix){
-        int startingRow = matrix == 1 ? 0 : matrix == 2 ? width1 : 0;
-        int endColumn = matrix == 1 ? length1 : matrix == 2 ? ledLength2 : ledLength2;
-        for(int i = 0 ; i < endColumn; i ++){
-            buffer.setHSV(ledMap.get(row - 1 + startingRow)[column - 1], h, s, v);
-            led.setData(buffer);
-            }
+        int startingRow = widths[matrix - 1];
+        Timer.delay(0.001);
+        buffer.setHSV(ledMap.get(row - 1 + startingRow)[column - 1], h, s, v);
+        led.setData(buffer);
         //System.out.println(ledMap.get(row - 1)[column - 1]);
     }
 
     public void setColor(int row, Integer[] columns, int h, int s, int v, int matrix){
-        int startingRow = matrix == 1 ? 0 : matrix == 2 ? width1 : 0;
-        int endColumn = matrix == 1 ? length1 : matrix == 2 ? ledLength2 : ledLength2;
-         for(int i = 0 ; i < endColumn; i ++){
+        int startingRow = widths[matrix - 1];
+         for(int i = 0 ; i < columns.length; i ++){
+            Timer.delay(0.001);
             buffer.setHSV(ledMap.get(row - 1 + startingRow)[columns[i] - 1], h, s, v);
-            led.setData(buffer);
             }
+         led.setData(buffer);
+    }
+
+    public void setColor(Integer row[], Integer[] columns, int h, int s, int v, int matrix){
+        int startingRow = widths[matrix - 1];
+        for(int t = 0; t < row.length; t ++){
+         for(int i = 0 ; i < columns.length; i ++){
+            Timer.delay(0.001);
+            buffer.setHSV(ledMap.get(t + startingRow)[columns[i] - 1], h, s, v);
+            }
+        }
+         led.setData(buffer);
     }
     
 
-    public void clearColor(int ledLength){
-        for(int i = 0; i < ledLength; i ++){
-            Timer.delay(0.01);
+    public void clearColor(){
+        for(int i = 0; i < ledLengths; i ++){
+            Timer.delay(0.001);
             buffer.setHSV(i, 0,0,0);
             led.setData(buffer);
         }
     }
+    
     public void setRange (int startPixel, int endPixel, int h, int s, int v){
         for(int t = startPixel - 1; t < endPixel - startPixel; t ++){
             buffer.setHSV(t, h, s, v);
@@ -115,35 +131,32 @@ public class AddressableLEDMatrix extends LEDMatrixMap{
 
     public void setAll (int h, int s, int v, int matrixNumber){
         int matrixPixel = 0;
-        matrixPixel = matrixNumber == 1 ? ledLength1 : matrixNumber == 2 ? ledLength2 : matrixNumber == 3 ? ledLength2 + ledLength1 : 0;
+        for(int i = 0; i < matrixNumber; i ++){
+            matrixPixel += widths[i] * lengths[i];
+        }
+
         for(int t = 0; t < matrixPixel; t ++){
-            buffer.setHSV(t, h, s, v);       System.out.println(matrixPixel);
+            buffer.setHSV(t, h, s, v);      
         }
        led.setData(buffer);
     }
-
-    public void setMatrix2 (int startPixel, int endPixel, int h, int s, int v){
-        for(int t = startPixel - 1; t < endPixel - startPixel; t ++){
-            buffer.setHSV(t, h, s, v);
-           led.setData(buffer);
-         }
-    }
-
-    public void clearColor(){
-        for(int i = 0; i < ledLength1 + ledLength2; i ++){
-            buffer.setHSV(i, 0,0,0);
-            led.setData(buffer);
-        }
-    }
-
 
     public void setMap(HashMap<Integer, Integer[]> patternMap, int topLeftRow, int topLeftColumn, int hue, int saturation, int v){
         for(int i = 0; i < patternMap.size(); i ++){
             Timer.delay(0.001);
             for(int patternInt : patternMap.get(i)){
                 buffer.setHSV(ledMap.get((topLeftRow - 1) + i)[(topLeftColumn - 1) + patternInt], hue, saturation, v);
-                //System.out.println(topLeftRow);
-                //System.out.println(topLeftColumn);
+            }
+        }
+        led.setData(buffer);
+    }
+
+    public void setMap(HashMap<Integer, Integer[]> patternMap, int topLeftRow, int topLeftColumn, int hue, int saturation, int v, int matrix){
+        int startingRow = widths[matrix - 1];
+        for(int i = 0; i < patternMap.size(); i ++){
+            Timer.delay(0.001);
+            for(int patternInt : patternMap.get(i)){
+                buffer.setHSV(ledMap.get(startingRow + (topLeftRow - 1) + i)[(topLeftColumn - 1) + patternInt], hue, saturation, v);
             }
         }
         led.setData(buffer);

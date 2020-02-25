@@ -72,23 +72,28 @@ public class LightningRobot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        final var tab = Shuffleboard.getTab("Autonomous");
         System.out.println("LightningRobot.robotInit");
         System.out.println("Starting time:" + Timer.getFPGATimestamp());
         try
         {
             Properties props = new Properties();
-            props.load(ClassLoader.getSystemResourceAsStream("version.properties"));
-            System.out.println("Version: " + props.getProperty("VERSION_NAME", "n/a"));
-            System.out.println("Build: " + props.getProperty("VERSION_BUILD", "n/a"));
-            System.out.println("Built at: " + props.getProperty("BUILD_TIME", "n/a"));
-            System.out.println("Git branch: " + props.getProperty("GIT_BRANCH", "n/a"));
-            System.out.println("Git hash: " + props.getProperty("GIT_HASH", "n/a"));
-            System.out.println("Git status: " + props.getProperty("BUILD_STATUS", "n/a"));
+            var stream = ClassLoader.getSystemResourceAsStream("version.properties");
+            if (stream != null) {
+                props.load(stream);
+                System.out.println("Version: " + props.getProperty("VERSION_NAME", "n/a"));
+                System.out.println("Build: " + props.getProperty("VERSION_BUILD", "n/a"));
+                System.out.println("Built at: " + props.getProperty("BUILD_TIME", "n/a"));
+                System.out.println("Git branch: " + props.getProperty("GIT_BRANCH", "n/a"));
+                System.out.println("Git hash: " + props.getProperty("GIT_HASH", "n/a"));
+                System.out.println("Git status: " + props.getProperty("BUILD_STATUS", "n/a"));
+            }
         } catch (IOException e)
         {
             System.out.println("Unable to read build version information.");
         }
 
+        tab.add("Auto Mode", chooser);
         SmartDashboard.putData("Auto Mode", chooser);
 
         // By this point all datalog fields should be registered

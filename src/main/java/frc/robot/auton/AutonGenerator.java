@@ -17,9 +17,12 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.Robot;
 import frc.robot.auton.PathGenerator.Paths;
+import frc.robot.commands.shooter.FireThree;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterAngle;
+import frc.robot.subsystems.Vision;
 
 public class AutonGenerator {
 
@@ -35,8 +38,8 @@ public class AutonGenerator {
                             SHOOT5;
     
     // Make Moving Functions                        
-    private static Command MOVE_OFF_LINE_FWD,
-                            MOVE_OFF_LINE_REV,
+    private static Command MOVE_OFF_LINE_SHOOT_FWD,
+                            MOVE_OFF_LINE_COLLECT_FWD,
                             MOVE_LINE_2_TR,
                             MOVE_LINE_2_OPPTR,
                             MOVE_INNERPORT_FROMOPPTR,
@@ -59,13 +62,25 @@ public class AutonGenerator {
                                             SHOOT3_COLL3TR_MOVEINNERPORT;
 
     private LightningDrivetrain drivetrain;
+    private Collector collector;
+    private Indexer indexer; 
+    private Shooter shooter;
+    private ShooterAngle shooterAngle;
+    private Vision vision;
 
-    public AutonGenerator(LightningDrivetrain drivetrain/*, 
+    public AutonGenerator(LightningDrivetrain drivetrain, 
                             Collector collector, 
                             Indexer indexer, 
-                            Shooter shooter*/ ) {
+                            Shooter shooter,
+                            ShooterAngle shooterAngle,
+                            Vision vision) {
 
         this.drivetrain = drivetrain;
+        this.collector = collector;
+        this.indexer = indexer;
+        this.shooter = shooter;
+        this.shooterAngle = shooterAngle;
+        this.vision = vision;
 
         pathGenerator = new PathGenerator();
 
@@ -81,12 +96,12 @@ public class AutonGenerator {
                                                             pathGenerator.getRamseteCommand(drivetrain, Paths.TEST_PATH_TWO));
 
         // Set Up Shooting Functions
-        SHOOT3 = null;
+        // SHOOT3 = null;
         // SHOOT5 = null;
 
         // Set Up Moving Functions
-        MOVE_OFF_LINE_FWD = pathGenerator.getRamseteCommand(drivetrain, Paths.FWD_OFF_INIT_LINE);
-        MOVE_OFF_LINE_REV = pathGenerator.getRamseteCommand(drivetrain, Paths.BACK_OFF_INIT_LINE);
+        MOVE_OFF_LINE_SHOOT_FWD = pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT);
+        MOVE_OFF_LINE_COLLECT_FWD = pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD);
         MOVE_LINE_2_TR = pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN);
         MOVE_LINE_2_OPPTR = pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN);
         MOVE_INNERPORT_FROMTR = pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE);
@@ -104,13 +119,13 @@ public class AutonGenerator {
         // MOVE_REV_SHOOT3 = new SequentialCommandGroup(MOVE_OFF_LINE_REV, SHOOT3);
         // SHOOT3_COLL3TR_SHOOT3 = new SequentialCommandGroup(SHOOT3, COLL3TR, SHOOT3);
         // COLL2_OPPTR_SHOOT5 = new SequentialCommandGroup(COLL2_OPPTR, MOVE_OUTERPORT_FROMOPPTR, SHOOT5);
-        COLL2_OPPTR_SHOOT5 = new SequentialCommandGroup(pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN),
-                                                        new InstantCommand(() -> {
-                                                            drivetrain.stop();
-                                                            // for(int i = 0 ; i < 10 ; i++) drivetrain.resetSensorVals(); // Just to be sure...
-                                                        }, drivetrain), 
-                                                        new WaitCommand(2),
-                                                        pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER));
+        // COLL2_OPPTR_SHOOT5 = new SequentialCommandGroup(pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN),
+        //                                                 new InstantCommand(() -> {
+        //                                                     drivetrain.stop();
+        //                                                     // for(int i = 0 ; i < 10 ; i++) drivetrain.resetSensorVals(); // Just to be sure...
+        //                                                 }, drivetrain), 
+        //                                                 new WaitCommand(2),
+        //                                                 pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER));
         // SHOOT3_COLL3 = new SequentialCommandGroup(SHOOT3, COLL3TR);
         // COLL2_MOVEINNERPORT_SHOOT5 = new SequentialCommandGroup(COLL2_OPPTR, MOVE_INNERPORT_FROMOPPTR, SHOOT5);
         // SHOOT3_COLL3TR_MOVEINNERPORT = new SequentialCommandGroup(SHOOT3, COLL3TR, MOVE_INNERPORT_FROMTR);
@@ -122,18 +137,29 @@ public class AutonGenerator {
         HashMap<String, Command> map = new HashMap<>();
 
         // For Testing
-        map.put("### TEST MAIN ###", TEST_PATH_COMPILATION);
-        map.put("Test Path #1", TEST_PATH_1);
-        map.put("Test Path #2", TEST_PATH_2);
+            // map.put("### TEST MAIN ###", TEST_PATH_COMPILATION);
+            // map.put("Test Path #1", TEST_PATH_1);
+            // map.put("Test Path #2", TEST_PATH_2);
 
-        map.put("Off Line Forward", MOVE_OFF_LINE_FWD);
-        map.put("Off Line Reverse", MOVE_OFF_LINE_REV);
-        
-        map.put("To TR", MOVE_LINE_2_TR);
-        map.put("To Opponent TR", MOVE_LINE_2_OPPTR);
+        // Auton Paths
+        map.put("Off Line Shooter Fwd", MOVE_OFF_LINE_SHOOT_FWD);
+        map.put("Off Line Intake Fwd", MOVE_OFF_LINE_COLLECT_FWD);
 
-        // Autons
-        map.put("Opp TR - Shoot Outer", COLL2_OPPTR_SHOOT5);
+        map.put("->OppTR", MOVE_LINE_2_OPPTR);
+        map.put("OppTR->ShootOuter", MOVE_OUTERPORT_FROMOPPTR);
+        map.put("OppTR->ShootInner", MOVE_INNERPORT_FROMOPPTR);
+
+        map.put("->TR", MOVE_LINE_2_TR);
+        map.put("TR->ShootInner", MOVE_INNERPORT_FROMTR);
+
+        map.put("6Ball TR Auto", new SequentialCommandGroup(new FireThree(shooter, indexer, shooterAngle, vision, collector),
+                                                            //(collector.collect()),
+                                                            pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN),
+                                                            new WaitCommand(1),
+                                                            pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
+                                                            new FireThree(shooter, indexer, shooterAngle, vision, collector)
+                                                            ));
+
 
         // Return New List
         return map;

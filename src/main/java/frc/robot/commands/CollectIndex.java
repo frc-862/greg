@@ -29,7 +29,7 @@ public class CollectIndex extends CommandBase {
         this.collectPwr = collectPwr;
         this.indexer = indexer;
 
-        addRequirements(collector,indexer);
+        addRequirements(collector, indexer);
     }
     // hello shane how are you? i hope you have a good day!
     // you make me un poco loco, un pocititito loco!!!

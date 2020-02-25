@@ -9,7 +9,9 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lightning.subsystems.LightningDrivetrain;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterAngle;
@@ -17,24 +19,24 @@ import frc.robot.subsystems.Vision;
 
 public class FireThree extends CommandBase {
 
-  private LightningDrivetrain dt;
   private Shooter shooter;
   private Indexer indexer;
   private ShooterAngle shooterAngle;
   private Vision vision;
+  private Collector collector;
   
   private double time;
 
   /**
    * Creates a new FireThree.
    */
-  public FireThree(LightningDrivetrain dt, Shooter shooter, Indexer indexer, ShooterAngle shooterAngle, Vision vision) {
-    this.dt = dt;
+  public FireThree(Shooter shooter, Indexer indexer, ShooterAngle shooterAngle, Vision vision, Collector collector) {
     this.shooter = shooter;
     this.indexer = indexer;
     this.shooterAngle = shooterAngle;
     this.vision = vision;
-    addRequirements(dt, shooter, indexer, shooterAngle, vision);
+    this.collector = collector;
+    addRequirements(shooter, indexer, shooterAngle, vision, collector);
   }
 
   // Called when the command is initially scheduled.
@@ -63,6 +65,6 @@ public class FireThree extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;//((Timer.getFPGATimestamp() - time) > 5d);
+    return ((Timer.getFPGATimestamp() - time) > 5d);
   }
 }

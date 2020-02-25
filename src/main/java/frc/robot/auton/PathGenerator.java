@@ -40,35 +40,31 @@ public class PathGenerator {
                                     new Pose2d(-2d, -2d, Rotation2d.fromDegrees(90d))), 
                                     true),
         
-        BACK_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                            new Pose2d(-1d, 0d, Rotation2d.fromDegrees(0d))), 
-                                            true),
+        INIT_LINE_COLLECT_FWD(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+                                            new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))),
         
-        FWD_OFF_INIT_LINE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                        new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))),
+        INIT_LINE_FWD2SHOOT(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+                                        new Pose2d(-1d, 0d, Rotation2d.fromDegrees(0d))),
+                                        true),
         
         INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                            new Pose2d(5.35d, 0d, Rotation2d.fromDegrees(0d))), 
-                                            true),
+                                            new Pose2d(4.438d, 1.702d, Rotation2d.fromDegrees(0d)))),
         
         INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                                new Pose2d(3.1d, 0d, Rotation2d.fromDegrees(0d))), 
-                                                true),
+                                                new Pose2d(2.796d, 0d, Rotation2d.fromDegrees(0d)))),
         
         TRENCHRUN_2_SHOOTING_POSE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                                new Pose2d(-2.02d, -1.322d, Rotation2d.fromDegrees(22d)),
-                                                new Pose2d(-4.1d, -1.775d, Rotation2d.fromDegrees(0d)))),
+                                                new Pose2d(-3.01d, -1.702d, Rotation2d.fromDegrees(0d))),
+                                                true),
         
-        OPP_TRENCHRUN_2_SHOOTING_POSE_INNER( Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                                            new Pose2d(-1.576d, 1.075d, Rotation2d.fromDegrees(-56.7d)), 
-                                                            new Pose2d(-1.972d, 2.794d, Rotation2d.fromDegrees(95d)), 
-                                                            new Pose2d(-1.23d, 4.439d, Rotation2d.fromDegrees(-58.6d)), 
-                                                            new Pose2d(-1.85d, 5d, Rotation2d.fromDegrees(0d)))),
+        OPP_TRENCHRUN_2_SHOOTING_POSE_INNER(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+                                                            new Pose2d(-1.583d, 2.368d, Rotation2d.fromDegrees(-82.25d)), 
+                                                            new Pose2d(-2.166d, 5.068d, Rotation2d.fromDegrees(0d))),
+                                                            true),
         
         OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0)), 
-                                                            new Pose2d(-1.415d, 0.617d, Rotation2d.fromDegrees(-59.3d)),
-                                                            new Pose2d(-1.242d, 2.188, Rotation2d.fromDegrees(-66.2d)),
-                                                            new Pose2d(-2.268d, 3.091d, Rotation2d.fromDegrees(-38.9d))));
+                                                            new Pose2d(-2.213d, 3.141d, Rotation2d.fromDegrees(-26.15d))),
+                                                            true);
 
         private List<Pose2d> waypoints;
         private boolean reversed;

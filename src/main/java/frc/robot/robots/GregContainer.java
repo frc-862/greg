@@ -72,7 +72,7 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
 
-    private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain /* , null, null, null */ );
+    private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -100,7 +100,7 @@ public class GregContainer extends LightningContainer {
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
                 .getEntry();
         flyWheelAngle.addListener((n) -> {
-//            shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+        // shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
@@ -121,7 +121,7 @@ public class GregContainer extends LightningContainer {
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));
         SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
         SmartDashboard.putData("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
-        SmartDashboard.putData("Fire 3", new FireThree(drivetrain, shooter, indexer, shooterAngle, vision));
+        SmartDashboard.putData("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
     }
 
     /**

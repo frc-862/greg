@@ -12,6 +12,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -73,7 +74,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private RamseteGains gains;
 
-    private PigeonIMU bird;
+    // private PigeonIMU bird;
 
     private double[] ypr = new double[3];
 
@@ -106,10 +107,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         withEachMotor((m) -> m.setClosedLoopRampRate(CLOSE_LOOP_RAMP_RATE));
         brake();
 
-        navx = new AHRS(Port.kMXP);
+        navx = new AHRS(SPI.Port.kMXP);
 
-        bird = new PigeonIMU(RobotMap.PIGEON_ID);
-        bird.configFactoryDefault();
+        // bird = new PigeonIMU(RobotMap.PIGEON_ID);
+        // bird.configFactoryDefault();
 
         kinematics = new DifferentialDriveKinematics(trackWidth);
 
@@ -155,7 +156,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
-        bird.getYawPitchRoll(ypr);
+        // bird.getYawPitchRoll(ypr);
 
     }
 
@@ -215,7 +216,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private void resetHeading() {
         navx.reset();
-        bird.setYaw(0d);
+        // bird.setYaw(0d);
     }
 
     public void setLeftGains(REVGains gains) {

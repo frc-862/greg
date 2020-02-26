@@ -21,6 +21,12 @@ public class Vision extends SubsystemBase {
     double Found = 0;
     private final Solenoid blindedByScience;
     private final Solenoid blindedByTheLight;
+
+    private int requestedLight = 0;
+    private int actualLight = 0;
+    private boolean bothRings = false;
+    private boolean readyForBoth =false;
+    private boolean theOneRing = false;
     private final LED led = new LED();
     /**
      * Creates a new Vision.
@@ -45,6 +51,20 @@ public class Vision extends SubsystemBase {
         if(seePortTarget()){
             led.goYellow();
         }else {led.goOrangeAndBlue();}
+
+        if (requestedLight > actualLight) {
+            if (actualLight == 0) {
+                blindedByScience.set(true);
+                actualLight += 1;
+            } else {
+                blindedByTheLight.set(true);
+                actualLight += 1;
+            }
+        } else if (requestedLight < actualLight) {
+            blindedByScience.set(requestedLight > 0);
+            blindedByScience.set(requestedLight > 1);
+            actualLight = requestedLight;
+        }
     }
 
     public double getDistanceFromTarget() {
@@ -81,11 +101,21 @@ public class Vision extends SubsystemBase {
         return 0;
     }
 
-    public void  ringOn(){
-        blindedByTheLight.set(true);
+    public void ringOn(){
+        blindedByScience.set(true);
     }
 
-    public void  ringOff(){
+    public void   ringOff(){
         blindedByTheLight.set(false);
+        blindedByScience.set(false);
+    }
+
+    public  void bothRingsOn(){
+        blindedByTheLight.set(true);
+        blindedByScience.set(true);
+    }
+    public  void bothRingsOff(){
+        blindedByTheLight.set(false);
+        blindedByScience.set(false);
     }
 }

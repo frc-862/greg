@@ -96,6 +96,10 @@ public interface LightningDrivetrain extends Subsystem {
 
     public Pose2d getPose();
 
+    public Pose2d getRelativePose();
+
+    public void setRelativePose();
+
     public DifferentialDriveWheelSpeeds getSpeeds();
 
     public PIDController getLeftPidController();

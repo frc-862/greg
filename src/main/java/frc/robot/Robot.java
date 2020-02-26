@@ -42,13 +42,13 @@ public class Robot extends LightningRobot {
     @Override
     public void teleopInit() {
         super.teleopInit();
-        getContainer().getDrivetrain().resetSensorVals();
+        // getContainer().getDrivetrain().resetSensorVals();
     }
 
     @Override
     public void autonomousInit() {
         super.autonomousInit();
-        getContainer().getDrivetrain().resetSensorVals();
+        // getContainer().getDrivetrain().resetSensorVals();
     }
 
     private static LightningContainer getRobot() {

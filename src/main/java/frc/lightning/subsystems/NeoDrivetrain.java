@@ -65,6 +65,8 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private Pose2d pose = new Pose2d(0d, 0d, new Rotation2d());
 
+    private Pose2d poseOffset = null;
+
     private RamseteGains gains;
 
     private PigeonIMU bird;
@@ -134,6 +136,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         SmartDashboard.putNumber("RightRotationConversionFactor", rightEncoder.getPositionConversionFactor());
         SmartDashboard.putNumber("LeftRotationConversionFactor", leftEncoder.getPositionConversionFactor());
 
+        SmartDashboard.putNumber("RightMasterHeat", rightMaster.getMotorTemperature());
+        SmartDashboard.putNumber("LeftMasterHeat", leftMaster.getMotorTemperature());
+
         resetSensorVals();
 
         // pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
@@ -143,6 +148,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     @Override
     public void periodic() {
         super.periodic();
+
+        SmartDashboard.putNumber("RightMasterHeat", rightMaster.getMotorTemperature());
+        SmartDashboard.putNumber("LeftMasterHeat", leftMaster.getMotorTemperature());
+
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
         bird.getYawPitchRoll(ypr);
@@ -373,6 +382,16 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public RamseteGains getConstants() {
         // Override me!
         return null;
+    }
+
+    @Override
+    public Pose2d getRelativePose() {
+        return pose.relativeTo(poseOffset);
+    }
+
+    @Override
+    public void setRelativePose() {
+        poseOffset = pose;
     }
 
 }

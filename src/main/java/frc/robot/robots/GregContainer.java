@@ -33,6 +33,7 @@ import frc.robot.commands.CollectEject;
 import frc.robot.commands.CollectIndex;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
+import frc.robot.commands.shooter.FireThree;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -120,6 +121,8 @@ public class GregContainer extends LightningContainer {
                 new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight),
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));
         SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
+        SmartDashboard.putData("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
+        SmartDashboard.putData("Fire 3", new FireThree(drivetrain, shooter, indexer, shooterAngle, vision));
     }
 
     /**

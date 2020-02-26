@@ -109,7 +109,8 @@ public class GregContainer extends LightningContainer {
 
     private void initializeDashboardCommands() {
         SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain, vision));
-        SmartDashboard.putData("Ring on", new InstantCommand(() -> vision.ringOn()));
+        SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
+        SmartDashboard.putData("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
         SmartDashboard.putData("Ring off", new InstantCommand(() -> vision.ringOff()));
         SmartDashboard.putData("set to zero", new InstantCommand(() -> shooterAngle.setShooterAngle(80), shooterAngle));
         SmartDashboard.putData("test pos1", new InstantCommand(() -> shooterAngle.setShooterAngle(100), shooterAngle));
@@ -139,6 +140,7 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
         (new JoystickButton(operator, JoystickConstants.START)).whenPressed(indexer::resetBallCount, indexer);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
+        (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
     }
 
     @Override

@@ -7,13 +7,10 @@
 
 package frc.lightning.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -23,14 +20,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.logging.DataLogger;
 import frc.lightning.util.LightningMath;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
 
 import java.util.function.BiConsumer;
@@ -92,6 +85,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
             leftMotors[i] = new CANSparkMax(i + firstLeftCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
             rightMotors[i] = new CANSparkMax(i + firstRightCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
         }
+
+        withEachMotor((m) -> m.restoreFactoryDefaults());
+        withEachMotor((m) -> m.setMotorType(CANSparkMaxLowLevel.MotorType.kBrushless));
 
         leftMaster = leftMotors[0];
         leftEncoder = leftMaster.getEncoder(EncoderType.kHallSensor, 42);

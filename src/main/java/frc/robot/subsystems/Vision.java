@@ -19,13 +19,21 @@ public class Vision extends SubsystemBase {
     double XValue = 0;
     double YValue = 0;
     double Found = 0;
+    private final Solenoid blindedByScience;
     private final Solenoid blindedByTheLight;
+
+    private int requestedLight = 0;
+    private int actualLight = 0;
+    private boolean bothRings = false;
+    private boolean readyForBoth =false;
+    private boolean theOneRing = false;
     private final LED led = new LED();
     /**
      * Creates a new Vision.
      */
     public Vision() {
-        blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SOLENOID); // 21
+        blindedByScience = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_BIG_SOLENOID);
+        blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SMALL_SOLENOID); // 21
         CommandScheduler.getInstance().registerSubsystem(this);
         DataLogger.addDataElement("XValue", () -> XValue);
         DataLogger.addDataElement("YValue", () -> YValue);
@@ -38,11 +46,25 @@ public class Vision extends SubsystemBase {
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
         Found = SmartDashboard.getNumber("VisionFound",0);
-        SmartDashboard.putNumber("X value",XValue);
+        SmartDashboard.putNumber("X value",XValue-320);
         SmartDashboard.putNumber("found",Found);
         if(seePortTarget()){
             led.goYellow();
         }else {led.goOrangeAndBlue();}
+
+        if (requestedLight > actualLight) {
+            if (actualLight == 0) {
+                blindedByScience.set(true);
+                actualLight += 1;
+            } else {
+                blindedByTheLight.set(true);
+                actualLight += 1;
+            }
+        } else if (requestedLight < actualLight) {
+            blindedByScience.set(requestedLight > 0);
+            blindedByScience.set(requestedLight > 1);
+            actualLight = requestedLight;
+        }
     }
 
     public double getDistanceFromTarget() {
@@ -79,11 +101,21 @@ public class Vision extends SubsystemBase {
         return 2000;
     }
 
-    public void  ringOn(){
-        blindedByTheLight.set(true);
+    public void ringOn(){
+        blindedByScience.set(true);
     }
 
-    public void  ringOff(){
+    public void   ringOff(){
         blindedByTheLight.set(false);
+        blindedByScience.set(false);
+    }
+
+    public  void bothRingsOn(){
+        blindedByTheLight.set(true);
+        blindedByScience.set(true);
+    }
+    public  void bothRingsOff(){
+        blindedByTheLight.set(false);
+        blindedByScience.set(false);
     }
 }

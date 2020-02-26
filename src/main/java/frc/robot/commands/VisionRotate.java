@@ -87,8 +87,8 @@ public class VisionRotate extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
-//        return Math.abs(vision.getOffsetAngle())<10;
+//        retu  rn false;
+        return Math.abs(vision.getOffsetAngle())<8;
     }
     
     @Override

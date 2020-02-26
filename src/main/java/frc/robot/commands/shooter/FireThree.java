@@ -45,7 +45,7 @@ public class FireThree extends CommandBase {
     shooter.setShooterVelocity(vision.getBestShooterVelocity());
     // shooterAngle.setShooterAngle(vision.getBestShooterAngle());
     time = Timer.getFPGATimestamp();
-    indexer.safteyClosed();
+    indexer.safteyOpen();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,11 +60,13 @@ public class FireThree extends CommandBase {
     System.out.println("I am ending " + interrupted);
     shooter.setShooterVelocity(0d);
     indexer.ballCount -= 3; // shot 3 balls
+    shooter.stop();
+    indexer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - time) > 5d);
+    return ((Timer.getFPGATimestamp() - time) > 3d);
   }
 }

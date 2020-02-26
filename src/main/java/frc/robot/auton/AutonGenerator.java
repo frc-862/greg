@@ -9,6 +9,7 @@ package frc.robot.auton;
 
 import java.util.HashMap;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -17,6 +18,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.Robot;
 import frc.robot.auton.PathGenerator.Paths;
+import frc.robot.commands.AutoCollectThree;
+import frc.robot.commands.AutoIndexThree;
+import frc.robot.commands.Collect;
+import frc.robot.commands.Index;
+import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
@@ -32,10 +38,6 @@ public class AutonGenerator {
     private static Command TEST_PATH_1,
                             TEST_PATH_2,
                             TEST_PATH_COMPILATION;
-
-    // Make Shooting Functions
-    private static Command SHOOT3,
-                            SHOOT5;
     
     // Make Moving Functions                        
     private static Command MOVE_OFF_LINE_SHOOT_FWD,
@@ -45,10 +47,6 @@ public class AutonGenerator {
                             MOVE_INNERPORT_FROMOPPTR,
                             MOVE_INNERPORT_FROMTR,
                             MOVE_OUTERPORT_FROMOPPTR;
-
-    // Make Collecting Functions
-    private static Command COLL3TR,
-                            COLL2_OPPTR;
 
     // Make Sequential Autons
     private static SequentialCommandGroup SHOOT3_MOVE_FWD,
@@ -142,24 +140,42 @@ public class AutonGenerator {
             // map.put("Test Path #2", TEST_PATH_2);
 
         // Auton Paths
-        map.put("Off Line Shooter Fwd", MOVE_OFF_LINE_SHOOT_FWD);
-        map.put("Off Line Intake Fwd", MOVE_OFF_LINE_COLLECT_FWD);
+            // map.put("Off Line Shooter Fwd", MOVE_OFF_LINE_SHOOT_FWD);
+            // map.put("Off Line Intake Fwd", MOVE_OFF_LINE_COLLECT_FWD);
+            // map.put("->OppTR", MOVE_LINE_2_OPPTR);
+            // map.put("OppTR->ShootOuter", MOVE_OUTERPORT_FROMOPPTR);
+            // map.put("OppTR->ShootInner", MOVE_INNERPORT_FROMOPPTR);
+            // map.put("->TR", MOVE_LINE_2_TR);
+            // map.put("TR->ShootInner", MOVE_INNERPORT_FROMTR);
 
-        map.put("->OppTR", MOVE_LINE_2_OPPTR);
-        map.put("OppTR->ShootOuter", MOVE_OUTERPORT_FROMOPPTR);
-        map.put("OppTR->ShootInner", MOVE_INNERPORT_FROMOPPTR);
+        // AUTONS
 
-        map.put("->TR", MOVE_LINE_2_TR);
-        map.put("TR->ShootInner", MOVE_INNERPORT_FROMTR);
-
-        map.put("6Ball TR Auto", new SequentialCommandGroup(new FireThree(shooter, indexer, shooterAngle, vision, collector),
-                                                            //(collector.collect()),
-                                                            pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN),
-                                                            new WaitCommand(1),
+        map.put("6Ball TR Inner Auto", new SequentialCommandGroup(new InstantCommand(collector::puterOuterIn, collector),
+                                                                new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
+                                                            new FireThree(shooter, indexer, shooterAngle, vision, collector),
+                                                            new InstantCommand(indexer::safteyClosed),
+                                                            new ParallelCommandGroup(new AutoCollectThree(collector, () -> 1d),
+                                                                                        new Index(indexer),
+                                                                                        pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN))
+                                                                                        {
+                                                                                            double initTime = 0d;
+                                                                                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_TRENCHRUN);
+                                                                                            @Override
+                                                                                            public void initialize() {
+                                                                                                super.initialize();
+                                                                                                initTime = Timer.getFPGATimestamp();
+                                                                                            }
+                                                                                            @Override
+                                                                                            public boolean isFinished() {
+                                                                                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
+                                                                                            }
+                                                                                        },
+                                                            new WaitCommand(0.1),
                                                             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
+                                                            // new InstantCommand(collector::puterOuterOut, collector),
+                                                                new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
                                                             new FireThree(shooter, indexer, shooterAngle, vision, collector)
                                                             ));
-
 
         // Return New List
         return map;

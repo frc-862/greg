@@ -147,22 +147,7 @@ public class AutonGenerator {
          */
         map.put("5 Ball Opp TR Outer", new SequentialCommandGroup(
             new InstantCommand(collector::puterOuterIn, collector),
-            new ParallelCommandGroup(
-                new Collect(collector, () -> 1d),
-                    new Index(indexer),
-                    pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN)) {
-                            double initTime = 0d;
-                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN);
-                            @Override
-                            public void initialize() {
-                                super.initialize();
-                                initTime = Timer.getFPGATimestamp();
-                            }
-                            @Override
-                            public boolean isFinished() {
-                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-                            }
-                        },
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
@@ -176,22 +161,7 @@ public class AutonGenerator {
          */
         map.put("5 Ball Opp TR Outer w/VIS", new SequentialCommandGroup(
             new InstantCommand(collector::puterOuterIn, collector),
-            new ParallelCommandGroup(
-                new Collect(collector, () -> 1d),
-                    new Index(indexer),
-                    pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN)) {
-                            double initTime = 0d;
-                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN);
-                            @Override
-                            public void initialize() {
-                                super.initialize();
-                                initTime = Timer.getFPGATimestamp();
-                            }
-                            @Override
-                            public boolean isFinished() {
-                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-                            }
-                        },
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new VisionRotate(drivetrain, vision),
@@ -205,22 +175,7 @@ public class AutonGenerator {
          */
         map.put("5 Ball Opp TR Inner", new SequentialCommandGroup(
             new InstantCommand(collector::puterOuterIn, collector),
-            new ParallelCommandGroup(
-                new Collect(collector, () -> 1d),
-                    new Index(indexer),
-                    pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN)) {
-                            double initTime = 0d;
-                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN);
-                            @Override
-                            public void initialize() {
-                                super.initialize();
-                                initTime = Timer.getFPGATimestamp();
-                            }
-                            @Override
-                            public boolean isFinished() {
-                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-                            }
-                        },
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
@@ -234,22 +189,7 @@ public class AutonGenerator {
          */
         map.put("5 Ball Opp TR Inner w/VIS", new SequentialCommandGroup(
             new InstantCommand(collector::puterOuterIn, collector),
-            new ParallelCommandGroup(
-                new Collect(collector, () -> 1d),
-                    new Index(indexer),
-                    pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN)) {
-                            double initTime = 0d;
-                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_OPP_TRENCHRUN);
-                            @Override
-                            public void initialize() {
-                                super.initialize();
-                                initTime = Timer.getFPGATimestamp();
-                            }
-                            @Override
-                            public boolean isFinished() {
-                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-                            }
-                        },
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_INNER),
             new VisionRotate(drivetrain, vision),
@@ -267,6 +207,7 @@ public class AutonGenerator {
             new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new InstantCommand(indexer::safteyClosed),
+            // AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             new ParallelCommandGroup(new AutoCollectThree(collector, () -> 1d),
                                         new Index(indexer),
                                         pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN))
@@ -301,22 +242,7 @@ public class AutonGenerator {
             new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new InstantCommand(indexer::safteyClosed),
-            new ParallelCommandGroup(new AutoCollectThree(collector, () -> 1d),
-                                        new Index(indexer),
-                                        pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN))
-                                        {
-                                            double initTime = 0d;
-                                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_TRENCHRUN);
-                                            @Override
-                                            public void initialize() {
-                                                super.initialize();
-                                                initTime = Timer.getFPGATimestamp();
-                                            }
-                                            @Override
-                                            public boolean isFinished() {
-                                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-                                            }
-                                        },
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
             new VisionRotate(drivetrain, vision),
@@ -335,22 +261,7 @@ public class AutonGenerator {
             new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new InstantCommand(indexer::safteyClosed),
-            new ParallelCommandGroup(new AutoCollectThree(collector, () -> 1d),
-                                        new Index(indexer),
-                                        pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN))
-                                        {
-                                            double initTime = 0d;
-                                            double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_TRENCHRUN);
-                                            @Override
-                                            public void initialize() {
-                                                super.initialize();
-                                                initTime = Timer.getFPGATimestamp();
-                                            }
-                                            @Override
-                                            public boolean isFinished() {
-                                                return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-                                            }
-                                        },
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             new WaitCommand(0.1),
             // new InstantCommand(collector::puterOuterOut, collector),
             new VisionRotate(drivetrain, vision),

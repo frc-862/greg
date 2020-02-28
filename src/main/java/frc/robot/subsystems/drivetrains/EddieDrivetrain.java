@@ -172,11 +172,13 @@ public class EddieDrivetrain implements LightningDrivetrain {
         // TODO Auto-generated method stub
     }
 
+    @Override
     public Pose2d getRelativePose(){
-        // TODO Auto-generated method stub
-        return null;
+        // TODO Auto-generated method stub    
+        return null;  
     }
 
+    @Override
     public void resetSensorVals(){
         // TODO Auto-generated method stub
     }

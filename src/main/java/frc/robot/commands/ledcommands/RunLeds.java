@@ -19,9 +19,11 @@ public class RunLeds extends CommandBase {
    * Creates a new RunLeds.
    */
   private final LEDs leds;
+  boolean down= false;
+  boolean up = true;
   //private final Indexer indexer;
   //private final Shooter shooter;
-  private int currentPhase;
+  private int currentPhase = 4;
   public RunLeds(LEDs leds /*, Indexer indexer, Shooter shooter*/) {
     //this.indexer = indexer;
     //this.shooter = shooter;
@@ -39,7 +41,15 @@ public class RunLeds extends CommandBase {
   @Override
   public void execute() {
     //currentPhase = indexer.getBallCount() - shooter.getBallsFired();
+    if(down && currentPhase > 0){currentPhase --;}
+    else if(currentPhase <= 0){up = true; down = false;}
+    if(up && currentPhase < 5){currentPhase ++;}
+    else if (currentPhase >= 5){up = false; down = true;}
     leds.setCurrentPhase(currentPhase);
+    Timer.delay(1);
+    //currentPhase ++;
+    //leds.setCurrentPhase(currentPhase);
+    //Timer.delay(1);
   }
 
 

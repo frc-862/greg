@@ -34,64 +34,68 @@ public class LEDs extends SubsystemBase{
     private int lastPhase = 0;
     private final int ledPort = 9;
     private final int stripLength = 12;
+    private final int saturation = 255;
+    private final int vibrance = 50;
+    private final ArrayList<Integer[]> phaseLed = new ArrayList<>();
     private final Integer[] ledStrip = new Integer[]{1,2};
+    private final Integer[] phase0 = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
     private final Integer[] phase1 = new Integer[]{1,2};
     private final Integer[] phase2 = new Integer[]{3,4,5};
     private final Integer[] phase3 = new Integer[]{6,7,8};
     private final Integer[] phase4 = new Integer[]{9,10,11,12};
     private final Integer[] phase5 = new Integer[]{1,2,3,4,5,6,7,8,9,10,11,12};
-    private final Integer[] phase0Color = new Integer[]{0,0,0}; //green
-    private final Integer[] phase1Color = new Integer[]{0,255,100}; //red
-    private final Integer[] phase2Color = new Integer[]{15,255,100}; //yellow
-    private final Integer[] phase3Color = new Integer[]{25,255,100}; //blue
-    private final Integer[] phase4Color = new Integer[]{40,255,100}; //orange
-    private final Integer[] phase5Color = new Integer[]{60,255,100}; //green
-    public final AddressableLEDMatrix matrix = new AddressableLEDMatrix(2, stripLength,  ledPort);
+    private final Integer[] phaseColors = new Integer[]{0, 0, 15, 30, 50, 65};
+    public final AddressableLEDMatrix matrix = new AddressableLEDMatrix(3, stripLength, ledPort);
     // DO NOT instantiate AddressableLED or AddressableLEDMatrix more than once
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~Riley is ugly~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     public LEDs() {
-      }
+      phaseLed.add(phase0);
+      phaseLed.add(phase1);
+      phaseLed.add(phase2);
+      phaseLed.add(phase3);
+      phaseLed.add(phase4);
+      phaseLed.add(phase5);
+      phaseLed.add(phaseColors);
+    }
 
     public void start(){
       matrix.start();
     }
 
-    private void AddPowerCellPhase(int currentPhase){
-      switch(currentPhase){
-        case 0: matrix.setColor(ledStrip, phase5, 0 ,0,0, 1); break;
-        case 1: matrix.setColor(ledStrip, phase1, phase1Color[0], phase1Color[1], phase1Color[2], 1); break;
-        case 2: matrix.setColor(ledStrip, phase2, phase2Color[0], phase2Color[1], phase2Color[2], 1); break;
-        case 3: matrix.setColor(ledStrip, phase3, phase3Color[0], phase3Color[1], phase3Color[2], 1); break;
-        case 4: matrix.setColor(ledStrip, phase4, phase4Color[0], phase4Color[1], phase4Color[2], 1); break;
-        case 5: matrix.setColor(ledStrip, phase5, phase5Color[0], phase5Color[1], phase5Color[2], 1); break;
-      }
+    private void addPowerCellPhase(int currentPhase){
+      System.out.println("LED ADDED");
+      matrix.setColor(ledStrip, phaseLed.get(currentPhase), phaseLed.get(6)[currentPhase], saturation, vibrance, 1);
     }
 
-    private void SubstractPowerCellPhase(int currentPhase){
-      Integer[] currentPhaseLed = new Integer[]{1};
-      switch(currentPhase){
-        case 1: currentPhaseLed = phase1; break;
-        case 2: currentPhaseLed = phase2; break;
-        case 3: currentPhaseLed = phase3; break;
-        case 4: currentPhaseLed = phase4; break;
-        case 5: currentPhaseLed = phase5; break;
+    private void substractPowerCellPhase(int currentPhase){
+      System.out.println("LED SUBED");
+      if(currentPhase != 4){ matrix.setColor(ledStrip, phaseLed.get(currentPhase + 1), 0,0,0, 1);}
+      else{
+        addPowerCellPhase(1);
+        addPowerCellPhase(2);
+        addPowerCellPhase(3);
+        addPowerCellPhase(4);
       }
-      matrix.setColor(ledStrip, currentPhaseLed, phase0Color[0], phase0Color[1],phase0Color[2], 1);
     }
 
     public void setCurrentPhase(int currentPhase){
       if(lastPhase < currentPhase){
+        addPowerCellPhase(currentPhase);
         lastPhase = currentPhase;
-        AddPowerCellPhase(currentPhase);
       }
       else if(lastPhase > currentPhase){
+        substractPowerCellPhase(currentPhase);
         lastPhase = currentPhase;
-        SubstractPowerCellPhase(currentPhase);
       }
     }
 
+    public int getCellPhase(){
+      return lastPhase;
+    }
+
     public void setAll(){
-     // matrix.setAll(100, 0, 255, 1);
+      matrix.setAll(255, 100, 50, 1);
     }
     public void setSquareWidth(int squarewidth) {
      // matrix.setSquareMap(squarewidth);

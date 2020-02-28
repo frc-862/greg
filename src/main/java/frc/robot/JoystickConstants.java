@@ -7,6 +7,7 @@ public class JoystickConstants {
     public static final int DRIVER_LEFT = 0;
     public static final int DRIVER_RIGHT = 1;
     public static final int OPERATOR = 2;
+    public static final int CLIMBER = 3;
 
     // JOYSTICK AXIS
     public static final int THRUSTMASTER_X_AXIS = 0;

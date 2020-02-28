@@ -34,6 +34,7 @@ import frc.robot.commands.CollectIndex;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.commands.shooter.FireThree;
+import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -59,6 +60,7 @@ public class GregContainer extends LightningContainer {
     private final Indexer indexer = new Indexer(sensors);
     private final Collector collector = new Collector();
     private final PCMSim pcmSim = new PCMSim(RobotMap.COMPRESSOR_ID); // 21
+    private final Climber climber = new Climber(); 
 
     // private final Collector collector = new Collector();
     // private final Indexer indexer = Indexer.create();
@@ -71,6 +73,8 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverLeft = new Joystick(JoystickConstants.DRIVER_LEFT);
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
+    private final Joystick climberController = new Joystick(JoystickConstants.CLIMBER); 
+
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
 
@@ -104,6 +108,8 @@ public class GregContainer extends LightningContainer {
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
+
+        climber.setDefaultCommand(new ManualClimb(climber, () -> climberController.getRawAxis(1), () ->climberController.getRawAxis(3)));
     }
 
     private void initializeDashboardCommands() {
@@ -140,6 +146,8 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.START)).whenPressed(indexer::resetBallCount, indexer);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        //(new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
+        //(new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
     }
 
     @Override

@@ -17,7 +17,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterAngle;
 import frc.robot.subsystems.Vision;
 
-public class FireThree extends CommandBase {
+public class FireFive extends CommandBase {
 
   private Shooter shooter;
   private Indexer indexer;
@@ -30,7 +30,7 @@ public class FireThree extends CommandBase {
   /**
    * Creates a new FireThree.
    */
-  public FireThree(Shooter shooter, Indexer indexer, ShooterAngle shooterAngle, Vision vision, Collector collector) {
+  public FireFive(Shooter shooter, Indexer indexer, ShooterAngle shooterAngle, Vision vision, Collector collector) {
     this.shooter = shooter;
     this.indexer = indexer;
     this.shooterAngle = shooterAngle;
@@ -67,6 +67,6 @@ public class FireThree extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - time) > 3d);
+    return ((Timer.getFPGATimestamp() - time) > 4d);
   }
 }

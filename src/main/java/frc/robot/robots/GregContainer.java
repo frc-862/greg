@@ -29,8 +29,9 @@ import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.auton.AutonGenerator;
+import frc.robot.commands.Collect;
 import frc.robot.commands.CollectEject;
-import frc.robot.commands.CollectIndex;
+import frc.robot.commands.Index;
 import frc.robot.commands.FullAutoFireOne;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
@@ -85,7 +86,8 @@ public class GregContainer extends LightningContainer {
         initializeDashboardCommands();
 
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        collector.setDefaultCommand(new CollectIndex(collector, indexer, () -> getCollectPower()));
+        indexer.setDefaultCommand(new Index(indexer));
+        collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         shooterAngle.setDefaultCommand(
                 new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
@@ -96,12 +98,11 @@ public class GregContainer extends LightningContainer {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-
-        final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 50)
+        final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
                 .getEntry();
         flyWheelAngle.addListener((n) -> {
-        // shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+            // shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());

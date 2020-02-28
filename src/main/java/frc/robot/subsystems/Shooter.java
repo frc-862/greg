@@ -108,19 +108,22 @@ public class Shooter extends SubsystemBase {
         this.whenBallShot = whenBallShot;
     }
 
-    public void shotBall() { ballsFired--; }
+    public void shotBall() { ballsFired++; }
 
     @Override
     public void periodic() {
+
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
         backspin=SmartDashboard.getNumber("backspin",1500);
 
-        if(setSpeed > 400){
+        if(setSpeed > 400) {
+            System.out.println("#################\nArmed: " + armed + "\nSetSpeed: " + setSpeed);
             final double speedError = (setSpeed - motor2encoder.getVelocity());
             if(armed) {
-                if (speedError > 100) {
+                if (Math.abs(speedError) < 200) {
+                    System.out.println("Speed w/InError");
                     ballsFired++;
                     if(whenBallShot != null) {
                         whenBallShot.accept(ballsFired);
@@ -128,13 +131,15 @@ public class Shooter extends SubsystemBase {
                     armed = false;
                 }
             } else {
-                if(speedError < 60) {
+                if(speedError < 100) {
                     armed = true;
                 }
             }
         } else {
             armed = false;
         }
+
+        SmartDashboard.putNumber("BallsFired", ballsFired);
 
     }
 
@@ -177,11 +182,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public int getBallsFired(){
-
         return ballsFired;
     }
 
-    public void reeeeesetBallsFired(){
+    public void resetBallsFired(){
         ballsFired = 0;
     }
 

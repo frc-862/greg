@@ -81,11 +81,12 @@ public class Collector extends SubsystemBase {
         linearMotor.set(ControlMode.PercentOutput, 0);
         longitudinalMotor.set(ControlMode.PercentOutput, 0);
     }
-    public void puterOuterOut(){
+    
+    public void puterOuterOut() {
         putterOutter.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void puterOuterIn(){
+    public void puterOuterIn() {
         putterOutter.set(DoubleSolenoid.Value.kReverse);
     }
 

@@ -17,7 +17,7 @@ public class FullAutoFireOne extends SequentialCommandGroup {
     private final Indexer indexer;
     private final boolean fullAuto;
 
-    public FullAutoFireOne(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i,boolean fullAuto) {
+    public FullAutoFireOne(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i, boolean fullAuto) {
         this.drivetrain = dt;
         this.vision = v;
         this.shooter = s;
@@ -32,7 +32,7 @@ public class FullAutoFireOne extends SequentialCommandGroup {
                 new VisionShooterAngle(shooterAngle, vision),
                 new SpinUpFlywheelVelocity(shooter, vision.getBestShooterVelocity())
             ),
-            new FeedPowerCell(indexer, shooter,fullAuto)
+            new FeedPowerCell(indexer, shooter, fullAuto)
         );
     }
 }

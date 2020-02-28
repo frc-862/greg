@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
-import frc.lightning.util.InterpolatedMap;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -33,8 +32,10 @@ public class Shooter extends SubsystemBase {
     private CANPIDController motor3PIDFController;
     private int ballsFired;
     private double setSpeed = 0;
-    InterpolatedMap flyWheelSpeed = new InterpolatedMap();
+
+
     private boolean armed = false;
+    double backspin= 1500;
     private IntConsumer whenBallShot;
     /**
      * Creates a new Shooter.
@@ -68,9 +69,11 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         // Init
+        SmartDashboard.putNumber("backspin",1500);
+
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        configShooterSpeed();
+
         motor1 = new CANSparkMax(RobotMap.SHOOTER_1, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor2 = new CANSparkMax(RobotMap.SHOOTER_2, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor3 = new CANSparkMax(RobotMap.SHOOTER_3, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -98,12 +101,8 @@ public class Shooter extends SubsystemBase {
         DataLogger.addDataElement("motor 3 speed",()->motor3encoder.getVelocity());
     }
 
-    private void configShooterSpeed() {
-        flyWheelSpeed.put(10.0,2500.0);
-        flyWheelSpeed.put(18.0,2500.0);
-        flyWheelSpeed.put(35.0,3500.0);
-        flyWheelSpeed.put(45.0,3500.0);
-    }
+
+
 
     public void setWhenBallShot(IntConsumer whenBallShot) {
         this.whenBallShot = whenBallShot;
@@ -116,11 +115,12 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
+        backspin=SmartDashboard.getNumber("backspin",1500);
 
         if(setSpeed > 400){
             final double speedError = (setSpeed - motor2encoder.getVelocity());
             if(armed) {
-                if (speedError > 200) {
+                if (speedError > 100) {
                     ballsFired++;
                     if(whenBallShot != null) {
                         whenBallShot.accept(ballsFired);
@@ -147,9 +147,9 @@ public class Shooter extends SubsystemBase {
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
         if(!(setSpeed == 0)){
-            this.motor1PIDFController.setReference(LightningMath.constrain(velocity - 1500, 0, 5000), ControlType.kVelocity);
-            this.motor2PIDFController.setReference(LightningMath.constrain(velocity + 1500, 0, 5000), ControlType.kVelocity);
-            this.motor3PIDFController.setReference(LightningMath.constrain(velocity - 1500, 0, 5000), ControlType.kVelocity);
+            this.motor1PIDFController.setReference(LightningMath.constrain(velocity - backspin, 0, 5000), ControlType.kVelocity);
+            this.motor2PIDFController.setReference(LightningMath.constrain(velocity + backspin, 0, 5000), ControlType.kVelocity);
+            this.motor3PIDFController.setReference(LightningMath.constrain(velocity - backspin, 0, 5000), ControlType.kVelocity);
         } else {
             this.motor1PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
             this.motor2PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
@@ -165,11 +165,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stop() {
-        setPower(0d);
-    }
-
-    public double getDesiredSpeed(double distance) {
-        return flyWheelSpeed.get(distance);
+        setShooterVelocity(0);
     }
 
     public double getFlywheelMotor1Velocity() {
@@ -193,6 +189,8 @@ public class Shooter extends SubsystemBase {
     public double getFlywheelMotor3Velocity() {
         return motor3encoder.getVelocity();
     }
+
+
 
     public void aim() {
         // position robot & other based on vision values

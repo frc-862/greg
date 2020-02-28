@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
+import frc.lightning.util.InterpolatedMap;
 import frc.robot.RobotMap;
 
 public class Vision extends SubsystemBase {
@@ -28,10 +29,16 @@ public class Vision extends SubsystemBase {
     private boolean readyForBoth =false;
     private boolean theOneRing = false;
     private final LED led = new LED();
+    InterpolatedMap shooterAngle = new InterpolatedMap();
+    InterpolatedMap flyWheelSpeed = new InterpolatedMap();
+    InterpolatedMap backspinData = new InterpolatedMap();
     /**
      * Creates a new Vision.
      */
     public Vision() {
+        configShooterSpeed();
+        configShooterBackspin();
+        shooterAngleConfig();
         blindedByScience = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_BIG_SOLENOID);
         blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SMALL_SOLENOID); // 21
         CommandScheduler.getInstance().registerSubsystem(this);
@@ -45,11 +52,14 @@ public class Vision extends SubsystemBase {
         // This method will be called once per scheduler run
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
+        SmartDashboard.putNumber("Best Shooter Angle",getBestShooterAngle());
+        SmartDashboard.putNumber("Best Shooter backspin",getBestShooterBackspin());
+        SmartDashboard.putNumber("Best Shooter speed",getBestShooterVelocity());
         Found = SmartDashboard.getNumber("VisionFound",0);
         SmartDashboard.putNumber("X value",XValue-320);
         SmartDashboard.putNumber("found",Found);
         if(seePortTarget()){
-            led.goYellow();
+            led.goSolidGreen();
         }else {led.goOrangeAndBlue();}
 
         if (requestedLight > actualLight) {
@@ -65,6 +75,7 @@ public class Vision extends SubsystemBase {
             blindedByScience.set(requestedLight > 1);
             actualLight = requestedLight;
         }
+
     }
 
     public double getDistanceFromTarget() {
@@ -94,11 +105,15 @@ public class Vision extends SubsystemBase {
     }
 
     public double getBestShooterAngle() {
-        return 0;
+        return shooterAngle.get(YValue);
     }
 
     public double getBestShooterVelocity() {
-        return 2000;
+        return flyWheelSpeed.get(YValue);
+    }
+
+    public double getBestShooterBackspin() {
+        return backspinData.get(YValue);
     }
 
     public void ringOn(){
@@ -118,4 +133,30 @@ public class Vision extends SubsystemBase {
         blindedByTheLight.set(false);
         blindedByScience.set(false);
     }
+
+    //data sheet
+
+    private void shooterAngleConfig(){
+        //left input      right output
+        shooterAngle.put(151.0, 711.0);//closet shot
+        shooterAngle.put(325.0, 682.0);//10ft
+        shooterAngle.put(382.0, 670.0);//close trench
+//        shooterAngle.put(45.0, 200.0);
+    }
+    private void configShooterSpeed() {
+        //left input      right output
+        flyWheelSpeed.put(151.0,3000.0);
+        flyWheelSpeed.put(325.0,2500.0);
+        flyWheelSpeed.put(432.0,3000.0);
+//        flyWheelSpeed.put(45.0,3500.0);
+    }
+    private void configShooterBackspin() {
+        //left input      right output
+        backspinData.put(151.0,1500.0);//closest shot
+        backspinData.put(325.0,1500.0);//10ft
+        backspinData.put(382.0,1500.0);//close trench
+//        backspinData.put(45.0,1500.0);
+    }
+
+
 }

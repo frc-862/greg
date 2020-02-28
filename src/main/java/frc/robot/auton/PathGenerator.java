@@ -44,8 +44,8 @@ public class PathGenerator {
                                             new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))),
         
         INIT_LINE_FWD2SHOOT(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                        new Pose2d(-1d, 0d, Rotation2d.fromDegrees(0d))),
-                                        true),
+                                            new Pose2d(-1d, 0d, Rotation2d.fromDegrees(0d))),
+                                            true),
         
         INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                             new Pose2d(4.438d, 1.5d, Rotation2d.fromDegrees(0d)))),

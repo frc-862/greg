@@ -9,27 +9,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 
-import java.util.function.DoubleSupplier;
+public class Index extends CommandBase {
 
-public class CollectIndex extends CommandBase {
-
-    final Collector collector;
     final Indexer indexer;
-    final DoubleSupplier collectPwr;
-    // DoubleSupplier ejectPwr;
 
     /**
      * Creates a new Collect_Eject.
      */
-    public CollectIndex(Collector collector, Indexer indexer, DoubleSupplier collectPwr) {
-        this.collector = collector;
-        this.collectPwr = collectPwr;
+    public Index(Indexer indexer) {
         this.indexer = indexer;
 
-        addRequirements(collector, indexer);
+        addRequirements(indexer);
     }
     // hello shane how are you? i hope you have a good day!
     // you make me un poco loco, un pocititito loco!!!
@@ -79,16 +71,12 @@ public class CollectIndex extends CommandBase {
     // red to black, black to red
     // i am tired
 
+    // on that note, here we are:
+
     double indexTimer = 0d;
 
     @Override
     public void execute() {
-
-        if(collectPwr.getAsDouble()>.1){
-            collector.setPower(1);
-        } else {
-            collector.setPower(collectPwr.getAsDouble());
-        }
 
         if(indexer.isBallSeen()) {
 
@@ -96,7 +84,7 @@ public class CollectIndex extends CommandBase {
                 indexTimer = Timer.getFPGATimestamp();
             } 
 
-            if((Timer.getFPGATimestamp() - indexTimer) < 2d) {
+            if((Timer.getFPGATimestamp() - indexTimer) < 2.5d) {
                 indexer.setPower(1d);
             } else {
                 indexer.setPower(0d);
@@ -110,10 +98,8 @@ public class CollectIndex extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
         super.end(interrupted);
-        collector.stop();
-
+        indexer.stop();
     }
 
 }

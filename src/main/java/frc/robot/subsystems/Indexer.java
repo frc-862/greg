@@ -62,7 +62,7 @@ public class Indexer extends SubsystemBase {
         SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
         SmartDashboard.putNumber("BallsHeld", ballCount);
         SmartDashboard.putBoolean("IndexerArmed", armed);
-
+        
         if(ballSeen) {
             if(armed) {
                 ballCount++;
@@ -73,6 +73,7 @@ public class Indexer extends SubsystemBase {
         if(!ballSeen && !armed && ((Timer.getFPGATimestamp() - armedTimer) > 0.1)) { // TODO constant
             armed = true;
         }
+        
         
     }
 

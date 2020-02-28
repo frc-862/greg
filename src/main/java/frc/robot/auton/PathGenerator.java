@@ -44,17 +44,17 @@ public class PathGenerator {
                                             new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))),
         
         INIT_LINE_FWD2SHOOT(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                        new Pose2d(-1d, 0d, Rotation2d.fromDegrees(0d))),
-                                        true),
+                                            new Pose2d(-1d, 0d, Rotation2d.fromDegrees(0d))),
+                                            true),
         
         INIT_LINE_2_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                            new Pose2d(4.438d, 1.702d, Rotation2d.fromDegrees(0d)))),
+                                            new Pose2d(4.438d, 1.5d, Rotation2d.fromDegrees(0d)))),
         
         INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                 new Pose2d(2.796d, 0d, Rotation2d.fromDegrees(0d)))),
         
         TRENCHRUN_2_SHOOTING_POSE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                                new Pose2d(-3.01d, -1.702d, Rotation2d.fromDegrees(0d))),
+                                                new Pose2d(-3.01d, -1.5d, Rotation2d.fromDegrees(0d))),
                                                 true),
         
         OPP_TRENCHRUN_2_SHOOTING_POSE_INNER(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
@@ -102,6 +102,10 @@ public class PathGenerator {
 
     }
 
+    public double getDuration(LightningDrivetrain drivetrain, Paths path) {
+        return path.getTrajectory(drivetrain).getTotalTimeSeconds();
+    }
+
     public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain, Paths path) {
 
         Trajectory trajectory = path.getTrajectory(drivetrain);
@@ -122,6 +126,11 @@ public class PathGenerator {
             public void initialize() {
                 super.initialize();
                 drivetrain.setRelativePose();
+            }
+            @Override
+            public void end(boolean interrupted) {
+                super.end(interrupted);
+                drivetrain.stop();
             }
         };
 

@@ -32,6 +32,7 @@ import frc.robot.auton.AutonGenerator;
 import frc.robot.commands.Collect;
 import frc.robot.commands.CollectEject;
 import frc.robot.commands.Index;
+import frc.robot.commands.FullAutoFireOne;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.commands.shooter.FireThree;
@@ -141,6 +142,8 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.START)).whenPressed(indexer::resetBallCount, indexer);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        (new JoystickButton(driverLeft, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
+        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
     }
 
     @Override

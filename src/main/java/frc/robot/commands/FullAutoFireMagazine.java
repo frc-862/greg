@@ -8,12 +8,14 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterAngle;
 import frc.robot.subsystems.Vision;
 
+import java.util.function.DoubleSupplier;
+
 public class FullAutoFireMagazine extends PerpetualCommand {
     private final Indexer indexer;
     private final Shooter shooter;
     private int fired = 0;
 
-    public FullAutoFireMagazine(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
+    public FullAutoFireMagazine(DoubleSupplier spwr, LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
         super(new FullAutoFireOne(dt, v, s, sa, i,true));
         // note not requiring indexer because we know FullAutoFireOne does
         this.indexer = i;

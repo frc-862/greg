@@ -32,6 +32,9 @@ public class Shooter extends SubsystemBase {
     private CANPIDController motor3PIDFController;
     private int ballsFired;
     private double setSpeed = 0;
+    public double motor1setpoint = 0;
+    public double motor2setpoint = 0;
+    public double motor3setpoint = 0;
 
 
     private boolean armed = false;
@@ -152,10 +155,16 @@ public class Shooter extends SubsystemBase {
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
         if(!(setSpeed == 0)){
-            this.motor1PIDFController.setReference(LightningMath.constrain(velocity - backspin, 0, 5000), ControlType.kVelocity);
-            this.motor2PIDFController.setReference(LightningMath.constrain(velocity + backspin, 0, 5000), ControlType.kVelocity);
-            this.motor3PIDFController.setReference(LightningMath.constrain(velocity - backspin, 0, 5000), ControlType.kVelocity);
+            motor1setpoint = velocity - backspin;
+            motor2setpoint = velocity + backspin;
+            motor3setpoint = velocity - backspin;
+            this.motor1PIDFController.setReference(LightningMath.constrain(motor1setpoint, 0, 5000), ControlType.kVelocity);
+            this.motor2PIDFController.setReference(LightningMath.constrain(motor2setpoint, 0, 5000), ControlType.kVelocity);
+            this.motor3PIDFController.setReference(LightningMath.constrain(motor3setpoint, 0, 5000), ControlType.kVelocity);
         } else {
+            motor1setpoint = 0;
+            motor2setpoint = 0;
+            motor3setpoint = 0;
             this.motor1PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
             this.motor2PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
             this.motor3PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);

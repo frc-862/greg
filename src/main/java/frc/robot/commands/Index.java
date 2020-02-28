@@ -9,10 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
-
-import java.util.function.DoubleSupplier;
 
 public class Index extends CommandBase {
 
@@ -87,7 +84,7 @@ public class Index extends CommandBase {
                 indexTimer = Timer.getFPGATimestamp();
             } 
 
-            if((Timer.getFPGATimestamp() - indexTimer) < 2d) {
+            if((Timer.getFPGATimestamp() - indexTimer) < 2.5d) {
                 indexer.setPower(1d);
             } else {
                 indexer.setPower(0d);

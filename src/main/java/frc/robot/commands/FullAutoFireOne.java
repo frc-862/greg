@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -26,6 +27,8 @@ public class FullAutoFireOne extends SequentialCommandGroup {
         this.fullAuto = fullAuto;
 
         addCommands(
+                new InstantCommand(() -> vision.ringOn()),
+                new InstantCommand(() -> indexer.safteyOpen()),
             new WaitForVision(vision),
             new ParallelCommandGroup(
                 new VisionRotate(drivetrain,vision),

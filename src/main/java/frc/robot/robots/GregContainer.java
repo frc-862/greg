@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
@@ -143,6 +144,12 @@ public class GregContainer extends LightningContainer {
         //(new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
         (new JoystickButton(driverLeft, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
         (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
+
+        (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
+        (new POVButton(operator, 0)).whenPressed(new RumbleCommand(operator, vision::biasUp));
+        (new POVButton(operator, 90)).whenPressed(new RumbleCommand(operator, vision::biasRight));
+        (new POVButton(operator, 180)).whenPressed(new RumbleCommand(operator, vision::biasDown));
+        (new POVButton(operator, 270)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
     }
 
     @Override

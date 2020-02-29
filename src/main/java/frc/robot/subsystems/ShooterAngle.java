@@ -13,12 +13,13 @@ import frc.robot.RobotMap;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
-    public static int REVERSE_SENSOR_LIMIT = 634;
-    public static int FORWARD_SENSOR_LIMIT = 711;
+    public static double low_angle = 11;
+    public static int REVERSE_SENSOR_LIMIT = 256;
+    public static int FORWARD_SENSOR_LIMIT = 311;
 
 
     private double setPoint = 100;
-    private double Kp = .2;
+    private double Kp = .4;
     private double offset = 0;
 
 
@@ -56,20 +57,20 @@ public class ShooterAngle extends SubsystemBase {
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Shooter angle",getAngle());
-//        SmartDashboard.putNumber("fwd limit switch",adjuster.isFwdLimitSwitchClosed());
-//        SmartDashboard.putNumber("rev limit switch",adjuster.isRevLimitSwitchClosed());
-//        adjusterControlLoop();
-//        if (adjuster.isFwdLimitSwitchClosed()==1){
-//            FORWARD_SENSOR_LIMIT=(int)getAngle();
-//        }
-//        if (adjuster.isRevLimitSwitchClosed()==1){
-//            REVERSE_SENSOR_LIMIT=(int)getAngle();
-//        }
+        SmartDashboard.putNumber("fwd limit switch",adjuster.isFwdLimitSwitchClosed());
+        SmartDashboard.putNumber("rev limit switch",adjuster.isRevLimitSwitchClosed());
+        adjusterControlLoop();
+        if (adjuster.isFwdLimitSwitchClosed()==1){
+            FORWARD_SENSOR_LIMIT=(int)getAngle();
+        }
+        if (adjuster.isRevLimitSwitchClosed()==1){
+            REVERSE_SENSOR_LIMIT=(int)getAngle();
+        }
     }
 
     private void adjusterControlLoop() {
-        offset = (setPoint+REVERSE_SENSOR_LIMIT)-getAngle();
-        if (!(LightningMath.epsilonEqual(setPoint,getAngle(),2))) {
+        offset = setPoint - getAngle();
+        if (!(LightningMath.epsilonEqual(setPoint, offset,1))) {
             if(offset < 0) {
                 setPower(LightningMath.constrain((offset)*Kp,-1,1));
             }else {
@@ -93,9 +94,11 @@ public class ShooterAngle extends SubsystemBase {
     }
 
     public double getAngle() {
-//        System.out.println("Adjuster: " + adjuster);
-        return adjuster.getSelectedSensorPosition(Constants.kPIDLoopIdx);
+        return (adjuster.getSelectedSensorPosition() - REVERSE_SENSOR_LIMIT) / 2d
+                + low_angle;
+//        return adjuster.getSelectedSensorPosition(Constants.kPIDLoopIdx);
     }
+
     public DoubleSupplier getMin(){
         return ()->REVERSE_SENSOR_LIMIT;
     }

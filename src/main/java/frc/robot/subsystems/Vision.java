@@ -20,6 +20,7 @@ public class Vision extends SubsystemBase {
     double XValue = 0;
     double YValue = 0;
     double Found = 0;
+    double Height = 0;
     private final Solenoid blindedByScience;
     private final Solenoid blindedByTheLight;
 
@@ -45,13 +46,16 @@ public class Vision extends SubsystemBase {
         DataLogger.addDataElement("XValue", () -> XValue);
         DataLogger.addDataElement("YValue", () -> YValue);
         DataLogger.addDataElement("Found", () -> Found);
+        DataLogger.addDataElement("VisionHeight", () -> Height);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
+        Height = SmartDashboard.getNumber("VisionHeight",0);
         SmartDashboard.putNumber("Best Shooter Angle",getBestShooterAngle());
         SmartDashboard.putNumber("Best Shooter backspin",getBestShooterBackspin());
         SmartDashboard.putNumber("Best Shooter speed",getBestShooterVelocity());
@@ -105,15 +109,15 @@ public class Vision extends SubsystemBase {
     }
 
     public double getBestShooterAngle() {
-        return shooterAngle.get(YValue);
+        return shooterAngle.get(Height);
     }
 
     public double getBestShooterVelocity() {
-        return flyWheelSpeed.get(YValue);
+        return flyWheelSpeed.get(Height);
     }
 
     public double getBestShooterBackspin() {
-        return backspinData.get(YValue);
+        return backspinData.get(Height);
     }
 
     public void ringOn(){
@@ -137,25 +141,26 @@ public class Vision extends SubsystemBase {
     //data sheet
 
     private void shooterAngleConfig(){
-        //left input      right output
-        shooterAngle.put(151.0, 711.0);//closet shot
-        shooterAngle.put(325.0, 682.0);//10ft
-        shooterAngle.put(382.0, 670.0);//close trench
+        //left input      right outputb    256
+        shooterAngle.put(115.0, 44.5);//closet shot
+        shooterAngle.put(95.0, 30.0);//10ft
+        shooterAngle.put(62.0, 24.0);//close trench
 //        shooterAngle.put(45.0, 200.0);
     }
     private void configShooterSpeed() {
         //left input      right output
-        flyWheelSpeed.put(151.0,3000.0);
-        flyWheelSpeed.put(325.0,2500.0);
-        flyWheelSpeed.put(432.0,3000.0);
+        flyWheelSpeed.put(115.0,3000.0);
+        flyWheelSpeed.put(95.0,2500.0);
+        flyWheelSpeed.put(62.0,3000.0);
 //        flyWheelSpeed.put(45.0,3500.0);
     }
     private void configShooterBackspin() {
         //left input      right output
-        backspinData.put(151.0,1500.0);//closest shot
-        backspinData.put(325.0,1500.0);//10ft
-        backspinData.put(382.0,1500.0);//close trench
+        backspinData.put(115.0,1500.0);//closest shot
+        backspinData.put(95.0,1500.0);//10ft
+        backspinData.put(62.0,1500.0);//close trench
 //        backspinData.put(45.0,1500.0);
+
     }
 
 

@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lightning.LightningContainer;
@@ -29,14 +28,9 @@ import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.auton.AutonGenerator;
-import frc.robot.commands.Collect;
-import frc.robot.commands.CollectEject;
-import frc.robot.commands.Index;
-import frc.robot.commands.FullAutoFireOne;
-import frc.robot.commands.VisionRotate;
+import frc.robot.commands.*;
 import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.commands.shooter.FireThree;
-import frc.robot.commands.ManualClimb;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -92,8 +86,8 @@ public class GregContainer extends LightningContainer {
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new Index(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
-        shooterAngle.setDefaultCommand(
-                new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+//        shooterAngle.setDefaultCommand(
+////                new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter").add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
@@ -101,13 +95,13 @@ public class GregContainer extends LightningContainer {
         flyWheelSpeed.addListener((n) -> {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-
-        final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
-                .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
-                .getEntry();
-        flyWheelAngle.addListener((n) -> {
-            // shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
-        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+//
+//        final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
+//                .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
+//                .getEntry();
+//        flyWheelAngle.addListener((n) -> {
+//             shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+//        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
 

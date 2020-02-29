@@ -68,7 +68,7 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverLeft = new Joystick(JoystickConstants.DRIVER_LEFT);
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
-    private final Joystick climberController = new Joystick(JoystickConstants.CLIMBER); 
+    private final XboxController climberController = new XboxController(JoystickConstants.CLIMBER); 
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
 
@@ -102,7 +102,7 @@ public class GregContainer extends LightningContainer {
 
         // shooter.setWhenBallShot((n) -> shooter.shotBall());
 
-        climber.setDefaultCommand(new ManualClimb(climber, () -> climberController.getRawAxis(1), () ->climberController.getRawAxis(3)));
+        climber.setDefaultCommand(new ManualClimb(climber, () -> climberController.getY(GenericHID.Hand.kLeft), () ->climberController.getY(GenericHID.Hand.kRight)));
     }
 
     private void initializeDashboardCommands() {
@@ -139,8 +139,8 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.resetBallCount(); shooter.resetBallsFired(); }, indexer, shooter);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
-        // (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
-        // (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
+        (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
+        (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
         (new JoystickButton(driverLeft, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
         (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
 

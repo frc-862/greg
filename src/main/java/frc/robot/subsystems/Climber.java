@@ -31,8 +31,8 @@ public class Climber extends SubsystemBase {
         climberLeft.setIdleMode(IdleMode.kBrake);
         climberRight.setIdleMode(IdleMode.kBrake);
 
-        climberLeft.setInverted(false);
-        climberRight.setInverted(true);
+        climberLeft.setInverted(true);
+        climberRight.setInverted(false);
         //Init
     }
 
@@ -42,6 +42,12 @@ public class Climber extends SubsystemBase {
     }
 
     public void setPwr(double leftPwr, double rightPwr) {
+        if(leftPwr <= 0.1) {
+            leftPwr = 0d; 
+        }
+        if(rightPwr <= 0.1) {
+            rightPwr = 0d; 
+        }
         climberLeft.set(leftPwr);
         climberRight.set(rightPwr);
     }
@@ -50,15 +56,15 @@ public class Climber extends SubsystemBase {
         climberLeft.set(pwr);
         climberRight.set(pwr); 
     }
-
+ 
     public void up() {
-        climberLeft.set(0.25);
-        climberRight.set(0.25);
+        climberLeft.set(0.5);
+        climberRight.set(0.5);
     }
 
     public void down() {
-        climberLeft.set(-0.25);
-        climberRight.set(-0.25);
+        climberLeft.set(-0.5);
+        climberRight.set(-0.5);
     }
 
 }

@@ -10,7 +10,6 @@ public class VisionShooterAngle extends CommandBase {
     private final ShooterAngle shooterAngle;
     private final Vision vision;
 
-
     public VisionShooterAngle( ShooterAngle sa, Vision vision) {
 
         this.shooterAngle = sa;
@@ -19,12 +18,12 @@ public class VisionShooterAngle extends CommandBase {
         // our use is "read only"
         this.vision = vision;
 
-//        addRequirements(shooterAngle);
+        addRequirements(shooterAngle);
     }
 
     @Override
     public void initialize() {
-//        shooterAngle.setDesiredAngle(vision.getBestShooterAngle());
+        shooterAngle.setDesiredAngle(vision.getBestShooterAngle());
     }
 
     @Override
@@ -37,4 +36,5 @@ public class VisionShooterAngle extends CommandBase {
                                           vision.getBestShooterAngle(),
                                           Constants.shooterAngleTolerance);
     }
+
 }

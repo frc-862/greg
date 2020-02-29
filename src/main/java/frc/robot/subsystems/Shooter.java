@@ -30,16 +30,17 @@ public class Shooter extends SubsystemBase {
     private CANPIDController motor1PIDFController;
     private CANPIDController motor2PIDFController;
     private CANPIDController motor3PIDFController;
-    private int ballsFired;
     private double setSpeed = 0;
     public double motor1setpoint = 0;
     public double motor2setpoint = 0;
     public double motor3setpoint = 0;
 
+    public static int ballsFired = 0;
 
     private boolean armed = false;
-    double backspin= 1500;
+    double backspin = 1500;
     private IntConsumer whenBallShot;
+
     /**
      * Creates a new Shooter.
      */
@@ -76,7 +77,6 @@ public class Shooter extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
-
         motor1 = new CANSparkMax(RobotMap.SHOOTER_1, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor2 = new CANSparkMax(RobotMap.SHOOTER_2, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor3 = new CANSparkMax(RobotMap.SHOOTER_3, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -104,14 +104,11 @@ public class Shooter extends SubsystemBase {
         DataLogger.addDataElement("motor 3 speed",()->motor3encoder.getVelocity());
     }
 
-
-
-
     public void setWhenBallShot(IntConsumer whenBallShot) {
         this.whenBallShot = whenBallShot;
     }
 
-    public void shotBall() { ballsFired++; }
+    // public void shotBall() { ballsFired++; }
 
     @Override
     public void periodic() {
@@ -121,26 +118,29 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
         backspin=SmartDashboard.getNumber("backspin",1500);
 
-        if(setSpeed > 400) {
-            System.out.println("#################\nArmed: " + armed + "\nSetSpeed: " + setSpeed);
-            final double speedError = (setSpeed - motor2encoder.getVelocity());
+        if (setSpeed > 400) {
+            //System.out.println("#################\nArmed: " + armed + "\nSetSpeed: " + setSpeed);
+            final double speedError = (motor2setpoint - motor2encoder.getVelocity());
             if(armed) {
-                if (Math.abs(speedError) < 200) {
-                    System.out.println("Speed w/InError");
-                    ballsFired++;
+                if (Math.abs(speedError) > 200) {
+                    //System.out.println("Speed w/InError");
+                    // ballsFired++;
                     if(whenBallShot != null) {
                         whenBallShot.accept(ballsFired);
                     }
                     armed = false;
                 }
             } else {
-                if(speedError < 100) {
+                if(speedError < 50) {
                     armed = true;
                 }
             }
         } else {
             armed = false;
         }
+
+        // if(ballsFired < 0) ballsFired = 0;
+        // if(ballsFired > 5) ballsFired = 0;
 
         SmartDashboard.putNumber("BallsFired", ballsFired);
 

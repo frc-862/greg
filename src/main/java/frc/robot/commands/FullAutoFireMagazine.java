@@ -13,6 +13,7 @@ import java.util.function.DoubleSupplier;
 public class FullAutoFireMagazine extends PerpetualCommand {
     private final Indexer indexer;
     private final Shooter shooter;
+    private final Vision vision;
     private int fired = 0;
 
     public FullAutoFireMagazine(DoubleSupplier spwr, LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
@@ -20,6 +21,7 @@ public class FullAutoFireMagazine extends PerpetualCommand {
         // note not requiring indexer because we know FullAutoFireOne does
         this.indexer = i;
         this.shooter = s;
+        this.vision = v;
         fired++;
     }
 
@@ -45,6 +47,7 @@ public class FullAutoFireMagazine extends PerpetualCommand {
     public void end(boolean interrupted) {
         super.end(interrupted);
         indexer.safteyClosed();
+        vision.bothRingsOff();
     }
 }
 

@@ -75,7 +75,7 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverLeft = new Joystick(JoystickConstants.DRIVER_LEFT);
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
-    private final Joystick climberController = new Joystick(JoystickConstants.CLIMBER); 
+    private final XboxController climberController = new XboxController(JoystickConstants.CLIMBER); 
 
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
@@ -111,7 +111,7 @@ public class GregContainer extends LightningContainer {
 
         shooter.setWhenBallShot((n) -> shooter.shotBall());
 
-        climber.setDefaultCommand(new ManualClimb(climber, () -> climberController.getRawAxis(1), () ->climberController.getRawAxis(3)));
+        climber.setDefaultCommand(new ManualClimb(climber, () -> climberController.getY(GenericHID.Hand.kLeft), () ->climberController.getY(GenericHID.Hand.kRight)));
     }
 
     private void initializeDashboardCommands() {

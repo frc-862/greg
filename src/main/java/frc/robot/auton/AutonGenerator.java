@@ -15,11 +15,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-
+import frc.lightning.commands.RunCommandTime;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.auton.PathGenerator.Paths;
 import frc.robot.commands.AutoCollectThree;
 import frc.robot.commands.Collect;
+import frc.robot.commands.FullAutoFireOne;
 import frc.robot.commands.Index;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireFive;
@@ -120,10 +121,10 @@ public class AutonGenerator {
          * Move Off Line w/ Collector Forward (Away From Alliance Wall)
          */
         map.put("3 Ball Off Line Collector Fwd w/VIS", new SequentialCommandGroup(
+            new InstantCommand(vision::bothRingsOn, vision),
             new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new VisionRotate(drivetrain, vision),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
         ));
 
@@ -133,10 +134,10 @@ public class AutonGenerator {
          * Move Off Line w/ Shooter Forward (Toward Alliance Wall)
          */
         map.put("3 Ball Off Line -> Alliance Wall w/VIS", new SequentialCommandGroup(
+            new InstantCommand(vision::bothRingsOn, vision),
             new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new VisionRotate(drivetrain, vision),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
         ));
 

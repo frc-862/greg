@@ -97,8 +97,8 @@ public class AutonGenerator {
          * Move Off Line w/ Collector Forward (Away From Alliance Wall)
          */
         map.put("3 Ball Off Line Collector Fwd", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
         ));
@@ -108,8 +108,8 @@ public class AutonGenerator {
          * Move Off Line w/ Shooter Forward (Toward Alliance Wall)
          */
         map.put("3 Ball Off Line -> Alliance Wall", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
         ));
@@ -120,8 +120,8 @@ public class AutonGenerator {
          * Move Off Line w/ Collector Forward (Away From Alliance Wall)
          */
         map.put("3 Ball Off Line Collector Fwd w/VIS", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new VisionRotate(drivetrain, vision),
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
@@ -133,8 +133,8 @@ public class AutonGenerator {
          * Move Off Line w/ Shooter Forward (Toward Alliance Wall)
          */
         map.put("3 Ball Off Line -> Alliance Wall w/VIS", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new VisionRotate(drivetrain, vision),
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
@@ -146,6 +146,7 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Outer", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
@@ -159,6 +160,7 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Outer w/VIS", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
@@ -172,6 +174,7 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Inner", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
@@ -185,6 +188,7 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Inner w/VIS", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_INNER),
@@ -199,8 +203,8 @@ public class AutonGenerator {
          * Shoot 3                               
          */
         map.put("6 Ball TR Inner", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             // new InstantCommand(indexer::safteyClosed),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
@@ -223,7 +227,6 @@ public class AutonGenerator {
             // new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
             // new InstantCommand(collector::puterOuterOut, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 
@@ -234,14 +237,13 @@ public class AutonGenerator {
          * Vision Turn and Shoot 3                             
          */
         map.put("6 Ball TR Inner w/VIS", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
             new VisionRotate(drivetrain, vision),
             // new InstantCommand(collector::puterOuterOut, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 
@@ -251,13 +253,12 @@ public class AutonGenerator {
          * Vision Turn and Shoot Collected 3                               
          */
         map.put("6 Ball TR Outer w/VIS", new SequentialCommandGroup(
+            new InstantCommand(indexer::setBallsHeld, indexer),
             new InstantCommand(collector::puterOuterIn, collector),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             // new InstantCommand(collector::puterOuterOut, collector),
             new VisionRotate(drivetrain, vision),
-            new InstantCommand(indexer::resetBallCount, indexer), // TODO - not the solution, get proper decrement code
             new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 

@@ -80,7 +80,7 @@ public class Index extends CommandBase {
 
         if(indexer.isBallSeen()) {
 
-            if(indexer.ballCount <= 4) {
+            if(indexer.ballCount <= /*4*/5) {
                 indexTimer = Timer.getFPGATimestamp();
             } 
 

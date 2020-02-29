@@ -62,8 +62,6 @@ public class GregContainer extends LightningContainer {
     private final Collector collector = new Collector();
     private final PCMSim pcmSim = new PCMSim(RobotMap.COMPRESSOR_ID); // 21
 
-    // private final Collector collector = new Collector();
-    // private final Indexer indexer = Indexer.create();
     private final Shooter shooter = new Shooter();
     private final ShooterAngle shooterAngle = new ShooterAngle();
 
@@ -88,8 +86,7 @@ public class GregContainer extends LightningContainer {
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new Index(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
-        shooterAngle.setDefaultCommand(
-                new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+        shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter").add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
@@ -105,7 +102,7 @@ public class GregContainer extends LightningContainer {
             // shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-        shooter.setWhenBallShot((n) -> shooter.shotBall());
+        // shooter.setWhenBallShot((n) -> shooter.shotBall());
     }
 
     private void initializeDashboardCommands() {
@@ -139,7 +136,7 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
         (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(indexer::resetBallCount, indexer);
+        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.resetBallCount(); shooter.resetBallsFired(); }, indexer, shooter);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(driverLeft, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));

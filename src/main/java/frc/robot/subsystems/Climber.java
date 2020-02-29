@@ -7,16 +7,32 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
 
     // Components
 
+    private CANSparkMax climberLeft; 
+    private CANSparkMax climberRight; 
+
     /**
      * Creates a new Climber.
      */
     public Climber() {
+        climberLeft = new CANSparkMax(RobotMap.CLIMBER_LEFT, CANSparkMaxLowLevel.MotorType.kBrushless);
+        climberRight = new CANSparkMax(RobotMap.CLIMBER_RIGHT, CANSparkMaxLowLevel.MotorType.kBrushless); 
+
+        climberLeft.setIdleMode(IdleMode.kBrake);
+        climberRight.setIdleMode(IdleMode.kBrake);
+
+        climberLeft.setInverted(false);
+        climberRight.setInverted(true);
         //Init
     }
 
@@ -24,4 +40,25 @@ public class Climber extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
     }
+
+    public void setPwr(double leftPwr, double rightPwr) {
+        climberLeft.set(leftPwr);
+        climberRight.set(rightPwr);
+    }
+
+    public void setAllPower(double pwr) {
+        climberLeft.set(pwr);
+        climberRight.set(pwr); 
+    }
+
+    public void up() {
+        climberLeft.set(0.25);
+        climberRight.set(0.25);
+    }
+
+    public void down() {
+        climberLeft.set(-0.25);
+        climberRight.set(-0.25);
+    }
+
 }

@@ -48,7 +48,8 @@ public class RobotMap {
     public static final int CONTROL_PANEL = 15;
 
     // CLIMBER
-    public static final int CLIMBER = 14;
+    public static final int CLIMBER_LEFT = 14;
+    public static final int CLIMBER_RIGHT = 15;
 
     public static final int VISION_SMALL_SOLENOID = 3;
     public static final int VISION_BIG_SOLENOID = 4;

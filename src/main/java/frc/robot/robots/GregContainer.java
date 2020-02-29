@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -84,7 +85,7 @@ public class GregContainer extends LightningContainer {
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new Index(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
-        // shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+        if(ShooterAngle.MANUAL_CONTROL) shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter").add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
@@ -106,6 +107,7 @@ public class GregContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
+        SmartDashboard.putBoolean("Happy", false);
         SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain, vision));
         SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
         SmartDashboard.putData("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
@@ -138,11 +140,11 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
         (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.resetBallCount(); shooter.resetBallsFired(); }, indexer, shooter);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
-        (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
         (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
-        (new JoystickButton(driverLeft, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
-        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
+        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
 
         (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
         (new POVButton(operator, 0)).whenPressed(new RumbleCommand(operator, vision::biasUp));

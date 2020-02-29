@@ -169,7 +169,7 @@ public class AutonGenerator {
         map.put("5 Ball Opp TR Inner", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
-            pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
+            pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_INNER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
         ));
 

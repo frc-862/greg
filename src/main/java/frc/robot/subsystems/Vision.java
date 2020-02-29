@@ -84,6 +84,9 @@ public class Vision extends SubsystemBase {
             actualLight = requestedLight;
         }
 
+        SmartDashboard.putNumber("BiasVert", verticalBias);
+        SmartDashboard.putNumber("BiasHoriz", horizontalBias);
+
     }
 
     public double getDistanceFromTarget() {
@@ -144,9 +147,9 @@ public class Vision extends SubsystemBase {
 
     private void shooterAngleConfig(){
         //left input      right outputb    256
-        shooterAngle.put(115.0, 44.5);//closet shot
-        shooterAngle.put(95.0, 30.0);//10ft
-        shooterAngle.put(62.0, 24.0);//close trench
+        shooterAngle.put(115.0, 38.5);//closet shot
+        shooterAngle.put(95.0, 21.0);//10ft
+        shooterAngle.put(62.0, 17.0);//close trench
 //        shooterAngle.put(45.0, 200.0);
     }
     private void configShooterSpeed() {
@@ -170,7 +173,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void biasDown() {
-        verticalBias -= 0.5;
+        verticalBias = 0.5;
     }
 
     public void biasLeft() {

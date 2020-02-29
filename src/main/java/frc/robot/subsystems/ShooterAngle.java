@@ -13,6 +13,9 @@ import frc.robot.RobotMap;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
+
+    public static final boolean MANUAL_CONTROL = true;
+
     public static double low_angle = 11;
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
@@ -28,12 +31,12 @@ public class ShooterAngle extends SubsystemBase {
     public ShooterAngle () {
         adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
         System.out.println("Adjuster created: " + adjuster);
-        //left is in encoder ticks
+        // left is in encoder ticks
 
         adjuster.configForwardSoftLimitEnable(false);
         adjuster.configReverseSoftLimitEnable(false);
-//        adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
-//        adjuster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
+        // adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
+        // adjuster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
         adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
         adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
 
@@ -59,7 +62,9 @@ public class ShooterAngle extends SubsystemBase {
         SmartDashboard.putNumber("Shooter angle",getAngle());
         SmartDashboard.putNumber("fwd limit switch",adjuster.isFwdLimitSwitchClosed());
         SmartDashboard.putNumber("rev limit switch",adjuster.isRevLimitSwitchClosed());
-        adjusterControlLoop();
+
+        if(!MANUAL_CONTROL) adjusterControlLoop();
+        
         if (adjuster.isFwdLimitSwitchClosed()==1){
             FORWARD_SENSOR_LIMIT=(int)getAngle();
         }

@@ -20,20 +20,22 @@ import frc.robot.RobotMap;
 import frc.robot.robots.GregContainer;
 
 public class Indexer extends SubsystemBase {
+
     DigitalInput[] pcSensors;
     private final double pwrThreshold = 0.05;
     private VictorSPX indexer;
     private DoubleSolenoid safty;
 
-    public int ballCount;
+    public int ballCount = 0;
     DigitalInput collectSensor;
 
-    // Components
+    public int ballsHeld = 0;
+
     /**
      * Creates a new Indexer.
      */
-
     public Indexer(DigitalInput[] sensors) {
+
         safty = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.SAFTEY_IN_CHANNEL, RobotMap.SAFTEY_OUT_CHANNEL);
         pcSensors = sensors;
         indexer = new VictorSPX(RobotMap.INDEXER);
@@ -41,6 +43,9 @@ public class Indexer extends SubsystemBase {
         collectSensor = new DigitalInput(RobotMap.COLLECT_SENSOR);
 
         CommandScheduler.getInstance().registerSubsystem(this);
+
+        SmartDashboard.putNumber("StartingBallCount", 3);
+
     }
 
     public static Indexer create() {
@@ -60,12 +65,14 @@ public class Indexer extends SubsystemBase {
 
         ballSeen = !collectSensor.get();
         SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
-        SmartDashboard.putNumber("BallsHeld", ballCount);
+        // SmartDashboard.putNumber("BallsHeld", ballCount);
+        SmartDashboard.putNumber("BallsHeld", ballsHeld);
         SmartDashboard.putBoolean("IndexerArmed", armed);
-
+        
         if(ballSeen) {
             if(armed) {
-                ballCount++;
+                // ballCount++;
+                // ballsHeld++;
                 armed = false;
             }
             armedTimer = Timer.getFPGATimestamp();
@@ -73,16 +80,30 @@ public class Indexer extends SubsystemBase {
         if(!ballSeen && !armed && ((Timer.getFPGATimestamp() - armedTimer) > 0.1)) { // TODO constant
             armed = true;
         }
+
+        ballsHeld = ballCount - Shooter.ballsFired;
+        
+        // ballCount -= Shooter.ballsFired;
+        // if(ballCount < 0) {
+        //     ballCount = 0;
+        // }
+        // if(ballCount > 5) {
+        //     ballCount = 5;
+        // }
         
     }
 
     public boolean isBallSeen() { return ballSeen; }
 
-    public void resetBallCount() { ballCount = 0; }
+    public void resetBallCount() { /*ballCount = 0;*/ }
+
+    public void setBallsHeld() { this.ballCount = (int) SmartDashboard.getNumber("StartingBallCount", 3); }
 
     public int getBallCount() { return ballCount; }
+    
+    public int getBallsHeld() { return ballsHeld; }
 
-    public void shotBall() { ballCount--; }
+    public void shotBall() { /*ballCount--;*/ }
 
     public void stop() {
         setPower(0);

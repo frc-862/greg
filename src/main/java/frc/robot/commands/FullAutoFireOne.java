@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -17,7 +18,7 @@ public class FullAutoFireOne extends SequentialCommandGroup {
     private final Indexer indexer;
     private final boolean fullAuto;
 
-    public FullAutoFireOne(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i,boolean fullAuto) {
+    public FullAutoFireOne(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i, boolean fullAuto) {
         this.drivetrain = dt;
         this.vision = v;
         this.shooter = s;
@@ -26,13 +27,15 @@ public class FullAutoFireOne extends SequentialCommandGroup {
         this.fullAuto = fullAuto;
 
         addCommands(
+                new InstantCommand(() -> vision.bothRingsOn()),
+                new InstantCommand(() -> indexer.safteyOpen()),
             new WaitForVision(vision),
             new ParallelCommandGroup(
                 new VisionRotate(drivetrain,vision),
                 new VisionShooterAngle(shooterAngle, vision),
                 new SpinUpFlywheelVelocity(shooter, vision.getBestShooterVelocity())
             ),
-            new FeedPowerCell(indexer, shooter,fullAuto)
+            new FeedPowerCell(indexer, shooter, fullAuto)
         );
     }
 }

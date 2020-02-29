@@ -44,6 +44,15 @@ public class GregDrivetrain extends NeoDrivetrain {
         return rightEncoder.getRate();
     }
 
+    @Override
+    public void resetDistance() {
+        super.resetDistance();
+        if((leftEncoder != null) && (rightEncoder != null)) {
+            leftEncoder.reset();
+            rightEncoder.reset();
+        }
+    }
+
     public GregDrivetrain() {
         super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);
 

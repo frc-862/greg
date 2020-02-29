@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
-import frc.lightning.util.InterpolatedMap;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -31,11 +30,17 @@ public class Shooter extends SubsystemBase {
     private CANPIDController motor1PIDFController;
     private CANPIDController motor2PIDFController;
     private CANPIDController motor3PIDFController;
-    private int ballsFired;
     private double setSpeed = 0;
-    InterpolatedMap flyWheelSpeed = new InterpolatedMap();
+    public double motor1setpoint = 0;
+    public double motor2setpoint = 0;
+    public double motor3setpoint = 0;
+
+    public static int ballsFired = 0;
+
     private boolean armed = false;
+    double backspin = 1500;
     private IntConsumer whenBallShot;
+
     /**
      * Creates a new Shooter.
      */
@@ -68,9 +73,10 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         // Init
+        SmartDashboard.putNumber("backspin",1500);
+
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        configShooterSpeed();
         motor1 = new CANSparkMax(RobotMap.SHOOTER_1, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor2 = new CANSparkMax(RobotMap.SHOOTER_2, CANSparkMaxLowLevel.MotorType.kBrushless);
         motor3 = new CANSparkMax(RobotMap.SHOOTER_3, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -98,43 +104,45 @@ public class Shooter extends SubsystemBase {
         DataLogger.addDataElement("motor 3 speed",()->motor3encoder.getVelocity());
     }
 
-    private void configShooterSpeed() {
-        flyWheelSpeed.put(10.0,2500.0);
-        flyWheelSpeed.put(18.0,2500.0);
-        flyWheelSpeed.put(35.0,3500.0);
-        flyWheelSpeed.put(45.0,3500.0);
-    }
-
     public void setWhenBallShot(IntConsumer whenBallShot) {
         this.whenBallShot = whenBallShot;
     }
 
-    public void shotBall() { ballsFired--; }
+    // public void shotBall() { ballsFired++; }
 
     @Override
     public void periodic() {
+
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
+        backspin=SmartDashboard.getNumber("backspin",1500);
 
-        if(setSpeed > 400){
-            final double speedError = (setSpeed - motor2encoder.getVelocity());
+        if (setSpeed > 400) {
+            //System.out.println("#################\nArmed: " + armed + "\nSetSpeed: " + setSpeed);
+            final double speedError = (motor2setpoint - motor2encoder.getVelocity());
             if(armed) {
-                if (speedError > 200) {
-                    ballsFired++;
+                if (Math.abs(speedError) > 200) {
+                    //System.out.println("Speed w/InError");
+                    // ballsFired++;
                     if(whenBallShot != null) {
                         whenBallShot.accept(ballsFired);
                     }
                     armed = false;
                 }
             } else {
-                if(speedError < 60) {
+                if(speedError < 50) {
                     armed = true;
                 }
             }
         } else {
             armed = false;
         }
+
+        // if(ballsFired < 0) ballsFired = 0;
+        // if(ballsFired > 5) ballsFired = 0;
+
+        SmartDashboard.putNumber("BallsFired", ballsFired);
 
     }
 
@@ -147,10 +155,16 @@ public class Shooter extends SubsystemBase {
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
         if(!(setSpeed == 0)){
-            this.motor1PIDFController.setReference(LightningMath.constrain(velocity - 1500, 0, 5000), ControlType.kVelocity);
-            this.motor2PIDFController.setReference(LightningMath.constrain(velocity + 1500, 0, 5000), ControlType.kVelocity);
-            this.motor3PIDFController.setReference(LightningMath.constrain(velocity - 1500, 0, 5000), ControlType.kVelocity);
+            motor1setpoint = velocity - backspin;
+            motor2setpoint = velocity + backspin;
+            motor3setpoint = velocity - backspin;
+            this.motor1PIDFController.setReference(LightningMath.constrain(motor1setpoint, 0, 5000), ControlType.kVelocity);
+            this.motor2PIDFController.setReference(LightningMath.constrain(motor2setpoint, 0, 5000), ControlType.kVelocity);
+            this.motor3PIDFController.setReference(LightningMath.constrain(motor3setpoint, 0, 5000), ControlType.kVelocity);
         } else {
+            motor1setpoint = 0;
+            motor2setpoint = 0;
+            motor3setpoint = 0;
             this.motor1PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
             this.motor2PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
             this.motor3PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
@@ -165,11 +179,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stop() {
-        setPower(0d);
-    }
-
-    public double getDesiredSpeed(double distance) {
-        return flyWheelSpeed.get(distance);
+        setShooterVelocity(0);
     }
 
     public double getFlywheelMotor1Velocity() {
@@ -181,11 +191,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public int getBallsFired(){
-
         return ballsFired;
     }
 
-    public void reeeeesetBallsFired(){
+    public void resetBallsFired(){
         ballsFired = 0;
     }
 
@@ -193,6 +202,8 @@ public class Shooter extends SubsystemBase {
     public double getFlywheelMotor3Velocity() {
         return motor3encoder.getVelocity();
     }
+
+
 
     public void aim() {
         // position robot & other based on vision values

@@ -37,8 +37,8 @@ public class SpinUpFlywheelVelocity extends CommandBase {
     @Override
     public boolean isFinished() {
 //        return false;
-        return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
-               LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), velocity, Constants.FLYWHEEL_EPSILON) &&
-               LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), velocity, Constants.FLYWHEEL_EPSILON);
+        return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), shooter.motor1setpoint, Constants.FLYWHEEL_EPSILON) &&
+               LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), shooter.motor2setpoint, Constants.FLYWHEEL_EPSILON) &&
+               LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), shooter.motor3setpoint, Constants.FLYWHEEL_EPSILON);
     }
 }

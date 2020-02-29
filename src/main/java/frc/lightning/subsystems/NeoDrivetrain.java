@@ -7,12 +7,10 @@
 
 package frc.lightning.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
-
-import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -22,14 +20,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lightning.logging.DataLogger;
 import frc.lightning.util.LightningMath;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.misc.REVGains;
 
 import java.util.function.BiConsumer;
@@ -73,7 +67,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private RamseteGains gains;
 
-    private PigeonIMU bird;
+    // private PigeonIMU bird;
 
     private double[] ypr = new double[3];
 
@@ -92,6 +86,9 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
             rightMotors[i] = new CANSparkMax(i + firstRightCanId, CANSparkMaxLowLevel.MotorType.kBrushless);
         }
 
+        withEachMotor((m) -> m.restoreFactoryDefaults());
+        withEachMotor((m) -> m.setMotorType(CANSparkMaxLowLevel.MotorType.kBrushless));
+
         leftMaster = leftMotors[0];
         leftEncoder = leftMaster.getEncoder(EncoderType.kHallSensor, 42);
         leftPIDFController = leftMaster.getPIDController();
@@ -106,10 +103,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         withEachMotor((m) -> m.setClosedLoopRampRate(CLOSE_LOOP_RAMP_RATE));
         brake();
 
-        navx = new AHRS(Port.kMXP);
+        navx = new AHRS(SPI.Port.kMXP);
 
-        bird = new PigeonIMU(RobotMap.PIGEON_ID);
-        bird.configFactoryDefault();
+        // bird = new PigeonIMU(RobotMap.PIGEON_ID);
+        // bird.configFactoryDefault();
 
         kinematics = new DifferentialDriveKinematics(trackWidth);
 
@@ -155,7 +152,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
-        bird.getYawPitchRoll(ypr);
+        // bird.getYawPitchRoll(ypr);
 
     }
 
@@ -215,7 +212,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private void resetHeading() {
         navx.reset();
-        bird.setYaw(0d);
+        // bird.setYaw(0d);
     }
 
     public void setLeftGains(REVGains gains) {

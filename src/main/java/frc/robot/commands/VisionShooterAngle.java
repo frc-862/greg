@@ -10,7 +10,8 @@ public class VisionShooterAngle extends CommandBase {
     private final ShooterAngle shooterAngle;
     private final Vision vision;
 
-    public VisionShooterAngle(ShooterAngle sa, Vision vision) {
+    public VisionShooterAngle( ShooterAngle sa, Vision vision) {
+
         this.shooterAngle = sa;
 
         // Intentionally not adding vision as a requirement
@@ -26,9 +27,14 @@ public class VisionShooterAngle extends CommandBase {
     }
 
     @Override
+    public void execute() {
+    }
+
+    @Override
     public boolean isFinished() {
         return LightningMath.epsilonEqual(shooterAngle.getAngle(),
                                           vision.getBestShooterAngle(),
                                           Constants.shooterAngleTolerance);
     }
+
 }

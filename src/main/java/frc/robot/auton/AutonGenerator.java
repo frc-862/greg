@@ -98,8 +98,7 @@ public class AutonGenerator {
          * Move Off Line w/ Collector Forward (Away From Alliance Wall)
          */
         map.put("3 Ball Off Line Collector Fwd", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
         ));
@@ -109,8 +108,7 @@ public class AutonGenerator {
          * Move Off Line w/ Shooter Forward (Toward Alliance Wall)
          */
         map.put("3 Ball Off Line -> Alliance Wall", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
         ));
@@ -121,10 +119,8 @@ public class AutonGenerator {
          * Move Off Line w/ Collector Forward (Away From Alliance Wall)
          */
         map.put("3 Ball Off Line Collector Fwd w/VIS", new SequentialCommandGroup(
-            new InstantCommand(vision::bothRingsOn, vision),
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
-            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
+            new InitAuto(vision, indexer, collector),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
         ));
 
@@ -134,10 +130,8 @@ public class AutonGenerator {
          * Move Off Line w/ Shooter Forward (Toward Alliance Wall)
          */
         map.put("3 Ball Off Line -> Alliance Wall w/VIS", new SequentialCommandGroup(
-            new InstantCommand(vision::bothRingsOn, vision),
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
-            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
+            new InitAuto(vision, indexer, collector),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
         ));
 
@@ -147,8 +141,7 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Outer", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
@@ -161,12 +154,11 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Outer w/VIS", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
-            new VisionRotate(drivetrain, vision),
-            new FireFive(shooter, indexer, shooterAngle, vision, collector)
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
+            // new FireFive(shooter, indexer, shooterAngle, vision, collector)
         ));
 
         /*
@@ -175,8 +167,7 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Inner", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
@@ -189,12 +180,11 @@ public class AutonGenerator {
          * Shoot 5 into outer
          */
         map.put("5 Ball Opp TR Inner w/VIS", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_INNER),
-            new VisionRotate(drivetrain, vision),
-            new FireFive(shooter, indexer, shooterAngle, vision, collector)
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
+            // new FireFive(shooter, indexer, shooterAngle, vision, collector)
         ));
 
         /* 
@@ -204,30 +194,10 @@ public class AutonGenerator {
          * Shoot 3                               
          */
         map.put("6 Ball TR Inner", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
+            new InitAuto(vision, indexer, collector),
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
-            // new InstantCommand(indexer::safteyClosed),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
-            // new ParallelCommandGroup(new AutoCollectThree(collector, () -> 1d),
-            //                             new Index(indexer),
-            //                             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_2_TRENCHRUN))
-            //                             {
-            //                                 double initTime = 0d;
-            //                                 double duration = pathGenerator.getDuration(drivetrain, Paths.INIT_LINE_2_TRENCHRUN);
-            //                                 @Override
-            //                                 public void initialize() {
-            //                                     super.initialize();
-            //                                     initTime = Timer.getFPGATimestamp();
-            //                                 }
-            //                                 @Override
-            //                                 public boolean isFinished() {
-            //                                     return (Timer.getFPGATimestamp() - initTime) > (duration + 0.5d);
-            //                                 }
-            //                             },
-            // new WaitCommand(0.1),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
-            // new InstantCommand(collector::puterOuterOut, collector),
             new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 
@@ -238,14 +208,14 @@ public class AutonGenerator {
          * Vision Turn and Shoot 3                             
          */
         map.put("6 Ball TR Inner w/VIS", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            new InitAuto(vision, indexer, collector),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
+            // new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
-            new VisionRotate(drivetrain, vision),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
             // new InstantCommand(collector::puterOuterOut, collector),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector)
+            // new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 
         /* 
@@ -254,13 +224,13 @@ public class AutonGenerator {
          * Vision Turn and Shoot Collected 3                               
          */
         map.put("6 Ball TR Outer w/VIS", new SequentialCommandGroup(
-            new InstantCommand(indexer::setBallsHeld, indexer),
-            new InstantCommand(collector::puterOuterIn, collector),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            new InitAuto(vision, indexer, collector),
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
+            // new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             // new InstantCommand(collector::puterOuterOut, collector),
-            new VisionRotate(drivetrain, vision),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector)
+            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d)
+            // new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 
         // Return New List

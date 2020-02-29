@@ -30,6 +30,10 @@ public class Vision extends SubsystemBase {
     private boolean readyForBoth =false;
     private boolean theOneRing = false;
     private final LED led = new LED();
+
+    private double verticalBias;
+    private double horizontalBias;
+
     InterpolatedMap shooterAngle = new InterpolatedMap();
     InterpolatedMap flyWheelSpeed = new InterpolatedMap();
     InterpolatedMap backspinData = new InterpolatedMap();
@@ -87,10 +91,8 @@ public class Vision extends SubsystemBase {
     }
 
     public double getOffsetAngle() {
-        return XValue-320;
+        return XValue - 320 + horizontalBias;
     }
-
-
 
     public boolean seePortTarget() {
          if(Found>0){
@@ -109,7 +111,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getBestShooterAngle() {
-        return shooterAngle.get(Height);
+        return shooterAngle.get(Height) + verticalBias;
     }
 
     public double getBestShooterVelocity() {
@@ -163,5 +165,24 @@ public class Vision extends SubsystemBase {
 
     }
 
+    public void biasUp() {
+        verticalBias += 0.5;
+    }
 
+    public void biasDown() {
+        verticalBias -= 0.5;
+    }
+
+    public void biasLeft() {
+        horizontalBias -= 2;
+    }
+
+    public void biasRight() {
+        horizontalBias += 2;
+    }
+
+    public void biasReset() {
+        verticalBias = 0;
+        horizontalBias = 0;
+    }
 }

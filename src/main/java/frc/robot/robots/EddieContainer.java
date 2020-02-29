@@ -29,7 +29,7 @@ import frc.robot.commands.ledcommands.SolidYellow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.leds.AddressableLEDMatrix;
-import frc.robot.subsystems.leds.GeometryDash;
+//import frc.robot.subsystems.leds.GeometryDash;
 import frc.robot.subsystems.leds.LEDMatrixMap;
 import frc.robot.subsystems.leds.LEDs;
 import frc.robot.subsystems.Indexer;
@@ -46,7 +46,7 @@ public class EddieContainer extends LightningContainer {
 
     private static int powerCellCapacity = 0;
     public static final LEDs Leds = new LEDs();
-    public static final GeometryDash geoDash = new GeometryDash();
+    //public static final GeometryDash geoDash = new GeometryDash();
     public static final LEDMatrixMap ledMatrixMap = new LEDMatrixMap();
     //private final DigitalInput sensors[] = new DigitalInput[0];
     //private final Indexer indexer = new Indexer(sensors);

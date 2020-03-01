@@ -158,7 +158,7 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
-        if(!(setSpeed == 0)){
+        if(setSpeed > 100){
             motor1setpoint = velocity - backspin;
             motor2setpoint = velocity + backspin;
             motor3setpoint = velocity - backspin;
@@ -169,11 +169,10 @@ public class Shooter extends SubsystemBase {
             motor1setpoint = 0;
             motor2setpoint = 0;
             motor3setpoint = 0;
-            this.motor1PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
-            this.motor2PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
-            this.motor3PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
+            this.motor1PIDFController.setReference(0, ControlType.kVoltage);
+            this.motor2PIDFController.setReference(0, ControlType.kVoltage);
+            this.motor3PIDFController.setReference(0, ControlType.kVoltage);
         }
-        
     }
 
     public void resetDistance() {

@@ -102,6 +102,10 @@ public class Shooter extends SubsystemBase {
         DataLogger.addDataElement("motor 1 speed",()->motor1encoder.getVelocity());
         DataLogger.addDataElement("motor 2 speed",()->motor2encoder.getVelocity());
         DataLogger.addDataElement("motor 3 speed",()->motor3encoder.getVelocity());
+
+        motor1.burnFlash();
+        motor2.burnFlash();
+        motor3.burnFlash();
     }
 
     public void setWhenBallShot(IntConsumer whenBallShot) {

@@ -16,6 +16,7 @@ public class ShooterAngle extends SubsystemBase {
     public static double low_angle = 11;
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
+    private final int SENSOR_SAFETY = 4;
 
 
     private double setPoint = 100;
@@ -30,10 +31,14 @@ public class ShooterAngle extends SubsystemBase {
         System.out.println("Adjuster created: " + adjuster);
         //left is in encoder ticks
 
-        adjuster.configForwardSoftLimitEnable(false);
-        adjuster.configReverseSoftLimitEnable(false);
+        adjuster.configForwardSoftLimitEnable(true);
+        adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT + SENSOR_SAFETY);
+        adjuster.configReverseSoftLimitEnable(true);
+        adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT - SENSOR_SAFETY);
+
 //        adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
 //        adjuster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
+
         adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
         adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
 
@@ -56,37 +61,36 @@ public class ShooterAngle extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Shooter angle",getAngle());
+        SmartDashboard.putNumber("Shooter angle", getAngle());
         SmartDashboard.putNumber("fwd limit switch",adjuster.isFwdLimitSwitchClosed());
         SmartDashboard.putNumber("rev limit switch",adjuster.isRevLimitSwitchClosed());
         adjusterControlLoop();
+
+        final var rawPosition = adjuster.getSelectedSensorPosition();
         if (adjuster.isFwdLimitSwitchClosed()==1){
-            FORWARD_SENSOR_LIMIT=(int)getAngle();
+            FORWARD_SENSOR_LIMIT = rawPosition;
         }
+
         if (adjuster.isRevLimitSwitchClosed()==1){
-            REVERSE_SENSOR_LIMIT=(int)getAngle();
+            REVERSE_SENSOR_LIMIT = rawPosition;
         }
     }
 
     private void adjusterControlLoop() {
         offset = setPoint - getAngle();
         if (!(LightningMath.epsilonEqual(setPoint, offset,1))) {
-            if(offset < 0) {
-                setPower(LightningMath.constrain((offset)*Kp,-1,1));
-            }else {
-                setPower(LightningMath.constrain((offset)*Kp,-1,1));
-            }
-
+            setPower(LightningMath.constrain((offset)*Kp,-1,1));
         } else {
             setPower(0);
         }
     }
 
-    public void setDesiredAngle(double distance) {
-        setPoint=distance;
+    public void setDesiredAngle(double angle) {
+        setPoint = angle;
     }
+
     public void setPower(double pwr){
-        adjuster.set(ControlMode.PercentOutput,pwr);
+        adjuster.set(ControlMode.PercentOutput, pwr);
     }
 
     public void setShooterAngle(double angle){

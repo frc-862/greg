@@ -111,12 +111,8 @@ public class GregContainer extends LightningContainer {
         SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
         SmartDashboard.putData("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
         SmartDashboard.putData("Ring off", new InstantCommand(() -> vision.ringOff()));
-        SmartDashboard.putData("set to zero", new InstantCommand(() -> shooterAngle.setShooterAngle(80), shooterAngle));
-        SmartDashboard.putData("test pos1", new InstantCommand(() -> shooterAngle.setShooterAngle(100), shooterAngle));
-        SmartDashboard.putData("test pos2", new InstantCommand(() -> shooterAngle.setShooterAngle(130), shooterAngle));
-        SmartDashboard.putData("set to max", new InstantCommand(() -> shooterAngle.setShooterAngle(150), shooterAngle));
-        SmartDashboard.putData("safty in", new InstantCommand(() -> indexer.safteyClosed()));
-        SmartDashboard.putData("safty out", new InstantCommand(() -> indexer.safteyOpen()));
+        SmartDashboard.putData("safety in", new InstantCommand(() -> indexer.safteyClosed()));
+        SmartDashboard.putData("safety out", new InstantCommand(() -> indexer.safteyOpen()));
         SmartDashboard.putData("collect",
                 new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight),
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));

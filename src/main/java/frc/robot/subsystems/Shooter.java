@@ -116,7 +116,6 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());

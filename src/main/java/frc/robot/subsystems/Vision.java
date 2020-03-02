@@ -29,7 +29,6 @@ public class Vision extends SubsystemBase {
     private boolean bothRings = false;
     private boolean readyForBoth =false;
     private boolean theOneRing = false;
-    private final LED led = new LED();
 
     private double verticalBias;
     private double horizontalBias;
@@ -66,9 +65,10 @@ public class Vision extends SubsystemBase {
         Found = SmartDashboard.getNumber("VisionFound",0);
         SmartDashboard.putNumber("X value",XValue-320);
         SmartDashboard.putNumber("found",Found);
-        if(seePortTarget()){
-            led.goSolidGreen();
-        }else {led.goOrangeAndBlue();}
+
+//        if(seePortTarget()){
+//            led.goSolidGreen();
+//        }else {led.goOrangeAndBlue();}
 
         if (requestedLight > actualLight) {
             if (actualLight == 0) {
@@ -80,7 +80,7 @@ public class Vision extends SubsystemBase {
             }
         } else if (requestedLight < actualLight) {
             blindedByScience.set(requestedLight > 0);
-            blindedByScience.set(requestedLight > 1);
+            blindedByTheLight.set(requestedLight > 1);
             actualLight = requestedLight;
         }
 
@@ -123,6 +123,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void ringOn(){
+        blindedByTheLight.set(false);
         blindedByScience.set(true);
     }
 
@@ -134,10 +135,6 @@ public class Vision extends SubsystemBase {
     public  void bothRingsOn(){
         blindedByTheLight.set(true);
         blindedByScience.set(true);
-    }
-    public  void bothRingsOff(){
-        blindedByTheLight.set(false);
-        blindedByScience.set(false);
     }
 
     //data sheet

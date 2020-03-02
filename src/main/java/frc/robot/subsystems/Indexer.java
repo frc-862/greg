@@ -62,7 +62,6 @@ public class Indexer extends SubsystemBase {
 
     @Override
     public void periodic() {
-
         ballSeen = !collectSensor.get();
         SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
         // SmartDashboard.putNumber("BallsHeld", ballCount);
@@ -82,15 +81,6 @@ public class Indexer extends SubsystemBase {
         }
 
         ballsHeld = ballCount - Shooter.ballsFired;
-        
-        // ballCount -= Shooter.ballsFired;
-        // if(ballCount < 0) {
-        //     ballCount = 0;
-        // }
-        // if(ballCount > 5) {
-        //     ballCount = 5;
-        // }
-        
     }
 
     public boolean isBallSeen() { return ballSeen; }

@@ -10,6 +10,7 @@ import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
+import java.io.*;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
@@ -18,18 +19,15 @@ public class ShooterAngle extends SubsystemBase {
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
 
-
-    private double setPoint = 100;
+    private double setPoint = 20.0;
     private double Kp = .4;
     private double offset = 0;
-
 
     private TalonSRX adjuster;
 
     public ShooterAngle () {
         adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
-        System.out.println("Adjuster created: " + adjuster);
-        //left is in encoder ticks
+        readLimits();
 
         adjuster.configForwardSoftLimitEnable(true);
         adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT + SENSOR_SAFETY);
@@ -62,17 +60,40 @@ public class ShooterAngle extends SubsystemBase {
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Shooter angle", getAngle());
-        SmartDashboard.putNumber("fwd limit switch",adjuster.isFwdLimitSwitchClosed());
-        SmartDashboard.putNumber("rev limit switch",adjuster.isRevLimitSwitchClosed());
+        SmartDashboard.putBoolean("fwd limit switch", atUpperLimit());
+        SmartDashboard.putBoolean("rev limit switch", atLowerLimit());
         adjusterControlLoop();
 
         final var rawPosition = adjuster.getSelectedSensorPosition();
-        if (adjuster.isFwdLimitSwitchClosed()==1){
+        if (atUpperLimit()) {
             FORWARD_SENSOR_LIMIT = rawPosition;
         }
 
-        if (adjuster.isRevLimitSwitchClosed()==1){
+        if (atLowerLimit()) {
             REVERSE_SENSOR_LIMIT = rawPosition;
+        }
+    }
+
+    final String filename = "/home/lvuser/angle_limits.dat";
+    public void writeLimits() {
+        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
+            dos.writeInt(FORWARD_SENSOR_LIMIT);
+            dos.writeInt(REVERSE_SENSOR_LIMIT);
+        } catch (IOException e) {
+            System.err.println(e);
+            e.printStackTrace();
+        }
+    }
+
+    public void readLimits() {
+        if (new File(filename).canRead()) {
+            try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) {
+                FORWARD_SENSOR_LIMIT = dis.readInt();
+                REVERSE_SENSOR_LIMIT = dis.readInt();
+            } catch (IOException e) {
+                System.err.println(e);
+                e.printStackTrace();
+            }
         }
     }
 
@@ -85,16 +106,12 @@ public class ShooterAngle extends SubsystemBase {
         }
     }
 
-    public void setDesiredAngle(double angle) {
-        setPoint = angle;
+    public void setAngle(double angle) {
+        setPoint = LightningMath.constrain(angle, 11, 38);
     }
 
     public void setPower(double pwr){
         adjuster.set(ControlMode.PercentOutput, pwr);
-    }
-
-    public void setShooterAngle(double angle){
-        setPoint=angle;
     }
 
     public double getAngle() {
@@ -110,5 +127,11 @@ public class ShooterAngle extends SubsystemBase {
         return ()->FORWARD_SENSOR_LIMIT;
     }
 
+    public boolean atUpperLimit() {
+        return adjuster.isFwdLimitSwitchClosed() == 1;
+    }
 
+    public boolean atLowerLimit() {
+        return adjuster.isRevLimitSwitchClosed() == 1;
+    }
 }

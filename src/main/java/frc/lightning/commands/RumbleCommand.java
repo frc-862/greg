@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.lightning.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;

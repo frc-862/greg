@@ -42,10 +42,10 @@ public class Climber extends SubsystemBase {
     }
 
     public void setPwr(double leftPwr, double rightPwr) {
-        if(leftPwr <= 0.1) {
+        if(Math.abs(leftPwr) <= 0.1) {
             leftPwr = 0d; 
         }
-        if(rightPwr <= 0.1) {
+        if(Math.abs(rightPwr) <= 0.1) {
             rightPwr = 0d; 
         }
         climberLeft.set(leftPwr);
@@ -58,13 +58,13 @@ public class Climber extends SubsystemBase {
     }
  
     public void up() {
-        climberLeft.set(0.5);
-        climberRight.set(0.5);
+        climberLeft.set(0.75);
+        climberRight.set(0.75);
     }
 
     public void down() {
-        climberLeft.set(-0.5);
-        climberRight.set(-0.5);
+        climberLeft.set(-0.75);
+        climberRight.set(-0.75);
     }
 
 }

@@ -23,6 +23,7 @@ public class ManualClimb extends CommandBase {
     this.climber = climber;
     this.rightPwr = rightPwr; 
     this.leftPwr = leftPwr;
+    
     addRequirements(climber);
     // Use addRequirements() here to declare subsystem dependencies.
   }

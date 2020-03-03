@@ -34,11 +34,9 @@ public class Climber extends SubsystemBase {
         climberLeft.setInverted(true);
         climberRight.setInverted(false);
         //Init
-    }
 
-    @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
+        climberLeft.burnFlash();
+        climberRight.burnFlash();
     }
 
     public void setPwr(double leftPwr, double rightPwr) {

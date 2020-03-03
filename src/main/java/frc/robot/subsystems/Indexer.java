@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
-import frc.robot.robots.GregContainer;
 
 public class Indexer extends SubsystemBase {
 
@@ -28,8 +27,10 @@ public class Indexer extends SubsystemBase {
 
     public int ballCount = 0;
     DigitalInput collectSensor;
+    DigitalInput ejectSensor;
 
     public int ballsHeld = 0;
+    public int ballsFired = 0;
 
     /**
      * Creates a new Indexer.
@@ -41,6 +42,7 @@ public class Indexer extends SubsystemBase {
         indexer = new VictorSPX(RobotMap.INDEXER);
         indexer.setInverted(true);
         collectSensor = new DigitalInput(RobotMap.COLLECT_SENSOR);
+        ejectSensor = new DigitalInput(RobotMap.EJECT_SENSOR);
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
@@ -60,19 +62,23 @@ public class Indexer extends SubsystemBase {
     private double armedTimer = 0d;
     private boolean ballSeen = false;
 
+    private boolean armedShooter = true;
+    private double armedTimerShooter = 0d;
+    private boolean ballSeenShooter = false;
+
     @Override
     public void periodic() {
-
         ballSeen = !collectSensor.get();
+        ballSeenShooter = !ejectSensor.get();
         SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
         // SmartDashboard.putNumber("BallsHeld", ballCount);
         SmartDashboard.putNumber("BallsHeld", ballsHeld);
         SmartDashboard.putBoolean("IndexerArmed", armed);
+
         
         if(ballSeen) {
             if(armed) {
-                // ballCount++;
-                // ballsHeld++;
+                 ballCount++;
                 armed = false;
             }
             armedTimer = Timer.getFPGATimestamp();
@@ -81,16 +87,18 @@ public class Indexer extends SubsystemBase {
             armed = true;
         }
 
-        ballsHeld = ballCount - Shooter.ballsFired;
-        
-        // ballCount -= Shooter.ballsFired;
-        // if(ballCount < 0) {
-        //     ballCount = 0;
-        // }
-        // if(ballCount > 5) {
-        //     ballCount = 5;
-        // }
-        
+        if(ballSeenShooter) {
+            if(armedShooter) {
+                ballsFired++;
+                armedShooter = false;
+            }
+            armedTimerShooter = Timer.getFPGATimestamp();
+        }
+        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.1)) { // TODO constant
+            armedShooter = true;
+        }
+
+        ballsHeld = ballCount - ballsFired;
     }
 
     public boolean isBallSeen() { return ballSeen; }
@@ -99,7 +107,7 @@ public class Indexer extends SubsystemBase {
 
     public void setBallsHeld() { this.ballCount = (int) SmartDashboard.getNumber("StartingBallCount", 3); }
 
-    public int getBallCount() { return ballCount; }
+    public int getBallCount() { return ballsHeld; }
     
     public int getBallsHeld() { return ballsHeld; }
 
@@ -153,6 +161,11 @@ public class Indexer extends SubsystemBase {
     }
 
     public int getPowerCellCount() {
-        return 0;
+        return ballsHeld;
+    }
+
+    public void reastBallsHeld(){
+        ballCount=0;
+        ballsFired=0;
     }
 }

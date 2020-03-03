@@ -34,21 +34,13 @@ public class Collector extends SubsystemBase {
         putterOutter = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.COLLECTOR_IN_CHANNEL, RobotMap.COLLECTOR_OUT_CHANNEL);
     }
 
-    @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
-    }
-
     public void deployGround() {
-
     }
 
     public void deployPort() {
-
     }
 
     public void retract() {
-
     }
 
     public void collect() {

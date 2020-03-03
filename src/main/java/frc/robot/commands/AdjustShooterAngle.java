@@ -16,7 +16,7 @@ public class AdjustShooterAngle extends CommandBase {
 
     @Override
     public void initialize() {
-        shooterAngle.setDesiredAngle(desiredAngle);
+        shooterAngle.setAngle(desiredAngle);
     }
 
     @Override

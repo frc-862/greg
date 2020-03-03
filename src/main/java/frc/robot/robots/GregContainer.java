@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lightning.LightningContainer;
+import frc.lightning.commands.RumbleCommand;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.SmartDashDrivetrain;
@@ -83,7 +84,7 @@ public class GregContainer extends LightningContainer {
         initializeDashboardCommands();
 
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        indexer.setDefaultCommand(new Index(indexer));
+        indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
 //        shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
@@ -112,12 +113,9 @@ public class GregContainer extends LightningContainer {
         SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
         SmartDashboard.putData("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
         SmartDashboard.putData("Ring off", new InstantCommand(() -> vision.ringOff()));
-        SmartDashboard.putData("set to zero", new InstantCommand(() -> shooterAngle.setShooterAngle(80), shooterAngle));
-        SmartDashboard.putData("test pos1", new InstantCommand(() -> shooterAngle.setShooterAngle(100), shooterAngle));
-        SmartDashboard.putData("test pos2", new InstantCommand(() -> shooterAngle.setShooterAngle(130), shooterAngle));
-        SmartDashboard.putData("set to max", new InstantCommand(() -> shooterAngle.setShooterAngle(150), shooterAngle));
-        SmartDashboard.putData("safty in", new InstantCommand(() -> indexer.safteyClosed()));
-        SmartDashboard.putData("safty out", new InstantCommand(() -> indexer.safteyOpen()));
+        SmartDashboard.putData("safety in", new InstantCommand(() -> indexer.safteyClosed()));
+        SmartDashboard.putData("safety out", new InstantCommand(() -> indexer.safteyOpen()));
+        SmartDashboard.putData("zero balls held",new InstantCommand(() ->indexer.reastBallsHeld()));
         SmartDashboard.putData("collect",
                 new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight),
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));

@@ -42,11 +42,11 @@ public class InterpolatedMap extends TreeMap<Double, Double> {
                 return 0;
             } else if (floorKey == null) {
                 Map.Entry<Double, Double> result = super.firstEntry();
-                System.err.println("ERROR InterpolatedMap key: " + key + " lower than floor: " + result.getKey());
+//                System.err.println("ERROR InterpolatedMap key: " + key + " lower than floor: " + result.getKey());
                 return result.getValue();
             } else if (ceilKey == null) {
                 Map.Entry<Double, Double> result = super.lastEntry();
-                System.err.println("ERROR InterpolatedMap key: " + key + " higher than ceil: " + result.getKey());
+//                System.err.println("ERROR InterpolatedMap key: " + key + " higher than ceil: " + result.getKey());
                 return result.getValue();
             }
             double range = ceilKey - floorKey;

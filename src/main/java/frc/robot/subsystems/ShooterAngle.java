@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
-    public static double low_angle = 11;
+    public static double low_angle = 9;    // 11 for illusion
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
@@ -29,9 +29,9 @@ public class ShooterAngle extends SubsystemBase {
         adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
         readLimits();
 
-        adjuster.configForwardSoftLimitEnable(true);
+        adjuster.configForwardSoftLimitEnable(false);
         adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT + SENSOR_SAFETY);
-        adjuster.configReverseSoftLimitEnable(true);
+        adjuster.configReverseSoftLimitEnable(false);
         adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT - SENSOR_SAFETY);
 
 //        adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
@@ -99,7 +99,12 @@ public class ShooterAngle extends SubsystemBase {
 
     private void adjusterControlLoop() {
         offset = setPoint - getAngle();
+        SmartDashboard.putNumber("Angle setPoint", setPoint);
+        SmartDashboard.putNumber("Angle getAngle", getAngle());
+        SmartDashboard.putNumber("Angle offset", offset);
+
         if (!(LightningMath.epsilonEqual(setPoint, offset,1))) {
+            SmartDashboard.putNumber("Angle setPower", LightningMath.constrain((offset)*Kp,-1,1));
             setPower(LightningMath.constrain((offset)*Kp,-1,1));
         } else {
             setPower(0);
@@ -107,7 +112,8 @@ public class ShooterAngle extends SubsystemBase {
     }
 
     public void setAngle(double angle) {
-        setPoint = LightningMath.constrain(angle, 11, 38);
+        System.out.println("Set Angle " + angle);
+        setPoint = LightningMath.constrain(angle, low_angle, 38);
     }
 
     public void setPower(double pwr){

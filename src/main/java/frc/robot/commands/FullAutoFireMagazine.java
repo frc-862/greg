@@ -47,7 +47,7 @@ public class FullAutoFireMagazine extends PerpetualCommand {
     public void end(boolean interrupted) {
         super.end(interrupted);
         indexer.safteyClosed();
-        vision.bothRingsOff();
+        vision.ringOff();
     }
 }
 

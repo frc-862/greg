@@ -43,7 +43,7 @@ public class FireThree extends CommandBase {
   @Override
   public void initialize() {
     shooter.setShooterVelocity(vision.getBestShooterVelocity());
-    shooterAngle.setShooterAngle(vision.getBestShooterAngle());
+    shooterAngle.setAngle(vision.getBestShooterAngle());
     time = Timer.getFPGATimestamp();
     indexer.safteyOpen();
   }

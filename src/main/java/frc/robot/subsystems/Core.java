@@ -46,15 +46,6 @@ public class Core extends SubsystemBase {
     public void init() {
     }
 
-    public void periodic() {
-        if (Constants.CORE_DASHBOARD_ENABLED) {
-            // SmartDashboard.putNumber("Yaw", getYaw());
-            // SmartDashboard.putNumber("Roll", getRoll());
-            // SmartDashboard.putNumber("Pitch", getPitch());
-            // SmartDashboard.putNumber("Angle", getAngle());
-        }
-    }
-
     // public Rotation2d getHeading() { return Rotation2d.fromDegrees(-navx.getAngle()); }
 
     // public void resetNavx() { navx.reset(); }

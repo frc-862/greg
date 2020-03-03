@@ -23,7 +23,7 @@ public class VisionShooterAngle extends CommandBase {
 
     @Override
     public void initialize() {
-        shooterAngle.setDesiredAngle(vision.getBestShooterAngle());
+        shooterAngle.setAngle(vision.getBestShooterAngle());
     }
 
     @Override

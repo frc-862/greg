@@ -102,6 +102,10 @@ public class Shooter extends SubsystemBase {
         DataLogger.addDataElement("motor 1 speed",()->motor1encoder.getVelocity());
         DataLogger.addDataElement("motor 2 speed",()->motor2encoder.getVelocity());
         DataLogger.addDataElement("motor 3 speed",()->motor3encoder.getVelocity());
+
+        motor1.burnFlash();
+        motor2.burnFlash();
+        motor3.burnFlash();
     }
 
     public void setWhenBallShot(IntConsumer whenBallShot) {
@@ -112,7 +116,6 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
@@ -154,7 +157,7 @@ public class Shooter extends SubsystemBase {
 
     public void setShooterVelocity(double velocity) {
         setSpeed = velocity;
-        if(!(setSpeed == 0)){
+        if(setSpeed > 100){
             motor1setpoint = velocity - backspin;
             motor2setpoint = velocity + backspin;
             motor3setpoint = velocity - backspin;
@@ -165,11 +168,10 @@ public class Shooter extends SubsystemBase {
             motor1setpoint = 0;
             motor2setpoint = 0;
             motor3setpoint = 0;
-            this.motor1PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
-            this.motor2PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
-            this.motor3PIDFController.setReference(LightningMath.constrain(0d, 0d, 0d), ControlType.kVelocity);
+            this.motor1PIDFController.setReference(0, ControlType.kVoltage);
+            this.motor2PIDFController.setReference(0, ControlType.kVoltage);
+            this.motor3PIDFController.setReference(0, ControlType.kVoltage);
         }
-        
     }
 
     public void resetDistance() {

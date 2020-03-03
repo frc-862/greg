@@ -6,7 +6,7 @@ import frc.robot.subsystems.Indexer;
 
 public class IndexerCommand extends StatefulCommand {
     final private double indexTime = 0.2;
-    final private double finalIndexTime = 0.125;
+    final private double finalIndexTime = 0.08;
     final private int maxBallCount = 5;
 
     private enum States { idle, collecting, collectinglast, indexing, full };

@@ -84,7 +84,7 @@ public class GregContainer extends LightningContainer {
         initializeDashboardCommands();
 
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        indexer.setDefaultCommand(new Index(indexer));
+        indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
 //        shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
@@ -114,6 +114,7 @@ public class GregContainer extends LightningContainer {
         SmartDashboard.putData("Ring off", new InstantCommand(() -> vision.ringOff()));
         SmartDashboard.putData("safety in", new InstantCommand(() -> indexer.safteyClosed()));
         SmartDashboard.putData("safety out", new InstantCommand(() -> indexer.safteyOpen()));
+        SmartDashboard.putData("zero balls held",new InstantCommand(() ->indexer.reastBallsHeld()));
         SmartDashboard.putData("collect",
                 new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight),
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));

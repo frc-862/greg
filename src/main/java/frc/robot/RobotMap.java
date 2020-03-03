@@ -53,4 +53,5 @@ public class RobotMap {
 
     public static final int VISION_SMALL_SOLENOID = 3;
     public static final int VISION_BIG_SOLENOID = 4;
+    public static final int EJECT_SENSOR = 5;
 }

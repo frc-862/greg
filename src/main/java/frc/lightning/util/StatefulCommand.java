@@ -52,7 +52,7 @@ public class StatefulCommand extends CommandBase {
         } catch (NoSuchMethodException | SecurityException |
                      IllegalAccessException | IllegalArgumentException |
                      InvocationTargetException e) {
-//            System.err.println("StatefulCommand missing method: " + method_name);
+            System.err.println("StatefulCommand missing method: " + method_name);
             return false;
         }
         return true;

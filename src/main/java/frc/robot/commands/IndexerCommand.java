@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.util.StatefulCommand;
 import frc.robot.subsystems.Indexer;
 
@@ -28,14 +27,7 @@ public class IndexerCommand extends StatefulCommand {
     public void initialize() {
         this.setState(States.idle);
         super.initialize();
-//        SmartDashboard.putData("state index",()->this.getState().toString());
 
-    }
-
-    @Override
-    public void execute() {
-        super.execute();
-        SmartDashboard.putString("Index State", getState().toString());
     }
 
     public void idleEnter() {
@@ -44,12 +36,11 @@ public class IndexerCommand extends StatefulCommand {
 
     public void idle() {
         if (indexer.isBallSeen()) {
-            if (indexer.ballsHeld<maxBallCount){
+            if (indexer.getPowerCellCount() < maxBallCount) {
                 setState(States.collecting);
-            }else if(indexer.ballsHeld==maxBallCount){
+            } else {
                 setState(States.collectinglast);
             }
-//            setState((indexer.getBallCount() < (maxBallCount)) ? States.collecting : States.collectinglast);
         }
     }
 

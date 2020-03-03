@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
@@ -31,15 +31,10 @@ public class Shooter extends SubsystemBase {
     private CANPIDController motor2PIDFController;
     private CANPIDController motor3PIDFController;
     private double setSpeed = 0;
-    public double motor1setpoint = 0;
-    public double motor2setpoint = 0;
-    public double motor3setpoint = 0;
-
-    public static int ballsFired = 0;
-
-    private boolean armed = false;
-    double backspin = 1500;
-    private IntConsumer whenBallShot;
+    private double motor1setpoint = 0;
+    private double motor2setpoint = 0;
+    private double motor3setpoint = 0;
+    private double backspin = 1500;
 
     /**
      * Creates a new Shooter.
@@ -62,19 +57,25 @@ public class Shooter extends SubsystemBase {
     public void setMotor1Gains(REVGains gains) {
         setGains(motor1PIDFController, gains);
     }
-
     public void setMotor2Gains(REVGains gains) {
         setGains(motor2PIDFController, gains);
     }
-
     public void setMotor3Gains(REVGains gains) {
         setGains(motor3PIDFController, gains);
     }
 
+    public void setBackspin(double backspin) {
+        this.backspin = backspin;
+    }
+
+    public boolean atSetPoint() {
+        return LightningMath.epsilonEqual(getFlywheelMotor1Velocity(), motor1setpoint, Constants.FLYWHEEL_EPSILON) &&
+                LightningMath.epsilonEqual(getFlywheelMotor2Velocity(), motor2setpoint, Constants.FLYWHEEL_EPSILON) &&
+                LightningMath.epsilonEqual(getFlywheelMotor3Velocity(), motor3setpoint, Constants.FLYWHEEL_EPSILON);
+    }
+
     public Shooter() {
         // Init
-        SmartDashboard.putNumber("backspin",1500);
-
         CommandScheduler.getInstance().registerSubsystem(this);
 
         motor1 = new CANSparkMax(RobotMap.SHOOTER_1, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -106,47 +107,11 @@ public class Shooter extends SubsystemBase {
         motor1.burnFlash();
         motor2.burnFlash();
         motor3.burnFlash();
-    }
 
-    public void setWhenBallShot(IntConsumer whenBallShot) {
-        this.whenBallShot = whenBallShot;
-    }
-
-    // public void shotBall() { ballsFired++; }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
-        SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
-        SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
-        backspin=SmartDashboard.getNumber("backspin",1500);
-
-        if (setSpeed > 400) {
-            //System.out.println("#################\nArmed: " + armed + "\nSetSpeed: " + setSpeed);
-            final double speedError = (motor2setpoint - motor2encoder.getVelocity());
-            if(armed) {
-                if (Math.abs(speedError) > 200) {
-                    //System.out.println("Speed w/InError");
-                    // ballsFired++;
-                    if(whenBallShot != null) {
-                        whenBallShot.accept(ballsFired);
-                    }
-                    armed = false;
-                }
-            } else {
-                if(speedError < 50) {
-                    armed = true;
-                }
-            }
-        } else {
-            armed = false;
-        }
-
-        // if(ballsFired < 0) ballsFired = 0;
-        // if(ballsFired > 5) ballsFired = 0;
-
-        SmartDashboard.putNumber("BallsFired", ballsFired);
-
+        final var tab = Shuffleboard.getTab("Shooter");
+        tab.addNumber("Motor 1", motor1encoder::getVelocity);
+        tab.addNumber("Motor 2", motor2encoder::getVelocity);
+        tab.addNumber("Motor 3", motor3encoder::getVelocity);
     }
 
     public void setPower(double pwr) {
@@ -174,12 +139,6 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    public void resetDistance() {
-        motor1encoder.setPosition(0.0);
-        motor2encoder.setPosition(0.0);
-        motor3encoder.setPosition(0.0);
-    }
-
     public void stop() {
         setShooterVelocity(0);
     }
@@ -192,23 +151,7 @@ public class Shooter extends SubsystemBase {
         return motor2encoder.getVelocity();
     }
 
-    public int getBallsFired(){
-        return ballsFired;
-    }
-
-    public void resetBallsFired(){
-        ballsFired = 0;
-    }
-
-
     public double getFlywheelMotor3Velocity() {
         return motor3encoder.getVelocity();
     }
-
-
-
-    public void aim() {
-        // position robot & other based on vision values
-    }
-
 }

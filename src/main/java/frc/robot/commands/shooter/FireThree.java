@@ -9,8 +9,6 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
@@ -45,7 +43,7 @@ public class FireThree extends CommandBase {
     shooter.setShooterVelocity(vision.getBestShooterVelocity());
     // shooterAngle.setShooterAngle(vision.getBestShooterAngle());
     time = Timer.getFPGATimestamp();
-    indexer.safteyOpen();
+    indexer.safetyOpen();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

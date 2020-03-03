@@ -1,6 +1,5 @@
 package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.JoystickFilter;
@@ -29,9 +28,6 @@ public class TankDrive extends CommandBase {
         final double targetRight = filter.filter(rightThrottle.getAsDouble());
 
         drivetrain.setPower(targetLeft, targetRight);
-
-        SmartDashboard.putNumber("leftVelocity", drivetrain.getLeftVelocity());
-        SmartDashboard.putNumber("rightVelocity", drivetrain.getRightVelocity());
     }
 
     @Override

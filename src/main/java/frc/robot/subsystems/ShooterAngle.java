@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
@@ -107,12 +106,8 @@ public class ShooterAngle extends SubsystemBase {
 
     private void adjusterControlLoop() {
         offset = setPoint - getAngle();
-        SmartDashboard.putNumber("Angle setPoint", setPoint);
-        SmartDashboard.putNumber("Angle getAngle", getAngle());
-        SmartDashboard.putNumber("Angle offset", offset);
 
         if (!(LightningMath.epsilonEqual(setPoint, offset,1))) {
-            SmartDashboard.putNumber("Angle setPower", LightningMath.constrain((offset)*Kp,-1,1));
             setPower(LightningMath.constrain((offset)*Kp,-1,1));
         } else {
             setPower(0);

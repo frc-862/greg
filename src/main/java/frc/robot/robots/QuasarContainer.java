@@ -9,7 +9,6 @@ package frc.robot.robots;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.testing.SystemTest;
@@ -62,11 +61,6 @@ public class QuasarContainer extends LightningContainer {
   }
 
   private void initializeDashboardCommands() {
-//    SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain,vision));
-//    SmartDashboard.putData("go blue", new InstantCommand(() -> led.goOrangeAndBlue(), led));
-//    SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
-//    SmartDashboard.putData("Spin the wheel", new SpinWheelofF(WheelofFortune));
-//    SmartDashboard.putData("Position WoF", new PositionWheel(WheelofFortune));
   }
 
   private void configureSystemTests() {
@@ -100,12 +94,11 @@ public class QuasarContainer extends LightningContainer {
     // TODO Auto-generated method stub
 
   }
-  private double speed(){
-    return SmartDashboard.getNumber("speed of Flywheels",0);
-  }
-private DoubleSupplier getCtrlPower(){
+
+  private DoubleSupplier getCtrlPower(){
     return ()-> operator.getTriggerAxis(GenericHID.Hand.kRight);
 }
+
   @Override
   public LightningDrivetrain getDrivetrain() {
     return drivetrain;
@@ -114,5 +107,4 @@ private DoubleSupplier getCtrlPower(){
   @Override
   public void configureButtonBindings() {
   }
-
 }

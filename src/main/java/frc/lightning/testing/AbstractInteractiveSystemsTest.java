@@ -9,7 +9,7 @@ package frc.lightning.testing;
 
 import java.util.function.BooleanSupplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lightning.util.FaultCode;
 
 /**
@@ -38,7 +38,7 @@ public abstract class AbstractInteractiveSystemsTest extends SystemTest {
     @Override
     public void initialize() {
         super.initialize();
-        SmartDashboard.putString("InteractiveSystemsTest", msg);
+        Shuffleboard.getTab("System Test").addString("InteractiveSystemTest", () -> msg);
     }
 
     @Override

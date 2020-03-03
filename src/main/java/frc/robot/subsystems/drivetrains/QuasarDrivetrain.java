@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems.drivetrains;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
@@ -35,7 +34,6 @@ public class QuasarDrivetrain extends NeoDrivetrain {
 
     public void init() {
         this.resetDistance();
-        SmartDashboard.putNumber("Test Smartdash Power", 0);
     }
 
     @Override

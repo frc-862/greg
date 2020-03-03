@@ -16,12 +16,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.RamseteGains;
-import frc.robot.Constants;
-import frc.robot.RobotMap;
-import frc.robot.misc.REVGains;
 import frc.lightning.subsystems.NeoDrivetrain;
 
 public class TwikiDrivetrain extends NeoDrivetrain {
@@ -34,11 +29,6 @@ public class TwikiDrivetrain extends NeoDrivetrain {
     public TwikiDrivetrain() {
         super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, 0d, null);
         getRightMaster().setInverted(true);
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("right encoder", rightEncoder.getDistance());
     }
 
     @Override
@@ -57,11 +47,6 @@ public class TwikiDrivetrain extends NeoDrivetrain {
 
     public void crawlLeft() {
         getLeftMaster().set(0.15);
-    }
-
-    public void resetDistance() {
-        // leftEncoder.setPosition(0.0);
-        // rightEncoder.setPosition(0.0);
     }
 
     public double getLeftDistance() {
@@ -89,14 +74,6 @@ public class TwikiDrivetrain extends NeoDrivetrain {
     }
 
     private DifferentialDrive differentialDrive = null;
-
-    public DifferentialDrive getDifferentialDrive() {
-        if (differentialDrive == null) {
-            differentialDrive = new DifferentialDrive(getLeftMaster(), getRightMaster());
-            differentialDrive.setRightSideInverted(false);
-        }
-        return differentialDrive;
-    }
 
     @Override
     public void brake() {

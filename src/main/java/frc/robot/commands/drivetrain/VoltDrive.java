@@ -9,7 +9,6 @@ package frc.robot.commands.drivetrain;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.util.JoystickFilter;
@@ -32,13 +31,6 @@ public class VoltDrive extends CommandBase {
     addRequirements(drivetrain);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    SmartDashboard.putNumber("RightVolts", drivetrain.getRightVolts());
-    SmartDashboard.putNumber("LeftVolts", drivetrain.getLeftVolts());
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -47,9 +39,6 @@ public class VoltDrive extends CommandBase {
 
     leftVolts *= Constants.VOLT_LIMIT;
     rightVolts *= Constants.VOLT_LIMIT;
-
-    SmartDashboard.putNumber("RightVolts", drivetrain.getRightVolts());
-    SmartDashboard.putNumber("LeftVolts", drivetrain.getLeftVolts());
 
     drivetrain.setOutput(leftVolts, rightVolts);
 

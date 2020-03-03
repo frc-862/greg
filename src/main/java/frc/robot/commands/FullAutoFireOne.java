@@ -29,7 +29,7 @@ public class FullAutoFireOne extends SequentialCommandGroup {
         addCommands(
                 new InstantCommand(() -> vision.bothRingsOn()),
                 new WaitForVision(vision),
-                new InstantCommand(() -> indexer.safteyOpen()),
+                new InstantCommand(() -> indexer.safetyOpen()),
             new ParallelCommandGroup(
                 new VisionRotate(drivetrain, vision),
                 new VisionShooterAngle(shooterAngle, vision),

@@ -28,7 +28,7 @@ public class InitAuto extends InstantCommand {
   @Override
   public void initialize() {
     vision.bothRingsOn();
-    indexer.setBallsHeld();
+    indexer.setBallsHeld(3);
     collector.puterOuterIn();
   }
 

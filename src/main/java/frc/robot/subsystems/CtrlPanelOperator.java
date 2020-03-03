@@ -12,12 +12,15 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.LightningColorSensor;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.DriverStation;
+
+import java.util.Map;
 
 public class CtrlPanelOperator extends SubsystemBase {
     private final Color kBlueTarget = ColorMatch.makeColor(0.17, 0.435, 0.4);
@@ -60,14 +63,26 @@ public class CtrlPanelOperator extends SubsystemBase {
         colorMatch.addColorMatch(kGreenTarget);
         colorMatch.addColorMatch(kRedTarget);
         colorMatch.addColorMatch(kYellowTarget);
+
+        final var tab = Shuffleboard.getTab("ControlPanel");
+        tab.addNumber("Blue", this::getColorSensorBlue);
+        tab.addNumber("Red", this::getColorSensorRed);
+        tab.addNumber("Green", this::getColorSensorGreen);
+        tab.addNumber("Color", () -> color);
+
+        final var colors = tab.getLayout("Colors", BuiltInLayouts.kList);
+        colors.addBoolean("Yellow", () -> color == 3)
+                .withProperties(Map.of("colorWhenTrue", "yellow", "colorWhenFalse", "white"));
+        colors.addBoolean("Red", () -> color == 2)
+                .withProperties(Map.of("colorWhenTrue", "red", "colorWhenFalse", "white"));
+        colors.addBoolean("Green", () -> color == 1)
+                .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "white"));
+        colors.addBoolean("Blue", () -> color == 0)
+                .withProperties(Map.of("colorWhenTrue", "blue", "colorWhenFalse", "white"));
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Blue",getColorSensorBlue());
-        SmartDashboard.putNumber("Red",getColorSensorRed());
-        SmartDashboard.putNumber("Green",getColorSensorGreen());
-        SmartDashboard.putNumber("color",color);
         // This method will be called once per scheduler run
         Color detectedColor = I_Can_Taste_Color.getColor();
 
@@ -92,10 +107,6 @@ public class CtrlPanelOperator extends SubsystemBase {
         //green=3
         //yellow=4
         //???=0
-        SmartDashboard.putBoolean("is Yellow",color==3);
-        SmartDashboard.putBoolean("is Red",color==2);
-        SmartDashboard.putBoolean("is Green",color==1);
-        SmartDashboard.putBoolean("is Blue",color==0);
     }
 
     /**

@@ -32,14 +32,12 @@ public class SpinUpFlywheelVelocity extends CommandBase {
     @Override
     public void initialize() {
         shooter.setShooterVelocity(vision.getBestShooterVelocity());
+        shooter.setBackspin(vision.getBestShooterBackspin());
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-//        return false;
-        return LightningMath.epsilonEqual(shooter.getFlywheelMotor1Velocity(), shooter.motor1setpoint, Constants.FLYWHEEL_EPSILON) &&
-               LightningMath.epsilonEqual(shooter.getFlywheelMotor2Velocity(), shooter.motor2setpoint, Constants.FLYWHEEL_EPSILON) &&
-               LightningMath.epsilonEqual(shooter.getFlywheelMotor3Velocity(), shooter.motor3setpoint, Constants.FLYWHEEL_EPSILON);
+        return shooter.atSetPoint();
     }
 }

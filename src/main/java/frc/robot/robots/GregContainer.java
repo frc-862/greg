@@ -9,13 +9,11 @@ package frc.robot.robots;
 
 import edu.wpi.first.hal.sim.PCMSim;
 import edu.wpi.first.networktables.EntryListenerFlags;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -47,15 +45,13 @@ import java.util.Map;
  * commands, and button mappings) should be declared here.
  */
 public class GregContainer extends LightningContainer {
-
     private final LightningDrivetrain drivetrain = new GregDrivetrain();
     private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
     private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-    private final DigitalInput sensors[] = new DigitalInput[0];
 
     private final Logging loggerSystem = new Logging();
     private final Vision vision = new Vision();
-    private final Indexer indexer = new Indexer(sensors);
+    private final Indexer indexer = new Indexer();
     private final Collector collector = new Collector();
     private final PCMSim pcmSim = new PCMSim(RobotMap.COMPRESSOR_ID); // 21
     private final Climber climber = new Climber(); 
@@ -109,19 +105,25 @@ public class GregContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
-        SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain, vision));
-        SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
-        SmartDashboard.putData("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
-        SmartDashboard.putData("Ring off", new InstantCommand(() -> vision.ringOff()));
-        SmartDashboard.putData("safety in", new InstantCommand(() -> indexer.safteyClosed()));
-        SmartDashboard.putData("safety out", new InstantCommand(() -> indexer.safteyOpen()));
-        SmartDashboard.putData("zero balls held",new InstantCommand(() ->indexer.reastBallsHeld()));
-        SmartDashboard.putData("collect",
+        final var vision_tab = Shuffleboard.getTab("Vision");
+
+        vision_tab.add("Vision Rotate", new VisionRotate(drivetrain, vision));
+        vision_tab.add("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
+        vision_tab.add("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
+        vision_tab.add("Ring off", new InstantCommand(() -> vision.ringOff()));
+
+        final var indexer_tab = Shuffleboard.getTab("Indexer");
+        indexer_tab.add("safety in", new InstantCommand(() -> indexer.safetyClosed()));
+        indexer_tab.add("safety out", new InstantCommand(() -> indexer.safetyOpen()));
+        indexer_tab.add("zero balls held",new InstantCommand(() ->indexer.resetCount()));
+        indexer_tab.add("collect",
                 new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight),
                         () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));
-        SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
-        SmartDashboard.putData("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
-        SmartDashboard.putData("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
+        indexer_tab.add("ResetBallCount", new InstantCommand(indexer::resetCount, indexer));
+        indexer_tab.add("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
+
+        final var pose_tab = Shuffleboard.getTab("Pose");
+        pose_tab.add("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
     }
 
     /**
@@ -134,9 +136,9 @@ public class GregContainer extends LightningContainer {
     public void configureButtonBindings() {
         (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
-        (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
+        (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSafety, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.resetBallCount(); shooter.resetBallsFired(); }, indexer, shooter);
+        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(indexer::resetCount, indexer);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);

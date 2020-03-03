@@ -34,7 +34,7 @@ public class AutoDriveCollect extends ParallelCommandGroup {
   public AutoDriveCollect(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, PathGenerator.Paths path) {
 
     super(
-      new InstantCommand(indexer::safteyClosed),
+      new InstantCommand(indexer::safetyClosed),
       new Collect(collector, () -> COLLECT_PWR),
       new Index(indexer), 
       pathGenerator.getRamseteCommand(drivetrain, path)

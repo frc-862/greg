@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
 import frc.lightning.util.RamseteGains;
@@ -118,42 +117,13 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         
         rightPIDController = new PIDController(gains.getRight_kP(), gains.getRight_kI(), gains.getRight_kD());
         
-        SmartDashboard.putNumber("RequestedLeftVolts", 0d);
-        SmartDashboard.putNumber("RequestedRightVolts", 0d);
-
-        SmartDashboard.putNumber("PoseRotationDeg", 0d);
-        SmartDashboard.putNumber("PoseTransY", 0d);
-        SmartDashboard.putNumber("PoseTransX", 0d);
-        SmartDashboard.putNumber("PoseTransNorm", 0d);
-
-        SmartDashboard.putNumber("TrackWidthMeters", getKinematics().trackWidthMeters);
-
-        SmartDashboard.putNumber("RightTicksPerRev", rightEncoder.getCountsPerRevolution());
-        SmartDashboard.putNumber("LeftTicksPerRev", leftEncoder.getCountsPerRevolution());
-
-        SmartDashboard.putNumber("RightRotationConversionFactor", rightEncoder.getPositionConversionFactor());
-        SmartDashboard.putNumber("LeftRotationConversionFactor", leftEncoder.getPositionConversionFactor());
-
-        SmartDashboard.putNumber("RightMasterHeat", rightMaster.getMotorTemperature());
-        SmartDashboard.putNumber("LeftMasterHeat", leftMaster.getMotorTemperature());
-
         resetSensorVals();
-
-        // pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
-
     }
 
     @Override
     public void periodic() {
         super.periodic();
-
-        SmartDashboard.putNumber("RightMasterHeat", rightMaster.getMotorTemperature());
-        SmartDashboard.putNumber("LeftMasterHeat", leftMaster.getMotorTemperature());
-
         pose = odometry.update(getHeading(), getLeftDistance(), getRightDistance());
-
-        // bird.getYawPitchRoll(ypr);
-
     }
 
     private static void setGains(CANPIDController controller, REVGains gains) {
@@ -188,10 +158,6 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     @Override
     public void setOutput(double leftVolts, double rightVolts) {
-
-        SmartDashboard.putNumber("RequestedLeftVolts", leftVolts);
-        SmartDashboard.putNumber("RequestedRightVolts", rightVolts);
-
         leftMaster.setVoltage(leftVolts);
         rightMaster.setVoltage(rightVolts);
     }

@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 //import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -50,40 +51,22 @@ public class Vision extends SubsystemBase {
         DataLogger.addDataElement("YValue", () -> YValue);
         DataLogger.addDataElement("Found", () -> Found);
         DataLogger.addDataElement("VisionHeight", () -> Height);
+
+        final var tab = Shuffleboard.getTab("Vision");
+        tab.addNumber("Best Shooter Angle", this::getBestShooterAngle);
+        tab.addNumber("Best Shooter Backspin", this::getBestShooterBackspin);
+        tab.addNumber("Best Shooter Speed", this::getBestShooterVelocity);
+        tab.addNumber("Count", () -> Found);
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-
+        // note that the Vision Pi will update these values for us
         XValue = SmartDashboard.getNumber("VisionX",0);
         YValue = SmartDashboard.getNumber("VisionY",0);
         Height = SmartDashboard.getNumber("VisionHeight",0);
-        SmartDashboard.putNumber("Best Shooter Angle",getBestShooterAngle());
-        SmartDashboard.putNumber("Best Shooter backspin",getBestShooterBackspin());
-        SmartDashboard.putNumber("Best Shooter speed",getBestShooterVelocity());
         Found = SmartDashboard.getNumber("VisionFound",0);
-        SmartDashboard.putNumber("X value",XValue-320);
-        SmartDashboard.putNumber("found",Found);
-
-//        if(seePortTarget()){
-//            led.goSolidGreen();
-//        }else {led.goOrangeAndBlue();}
-
-        if (requestedLight > actualLight) {
-            if (actualLight == 0) {
-                blindedByScience.set(true);
-                actualLight += 1;
-            } else {
-                blindedByTheLight.set(true);
-                actualLight += 1;
-            }
-        } else if (requestedLight < actualLight) {
-            blindedByScience.set(requestedLight > 0);
-            blindedByTheLight.set(requestedLight > 1);
-            actualLight = requestedLight;
-        }
-
     }
 
     public double getDistanceFromTarget() {
@@ -95,19 +78,7 @@ public class Vision extends SubsystemBase {
     }
 
     public boolean seePortTarget() {
-         if(Found>0){
-             return true;
-         }else {
-             return false;
-         }
-    }
-
-    public static double getTargetFlywheelSpeed() {
-        return 0d;
-    }
-
-    public boolean seeBayTarget() {
-        return false;
+        return Found > 0;
     }
 
     public double getBestShooterAngle() {
@@ -139,12 +110,12 @@ public class Vision extends SubsystemBase {
         blindedByScience.set(true);
     }
 
-    public void   ringOff(){
+    public void ringOff(){
         blindedByTheLight.set(false);
         blindedByScience.set(false);
     }
 
-    public  void bothRingsOn(){
+    public void bothRingsOn(){
         blindedByTheLight.set(true);
         blindedByScience.set(true);
     }

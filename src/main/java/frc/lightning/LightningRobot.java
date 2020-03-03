@@ -5,19 +5,15 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.commands.DashboardWaitCommand;
 import frc.lightning.logging.DataLogger;
-import frc.lightning.testing.SystemTest;
 import frc.lightning.testing.SystemTestCommand;
 import frc.lightning.util.FaultCode;
 import frc.lightning.util.FaultMonitor;
 import frc.lightning.util.TimedFaultMonitor;
 import frc.lightning.util.FaultCode.Codes;
-import frc.robot.Constants;
 
 import java.io.IOException;
 import java.util.Map;
@@ -94,7 +90,7 @@ public class LightningRobot extends TimedRobot {
         }
 
         tab.add("Auto Mode", chooser);
-        SmartDashboard.putData("Auto Mode", chooser);
+        Shuffleboard.getTab("Autonomous").add("Auto Mode", chooser);
 
         // By this point all datalog fields should be registered
         DataLogger.preventNewDataElements();
@@ -144,7 +140,7 @@ public class LightningRobot extends TimedRobot {
      * autonomous, teleoperated and test.
      *
      * <p>This runs after the mode specific periodic functions, but before
-     * LiveWindow and SmartDashboard integrated updating.
+     * LiveWindow and Shuffleboard integrated updating.
      *
      * If you override this method, be sure to call super.robotPeriod() as
      * it drives our lower priority loops, datalogging, fault monitoring,

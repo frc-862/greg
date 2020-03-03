@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Index;
+import frc.robot.commands.IndexerCommand;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 
@@ -36,7 +37,7 @@ public class AutoDriveCollect extends ParallelCommandGroup {
     super(
       new InstantCommand(indexer::safteyClosed),
       new Collect(collector, () -> COLLECT_PWR),
-      new Index(indexer), 
+      new IndexerCommand(indexer), 
       pathGenerator.getRamseteCommand(drivetrain, path)
     );
 

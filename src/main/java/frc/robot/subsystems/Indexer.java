@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,7 +47,8 @@ public class Indexer extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        SmartDashboard.putNumber("StartingBallCount", 3);
+        final var tab = Shuffleboard.getTab("Autonomous");
+        tab.add("StartingBallCount", 3);
 
     }
 
@@ -100,6 +102,8 @@ public class Indexer extends SubsystemBase {
 
         ballsHeld = ballCount - ballsFired;
     }
+
+    public boolean isEmpty() { return ballsHeld == 0; }
 
     public boolean isBallSeen() { return ballSeen; }
 

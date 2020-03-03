@@ -16,31 +16,31 @@ public class FullAutoFireMagazine extends PerpetualCommand {
     private final Vision vision;
     private int fired = 0;
 
-    public FullAutoFireMagazine(DoubleSupplier spwr, LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
-        super(new FullAutoFireOne(dt, v, s, sa, i,true));
+    public FullAutoFireMagazine(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
+        super(new FullAutoFireOne(dt, v, s, sa, i, true));
         // note not requiring indexer because we know FullAutoFireOne does
         this.indexer = i;
         this.shooter = s;
         this.vision = v;
-        fired++;
     }
 
     double entryTime;
 
     @Override
-    public void initialize(){
+    public void initialize() {
         entryTime = Timer.getFPGATimestamp();
-        fired = 0;
+        // fired = 0;
     }
     @Override
     public boolean isFinished() {
-//        if (shooter.getBallsFired() == 5) {
-//            return true;
-//        } else {
-//            return false;
-//        }
+        return indexer.isEmpty();
+        // if (shooter.getBallsFired() == 5) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
         // return fired == 5;
-        return ((entryTime - Timer.getFPGATimestamp()) > 5d);
+        // return ((entryTime - Timer.getFPGATimestamp()) > 5d);
     }
 
     @Override

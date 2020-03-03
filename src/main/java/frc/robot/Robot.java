@@ -70,27 +70,30 @@ public class Robot extends LightningRobot {
             return new QuasarContainer();
         }
         else {
-
             System.out.println("Initializing Greg");
             SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
             return new GregContainer();
         }
     }
 
-    private static boolean isNebula() {
+    public static boolean isNebula() {
         return Files.exists(Paths.get("/home/lvuser/nebula"));
     }
 
-    private static boolean isTwiki() {
+    public static boolean isTwiki() {
         return Files.exists(Paths.get("/home/lvuser/twiki"));
     }
 
-    private static boolean isQuasar() {
+    public static boolean isQuasar() {
         return Files.exists(Paths.get("/home/lvuser/quasar"));
     }
 
-    private static boolean isGreg() {
-        return !(isNebula() || isTwiki());
+    public static boolean isIllusion() {
+        return Files.exists(Paths.get("/home/lvuser/illusion"));
+    }
+
+    public static boolean isGreg() {
+        return !(isNebula() || isTwiki() || isIllusion() || isQuasar());
     }
 
 }

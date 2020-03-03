@@ -3,18 +3,22 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import java.io.*;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
-    public static double low_angle = 9;    // 11 for illusion
+    // Greg is at 9º
+    public static double low_angle = (Robot.isIllusion() ? 11 : 9);
+    public static double high_angle = 38;    // ?? for illusion
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
@@ -56,17 +60,19 @@ public class ShooterAngle extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
+        Shuffleboard.getTab("Shooter").addNumber("Shooter Angle", this::getAngle);
+        Shuffleboard.getTab("Shooter").addBoolean("Shooter Rev Limit", this::atLowerLimit);
+        Shuffleboard.getTab("Shooter").addBoolean("Shooter Fwd Limit", this::atUpperLimit);
     }
+
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("Shooter angle", getAngle());
-        SmartDashboard.putBoolean("fwd limit switch", atUpperLimit());
-        SmartDashboard.putBoolean("rev limit switch", atLowerLimit());
         adjusterControlLoop();
 
         final var rawPosition = adjuster.getSelectedSensorPosition();
         if (atUpperLimit()) {
             FORWARD_SENSOR_LIMIT = rawPosition;
+            high_angle = getAngle();
         }
 
         if (atLowerLimit()) {
@@ -79,6 +85,7 @@ public class ShooterAngle extends SubsystemBase {
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
             dos.writeInt(FORWARD_SENSOR_LIMIT);
             dos.writeInt(REVERSE_SENSOR_LIMIT);
+            dos.writeDouble(high_angle);
         } catch (IOException e) {
             System.err.println(e);
             e.printStackTrace();
@@ -90,6 +97,7 @@ public class ShooterAngle extends SubsystemBase {
             try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) {
                 FORWARD_SENSOR_LIMIT = dis.readInt();
                 REVERSE_SENSOR_LIMIT = dis.readInt();
+                high_angle = dis.readDouble();
             } catch (IOException e) {
                 System.err.println(e);
                 e.printStackTrace();

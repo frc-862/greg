@@ -136,7 +136,7 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
         (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.resetBallCount(); shooter.resetBallsFired(); }, indexer, shooter);
+        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);

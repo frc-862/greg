@@ -8,8 +8,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterAngle;
 import frc.robot.subsystems.Vision;
 
-import java.util.function.DoubleSupplier;
-
 public class FullAutoFireMagazine extends PerpetualCommand {
     private final Indexer indexer;
     private final Shooter shooter;

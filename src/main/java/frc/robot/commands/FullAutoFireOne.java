@@ -27,13 +27,13 @@ public class FullAutoFireOne extends SequentialCommandGroup {
         this.fullAuto = fullAuto;
 
         addCommands(
-            new InstantCommand(() -> vision.bothRingsOn()),
-            new InstantCommand(() -> indexer.safteyOpen()),
-            new WaitForVision(vision),
+                new InstantCommand(() -> vision.bothRingsOn()),
+                new WaitForVision(vision),
+                new InstantCommand(() -> indexer.safteyOpen()),
             new ParallelCommandGroup(
-                new VisionRotate(drivetrain,vision),
+                new VisionRotate(drivetrain, vision),
                 new VisionShooterAngle(shooterAngle, vision),
-                new SpinUpFlywheelVelocity(shooter, vision.getBestShooterVelocity())
+                new SpinUpFlywheelVelocity(shooter, vision)
             ),
             new FeedPowerCell(indexer, shooter, fullAuto)
         );

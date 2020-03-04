@@ -45,7 +45,7 @@ public class RobotMap {
     public static final int COLLECT_SENSOR = 4;
 
     // CONTROL PANEL
-    public static final int CONTROL_PANEL = 15;
+    public static final int CONTROL_PANEL = 16;
 
     // CLIMBER
     public static final int CLIMBER_LEFT = 14;

@@ -11,18 +11,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.util.LightningMath;
 import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 public class SpinUpFlywheelVelocity extends CommandBase {
 
     Shooter shooter;
-    double velocity;
+    Vision vision;
 
     /**
      * Creates a new Fire.
      */
-    public SpinUpFlywheelVelocity(Shooter shooter, double velocity) {
+    public SpinUpFlywheelVelocity(Shooter shooter, Vision vision) {
         this.shooter = shooter;
-        this.velocity = velocity;
+        this.vision = vision;
 
         addRequirements(shooter);
     }
@@ -30,7 +31,7 @@ public class SpinUpFlywheelVelocity extends CommandBase {
     // Called when command starts
     @Override
     public void initialize() {
-        shooter.setShooterVelocity(velocity);
+        shooter.setShooterVelocity(vision.getBestShooterVelocity());
     }
 
     // Returns true when the command should end.

@@ -42,8 +42,8 @@ public class FireFive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooterVelocity(vision.getBestShooterVelocity());
-    shooterAngle.setAngle(vision.getBestShooterAngle());
+    shooter.setShooterVelocity(2500);
+    shooterAngle.setAngle(32);
     time = Timer.getFPGATimestamp();
     indexer.safteyOpen();
   }

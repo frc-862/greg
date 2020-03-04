@@ -70,7 +70,7 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverLeft = new Joystick(JoystickConstants.DRIVER_LEFT);
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
-    private final XboxController climberController = new XboxController(JoystickConstants.CLIMBER); 
+    private final Joystick climberController = new Joystick(JoystickConstants.CLIMBER); 
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
 
@@ -86,7 +86,7 @@ public class GregContainer extends LightningContainer {
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
-        if(ShooterAngle.MANUAL_CONTROL) shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+        // shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter").add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
@@ -104,7 +104,8 @@ public class GregContainer extends LightningContainer {
 
         // shooter.setWhenBallShot((n) -> shooter.shotBall());
 
-        climber.setDefaultCommand(new ManualClimb(climber, () -> climberController.getY(GenericHID.Hand.kLeft), () ->climberController.getY(GenericHID.Hand.kRight)));
+        climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), 
+                                                           () -> -climberController.getRawAxis(5)));
     }
 
     private void initializeDashboardCommands() {

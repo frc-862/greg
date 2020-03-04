@@ -41,7 +41,7 @@ public class VisionRotate extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        vision.ringOn();
+        vision.bothRingsOn();
         //if (vision.seePortTarget()) {
 
             double visionOffset = vision.getOffsetAngle();

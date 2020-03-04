@@ -96,7 +96,7 @@ public class Indexer extends SubsystemBase {
             }
             armedTimerShooter = Timer.getFPGATimestamp();
         }
-        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.1)) { // TODO constant
+        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.5)) { // TODO constant
             armedShooter = true;
         }
 

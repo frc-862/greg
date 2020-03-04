@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -51,11 +52,10 @@ public class GregContainer extends LightningContainer {
     private final LightningDrivetrain drivetrain = new GregDrivetrain();
     private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
     private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-    private final DigitalInput sensors[] = new DigitalInput[0];
 
     private final Logging loggerSystem = new Logging();
     private final Vision vision = new Vision();
-    private final Indexer indexer = new Indexer(sensors);
+    private final Indexer indexer = new Indexer();
     private final Collector collector = new Collector();
     private final PCMSim pcmSim = new PCMSim(RobotMap.COMPRESSOR_ID);
     private final Climber climber = new Climber(); 
@@ -142,6 +142,7 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
         (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
         (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
+        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
 
         (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));

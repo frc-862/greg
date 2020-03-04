@@ -28,7 +28,7 @@ public class FeedPowerCell extends CommandBase {
     }
     @Override
     public void execute() {
-        System.out.println("im tryin");
+        // System.out.println("im tryin");
         indexer.setPower(.8);
     }
 

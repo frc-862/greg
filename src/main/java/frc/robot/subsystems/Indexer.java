@@ -20,8 +20,6 @@ import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 
 public class Indexer extends SubsystemBase {
-
-    DigitalInput[] pcSensors;
     private final double pwrThreshold = 0.05;
     private VictorSPX indexer;
     private DoubleSolenoid safty;
@@ -36,10 +34,8 @@ public class Indexer extends SubsystemBase {
     /**
      * Creates a new Indexer.
      */
-    public Indexer(DigitalInput[] sensors) {
-
+    public Indexer() {
         safty = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.SAFTEY_IN_CHANNEL, RobotMap.SAFTEY_OUT_CHANNEL);
-        pcSensors = sensors;
         indexer = new VictorSPX(RobotMap.INDEXER);
         indexer.setInverted(true);
         collectSensor = new DigitalInput(RobotMap.COLLECT_SENSOR);
@@ -53,11 +49,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public static Indexer create() {
-        DigitalInput[] pcSensors = new DigitalInput[5];
-        for (var i = 0; i < pcSensors.length; ++i) {
-            pcSensors[i] = new DigitalInput(RobotConstants.firstPCSensor + i);
-        }
-        return new Indexer(pcSensors);
+        return new Indexer();
     }
 
     private boolean armed = true;
@@ -96,7 +88,7 @@ public class Indexer extends SubsystemBase {
             }
             armedTimerShooter = Timer.getFPGATimestamp();
         }
-        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.5)) { // TODO constant
+        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.25)) { // TODO constant
             armedShooter = true;
         }
 

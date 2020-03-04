@@ -98,9 +98,9 @@ public class Vision extends SubsystemBase {
     }
 
     public boolean seePortTarget() {
-         if(Found>0){
+         if (Found > 0) {
              return true;
-         }else {
+         } else {
              return false;
          }
     }

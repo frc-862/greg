@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.logging.CommandLogger;
@@ -16,13 +17,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Vision;
 
 public class VisionRotate extends CommandBase {
-    private static final double VISION_ROTATE_P = .1 / 320;
-    private static final double MIN_ROTATE_PWR = 0.08;
+    private static final double VISION_ROTATE_P = 1 / 100;
+    private static final double MIN_ROTATE_PWR = 0.06;
+    private static final double VISION_ROTATE_D = 0;
 
     private CommandLogger logger = new CommandLogger("VisionRotate");
     LightningDrivetrain drivetrain;
     Vision vision;
-    //private final LightningDrivetrain drivetrain = new QuasarDrivetrain();
 
     /**
      * Creates a new Aim.
@@ -36,65 +37,70 @@ public class VisionRotate extends CommandBase {
 
         logger.addDataElement("error");
         logger.addDataElement("power");
+        logger.addDataElement("gyro");
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void initialize() {
+        vision.bothRingsOn();
+    }
+
+    // States to consider
+    //   * Lost vision -- continue doing what we were? stop? estimate?
+    private double prevOffset = 0;
+    private double lastSeen = Timer.getFPGATimestamp();
+    private final double max_memory = 0.6;
+
     @Override
     public void execute() {
-        vision.bothRingsOn();
-        //if (vision.seePortTarget()) {
+        double deltaError = 0;
+        double visionOffset;
+        double now = Timer.getFPGATimestamp();
+        double deltaTime = now - lastSeen;
 
-            double visionOffset = vision.getOffsetAngle();
-            double pwr = visionOffset * VISION_ROTATE_P;
-
-            logger.set("error", visionOffset);
-            logger.set("power", pwr);
-
-            //System.out.println("VR exec: " + pwr);
-            //pwr = Math.max(Math.abs(pwr), MIN_ROTATE_PWR);
-
-            if ( visionOffset>0){
-                pwr=MIN_ROTATE_PWR;
-            }
-            if (visionOffset<0){
-                pwr=-MIN_ROTATE_PWR;
-            }
-
-        if(Math.abs(vision.getOffsetAngle())<10){
-            pwr =0;
+        if (vision.seePortTarget()) {
+            visionOffset = vision.getOffsetAngle();
+            deltaError = (prevOffset - visionOffset) / deltaTime;
+            prevOffset = visionOffset;
+            lastSeen = now;
+        } else if (deltaTime <= max_memory){
+            visionOffset = prevOffset * ((max_memory - (now - lastSeen)) / max_memory);
+            deltaError = (prevOffset - visionOffset) / deltaTime;
+        } else {
+            visionOffset = 0;
         }
 
-            drivetrain.setOutput(12*pwr, -pwr*12);
-            SmartDashboard.putBoolean("in tolerance",inTolerance());
+        double pwr = visionOffset * VISION_ROTATE_P - deltaError * VISION_ROTATE_D;
+        // TODO investigate cubing P term
 
-            //right is pos
-            //left is neg
+        logger.set("error", visionOffset);
+        logger.set("power", pwr);
+        logger.set("gyro", drivetrain.getHeading().getDegrees());
 
-
+        if (visionOffset > 0) {
+            pwr = LightningMath.constrain(pwr, MIN_ROTATE_PWR, 1);
         }
-//    }
+        if (visionOffset < 0) {
+            pwr = LightningMath.constrain(pwr, -1, -MIN_ROTATE_PWR);
+        }
+
+        drivetrain.setOutput(12 * pwr, -pwr * 12);
+        SmartDashboard.putBoolean("in tolerance", inTolerance());
+    }
 
     private boolean inTolerance() {
-        if(LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.ROTATION_TOLERANCE)){
-            return true;
-        }else {
-            return false;
-        }
-
-
+        return LightningMath.epsilonEqual(vision.getOffsetAngle(), 0, Constants.VISION_ROTATION_TOLERANCE);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-//        retu  rn false;
-        return Math.abs(vision.getOffsetAngle())<10;
+        return inTolerance();
     }
-    
-    @Override
-    public void end(boolean interrupted){
-        logger.flush();
 
+    @Override
+    public void end(boolean interrupted) {
+        logger.flush();
         drivetrain.stop();
     }
 }

@@ -14,7 +14,13 @@ import java.io.*;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
+<<<<<<< HEAD
     public static double low_angle = 9;    // 11 for illusion
+=======
+
+    public static double low_angle = 11;    // 11 for illusion
+
+>>>>>>> a86bebb215f3d01b9686a6d548631d151d472e91
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;

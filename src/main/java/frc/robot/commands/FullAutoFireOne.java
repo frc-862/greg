@@ -27,9 +27,15 @@ public class FullAutoFireOne extends SequentialCommandGroup {
         this.fullAuto = fullAuto;
 
         addCommands(
+<<<<<<< HEAD
                 new InstantCommand(() -> vision.bothRingsOn()),
                 new WaitForVision(vision),
                 new InstantCommand(() -> indexer.safteyOpen()),
+=======
+            new InstantCommand(() -> vision.bothRingsOn()),
+            new InstantCommand(() -> indexer.safteyOpen()),
+            new WaitForVision(vision),
+>>>>>>> a86bebb215f3d01b9686a6d548631d151d472e91
             new ParallelCommandGroup(
                 new VisionRotate(drivetrain, vision),
                 new VisionShooterAngle(shooterAngle, vision),

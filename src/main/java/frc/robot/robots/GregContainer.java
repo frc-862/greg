@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -86,7 +85,11 @@ public class GregContainer extends LightningContainer {
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
+<<<<<<< HEAD
         // shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+=======
+//        if(ShooterAngle.MANUAL_CONTROL) shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+>>>>>>> a86bebb215f3d01b9686a6d548631d151d472e91
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter").add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here

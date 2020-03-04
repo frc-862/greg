@@ -114,15 +114,27 @@ public class Vision extends SubsystemBase {
     }
 
     public double getBestShooterAngle() {
-        return shooterAngle.get(Height) + verticalBias;
+        if (Height > 0) {
+            return shooterAngle.get(Height) + verticalBias;
+        } else {
+            return 20;
+        }
     }
 
     public double getBestShooterVelocity() {
-        return flyWheelSpeed.get(Height);
+        if (Height > 0) {
+            return flyWheelSpeed.get(Height);
+        } else {
+            return 1000;
+        }
     }
 
     public double getBestShooterBackspin() {
+        if (Height > 0) {
         return backspinData.get(Height);
+        } else {
+            return 500;
+        }
     }
 
     public void ringOn(){
@@ -144,9 +156,11 @@ public class Vision extends SubsystemBase {
 
     private void shooterAngleConfig(){
         //left input      right outputb    256
-        shooterAngle.put(115.0, 38.5);//closet shot
-        shooterAngle.put(95.0, 21.0);//10ft
-        shooterAngle.put(62.0, 17.0);//close trench
+
+        shooterAngle.put(115.0, 52.5);//closet shot
+        shooterAngle.put(95.0, 38.0);//10ft
+        shooterAngle.put(62.0, 30.0);//close trench
+
 //        shooterAngle.put(45.0, 200.0);
     }
     private void configShooterSpeed() {

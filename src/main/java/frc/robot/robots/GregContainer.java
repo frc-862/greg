@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -51,13 +52,12 @@ public class GregContainer extends LightningContainer {
     private final LightningDrivetrain drivetrain = new GregDrivetrain();
     private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
     private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
-    private final DigitalInput sensors[] = new DigitalInput[0];
 
     private final Logging loggerSystem = new Logging();
     private final Vision vision = new Vision();
-    private final Indexer indexer = new Indexer(sensors);
+    private final Indexer indexer = new Indexer();
     private final Collector collector = new Collector();
-    private final PCMSim pcmSim = new PCMSim(RobotMap.COMPRESSOR_ID); // 21
+    private final PCMSim pcmSim = new PCMSim(RobotMap.COMPRESSOR_ID);
     private final Climber climber = new Climber(); 
 
     private final Shooter shooter = new Shooter();
@@ -70,7 +70,6 @@ public class GregContainer extends LightningContainer {
     private final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
     private final Joystick climberController = new Joystick(JoystickConstants.CLIMBER); 
-
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
 
@@ -86,7 +85,7 @@ public class GregContainer extends LightningContainer {
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
-//        shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+        // shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
 
         final var flyWheelSpeed = Shuffleboard.getTab("Shooter").add("SetPoint", 1)
                 .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 4000)) // specify widget properties here
@@ -94,13 +93,13 @@ public class GregContainer extends LightningContainer {
         flyWheelSpeed.addListener((n) -> {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-//
-//        final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
-//                .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
-//                .getEntry();
-//        flyWheelAngle.addListener((n) -> {
-//             shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
-//        }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
+
+        // final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
+        //         .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)) // specify widget properties here
+        //         .getEntry();
+        // flyWheelAngle.addListener((n) -> {
+        //      shooterAngle.setDesiredAngle(flyWheelAngle.getDouble(100));
+        // }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         // shooter.setWhenBallShot((n) -> shooter.shotBall());
 
@@ -109,6 +108,7 @@ public class GregContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
+        SmartDashboard.putBoolean("Happy", false);
         SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain, vision));
         SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
         SmartDashboard.putData("Ring 2 on", new InstantCommand(() -> vision.bothRingsOn()));
@@ -136,13 +136,14 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
         (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.resetBallCount(); shooter.resetBallsFired(); }, indexer, shooter);
+        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
-        (new JoystickButton(driverRight, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
         (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
-        (new JoystickButton(driverLeft, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
-        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
+        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
+        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
 
         (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
         (new POVButton(operator, 0)).whenPressed(new RumbleCommand(operator, vision::biasUp));
@@ -152,25 +153,19 @@ public class GregContainer extends LightningContainer {
     }
 
     @Override
-    public HashMap<String, Command> getAutonomousCommands() {
-        return autonGenerator.getCommands();
-    }
+    public HashMap<String, Command> getAutonomousCommands() { return autonGenerator.getCommands(); }
 
     public double getCollectPower() {
         return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 
     @Override
-    public void configureDefaultCommands() {
-    }
+    public void configureDefaultCommands() {}
 
     @Override
-    public void releaseDefaultCommands() {
-    }
+    public void releaseDefaultCommands() {}
 
     @Override
-    public LightningDrivetrain getDrivetrain() {
-        return drivetrain;
-    }
+    public LightningDrivetrain getDrivetrain() { return drivetrain; }
 
 }

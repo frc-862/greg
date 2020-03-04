@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,8 +20,6 @@ import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 
 public class Indexer extends SubsystemBase {
-
-    DigitalInput[] pcSensors;
     private final double pwrThreshold = 0.05;
     private VictorSPX indexer;
     private DoubleSolenoid safty;
@@ -35,10 +34,8 @@ public class Indexer extends SubsystemBase {
     /**
      * Creates a new Indexer.
      */
-    public Indexer(DigitalInput[] sensors) {
-
+    public Indexer() {
         safty = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.SAFTEY_IN_CHANNEL, RobotMap.SAFTEY_OUT_CHANNEL);
-        pcSensors = sensors;
         indexer = new VictorSPX(RobotMap.INDEXER);
         indexer.setInverted(true);
         collectSensor = new DigitalInput(RobotMap.COLLECT_SENSOR);
@@ -46,16 +43,13 @@ public class Indexer extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        SmartDashboard.putNumber("StartingBallCount", 3);
+        final var tab = Shuffleboard.getTab("Autonomous");
+        tab.add("StartingBallCount", 3);
 
     }
 
     public static Indexer create() {
-        DigitalInput[] pcSensors = new DigitalInput[5];
-        for (var i = 0; i < pcSensors.length; ++i) {
-            pcSensors[i] = new DigitalInput(RobotConstants.firstPCSensor + i);
-        }
-        return new Indexer(pcSensors);
+        return new Indexer();
     }
 
     private boolean armed = true;
@@ -94,12 +88,14 @@ public class Indexer extends SubsystemBase {
             }
             armedTimerShooter = Timer.getFPGATimestamp();
         }
-        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.1)) { // TODO constant
+        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.25)) { // TODO constant
             armedShooter = true;
         }
 
         ballsHeld = ballCount - ballsFired;
     }
+
+    public boolean isEmpty() { return ballsHeld == 0; }
 
     public boolean isBallSeen() { return ballSeen; }
 

@@ -17,7 +17,7 @@ import frc.robot.subsystems.Vision;
 
 public class VisionRotate extends CommandBase {
     private static final double VISION_ROTATE_P = .1 / 320;
-    private static final double MIN_ROTATE_PWR = 0.05;
+    private static final double MIN_ROTATE_PWR = 0.08;
 
     private CommandLogger logger = new CommandLogger("VisionRotate");
     LightningDrivetrain drivetrain;
@@ -41,7 +41,7 @@ public class VisionRotate extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        vision.ringOn();
+        vision.bothRingsOn();
         //if (vision.seePortTarget()) {
 
             double visionOffset = vision.getOffsetAngle();
@@ -88,7 +88,7 @@ public class VisionRotate extends CommandBase {
     @Override
     public boolean isFinished() {
 //        retu  rn false;
-        return Math.abs(vision.getOffsetAngle())<8;
+        return Math.abs(vision.getOffsetAngle())<10;
     }
     
     @Override

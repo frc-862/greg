@@ -75,24 +75,54 @@ public class Index extends CommandBase {
 
     double indexTimer = 0d;
 
+    boolean ballPassed = false;
+
     @Override
     public void execute() {
 
+        // if(indexer.isBallSeen()) { // TODO - run after seen
+        //     indexer.toShooter();
+        //     ballPassed = true;
+        // } else {
+        //     indexer.stop();
+        // }
+        // 
+        // if(!indexer.isBallSeen() && ballPassed) {
+        //     indexTimer = Timer.getFPGATimestamp();
+        // }
+        // 
+        // if((Timer.getFPGATimestamp() - indexTimer) < 0.20d) {
+        //     indexer.toShooter();
+        // } else {
+        //     indexer.stop();
+        //     ballPassed = false;
+        // }
+
         if(indexer.isBallSeen()) {
-
-            if(indexer.ballCount <= /*4*/5) {
-                indexTimer = Timer.getFPGATimestamp();
-            } 
-
-            if((Timer.getFPGATimestamp() - indexTimer) < 2.5d) {
-                indexer.setPower(1d);
-            } else {
-                indexer.setPower(0d);
-            }
-            
+            indexTimer = Timer.getFPGATimestamp();
+        } 
+        
+        if((Timer.getFPGATimestamp() - indexTimer) < 0.19d) {
+            indexer.setPower(1d);
         } else {
-            indexer.setPower(0d);
+            indexer.stop();
         }
+
+        // if(indexer.isBallSeen()) {
+        // 
+        //     if(indexer.getBallsHeld() <= /*4*/5) {
+        //         indexTimer = Timer.getFPGATimestamp();
+        //     } 
+        //     
+        //     if((Timer.getFPGATimestamp() - indexTimer) < 6d) {
+        //         indexer.setPower(1d);
+        //     } else {
+        //         indexer.setPower(0d);
+        //     }
+        //     
+        // } else {
+        //     indexer.setPower(0d);
+        // }
 
     }
 

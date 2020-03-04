@@ -42,8 +42,8 @@ public class FireThree extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooterVelocity(vision.getBestShooterVelocity());
-    // shooterAngle.setShooterAngle(vision.getBestShooterAngle());
+    shooter.setShooterVelocity(2500);
+    shooterAngle.setAngle(32);
     time = Timer.getFPGATimestamp();
     indexer.safteyOpen();
   }
@@ -59,7 +59,6 @@ public class FireThree extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("I am ending " + interrupted);
     shooter.setShooterVelocity(0d);
-    indexer.ballCount -= 3; // shot 3 balls
     shooter.stop();
     indexer.stop();
   }

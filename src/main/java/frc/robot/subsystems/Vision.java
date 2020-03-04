@@ -84,6 +84,9 @@ public class Vision extends SubsystemBase {
             actualLight = requestedLight;
         }
 
+        SmartDashboard.putNumber("BiasVert", verticalBias);
+        SmartDashboard.putNumber("BiasHoriz", horizontalBias);
+
     }
 
     public double getDistanceFromTarget() {
@@ -153,9 +156,12 @@ public class Vision extends SubsystemBase {
 
     private void shooterAngleConfig(){
         //left input      right outputb    256
-        shooterAngle.put(115.0, 44.5);//closet shot
-        shooterAngle.put(95.0, 30.0);//10ft
-        shooterAngle.put(62.0, 24.0);//close trench
+
+        shooterAngle.put(115.0, 48.5);//closet shot
+        shooterAngle.put(95.0, 33.0);//10ft
+        shooterAngle.put(62.0, 24.5);//close trench
+        shooterAngle.put(39.0,23.0);
+
 //        shooterAngle.put(45.0, 200.0);
     }
     private void configShooterSpeed() {
@@ -163,6 +169,7 @@ public class Vision extends SubsystemBase {
         flyWheelSpeed.put(115.0,3000.0);
         flyWheelSpeed.put(95.0,2500.0);
         flyWheelSpeed.put(62.0,3000.0);
+        flyWheelSpeed.put(39.0,3500.0);
 //        flyWheelSpeed.put(45.0,3500.0);
     }
     private void configShooterBackspin() {
@@ -170,6 +177,7 @@ public class Vision extends SubsystemBase {
         backspinData.put(115.0,1500.0);//closest shot
         backspinData.put(95.0,1500.0);//10ft
         backspinData.put(62.0,1500.0);//close trench
+        backspinData.put(39.0,1500.0);
 //        backspinData.put(45.0,1500.0);
 
     }
@@ -179,7 +187,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void biasDown() {
-        verticalBias -= 0.5;
+        verticalBias = 0.5;
     }
 
     public void biasLeft() {

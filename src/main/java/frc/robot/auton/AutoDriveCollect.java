@@ -32,6 +32,12 @@ public class AutoDriveCollect extends ParallelCommandGroup {
 
   private double duration;
 
+  private LightningDrivetrain drivetrain;
+
+  private Collector collector;
+
+  private Indexer indexer;
+
   public AutoDriveCollect(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, PathGenerator.Paths path) {
 
     super(
@@ -40,6 +46,10 @@ public class AutoDriveCollect extends ParallelCommandGroup {
       new IndexerCommand(indexer), 
       pathGenerator.getRamseteCommand(drivetrain, path)
     );
+
+    this.drivetrain = drivetrain;
+    this.collector = collector;
+    this.indexer = indexer;
 
     duration = pathGenerator.getDuration(drivetrain, path);
 
@@ -53,5 +63,14 @@ public class AutoDriveCollect extends ParallelCommandGroup {
 
   @Override
   public boolean isFinished() { return (Timer.getFPGATimestamp() - initTime) > (duration + WAIT_TIME); }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    indexer.stop();
+    collector.stop();
+    collector.puterOuterOut();
+    drivetrain.stop();
+  }
   
 }

@@ -159,7 +159,7 @@ public class Vision extends SubsystemBase {
 
         shooterAngle.put(115.0, 48.5);//closet shot
         shooterAngle.put(95.0, 33.0);//10ft
-        shooterAngle.put(62.0, 24.5);//close trench
+        shooterAngle.put(62.0, 27.5);//close trench
         shooterAngle.put(39.0,23.0);
 
 //        shooterAngle.put(45.0, 200.0);
@@ -168,7 +168,7 @@ public class Vision extends SubsystemBase {
         //left input      right output
         flyWheelSpeed.put(115.0,3000.0);
         flyWheelSpeed.put(95.0,2500.0);
-        flyWheelSpeed.put(62.0,3000.0);
+        flyWheelSpeed.put(62.0,3500.0);
         flyWheelSpeed.put(39.0,3500.0);
 //        flyWheelSpeed.put(45.0,3500.0);
     }

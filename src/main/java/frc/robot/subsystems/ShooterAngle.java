@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
+import frc.lightning.util.MovingAverageFilter;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -111,7 +112,7 @@ public class ShooterAngle extends SubsystemBase {
         SmartDashboard.putNumber("Angle getAngle", getAngle());
         SmartDashboard.putNumber("Angle offset", offset);
 
-        if (!(LightningMath.epsilonEqual(setPoint, offset,1))) {
+        if (!(LightningMath.epsilonEqual(setPoint, offset,2))) {
             SmartDashboard.putNumber("Angle setPower", LightningMath.constrain((offset)*Kp,-1,1));
             setPower(LightningMath.constrain((offset)*Kp,-1,1));
         } else {
@@ -128,8 +129,10 @@ public class ShooterAngle extends SubsystemBase {
         adjuster.set(ControlMode.PercentOutput, pwr);
     }
 
+    private final MovingAverageFilter filter = new MovingAverageFilter(3);
     public double getAngle() {
-        return (adjuster.getSelectedSensorPosition() - REVERSE_SENSOR_LIMIT) / 2d
+        double pos = filter.filter(adjuster.getSelectedSensorPosition());
+        return (pos - REVERSE_SENSOR_LIMIT) / 2d
                 + low_angle;
 //        return adjuster.getSelectedSensorPosition(Constants.kPIDLoopIdx);
     }

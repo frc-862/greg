@@ -17,7 +17,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Vision;
 
 public class VisionRotate extends CommandBase {
-    private static final double VISION_ROTATE_P = 1 / 100;
+    private static final double VISION_ROTATE_P = 2 / 100;
     private static final double MIN_ROTATE_PWR = 0.06;
     private static final double VISION_ROTATE_D = 0;
 

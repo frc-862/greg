@@ -40,6 +40,6 @@ public class VisionShooterAngle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        
+
     }
 }

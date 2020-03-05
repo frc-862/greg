@@ -25,7 +25,7 @@ public class ShooterAngle extends SubsystemBase {
     private final int SENSOR_SAFETY = 4;
     private boolean autoAdjust = false;
 
-    private double setPoint = 20.0;
+    private double setPoint = 20;
     private double Kp = .4;
     private double offset = 0;
 
@@ -33,6 +33,7 @@ public class ShooterAngle extends SubsystemBase {
 
     public ShooterAngle () {
         adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
+        setPoint = getAngle();
         readLimits();
 
         adjuster.configForwardSoftLimitEnable(false);
@@ -65,6 +66,8 @@ public class ShooterAngle extends SubsystemBase {
         Shuffleboard.getTab("Shooter").addNumber("Shooter Angle", this::getAngle);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Rev Limit", this::atLowerLimit);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Fwd Limit", this::atUpperLimit);
+
+        readLimits();
     }
 
     @Override
@@ -77,10 +80,12 @@ public class ShooterAngle extends SubsystemBase {
         if (atUpperLimit()) {
             FORWARD_SENSOR_LIMIT = rawPosition;
             high_angle = getAngle();
+            writeLimits();
         }
 
         if (atLowerLimit()) {
             REVERSE_SENSOR_LIMIT = rawPosition;
+            writeLimits();
         }
     }
 

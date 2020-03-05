@@ -34,7 +34,7 @@ import frc.robot.subsystems.Vision;
 
 public class AutonGenerator {
 
-    public final boolean TESTING = true;
+    public final boolean TESTING = false;
 
     private PathGenerator pathGenerator;
 
@@ -148,6 +148,7 @@ public class AutonGenerator {
         map.put("5 Ball Opp TR Outer", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
+            // pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TR_ADJUST),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
             // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
@@ -196,6 +197,11 @@ public class AutonGenerator {
             // new FireFive(shooter, indexer, shooterAngle, vision, collector)
         ));
 
+        map.put("Test Auto", new SequentialCommandGroup(
+            new InitAuto(vision, indexer, collector),
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN)
+        ));
+
         /* 
          * Shoot Pre-Loaded 3, 
          * Collect 3 in Trench Run, 
@@ -220,9 +226,9 @@ public class AutonGenerator {
          */
         map.put("6 Ball TR Inner w/VIS", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
             // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
-            // new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
             new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
@@ -238,11 +244,12 @@ public class AutonGenerator {
          */
         map.put("6 Ball TR Outer w/VIS", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
-            // new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
+            new FireThree(shooter, indexer, shooterAngle, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             // new InstantCommand(collector::puterOuterOut, collector),
-            new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d)
+            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d)
             // new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 

@@ -53,6 +53,15 @@ public class PathGenerator {
         
         INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                 new Pose2d(2.796d, 0d, Rotation2d.fromDegrees(0d)))),
+
+        TWITCH(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                                new Pose2d(0d, 0d, Rotation2d.fromDegrees(-10d)), 
+                                new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                                new Pose2d(0d, 0d, Rotation2d.fromDegrees(10d)),
+                                new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)))),
+
+        // OPP_TR_ADJUST(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+        //                             new Pose2d(-0.096d, 0.5d, Rotation2d.fromDegrees(70d)))),// TODO - -70d ???
         
         TRENCHRUN_2_SHOOTING_POSE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                 new Pose2d(-3.01d, -1.5d, Rotation2d.fromDegrees(0d))),

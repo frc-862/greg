@@ -101,7 +101,12 @@ public class Indexer extends SubsystemBase {
 
     public void resetBallCount() { /*ballCount = 0;*/ }
 
-    public void setBallsHeld() { this.ballCount = (int) SmartDashboard.getNumber("StartingBallCount", 3); }
+    public void setBallsHeld() { 
+        int balls = (int) SmartDashboard.getNumber("StartingBallCount", 3);
+        this.ballCount = balls;
+        this.ballsFired = 0;
+        this.ballsHeld = balls;
+    }
 
     public int getBallCount() { return ballsHeld; }
     

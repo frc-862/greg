@@ -140,7 +140,7 @@ public class ShooterAngle extends SubsystemBase {
         adjuster.set(ControlMode.PercentOutput, pwr);
     }
 
-    private final MovingAverageFilter filter = new MovingAverageFilter(3);
+    private final MovingAverageFilter filter = new MovingAverageFilter(1);
     public double getAngle() {
         double pos = filter.filter(adjuster.getSelectedSensorPosition());
         return (pos - REVERSE_SENSOR_LIMIT) / 2d

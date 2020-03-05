@@ -23,6 +23,7 @@ public class ShooterAngle extends SubsystemBase {
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
+    private boolean autoAdjust = false;
 
     private double setPoint = 20.0;
     private double Kp = .4;
@@ -67,8 +68,10 @@ public class ShooterAngle extends SubsystemBase {
     }
 
     @Override
-    public void periodic(){
-        adjusterControlLoop();
+    public void periodic() {
+        if (autoAdjust) {
+            adjusterControlLoop();
+        }
 
         final var rawPosition = adjuster.getSelectedSensorPosition();
         if (atUpperLimit()) {
@@ -80,6 +83,9 @@ public class ShooterAngle extends SubsystemBase {
             REVERSE_SENSOR_LIMIT = rawPosition;
         }
     }
+
+    public void enableAutoAdjust() { autoAdjust = true; }
+    public void disableAutoAdjust() { autoAdjust = false; }
 
     final String filename = "/home/lvuser/angle_limits.dat";
     public void writeLimits() {
@@ -106,7 +112,7 @@ public class ShooterAngle extends SubsystemBase {
         }
     }
 
-    private void adjusterControlLoop() {
+    public void adjusterControlLoop() {
         offset = setPoint - getAngle();
         SmartDashboard.putNumber("Angle setPoint", setPoint);
         SmartDashboard.putNumber("Angle getAngle", getAngle());

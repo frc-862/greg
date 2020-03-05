@@ -23,6 +23,7 @@ public class VisionShooterAngle extends CommandBase {
 
     @Override
     public void initialize() {
+        shooterAngle.enableAutoAdjust();
         shooterAngle.setAngle(vision.getBestShooterAngle());
     }
 
@@ -37,4 +38,8 @@ public class VisionShooterAngle extends CommandBase {
                                           Constants.shooterAngleTolerance);
     }
 
+    @Override
+    public void end(boolean interrupted) {
+        
+    }
 }

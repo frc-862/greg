@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -120,7 +121,7 @@ public class GregContainer extends LightningContainer {
         SmartDashboard.putData("ResetBallCount", new InstantCommand(indexer::resetBallCount, indexer));
         SmartDashboard.putData("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
         SmartDashboard.putData("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
-
+        SmartDashboard.putData("mannual shooter angle",new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
     }
 
     /**

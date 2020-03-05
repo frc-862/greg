@@ -34,7 +34,7 @@ import frc.robot.subsystems.Vision;
 
 public class AutonGenerator {
 
-    public final boolean TESTING = true;
+    public final boolean TESTING = false;
 
     private PathGenerator pathGenerator;
 
@@ -148,6 +148,7 @@ public class AutonGenerator {
         map.put("5 Ball Opp TR Outer", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
+            // pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TR_ADJUST),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
             new FireFive(shooter, indexer, shooterAngle, vision, collector)
             // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
@@ -194,6 +195,11 @@ public class AutonGenerator {
             new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
             // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
             // new FireFive(shooter, indexer, shooterAngle, vision, collector)
+        ));
+
+        map.put("Test Auto", new SequentialCommandGroup(
+            new InitAuto(vision, indexer, collector),
+            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN)
         ));
 
         /* 

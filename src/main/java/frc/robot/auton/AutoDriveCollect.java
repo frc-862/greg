@@ -10,6 +10,7 @@ package frc.robot.auton;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.commands.Collect;
 import frc.robot.commands.Index;
@@ -20,7 +21,7 @@ import frc.robot.subsystems.Indexer;
 /**
  * Drives given path while collecting and indexing.
  */
-public class AutoDriveCollect extends ParallelCommandGroup {
+public class AutoDriveCollect extends SequentialCommandGroup {
 
   private static final double COLLECT_PWR = 1d;
 
@@ -41,10 +42,12 @@ public class AutoDriveCollect extends ParallelCommandGroup {
   public AutoDriveCollect(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, PathGenerator.Paths path) {
 
     super(
-      new InstantCommand(indexer::safteyClosed),
-      new Collect(collector, () -> COLLECT_PWR),
-      new IndexerCommand(indexer), 
-      pathGenerator.getRamseteCommand(drivetrain, path)
+      new InstantCommand(indexer::safteyClosed, indexer),
+      new ParallelCommandGroup(
+        new Collect(collector, () -> COLLECT_PWR),
+        new IndexerCommand(indexer), 
+        pathGenerator.getRamseteCommand(drivetrain, path)
+      )
     );
 
     this.drivetrain = drivetrain;
@@ -69,7 +72,7 @@ public class AutoDriveCollect extends ParallelCommandGroup {
     super.end(interrupted);
     indexer.stop();
     collector.stop();
-    collector.puterOuterOut();
+    // collector.puterOuterOut();
     drivetrain.stop();
   }
   

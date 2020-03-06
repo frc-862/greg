@@ -66,6 +66,6 @@ public class FireFive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - time) > 4d);
+    return ((Timer.getFPGATimestamp() - time) > 5d);
   }
 }

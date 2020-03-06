@@ -66,6 +66,6 @@ public class FireThree extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - time) > 3d);
+    return ((Timer.getFPGATimestamp() - time) > 4d);
   }
 }

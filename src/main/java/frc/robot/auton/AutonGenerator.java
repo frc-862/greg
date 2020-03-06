@@ -238,7 +238,7 @@ public class AutonGenerator {
         ));
 
         /* 
-         * Shoot Pre-Loaded 3, 
+         * Shoot Pre-Loaded 3,  
          * Collect 3 In Trench Run,
          * Vision Turn and Shoot Collected 3                               
          */

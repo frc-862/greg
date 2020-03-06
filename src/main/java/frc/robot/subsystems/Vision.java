@@ -157,9 +157,9 @@ public class Vision extends SubsystemBase {
     private void shooterAngleConfig(){
         //left input      right outputb    256
 
-        shooterAngle.put(115.0, 48.5);//closet shot
-        shooterAngle.put(95.0, 33.0);//10ft
-        shooterAngle.put(62.0, 27.5);//close trench
+        shooterAngle.put(115.0, 46.5);//closet shot-2
+        shooterAngle.put(95.0, 31.0);//10ft-2
+        shooterAngle.put(62.0, 25.5);//close trench-2
         shooterAngle.put(39.0,23.0);
 
 //        shooterAngle.put(45.0, 200.0);

@@ -30,8 +30,11 @@ public class Vision extends SubsystemBase {
     private boolean readyForBoth =false;
     private boolean theOneRing = false;
 
-    private double verticalBias;
-    private double horizontalBias;
+    private double startVertBias= 0;
+    private double startHorizBias=13.5;
+
+    private double verticalBias=startVertBias;
+    private double horizontalBias=startHorizBias;
 
     InterpolatedMap shooterAngle = new InterpolatedMap();
     InterpolatedMap flyWheelSpeed = new InterpolatedMap();
@@ -158,26 +161,26 @@ public class Vision extends SubsystemBase {
         //left input      right outputb    256
 
         shooterAngle.put(115.0, 46.5);//closet shot-2
-        shooterAngle.put(95.0, 31.0);//10ft-2
-        shooterAngle.put(62.0, 25.5);//close trench-2
+        shooterAngle.put(95.0, 34.0);//10ft-2
+        shooterAngle.put(62.0, 28.5);//close trench-2
         shooterAngle.put(39.0,23.0);
 
 //        shooterAngle.put(45.0, 200.0);
     }
     private void configShooterSpeed() {
         //left input      right output
-        flyWheelSpeed.put(115.0,3000.0);
-        flyWheelSpeed.put(95.0,2500.0);
+        flyWheelSpeed.put(115.0,3250.0);
+        flyWheelSpeed.put(95.0,3500.0);
         flyWheelSpeed.put(62.0,3500.0);
         flyWheelSpeed.put(39.0,3500.0);
 //        flyWheelSpeed.put(45.0,3500.0);
     }
     private void configShooterBackspin() {
         //left input      right output
-        backspinData.put(115.0,1500.0);//closest shot
-        backspinData.put(95.0,1500.0);//10ft
-        backspinData.put(62.0,1500.0);//close trench
-        backspinData.put(39.0,1500.0);
+        backspinData.put(115.0,750.0);//closest shot
+        backspinData.put(95.0,750.0);//10ft
+        backspinData.put(62.0,1000.0);//close trench
+        backspinData.put(39.0,1000.0);
 //        backspinData.put(45.0,1500.0);
 
     }
@@ -187,7 +190,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void biasDown() {
-        verticalBias = 0.5;
+        verticalBias -= 0.5;
     }
 
     public void biasLeft() {
@@ -199,7 +202,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void biasReset() {
-        verticalBias = 0;
-        horizontalBias = 0;
+        verticalBias = startVertBias;
+        horizontalBias = startHorizBias;
     }
 }

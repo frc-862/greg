@@ -9,13 +9,7 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lightning.subsystems.LightningDrivetrain;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterAngle;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 
 public class FireFive extends CommandBase {
 
@@ -42,8 +36,8 @@ public class FireFive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooterVelocity(2500);
-    shooterAngle.setAngle(32);
+    shooter.setShooterVelocity(3000);
+    shooterAngle.setAngle(39);
     time = Timer.getFPGATimestamp();
     indexer.safteyOpen();
   }

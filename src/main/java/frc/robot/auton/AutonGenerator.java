@@ -7,30 +7,17 @@
 
 package frc.robot.auton;
 
-import java.util.HashMap;
-
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.lightning.commands.RunCommandTime;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.auton.PathGenerator.Paths;
-import frc.robot.commands.AutoCollectThree;
-import frc.robot.commands.Collect;
 import frc.robot.commands.FullAutoFireMagazine;
-import frc.robot.commands.FullAutoFireOne;
-import frc.robot.commands.Index;
-import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireFive;
 import frc.robot.commands.shooter.FireThree;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterAngle;
-import frc.robot.subsystems.Vision;
+import frc.robot.commands.shooter.SetIndexAngle;
+import frc.robot.commands.shooter.SpinUpFlywheelManual;
+import frc.robot.subsystems.*;
+
+import java.util.HashMap;
 
 public class AutonGenerator {
 
@@ -225,7 +212,11 @@ public class AutonGenerator {
          * Vision Turn and Shoot 3                             
          */
         map.put("6 Ball TR Inner w/VIS", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
+            new ParallelCommandGroup(
+                    new InitAuto(vision, indexer, collector),
+                    new SpinUpFlywheelManual(shooter, 3000),
+                    new SetIndexAngle(shooterAngle, 39)
+            ),
             // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
             // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
             new FireThree(shooter, indexer, shooterAngle, vision, collector),
@@ -243,14 +234,20 @@ public class AutonGenerator {
          * Vision Turn and Shoot Collected 3                               
          */
         map.put("6 Ball TR Outer w/VIS", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
-            new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
-            // new InstantCommand(collector::puterOuterOut, collector),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d)
-            // new FireThree(shooter, indexer, shooterAngle, vision, collector)
+                new ParallelCommandGroup(
+                        new InitAuto(vision, indexer, collector),
+                        new SpinUpFlywheelManual(shooter, 3000),
+                        new SetIndexAngle(shooterAngle, 39)
+                ),
+                // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+                // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
+                new FireThree(shooter, indexer, shooterAngle, vision, collector),
+                new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
+                // pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
+                new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
+                // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
+                // new InstantCommand(collector::puterOuterOut, collector),
+                // new FireThree(shooter, indexer, shooterAngle, vision, collector)
         ));
 
         // Return New List

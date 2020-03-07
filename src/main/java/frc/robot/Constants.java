@@ -43,7 +43,7 @@ public class Constants {
                                                                 0.0353, // right_kP
                                                                 0d, // right_kI
                                                                 0d, // right_kD  
-                                                                6d, // maxVelocity (ft/sec)
+                                                                5.4d, // maxVelocity (ft/sec)
                                                                 5d); // maxAcceleration (ft/sec^2)
 
     public static final double VOLT_LIMIT = 12d;

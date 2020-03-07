@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 
 public class Indexer extends SubsystemBase {
@@ -30,6 +29,8 @@ public class Indexer extends SubsystemBase {
 
     public int ballsHeld = 0;
     public int ballsFired = 0;
+
+    private double isEmptyTimer =0;
 
     /**
      * Creates a new Indexer.
@@ -88,14 +89,25 @@ public class Indexer extends SubsystemBase {
             }
             armedTimerShooter = Timer.getFPGATimestamp();
         }
-        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.25)) { // TODO constant
+        if(!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.1)) { // TODO constant
             armedShooter = true;
         }
 
         ballsHeld = ballCount - ballsFired;
+
+        if(ballsHeld == 0){
+            isEmptyTimer = Timer.getFPGATimestamp();
+        }else {
+            isEmptyTimer = 0;
+        }
     }
 
-    public boolean isEmpty() { return ballsHeld == 0; }
+    public boolean isEmpty() {
+        if(Timer.getFPGATimestamp() - isEmptyTimer >= .5 && !(isEmptyTimer == 0)){
+            return true;
+        }else {return false;}
+
+    }
 
     public boolean isBallSeen() { return ballSeen; }
 

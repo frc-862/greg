@@ -60,6 +60,7 @@ public class Indexer extends SubsystemBase {
     private boolean armedShooter = true;
     private double armedTimerShooter = 0d;
     private boolean ballSeenShooter = false;
+    private boolean emptyTimer = false;
 
     @Override
     public void periodic() {
@@ -69,6 +70,7 @@ public class Indexer extends SubsystemBase {
         // SmartDashboard.putNumber("BallsHeld", ballCount);
         SmartDashboard.putNumber("BallsHeld", ballsHeld);
         SmartDashboard.putBoolean("IndexerArmed", armed);
+        SmartDashboard.putBoolean("is Empty", isEmpty());
 
         
         if(ballSeen) {
@@ -95,19 +97,23 @@ public class Indexer extends SubsystemBase {
 
         ballsHeld = ballCount - ballsFired;
 
-        if(ballsHeld == 0){
+        if (ballsHeld == 0 && !emptyTimer) {
             isEmptyTimer = Timer.getFPGATimestamp();
+            emptyTimer=true;
         }else {
+            emptyTimer =false;
             isEmptyTimer = 0;
         }
     }
 
     public boolean isEmpty() {
-        if(Timer.getFPGATimestamp() - isEmptyTimer >= .5 && !(isEmptyTimer == 0)){
+        if (Timer.getFPGATimestamp() - isEmptyTimer >= .125 && emptyTimer) {
             return true;
-        }else {return false;}
-
+        }else {
+            return false;
+        }
     }
+
 
     public boolean isBallSeen() { return ballSeen; }
 

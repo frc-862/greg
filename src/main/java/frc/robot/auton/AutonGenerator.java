@@ -243,7 +243,7 @@ public class AutonGenerator {
                 // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
                 new FireThree(shooter, indexer, shooterAngle, vision, collector),
                 new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
-                // pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
+                pathGenerator.getRamseteCommand(drivetrain, Paths.BACK_TR_2_FRONT_TR),
                 new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
                 // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
                 // new InstantCommand(collector::puterOuterOut, collector),

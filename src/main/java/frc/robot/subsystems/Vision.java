@@ -31,7 +31,7 @@ public class Vision extends SubsystemBase {
     private boolean theOneRing = false;
 
     private double startVertBias= 0;
-    private double startHorizBias=13.5;
+    private double startHorizBias=14.;
 
     private double verticalBias=startVertBias;
     private double horizontalBias=startHorizBias;
@@ -161,8 +161,8 @@ public class Vision extends SubsystemBase {
         //left input      right outputb    256
 
         shooterAngle.put(115.0, 46.5);//closet shot-2
-        shooterAngle.put(95.0, 34.0);//10ft-2
-        shooterAngle.put(62.0, 28.5);//close trench-2
+        shooterAngle.put(95.0, 35.0);//10ft-2
+        shooterAngle.put(62.0, 26.5);//close trench-2
         shooterAngle.put(39.0,23.0);
 
 //        shooterAngle.put(45.0, 200.0);

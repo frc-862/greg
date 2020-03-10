@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.commands.Collect;
-import frc.robot.commands.Index;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
@@ -25,7 +24,7 @@ public class AutoDriveCollect extends SequentialCommandGroup {
 
   private static final double COLLECT_PWR = 1d;
 
-  private final double WAIT_TIME = 0.5d;
+  private final double WAIT_TIME = 0d;
 
   private static PathGenerator pathGenerator = new PathGenerator();
 

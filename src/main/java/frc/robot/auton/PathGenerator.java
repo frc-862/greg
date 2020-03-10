@@ -7,19 +7,17 @@
 
 package frc.robot.auton;
 
-import java.util.Arrays;
-import java.util.List;
-
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Add your docs here.
@@ -53,6 +51,10 @@ public class PathGenerator {
         
         INIT_LINE_2_OPP_TRENCHRUN(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                 new Pose2d(2.796d, 0d, Rotation2d.fromDegrees(0d)))),
+
+        BACK_TR_2_FRONT_TR(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                                            new Pose2d(-1.5, -0.25, Rotation2d.fromDegrees(20d))),
+                                            true),
 
         TWITCH(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
                                 new Pose2d(0d, 0d, Rotation2d.fromDegrees(-10d)), 

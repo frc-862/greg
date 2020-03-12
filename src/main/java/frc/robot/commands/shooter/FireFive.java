@@ -9,11 +9,7 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterAngle;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 
 public class FireFive extends CommandBase {
 
@@ -40,8 +36,8 @@ public class FireFive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setShooterVelocity(vision.getBestShooterVelocity());
-    // shooterAngle.setShooterAngle(vision.getBestShooterAngle());
+    shooter.setShooterVelocity(3000);
+    shooterAngle.setAngle(39);
     time = Timer.getFPGATimestamp();
     indexer.safetyOpen();
   }
@@ -55,9 +51,7 @@ public class FireFive extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("I am ending " + interrupted);
     shooter.setShooterVelocity(0d);
-    indexer.ballCount -= 3; // shot 3 balls
     shooter.stop();
     indexer.stop();
   }
@@ -65,6 +59,6 @@ public class FireFive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - time) > 4d);
+    return ((Timer.getFPGATimestamp() - time) > 3.6);
   }
 }

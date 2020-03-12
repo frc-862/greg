@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.util.LightningMath;
+import frc.lightning.util.MovingAverageFilter;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -21,8 +22,9 @@ public class ShooterAngle extends SubsystemBase {
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
+    private boolean autoAdjust = false;
 
-    private double setPoint = 20.0;
+    private double setPoint = 20;
     private double Kp = .4;
     private double offset = 0;
 
@@ -30,6 +32,7 @@ public class ShooterAngle extends SubsystemBase {
 
     public ShooterAngle () {
         adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
+        setPoint = getAngle();
         readLimits();
 
         adjuster.configForwardSoftLimitEnable(false);
@@ -62,22 +65,31 @@ public class ShooterAngle extends SubsystemBase {
         Shuffleboard.getTab("Shooter").addNumber("Shooter Angle", this::getAngle);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Rev Limit", this::atLowerLimit);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Fwd Limit", this::atUpperLimit);
+
+        readLimits();
     }
 
     @Override
-    public void periodic(){
-        adjusterControlLoop();
+    public void periodic() {
+        if (autoAdjust) {
+            adjusterControlLoop();
+        }
 
         final var rawPosition = adjuster.getSelectedSensorPosition();
         if (atUpperLimit()) {
             FORWARD_SENSOR_LIMIT = rawPosition;
             high_angle = getAngle();
+            writeLimits();
         }
 
         if (atLowerLimit()) {
             REVERSE_SENSOR_LIMIT = rawPosition;
+            writeLimits();
         }
     }
+
+    public void enableAutoAdjust() { autoAdjust = true; }
+    public void disableAutoAdjust() { autoAdjust = false; }
 
     final String filename = "/home/lvuser/angle_limits.dat";
     public void writeLimits() {
@@ -104,10 +116,10 @@ public class ShooterAngle extends SubsystemBase {
         }
     }
 
-    private void adjusterControlLoop() {
+    public void adjusterControlLoop() {
         offset = setPoint - getAngle();
 
-        if (!(LightningMath.epsilonEqual(setPoint, offset,1))) {
+        if (!(LightningMath.epsilonEqual(setPoint, offset,2))) {
             setPower(LightningMath.constrain((offset)*Kp,-1,1));
         } else {
             setPower(0);
@@ -123,8 +135,10 @@ public class ShooterAngle extends SubsystemBase {
         adjuster.set(ControlMode.PercentOutput, pwr);
     }
 
+    private final MovingAverageFilter filter = new MovingAverageFilter(1);
     public double getAngle() {
-        return (adjuster.getSelectedSensorPosition() - REVERSE_SENSOR_LIMIT) / 2d
+        double pos = filter.filter(adjuster.getSelectedSensorPosition());
+        return (pos - REVERSE_SENSOR_LIMIT) / 2d
                 + low_angle;
 //        return adjuster.getSelectedSensorPosition(Constants.kPIDLoopIdx);
     }

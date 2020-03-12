@@ -8,6 +8,7 @@ public class FeedPowerCell extends CommandBase {
     private final Indexer indexer;
     private final boolean fullAuto;
     private final Shooter shooter;
+    private int startingPCCount;
 
     public FeedPowerCell(Indexer index, Shooter shooter, boolean fullAuto) {
         this.indexer = index;
@@ -18,12 +19,13 @@ public class FeedPowerCell extends CommandBase {
 
     @Override
     public void initialize() {
+        startingPCCount = indexer.getPowerCellCount();
         indexer.safetyOpen();
     }
 
     @Override
     public void execute() {
-        indexer.setPower(.8);
+        indexer.setPower(1);
     }
 
     @Override
@@ -37,13 +39,6 @@ public class FeedPowerCell extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // need to consider the case of being fed PC
-        // while shooting, and the count going up?
-//        return startingPCCount > indexer.getPowerCellCount();
-//        if (shooter.getBallsFired() == 1) {
-//            return true;
-//        } else {
-            return false;
-//        }
+        return (indexer.getPowerCellCount() == (startingPCCount - 1));
     }
 }

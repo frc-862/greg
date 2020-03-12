@@ -9,22 +9,28 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Indexer extends SubsystemBase {
     private final double pwrThreshold = 0.05;
+    private final NetworkTableEntry defaultBallCount;
     private VictorSPX indexer;
     private DoubleSolenoid safety;
 
     public int ballCount = 0;
     DigitalInput collectSensor;
     DigitalInput ejectSensor;
+
+    private double isEmptyTimer =0;
 
     /**
      * Creates a new Indexer.
@@ -38,9 +44,11 @@ public class Indexer extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        final var tab = Shuffleboard.getTab("Indexer");
+        final var tab = Shuffleboard.getTab("Autonomous");
+        defaultBallCount = tab.add("StartingBallCount", 3).getEntry();
         tab.addBoolean("Collect Sensor", collectSensor::get);
         tab.addBoolean("Shooter Sensor", ejectSensor::get);
+        tab.addBoolean("isEmpty", this::isEmpty);
     }
 
     private boolean armed = true;
@@ -50,6 +58,7 @@ public class Indexer extends SubsystemBase {
     private boolean armedShooter = true;
     private double armedTimerShooter = 0d;
     private boolean ballSeenShooter = false;
+    private boolean emptyTimer = false;
 
     @Override
     public void periodic() {
@@ -69,7 +78,7 @@ public class Indexer extends SubsystemBase {
 
         if (ballSeenShooter) {
             if(armedShooter) {
-                ballCount += 1;
+                ballCount -= 1;
                 armedShooter = false;
             }
             armedTimerShooter = Timer.getFPGATimestamp();
@@ -77,9 +86,31 @@ public class Indexer extends SubsystemBase {
         if (!ballSeenShooter && !armedShooter && ((Timer.getFPGATimestamp() - armedTimerShooter) > 0.1)) { // TODO constant
             armedShooter = true;
         }
+
+        if (ballCount == 0 && !emptyTimer) {
+            isEmptyTimer = Timer.getFPGATimestamp();
+            emptyTimer=true;
+        }else {
+            emptyTimer =false;
+            isEmptyTimer = 0;
+        }
     }
 
+    public boolean isEmpty() {
+        if (Timer.getFPGATimestamp() - isEmptyTimer >= .125 && emptyTimer) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
     public boolean isBallSeen() { return ballSeen; }
+
+    public void setBallsHeld() {
+        ballCount = (int) defaultBallCount.getNumber(3);
+    }
+
     public void setBallsHeld(int count) { this.ballCount = count; }
 
     public void stop() {

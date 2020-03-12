@@ -43,7 +43,7 @@ public class Constants {
                                                                 0.0353, // right_kP
                                                                 0d, // right_kI
                                                                 0d, // right_kD  
-                                                                6d, // maxVelocity (ft/sec)
+                                                                5.4d, // maxVelocity (ft/sec)
                                                                 5d); // maxAcceleration (ft/sec^2)
 
     public static final double VOLT_LIMIT = 12d;
@@ -54,7 +54,7 @@ public class Constants {
     public static final double MOVING_VELOCITY = 40;
     public static final double FLYWHEEL_EPSILON = 100;
     public static final double ROTATION_TOLERANCE = 75;
-    public static final double VISION_ROTATION_TOLERANCE = 8;
+    public static final double VISION_ROTATION_TOLERANCE = 15;
 
     public static REVGains leftGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
     public static REVGains rightGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM

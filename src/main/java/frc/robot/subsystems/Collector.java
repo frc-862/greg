@@ -88,7 +88,8 @@ public class Collector extends SubsystemBase {
     }
 
     public boolean isOut() {
-        return putterOutter.get().equals(DoubleSolenoid.Value.kForward);
+        // return putterOutter.get().equals(DoubleSolenoid.Value.kForward);
+        return putterOutter.get().equals(DoubleSolenoid.Value.kReverse);
     }
 
 }

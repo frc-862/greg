@@ -10,20 +10,21 @@ package frc.robot.auton;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.commands.Collect;
-import frc.robot.commands.Index;
+import frc.robot.commands.IndexerCommand;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 
 /**
  * Drives given path while collecting and indexing.
  */
-public class AutoDriveCollect extends ParallelCommandGroup {
+public class AutoDriveCollect extends SequentialCommandGroup {
 
   private static final double COLLECT_PWR = 1d;
 
-  private final double WAIT_TIME = 0.5d;
+  private final double WAIT_TIME = 0d;
 
   private static PathGenerator pathGenerator = new PathGenerator();
 
@@ -31,14 +32,26 @@ public class AutoDriveCollect extends ParallelCommandGroup {
 
   private double duration;
 
+  private LightningDrivetrain drivetrain;
+
+  private Collector collector;
+
+  private Indexer indexer;
+
   public AutoDriveCollect(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, PathGenerator.Paths path) {
 
     super(
-      new InstantCommand(indexer::safetyClosed),
-      new Collect(collector, () -> COLLECT_PWR),
-      new Index(indexer), 
-      pathGenerator.getRamseteCommand(drivetrain, path)
+      new InstantCommand(indexer::safetyClosed, indexer),
+      new ParallelCommandGroup(
+        new Collect(collector, () -> COLLECT_PWR),
+        new IndexerCommand(indexer), 
+        pathGenerator.getRamseteCommand(drivetrain, path)
+      )
     );
+
+    this.drivetrain = drivetrain;
+    this.collector = collector;
+    this.indexer = indexer;
 
     duration = pathGenerator.getDuration(drivetrain, path);
 
@@ -52,5 +65,14 @@ public class AutoDriveCollect extends ParallelCommandGroup {
 
   @Override
   public boolean isFinished() { return (Timer.getFPGATimestamp() - initTime) > (duration + WAIT_TIME); }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    indexer.stop();
+    collector.stop();
+    // collector.puterOuterOut();
+    drivetrain.stop();
+  }
   
 }

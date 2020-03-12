@@ -31,8 +31,11 @@ public class Vision extends SubsystemBase {
     private boolean readyForBoth =false;
     private boolean theOneRing = false;
 
-    private double verticalBias;
-    private double horizontalBias;
+    private double startVertBias= 0;
+    private double startHorizBias=14.;
+
+    private double verticalBias=startVertBias;
+    private double horizontalBias=startHorizBias;
 
     InterpolatedMap shooterAngle = new InterpolatedMap();
     InterpolatedMap flyWheelSpeed = new InterpolatedMap();
@@ -67,6 +70,9 @@ public class Vision extends SubsystemBase {
         YValue = SmartDashboard.getNumber("VisionY",0);
         Height = SmartDashboard.getNumber("VisionHeight",0);
         Found = SmartDashboard.getNumber("VisionFound",0);
+
+        SmartDashboard.putNumber("BiasVert", verticalBias);
+        SmartDashboard.putNumber("BiasHoriz", horizontalBias);
     }
 
     public double getDistanceFromTarget() {
@@ -124,23 +130,28 @@ public class Vision extends SubsystemBase {
 
     private void shooterAngleConfig(){
         //left input      right outputb    256
-        shooterAngle.put(115.0, 44.5);//closet shot
-        shooterAngle.put(95.0, 30.0);//10ft
-        shooterAngle.put(62.0, 24.0);//close trench
+
+        shooterAngle.put(115.0, 46.5);//closet shot-2
+        shooterAngle.put(95.0, 35.0);//10ft-2
+        shooterAngle.put(62.0, 26.5);//close trench-2
+        shooterAngle.put(39.0,23.0);
+
 //        shooterAngle.put(45.0, 200.0);
     }
     private void configShooterSpeed() {
         //left input      right output
-        flyWheelSpeed.put(115.0,3000.0);
-        flyWheelSpeed.put(95.0,2500.0);
-        flyWheelSpeed.put(62.0,3000.0);
+        flyWheelSpeed.put(115.0,3250.0);
+        flyWheelSpeed.put(95.0,3500.0);
+        flyWheelSpeed.put(62.0,3500.0);
+        flyWheelSpeed.put(39.0,3500.0);
 //        flyWheelSpeed.put(45.0,3500.0);
     }
     private void configShooterBackspin() {
         //left input      right output
-        backspinData.put(115.0,1500.0);//closest shot
-        backspinData.put(95.0,1500.0);//10ft
-        backspinData.put(62.0,1500.0);//close trench
+        backspinData.put(115.0,750.0);//closest shot
+        backspinData.put(95.0,750.0);//10ft
+        backspinData.put(62.0,1000.0);//close trench
+        backspinData.put(39.0,1000.0);
 //        backspinData.put(45.0,1500.0);
 
     }
@@ -162,7 +173,7 @@ public class Vision extends SubsystemBase {
     }
 
     public void biasReset() {
-        verticalBias = 0;
-        horizontalBias = 0;
+        verticalBias = startVertBias;
+        horizontalBias = startHorizBias;
     }
 }

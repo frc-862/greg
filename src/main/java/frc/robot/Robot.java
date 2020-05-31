@@ -17,7 +17,6 @@ import frc.robot.robots.TwikiContainer;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Set;
 
 public class Robot extends LightningRobot {
 
@@ -31,11 +30,11 @@ public class Robot extends LightningRobot {
     public void robotInit() {
         super.robotInit();
 
-        Set<String> names = getContainer().getAutonomousCommands().keySet();
-        for(var name : names) {
-            registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
-            System.out.println("Registered " + name + " command for auton");
-        }
+//        Set<String> names = getContainer().getAutonomousCommands().keySet();
+//        for(var name : names) {
+//            registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
+//            System.out.println("Registered " + name + " command for auton");
+//        }
         
     }
 

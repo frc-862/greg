@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
@@ -108,25 +107,25 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         // bird = new PigeonIMU(RobotMap.PIGEON_ID);
         // bird.configFactoryDefault();
 
-        kinematics = new DifferentialDriveKinematics(trackWidth);
-
-        odometry = new DifferentialDriveOdometry(getHeading(), pose);
-        
-        feedforward = new SimpleMotorFeedforward(gains.getkS(), gains.getkV(), gains.getkA());
-
-        leftPIDController = new PIDController(gains.getLeft_kP(), gains.getLeft_kI(), gains.getLeft_kD());
-        
-        rightPIDController = new PIDController(gains.getRight_kP(), gains.getRight_kI(), gains.getRight_kD());
+//        kinematics = new DifferentialDriveKinematics(trackWidth);
+//
+//        odometry = new DifferentialDriveOdometry(getHeading(), pose);
+//
+////        feedforward = new SimpleMotorFeedforward(gains.getkS(), gains.getkV(), gains.getkA());
+//
+//        leftPIDController = new PIDController(gains.getLeft_kP(), gains.getLeft_kI(), gains.getLeft_kD());
+//
+//        rightPIDController = new PIDController(gains.getRight_kP(), gains.getRight_kI(), gains.getRight_kD());
         
         SmartDashboard.putNumber("RequestedLeftVolts", 0d);
         SmartDashboard.putNumber("RequestedRightVolts", 0d);
 
-        SmartDashboard.putNumber("PoseRotationDeg", 0d);
-        SmartDashboard.putNumber("PoseTransY", 0d);
-        SmartDashboard.putNumber("PoseTransX", 0d);
-        SmartDashboard.putNumber("PoseTransNorm", 0d);
-
-        SmartDashboard.putNumber("TrackWidthMeters", getKinematics().trackWidthMeters);
+//        SmartDashboard.putNumber("PoseRotationDeg", 0d);
+//        SmartDashboard.putNumber("PoseTransY", 0d);
+//        SmartDashboard.putNumber("PoseTransX", 0d);
+//        SmartDashboard.putNumber("PoseTransNorm", 0d);
+//
+//        SmartDashboard.putNumber("TrackWidthMeters", getKinematics().trackWidthMeters);
 
         SmartDashboard.putNumber("RightTicksPerRev", rightEncoder.getCountsPerRevolution());
         SmartDashboard.putNumber("LeftTicksPerRev", leftEncoder.getCountsPerRevolution());
@@ -207,7 +206,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         resetDistance();
         resetHeading();
         // odometry.resetPosition(new Pose2d(), new Rotation2d());
-        odometry.resetPosition(new Pose2d(new Translation2d(0d, 0d), Rotation2d.fromDegrees(0d)), Rotation2d.fromDegrees(0d));
+//        odometry.resetPosition(new Pose2d(new Translation2d(0d, 0d), Rotation2d.fromDegrees(0d)), Rotation2d.fromDegrees(0d));
     }
 
     private void resetHeading() {
@@ -294,7 +293,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     }
 
     public void setPower(double left, double right) {
-        //System.out.println("Setpower " + left + "," + right);
+        // System.out.println("Setpower " + left + "," + right);
         rightMaster.set(right);
         leftMaster.set(left);
     }

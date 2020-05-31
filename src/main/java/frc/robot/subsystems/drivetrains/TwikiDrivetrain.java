@@ -7,38 +7,34 @@
 
 package frc.robot.subsystems.drivetrains;
 
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lightning.subsystems.LightningDrivetrain;
+import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
-import frc.robot.RobotMap;
-import frc.robot.misc.REVGains;
-import frc.lightning.subsystems.NeoDrivetrain;
 
 public class TwikiDrivetrain extends NeoDrivetrain {
     // DRIVETRAIN
-    public static final int LEFT_1_CAN_ID = 1;
-    public static final int RIGHT_1_CAN_ID = 4;
-
-    Encoder rightEncoder = new Encoder(0, 1);
+    public static final int LEFT_1_CAN_ID = 4;
+    public static final int RIGHT_1_CAN_ID = 1;
 
     public TwikiDrivetrain() {
-        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, 0d, null);
-        getRightMaster().setInverted(true);
+        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, 2d, Constants.TWIKI);
+        initMotorDirections();
+//        getRightMaster().setInverted(true);
+
+
+//        setLeftGains(Constants.leftGains);
+//        setRightGains(Constants.rightGains);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("right encoder", rightEncoder.getDistance());
     }
 
     @Override
@@ -47,8 +43,8 @@ public class TwikiDrivetrain extends NeoDrivetrain {
         getLeftMaster().setInverted(false);
     }
 
+
     public void followup() {
-        getLeftMaster().follow(getRightMaster());
     }
 
     public void crawlRight() {
@@ -80,13 +76,13 @@ public class TwikiDrivetrain extends NeoDrivetrain {
         return 0d; // rightEncoder.getVelocity();
     }
 
-    public CANSparkMax getRightMaster() {
-        return getRightMaster();
-    }
+//    public CANSparkMax getRightMaster() {
+//        return getRightMaster();
+//    }
 
-    public CANSparkMax getLeftMaster() {
-        return getLeftMaster();
-    }
+//    public CANSparkMax getLeftMaster() {
+//        return getLeftMaster();
+//    }
 
     private DifferentialDrive differentialDrive = null;
 

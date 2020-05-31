@@ -17,14 +17,14 @@ public class SmartDashDrivetrain extends SubsystemBase {
 
         tab.addNumber("Left Distance", () -> drivetrain.getLeftDistance());
         tab.addNumber("Right Distance", () -> drivetrain.getRightDistance());
-
-        tab.addNumber("Pose Rotation Deg", () -> drivetrain.getPose().getRotation().getDegrees());
-        tab.addNumber("Pose Trans Y", () -> drivetrain.getPose().getTranslation().getY());
-        tab.addNumber("Pose Trans X", () -> drivetrain.getPose().getTranslation().getX());
-        tab.addNumber("Pose Trans Norm", () -> drivetrain.getPose().getTranslation().getNorm());
+//
+//        tab.addNumber("Pose Rotation Deg", () -> drivetrain.getPose().getRotation().getDegrees());
+//        tab.addNumber("Pose Trans Y", () -> drivetrain.getPose().getTranslation().getY());
+//        tab.addNumber("Pose Trans X", () -> drivetrain.getPose().getTranslation().getX());
+//        tab.addNumber("Pose Trans Norm", () -> drivetrain.getPose().getTranslation().getNorm());
 
         tab.addNumber("Heading", () -> drivetrain.getHeading().getDegrees());
-        tab.addNumber("Right Wheel Speed", () -> drivetrain.getSpeeds().rightMetersPerSecond);
-        tab.addNumber("Left Wheel Speed", () -> drivetrain.getSpeeds().leftMetersPerSecond);
+//        tab.addNumber("Right Wheel Speed", () -> drivetrain.getSpeeds().rightMetersPerSecond);
+//        tab.addNumber("Left Wheel Speed", () -> drivetrain.getSpeeds().leftMetersPerSecond);
     }
 }

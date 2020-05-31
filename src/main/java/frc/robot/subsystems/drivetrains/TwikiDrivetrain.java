@@ -9,11 +9,7 @@ package frc.robot.subsystems.drivetrains;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
@@ -29,8 +25,8 @@ public class TwikiDrivetrain extends NeoDrivetrain {
 //        getRightMaster().setInverted(true);
 
 
-//        setLeftGains(Constants.leftGains);
-//        setRightGains(Constants.rightGains);
+        setLeftGains(Constants.leftGains);
+        setRightGains(Constants.rightGains);
     }
 
     @Override
@@ -122,62 +118,8 @@ public class TwikiDrivetrain extends NeoDrivetrain {
     }
 
     @Override
-    public void setOutput(double leftVolts, double rightVolts) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public DifferentialDriveKinematics getKinematics() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Pose2d getPose() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public DifferentialDriveWheelSpeeds getSpeeds() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public PIDController getLeftPidController() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public PIDController getRightPidController() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public double getRightVolts() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public double getLeftVolts() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void setRamseteOutput(double leftVolts, double rightVolts) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
     public RamseteGains getConstants() {
         // TODO Auto-generated method stub
-        return null;
+        return Constants.TWIKI;
     }
 }

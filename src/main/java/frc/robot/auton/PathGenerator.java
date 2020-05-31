@@ -33,8 +33,12 @@ public class PathGenerator {
                                 // new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                 // new Pose2d(4d, -1d, Rotation2d.fromDegrees(0d)),
                                 // new Pose2d(8d, 0d, Rotation2d.fromDegrees(0d)))),
-        
-        TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+
+        SIMPLE_ONE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                new Pose2d(-2d, -2d, Rotation2d.fromDegrees(90d))),
+                true),
+
+        TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
                                     new Pose2d(-2d, -2d, Rotation2d.fromDegrees(90d))), 
                                     true),
         

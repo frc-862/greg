@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -22,8 +21,7 @@ import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IMU;
-import frc.robot.subsystems.LED;
+import frc.robot.auton.PathGenerator;
 import frc.robot.subsystems.drivetrains.TwikiDrivetrain;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.systemtests.drivetrain.LeftSideMoves;
@@ -72,9 +70,7 @@ public class TwikiContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
-        SmartDashboard.putData("Followup", new InstantCommand(() -> drivetrain.followup(), drivetrain));
-        SmartDashboard.putData("Left Crawl", new RunCommand(() -> drivetrain.crawlLeft(), drivetrain));
-        SmartDashboard.putData("Right Crawl", new RunCommand(() -> drivetrain.crawlRight(), drivetrain));
+        SmartDashboard.putData("Simple Path", PathGenerator.generateRamseteCommand(drivetrain, PathGenerator.Paths.TEST_PATH));
         SmartDashboard.putData("Stop", new InstantCommand(() -> drivetrain.stop(), drivetrain));
         SmartDashboard.putData("Unfollow", new InstantCommand(() -> drivetrain.unfollow(), drivetrain));
     }

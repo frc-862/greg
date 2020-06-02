@@ -118,21 +118,20 @@ public class PathGenerator {
         return path.getTrajectory(drivetrain).getTotalTimeSeconds();
     }
 
-    public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain, Paths path) {
-
+    static public RamseteCommand generateRamseteCommand(LightningDrivetrain drivetrain, Paths path) {
         Trajectory trajectory = path.getTrajectory(drivetrain);
 
         RamseteCommand cmd = new RamseteCommand(
-            trajectory,
-            drivetrain::getRelativePose,
-            new RamseteController(),
-            drivetrain.getFeedforward(),
-            drivetrain.getKinematics(),
-            drivetrain::getSpeeds,
-            drivetrain.getLeftPidController(),
-            drivetrain.getRightPidController(),
-            drivetrain::setRamseteOutput,
-            drivetrain
+                trajectory,
+                drivetrain::getRelativePose,
+                new RamseteController(),
+                drivetrain.getFeedforward(),
+                drivetrain.getKinematics(),
+                drivetrain::getSpeeds,
+                drivetrain.getLeftPidController(),
+                drivetrain.getRightPidController(),
+                drivetrain::setRamseteOutput,
+                drivetrain
         ) {
             @Override
             public void initialize() {
@@ -147,7 +146,11 @@ public class PathGenerator {
         };
 
         return cmd;
-        
+
+    }
+
+    public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain, Paths path) {
+        return PathGenerator.generateRamseteCommand(drivetrain, path);
     }
 
 }

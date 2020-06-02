@@ -91,5 +91,4 @@ public class GregDrivetrain extends NeoDrivetrain {
     public RamseteGains getConstants() {
         return Constants.GREG;
     }
-
 }

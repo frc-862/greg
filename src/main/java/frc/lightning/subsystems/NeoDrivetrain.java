@@ -71,6 +71,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
 
     private double[] ypr = new double[3];
 
+    public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, RamseteGains gains) {
+        this(motorCountPerSide, firstLeftCanId, firstRightCanId, gains.getTrackWidth(), gains);
+    }
+
     public NeoDrivetrain(int motorCountPerSide, int firstLeftCanId, int firstRightCanId, double trackWidth, RamseteGains gains) {
         setName(name);
         this.motorCount = motorCountPerSide;
@@ -103,10 +107,10 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         withEachMotor((m) -> m.setClosedLoopRampRate(CLOSE_LOOP_RAMP_RATE));
         brake();
 
+        //TODO this does not belong in a "base" drive train class
+        //     one suggestion would be to include an interfacce that
+        //     returns a heading that is an option constructor parameter
         navx = new AHRS(SPI.Port.kMXP);
-
-        // bird = new PigeonIMU(RobotMap.PIGEON_ID);
-        // bird.configFactoryDefault();
 
         kinematics = new DifferentialDriveKinematics(trackWidth);
 

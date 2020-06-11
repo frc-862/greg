@@ -39,10 +39,20 @@ public class PathGenerator {
                 true),
 
         TEST_PATH_TWO(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
-                                    new Pose2d(-2d, -2d, Rotation2d.fromDegrees(90d))), 
-                                    true),
-        
-        INIT_LINE_COLLECT_FWD(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+                                    new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d))),
+                                    false),
+
+        TEST_PATH_THREE(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                new Pose2d(1d, 1d, Rotation2d.fromDegrees(90d))),
+                false),
+
+        TEST_PATH_FOUR(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+                // new Pose2d(1d, 1d, Rotation2d.fromDegrees(90d)),
+                new Pose2d(1d, 1d, Rotation2d.fromDegrees(270d)),
+                new Pose2d(0, 0, Rotation2d.fromDegrees(180))
+        ),false),
+
+        INIT_LINE_COLLECT_FWD(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
                                             new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))),
         
         INIT_LINE_FWD2SHOOT(Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 

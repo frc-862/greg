@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -69,9 +71,14 @@ public class TwikiContainer extends LightningContainer {
     }
 
     private void initializeDashboardCommands() {
+        SmartDashboard.putData("reset pose", new InstantCommand(() -> drivetrain.resetSensorVals()));
         PathGenerator pathGenerator = new PathGenerator();
-        var cmd = pathGenerator.getRamseteCommand(drivetrain, PathGenerator.Paths.TEST_PATH_TWO);
-        SmartDashboard.putData("Simple Path: ", cmd);
+        RamseteCommand cmd = pathGenerator.getRamseteCommand(drivetrain, PathGenerator.Paths.TEST_PATH_TWO);
+        SmartDashboard.putData("Simple Path2: ", cmd);
+        cmd = pathGenerator.getRamseteCommand(drivetrain, PathGenerator.Paths.TEST_PATH_THREE);
+        SmartDashboard.putData("Simple Path3: ", cmd);
+        cmd = pathGenerator.getRamseteCommand(drivetrain, PathGenerator.Paths.TEST_PATH_FOUR);
+        SmartDashboard.putData("Simple Path4: ", cmd);
     }
 
     /**

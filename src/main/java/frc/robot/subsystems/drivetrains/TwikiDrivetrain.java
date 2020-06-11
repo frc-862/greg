@@ -8,8 +8,7 @@
 package frc.robot.subsystems.drivetrains;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
 import frc.robot.Constants;
@@ -20,17 +19,17 @@ public class TwikiDrivetrain extends NeoDrivetrain {
     public static final int RIGHT_1_CAN_ID = 1;
 
     public TwikiDrivetrain() {
-        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, 2d, Constants.TWIKI);
+        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, 0.558371759, Constants.TWIKI);
         initMotorDirections();
-//        getRightMaster().setInverted(true);
 
-
-        setLeftGains(Constants.leftGains);
-        setRightGains(Constants.rightGains);
+        setLeftGains(Constants.leftTwikiGains);
+        setRightGains(Constants.rightTwikiGains);
     }
 
     @Override
     public void periodic() {
+        super.periodic();
+        SmartDashboard.putString("Pose", getPose().toString());
     }
 
     @Override
@@ -39,66 +38,6 @@ public class TwikiDrivetrain extends NeoDrivetrain {
         getLeftMaster().setInverted(false);
     }
 
-
-    public void followup() {
-    }
-
-    public void crawlRight() {
-        getRightMaster().set(0.15);
-    }
-
-    public void crawlLeft() {
-        getLeftMaster().set(0.15);
-    }
-
-    public void resetDistance() {
-        // leftEncoder.setPosition(0.0);
-        // rightEncoder.setPosition(0.0);
-    }
-
-    public double getLeftDistance() {
-        return 0d; // leftEncoder.getPosition();
-    }
-
-    public double getRightDistance() {
-        return 0d; // rightEncoder.getPosition();
-    }
-
-    public double getLeftVelocity() {
-        return 0d; // leftEncoder.getVelocity();
-    }
-
-    public double getRightVelocity() {
-        return 0d; // rightEncoder.getVelocity();
-    }
-
-//    public CANSparkMax getRightMaster() {
-//        return getRightMaster();
-//    }
-
-//    public CANSparkMax getLeftMaster() {
-//        return getLeftMaster();
-//    }
-
-    private DifferentialDrive differentialDrive = null;
-
-    public DifferentialDrive getDifferentialDrive() {
-        if (differentialDrive == null) {
-            differentialDrive = new DifferentialDrive(getLeftMaster(), getRightMaster());
-            differentialDrive.setRightSideInverted(false);
-        }
-        return differentialDrive;
-    }
-
-    @Override
-    public void brake() {
-        this.withEachMotor(m -> m.setIdleMode(IdleMode.kBrake));
-    }
-
-    @Override
-    public void coast() {
-        this.withEachMotor(m -> m.setIdleMode(IdleMode.kCoast));
-    }
 
     public void unfollow() {
         CANSparkMax.ExternalFollower f = new CANSparkMax.ExternalFollower(0,0);

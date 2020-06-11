@@ -107,15 +107,15 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
         // bird = new PigeonIMU(RobotMap.PIGEON_ID);
         // bird.configFactoryDefault();
 
-//        kinematics = new DifferentialDriveKinematics(trackWidth);
-//
-//        odometry = new DifferentialDriveOdometry(getHeading(), pose);
-//
-////        feedforward = new SimpleMotorFeedforward(gains.getkS(), gains.getkV(), gains.getkA());
-//
-//        leftPIDController = new PIDController(gains.getLeft_kP(), gains.getLeft_kI(), gains.getLeft_kD());
-//
-//        rightPIDController = new PIDController(gains.getRight_kP(), gains.getRight_kI(), gains.getRight_kD());
+        kinematics = new DifferentialDriveKinematics(trackWidth);
+
+        odometry = new DifferentialDriveOdometry(getHeading(), pose);
+
+        feedforward = new SimpleMotorFeedforward(gains.getkS(), gains.getkV(), gains.getkA());
+
+        leftPIDController = new PIDController(gains.getLeft_kP(), gains.getLeft_kI(), gains.getLeft_kD());
+
+        rightPIDController = new PIDController(gains.getRight_kP(), gains.getRight_kI(), gains.getRight_kD());
         
         SmartDashboard.putNumber("RequestedLeftVolts", 0d);
         SmartDashboard.putNumber("RequestedRightVolts", 0d);
@@ -205,7 +205,7 @@ public class NeoDrivetrain extends SubsystemBase implements LightningDrivetrain 
     public void resetSensorVals() {
         resetDistance();
         resetHeading();
-        // odometry.resetPosition(new Pose2d(), new Rotation2d());
+        odometry.resetPosition(new Pose2d(), new Rotation2d());
 //        odometry.resetPosition(new Pose2d(new Translation2d(0d, 0d), Rotation2d.fromDegrees(0d)), Rotation2d.fromDegrees(0d));
     }
 

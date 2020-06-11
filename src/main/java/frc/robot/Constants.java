@@ -48,7 +48,7 @@ public class Constants {
 
     public static final RamseteGains TWIKI = new RamseteGains(0.5583711759, // trackWidth
             0.136, // kS
-            2.51, // kV - 254 . . . these numbers must work!
+            2.51, // kV
             0.318, // kA
             0.121, // left_kP
             0d, // left_kI
@@ -56,8 +56,10 @@ public class Constants {
             0.121, // right_kP
             0d, // right_kI
             0d, // right_kD
-            5.4d, // maxVelocity (ft/sec)
-            5d); // maxAcceleration (ft/sec^2)
+            2.4d, // maxVelocity (ft/sec)
+            2d); // maxAcceleration (ft/sec^2)
+//            5.4d, // maxVelocity (ft/sec)
+//                    5d); // maxAcceleration (ft/sec^2)
 
     public static final double VOLT_LIMIT = 12d;
 
@@ -68,6 +70,9 @@ public class Constants {
     public static final double FLYWHEEL_EPSILON = 100;
     public static final double ROTATION_TOLERANCE = 75;
     public static final double VISION_ROTATION_TOLERANCE = 15;
+
+    public static REVGains leftTwikiGains = new REVGains(0.01, 0.000001, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
+    public static REVGains rightTwikiGains = new REVGains(0.01, 0.000001, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
 
     public static REVGains leftGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM
     public static REVGains rightGains = new REVGains(4e-3, 1e-6, 0.0, 0.0, 0.0, 1.0, -1.0, NEO_MAX_RPM); // P, I, D, FF, Iz, MaxOutput, MinOutput, MaxRPM

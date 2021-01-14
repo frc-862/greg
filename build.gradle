@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2020.3.2"
+    id "edu.wpi.first.GradleRIO" version "2021.1.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -37,72 +37,8 @@ deploy {
     }
 }
 
-tasks.register("update_version") {
-  def versionPropsFile = file('src/main/resources/version.properties')
-  def versionBuild
-  def gitHash
-
-  def getGitHash = { ->
-      def stdout = new ByteArrayOutputStream()
-      exec {
-          commandLine 'git', 'rev-parse', 'HEAD'
-          standardOutput = stdout
-      }
-      return stdout.toString().trim()
-  }
-
-  def getGitBranch = { ->
-      def stdout = new ByteArrayOutputStream()
-      exec {
-          commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
-          standardOutput = stdout
-      }
-      return stdout.toString().trim()
-  }
-
-  def getGitStatus = { ->
-      def stdout = new ByteArrayOutputStream()
-      exec {
-          commandLine 'git', 'status'
-          standardOutput = stdout
-      }
-      return stdout.toString().trim()
-  }
-
-  doLast {
-	mkdir("src/main/resources")
-        ant.touch(file:"src/main/resources/version.properties")
-        if (versionPropsFile.canRead()) {
-            def Properties versionProps = new Properties()
-            versionProps.load(new FileInputStream(versionPropsFile))
-            if (versionProps['VERSION_BUILD'] == null) {
-                versionBuild = 1
-            } else {
-                versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
-            }
-            versionProps['VERSION_BUILD'] = versionBuild.toString()
-
-            gitHash = getGitHash()
-            versionProps['GIT_HASH'] = gitHash
-            versionProps['GIT_BRANCH'] = getGitBranch()
-            versionProps['BUILD_TIME'] = (new Date()).toString()
-            versionProps['BUILD_STATUS'] = getGitStatus()
-
-            versionProps.store(versionPropsFile.newWriter(), null)
-        } else {
-            throw new FileNotFoundException("Could not read version.properties!")
-        }
-  }
-}
-
-tasks.named("deploy") {
-  dependsOn("update_version")
-}
-
 // Set this to true to enable desktop support.
 def includeDesktopSupport = false
-
-repositories { jcenter() }
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
@@ -122,6 +58,17 @@ dependencies {
     // Enable simulation gui support. Must check the box in vscode to enable support
     // upon debugging
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+    simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
+
+    // Websocket extensions require additional configuration.
+    // simulation wpi.deps.sim.ws_server(wpi.platforms.desktop, false)
+    // simulation wpi.deps.sim.ws_client(wpi.platforms.desktop, false)
+}
+
+// Simulation configuration (e.g. environment variables).
+sim {
+    // Sets the websocket client remote host.
+    // envVar "HALSIMWS_HOST", "10.0.0.2"
 }
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
@@ -131,4 +78,3 @@ jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
-

@@ -8,14 +8,15 @@
                 "linuxaarch64bionic",
                 "linuxx86-64",
                 "linuxathena",
-                "linuxraspbian"
+                "linuxraspbian",
+                "osxx86-64"
             ],
             "groupId": "com.revrobotics.frc",
             "headerClassifier": "headers",
             "libName": "SparkMax",
             "sharedLibrary": false,
             "skipInvalidPlatforms": true,
-            "version": "1.5.1"
+            "version": "1.5.4"
         },
         {
             "artifactId": "SparkMax-driver",
@@ -25,14 +26,15 @@
                 "linuxaarch64bionic",
                 "linuxx86-64",
                 "linuxathena",
-                "linuxraspbian"
+                "linuxraspbian",
+                "osxx86-64"
             ],
             "groupId": "com.revrobotics.frc",
             "headerClassifier": "headers",
             "libName": "SparkMaxDriver",
             "sharedLibrary": false,
             "skipInvalidPlatforms": true,
-            "version": "1.5.1"
+            "version": "1.5.4"
         }
     ],
     "fileName": "REVRobotics.json",
@@ -40,7 +42,7 @@
         {
             "artifactId": "SparkMax-java",
             "groupId": "com.revrobotics.frc",
-            "version": "1.5.1"
+            "version": "1.5.4"
         }
     ],
     "jniDependencies": [
@@ -55,16 +57,17 @@
                 "linuxaarch64bionic",
                 "linuxx86-64",
                 "linuxathena",
-                "linuxraspbian"
+                "linuxraspbian",
+                "osxx86-64"
             ],
-            "version": "1.5.1"
+            "version": "1.5.4"
         }
     ],
-    "jsonUrl": "https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json",
+    "jsonUrl": "http://www.revrobotics.com/content/sw/max/sdk/REVRobotics.json",
     "mavenUrls": [
-        "https://www.revrobotics.com/content/sw/max/sdk/maven/"
+        "http://www.revrobotics.com/content/sw/max/sdk/maven/"
     ],
     "name": "REVRobotics",
     "uuid": "3f48eb8c-50fe-43a6-9cb7-44c86353c4cb",
-    "version": "1.5.1"
+    "version": "1.5.4"
 }

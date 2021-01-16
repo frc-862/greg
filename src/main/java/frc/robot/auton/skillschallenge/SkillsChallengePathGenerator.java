@@ -58,20 +58,20 @@ public class SkillsChallengePathGenerator {
     }
 
     private static Trajectory getTrajectoryFromJSON(String jsonPath){
-        java.nio.file.Path trajPath = new java.nio.file.Path(jsonPath);
+        
         Trajectory trajectory = null;
         try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajPath);
+            java.nio.file.Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(jsonPath);
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
         } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajPath, ex.getStackTrace());
+            DriverStation.reportError("Unable to open trajectory: " + jsonPath, ex.getStackTrace());
         }   
 
         return trajectory;
     }
 
     public double getDuration(LightningDrivetrain drivetrain, Path path) {
-        return path.getTrajectory(drivetrain).getTotalTimeSeconds();
+        return map.get(path).getTotalTimeSeconds();
     }
 
     static public RamseteCommand generateRamseteCommand(LightningDrivetrain drivetrain, Path path) {

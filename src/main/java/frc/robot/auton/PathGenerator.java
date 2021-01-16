@@ -128,7 +128,7 @@ public class PathGenerator {
                 drivetrain.getFeedforward(),
                 drivetrain.getKinematics(),
                 drivetrain::getSpeeds,
-                drivetrain.getLeftPidController(),
+                drivetrain.getLeftPidController(), 
                 drivetrain.getRightPidController(),
                 drivetrain::setRamseteOutput,
                 drivetrain

@@ -15,9 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
-import frc.lightning.subsystems.DrivetrainLogger;
+//import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.subsystems.SmartDashDrivetrain;
+import frc.lightning.LightningConfig;
+//import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.commands.CollectEject;
@@ -41,8 +42,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
  */
 public class NebulaContainer extends LightningContainer {
   private final LightningDrivetrain drivetrain = NebulaDrivetrain.create();
-  private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-  private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+ // private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+ // private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
   private final Collector collector = new Collector();
   private final PrototypeShooter prototypeShooter = new PrototypeShooter();
@@ -74,7 +75,7 @@ public class NebulaContainer extends LightningContainer {
 
   }
 
-  private void initializeDashboardCommands() {
+  protected void initializeDashboardCommands() {
     double var = SmartDashboard.getNumber("Shooter RPM", 0);
     SmartDashboard.putData("OpenLoop", new TankDrive(drivetrain, () -> -driver.getY(GenericHID.Hand.kLeft),
         () -> -driver.getY(GenericHID.Hand.kRight)));
@@ -96,12 +97,6 @@ public class NebulaContainer extends LightningContainer {
   }
 
   @Override
-  public HashMap<String, Command> getAutonomousCommands() {
-    Command[] result = {  };
-    return null; // result;
-  }
-
-  @Override
   public void configureDefaultCommands() {
   }
 
@@ -114,4 +109,10 @@ public class NebulaContainer extends LightningContainer {
     return drivetrain;
   }
 
+  protected void configureSystemTests(){};
+
+  // TODO: Add LightningConfig
+  public LightningConfig getConfig(){ return null; }
+  
+  protected void configureAutonomousCommands(){};
 }

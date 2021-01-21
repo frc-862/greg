@@ -32,7 +32,8 @@ public class TwikiDrivetrain extends NeoDrivetrain {
     Encoder rightEncoder = new Encoder(0, 1);
 
     public TwikiDrivetrain() {
-        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, Constants.TWIKI);
+       // super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, Constants.TWIKI);
+        super(null, 1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, null, null);
         initMotorDirections();
     }
 

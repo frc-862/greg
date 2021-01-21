@@ -75,7 +75,8 @@ public class VisionRotate extends CommandBase {
 
         logger.set("error", visionOffset);
         logger.set("power", pwr);
-        logger.set("gyro", drivetrain.getHeading().getDegrees());
+        // TODO implement LightningDriveTrain.getHeading().getDegrees()
+       // logger.set("gyro", drivetrain.getHeading().getDegrees());
 
         if (visionOffset > 0) {
             pwr = LightningMath.constrain(pwr, MIN_ROTATE_PWR, 1);

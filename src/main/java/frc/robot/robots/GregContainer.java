@@ -23,9 +23,10 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.lightning.LightningContainer;
 import frc.lightning.commands.RumbleCommand;
-import frc.lightning.subsystems.DrivetrainLogger;
+import frc.lightning.LightningConfig;
+//import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.subsystems.SmartDashDrivetrain;
+//import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -50,8 +51,8 @@ import java.util.Map;
 public class GregContainer extends LightningContainer {
 
     private final LightningDrivetrain drivetrain = new GregDrivetrain();
-    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+    //private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+    //private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 
     private final Logging loggerSystem = new Logging();
     private final Vision vision = new Vision();
@@ -108,7 +109,7 @@ public class GregContainer extends LightningContainer {
                                                            () -> -climberController.getRawAxis(5)));
     }
 
-    private void initializeDashboardCommands() {
+    protected void initializeDashboardCommands() {
         SmartDashboard.putBoolean("Happy", false);
         SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain, vision));
         SmartDashboard.putData("Ring 1 on", new InstantCommand(() -> vision.ringOn()));
@@ -154,17 +155,14 @@ public class GregContainer extends LightningContainer {
         (new POVButton(operator, 270)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
     }
 
-    @Override
-    public HashMap<String, Command> getAutonomousCommands() 
-    {
-         //return autonGenerator.getCommands();
-         return skillsChallengeAutonGenerator.getCommands();
-    }
-
     public double getCollectPower() {
         return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 
+    protected void configureAutonomousCommands(){
+        skillsChallengeAutonGenerator.registerAutonomousCommands();
+    };
+    
     @Override
     public void configureDefaultCommands() {}
 
@@ -173,5 +171,11 @@ public class GregContainer extends LightningContainer {
 
     @Override
     public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
+    protected void configureSystemTests(){};
+
+    // TODO: Add LightningConfig
+    public LightningConfig getConfig(){ return null; }
+
 
 }

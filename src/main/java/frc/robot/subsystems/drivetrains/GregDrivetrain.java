@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.util.RamseteGains;
+import frc.lightning.LightningConfig;
 import frc.robot.Constants;
 import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
@@ -54,8 +55,8 @@ public class GregDrivetrain extends NeoDrivetrain {
     }
 
     public GregDrivetrain() {
-        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);
-
+        //super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.GREG.getTrackWidth(), Constants.GREG);
+        super(null, RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, null, null);
         leftEncoder = new Encoder(new DigitalInput(RobotMap.LEFT_ENCODER_CHANNEL_A), new DigitalInput(RobotMap.LEFT_ENCODER_CHANNEL_B), false);
         rightEncoder = new Encoder(new DigitalInput(RobotMap.RIGHT_ENCODER_CHANNEL_A), new DigitalInput(RobotMap.RIGHT_ENCODER_CHANNEL_B), true);
         
@@ -64,8 +65,8 @@ public class GregDrivetrain extends NeoDrivetrain {
         leftEncoder.setDistancePerPulse(RobotConstants.ENCODER_PULSE_TO_METERS);
         rightEncoder.setDistancePerPulse(RobotConstants.ENCODER_PULSE_TO_METERS);
 
-        setLeftGains(Constants.leftGains);
-        setRightGains(Constants.rightGains);
+        //setLeftGains(Constants.leftGains);
+        //setRightGains(Constants.rightGains);
 
         withEachMotor((m) -> m.burnFlash());
 

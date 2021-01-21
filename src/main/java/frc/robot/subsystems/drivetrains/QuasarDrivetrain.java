@@ -21,11 +21,13 @@ public class QuasarDrivetrain extends NeoDrivetrain {
      */
 
     public QuasarDrivetrain() {
-        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR.getTrackWidth(), Constants.QUASAR);
+        //super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR.getTrackWidth(), Constants.QUASAR);
+        super(null, RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, null, null);
         initMotorDirections();
 
-        setLeftGains(Constants.quasarLeftGains);
-        setRightGains(Constants.quasarRightGains);
+        //TODO: add/remove Rev support
+       // setLeftGains(Constants.quasarLeftGains);
+       // setRightGains(Constants.quasarRightGains);
 
         REVGains.putGainsToBeTunedOnDash((getName() + "_RIGHT"), Constants.quasarRightGains, getRightPIDFC());
         REVGains.putGainsToBeTunedOnDash((getName() + "_LEFT"), Constants.quasarLeftGains, getLeftPIDFC());

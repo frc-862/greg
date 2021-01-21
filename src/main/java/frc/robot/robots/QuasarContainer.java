@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.testing.SystemTest;
+import frc.lightning.LightningConfig;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.commands.Manual;
@@ -61,7 +62,7 @@ public class QuasarContainer extends LightningContainer {
 
   }
 
-  private void initializeDashboardCommands() {
+ protected void initializeDashboardCommands() {
 //    SmartDashboard.putData("vision rotate", new VisionRotate(drivetrain,vision));
 //    SmartDashboard.putData("go blue", new InstantCommand(() -> led.goOrangeAndBlue(), led));
 //    SmartDashboard.putData("off", new InstantCommand(() -> led.goOff(), led));
@@ -69,7 +70,7 @@ public class QuasarContainer extends LightningContainer {
 //    SmartDashboard.putData("Position WoF", new PositionWheel(WheelofFortune));
   }
 
-  private void configureSystemTests() {
+  protected void configureSystemTests() {
     SystemTest.register(new LeftSideMoves(drivetrain));
     SystemTest.register(new RightSideMoves(drivetrain));
     SystemTest.register(new MoveMasters(drivetrain));
@@ -114,5 +115,10 @@ private DoubleSupplier getCtrlPower(){
   @Override
   public void configureButtonBindings() {
   }
+
+  // TODO: Add LightningConfig
+   public LightningConfig getConfig(){ return null; }
+   
+   protected void configureAutonomousCommands(){};
 
 }

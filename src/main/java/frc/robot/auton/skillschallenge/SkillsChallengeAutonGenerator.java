@@ -9,7 +9,9 @@ package frc.robot.auton.skillschallenge;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.robot.auton.PathGenerator.Paths;
+import frc.lightning.auto.Autonomous;
+import frc.lightning.auto.Path;
+import frc.lightning.auto.Paths;
 import frc.robot.commands.FullAutoFireMagazine;
 import frc.robot.commands.shooter.FireFive;
 import frc.robot.commands.shooter.FireThree;
@@ -19,7 +21,8 @@ import frc.robot.auton.skillschallenge.SkillsChallengeAutoDriveCollect;
 import frc.robot.auton.InitAuto;
 import frc.robot.subsystems.*;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class SkillsChallengeAutonGenerator {
 
@@ -52,64 +55,18 @@ public class SkillsChallengeAutonGenerator {
 
     }
 
-    public HashMap<String, Command> getCommands() {
+    public void registerAutonomousCommands() {
 
-        HashMap<String, Command> map = new HashMap<>();
+        Set<String> paths = Paths.getPaths().keySet();
 
-        map.put("Blue A", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.FIELD_A_BLUE)
-        ));
-
-        map.put("Blue B", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.FIELD_B_BLUE)
-        ));
-
-        map.put("Red A", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.FIELD_A_RED)
-        ));
-
-        map.put("Red B", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.FIELD_B_RED)
-        ));
-
-        map.put("Barrel Racing", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.BARREL_RACING)
-        ));
-
-        map.put("Slalom", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.SLALOM)
-        ));
-
-        map.put("Bounce1", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.BOUNCE1)
-        ));
-
-        map.put("Bounce2", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.BOUNCE2)
-        ));
-
-        map.put("Bounce3", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.BOUNCE3)
-        ));
-
-        map.put("Bounce4", new SequentialCommandGroup(
-            new InitAuto(vision, indexer, collector),
-            new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, SkillsChallengePathGenerator.Path.BOUNCE4)
-        ));
-
-      
-        // Return New List
-        return map;
-
+        for(String name : paths){
+            if(name.startsWith("IR")){
+                Autonomous.register(name.substring(3), new SequentialCommandGroup(
+                    new InitAuto(vision, indexer, collector),
+                    new SkillsChallengeAutoDriveCollect(drivetrain, collector, indexer, Paths.getPath(name))
+                ));
+            }
+        }
     }
 
 }

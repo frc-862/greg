@@ -14,10 +14,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.lightning.LightningContainer;
-import frc.lightning.subsystems.DrivetrainLogger;
+//import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.subsystems.SmartDashDrivetrain;
+//import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.lightning.testing.SystemTest;
+import frc.lightning.LightningConfig;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,8 +36,8 @@ import frc.robot.systemtests.drivetrain.RightSideMoves;
  */
 public class TwikiContainer extends LightningContainer {
     private final TwikiDrivetrain drivetrain = new TwikiDrivetrain();
-    private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
-    private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
+   // private final DrivetrainLogger drivetrainLogger = new DrivetrainLogger(drivetrain);
+   // private final SmartDashDrivetrain smartDashDrivetrain = new SmartDashDrivetrain(drivetrain);
 //    private final IMU IMU = new IMU();
     // private final LED led = new LED();
 
@@ -53,7 +54,7 @@ public class TwikiContainer extends LightningContainer {
         configureSystemTests();
     }
 
-    private void configureSystemTests() {
+    protected void configureSystemTests() {
         SystemTest.register(new LeftSideMoves(drivetrain));
         SystemTest.register(new RightSideMoves(drivetrain));
     }
@@ -69,7 +70,7 @@ public class TwikiContainer extends LightningContainer {
         // drivetrain.setDefaultCommand(new RunCommand(() -> {}, drivetrain));
     }
 
-    private void initializeDashboardCommands() {
+    protected void initializeDashboardCommands() {
         SmartDashboard.putData("Simple Path", PathGenerator.generateRamseteCommand(drivetrain, PathGenerator.Paths.TEST_PATH));
         SmartDashboard.putData("Stop", new InstantCommand(() -> drivetrain.stop(), drivetrain));
         SmartDashboard.putData("Unfollow", new InstantCommand(() -> drivetrain.unfollow(), drivetrain));
@@ -86,13 +87,12 @@ public class TwikiContainer extends LightningContainer {
     }
 
   @Override
-  public HashMap<String, Command> getAutonomousCommands() {
-    Command[] result = {  };
-    return null; // result;
-  }
-
-  @Override
   public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
+  // TODO: Add LightningConfig
+  public LightningConfig getConfig(){ return null; }
+  
+  protected void configureAutonomousCommands(){};
 
 }
 

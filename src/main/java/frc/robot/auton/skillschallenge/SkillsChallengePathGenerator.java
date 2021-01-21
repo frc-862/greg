@@ -8,7 +8,6 @@
 package frc.robot.auton.skillschallenge;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -16,10 +15,9 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.DriverStation;
+import frc.lightning.auto.Path;
+import frc.lightning.auto.Paths;
 
-import java.nio.file.Path;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -28,36 +26,23 @@ import java.util.function.DoubleSupplier;
 /**
  * Add your docs here.
  */
+
 public class SkillsChallengePathGenerator {
 
-    public enum Path{
-        FIELD_A_BLUE,
-        BARREL_RACING,
-        FIELD_A_RED,
-        FIELD_B_RED,
-        FIELD_B_BLUE,
-        SLALOM,
-        BOUNCE1,
-        BOUNCE2,
-        BOUNCE3,
-        BOUNCE4
-    }
-    private static HashMap<Path, Trajectory> map = new HashMap<>();
-
     static{
-        map.put(Path.FIELD_A_BLUE, getTrajectoryFromJSON("paths/output/BlueA.wpilib.json"));
-        map.put(Path.FIELD_B_BLUE, getTrajectoryFromJSON("paths/output/BlueB.wpilib.json"));
-        map.put(Path.FIELD_A_RED, getTrajectoryFromJSON("paths/output/RedA.wpilib.json"));
-        map.put(Path.FIELD_B_RED, getTrajectoryFromJSON("paths/output/RedB.wpilib.json"));
-        map.put(Path.BARREL_RACING, getTrajectoryFromJSON("paths/output/BarrelRacing.wpilib.json"));
-        map.put(Path.SLALOM, getTrajectoryFromJSON("paths/output/Slalom.wpilib.json"));
-        map.put(Path.BOUNCE1, getTrajectoryFromJSON("paths/output/Bounce1.wpilib.json"));
-        map.put(Path.BOUNCE2, getTrajectoryFromJSON("paths/output/Bounce2.wpilib.json"));
-        map.put(Path.BOUNCE3, getTrajectoryFromJSON("paths/output/Bounce3.wpilib.json"));
-        map.put(Path.BOUNCE4, getTrajectoryFromJSON("paths/output/Bounce4.wpilib.json"));
+        Paths.register("IR Blue A", new Path("Blue A", "paths/output/BlueA.wpilib.json", false));
+        Paths.register("IR Blue B", new Path("Blue B","paths/output/BlueB.wpilib.json", false));
+        Paths.register("IR Red A", new Path("Red A","paths/output/RedA.wpilib.json", false));
+        Paths.register("IR Red B", new Path("Red B","paths/output/RedB.wpilib.json", false));
+        Paths.register("IR Barrel Racing", new Path("Barrel Racing","paths/output/BarrelRacing.wpilib.json", false));
+        Paths.register("IR Slalom", new Path("Slalom","paths/output/Slalom.wpilib.json", false));
+        Paths.register("IR Bounce 1", new Path("Bounce 1","paths/output/Bounce1.wpilib.json", false));
+        Paths.register("IR Bounce 2", new Path("Bounce 2","paths/output/Bounce2.wpilib.json", false));
+        Paths.register("IR Bounce 3", new Path("Bounce 3","paths/output/Bounce3.wpilib.json", false));
+        Paths.register("IR Bounce 4", new Path("Bounce 4","paths/output/Bounce4.wpilib.json", false));
     }
-
-    private static Trajectory getTrajectoryFromJSON(String jsonPath){
+/*
+    private static Trajectory Path(String jsonPath){
         
         Trajectory trajectory = null;
         try {
@@ -107,6 +92,6 @@ public class SkillsChallengePathGenerator {
 
     public RamseteCommand getRamseteCommand(LightningDrivetrain drivetrain, Path path) {
         return SkillsChallengePathGenerator.generateRamseteCommand(drivetrain, path);
-    }
+    }*/
 
 }

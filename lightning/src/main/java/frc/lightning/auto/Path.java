@@ -2,6 +2,7 @@ package frc.lightning.auto;
 
 import java.util.Arrays;
 import java.util.List;
+import java.io.IOException;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -9,8 +10,11 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.lightning.subsystems.LightningDrivetrain;
 
 /**
@@ -34,6 +38,16 @@ public class Path {
     private boolean reversed;
 
     /**
+     * A .wpilib.json file built from PathWeaver
+     */
+    private String jsonPath;
+
+    /**
+     * Trajectory of the path
+     */
+    private Trajectory pathTrajectory;
+
+    /**
      * Constructor creates path object
      * @param name The name of the path
      * @param waypoints List of waypoints for the optimized path to follow
@@ -55,6 +69,27 @@ public class Path {
     }
 
     /**
+     * Constructor creates path object
+     * @param name The name of the path
+     * @param jsonPath File path to a .wpilib.json trajectory file
+     * @param reversed Direction robot should follow path
+     */
+    public Path(String name, String jsonPath, boolean reversed) {
+        this.name = name;
+        this.jsonPath = jsonPath;
+        this.reversed = reversed;
+
+        try {
+            java.nio.file.Path trajectoryFile = Filesystem.getDeployDirectory().toPath().resolve(jsonPath);
+            pathTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryFile);
+        } catch (IOException ex) {
+            DriverStation.reportError("Unable to open trajectory: " + jsonPath, ex.getStackTrace());
+        }   
+    
+        waypoints = null;
+    }
+
+    /**
      * Name of path
      * @return The name of the path
      */
@@ -72,6 +107,8 @@ public class Path {
      * @return A trajectory the robot can follow
      */
     private Trajectory getTrajectory(LightningDrivetrain drivetrain) { 
+        if(pathTrajectory != null)
+            return pathTrajectory;
 
         TrajectoryConfig config = new TrajectoryConfig(drivetrain.getConstants().getMaxVelocity(), 
                                                         drivetrain.getConstants().getMaxAcceleration());
@@ -79,15 +116,13 @@ public class Path {
         config.setKinematics(drivetrain.getKinematics());
         config = config.setReversed(getReversed());
 
-        Trajectory trajectory;
-
         try {
-            trajectory = TrajectoryGenerator.generateTrajectory(waypoints, config);
+            pathTrajectory = TrajectoryGenerator.generateTrajectory(waypoints, config);
         } catch (RuntimeException e) {
-            trajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(1d, 0d, new Rotation2d())), config);
+            pathTrajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(new Pose2d(0d, 0d, new Rotation2d()), new Pose2d(1d, 0d, new Rotation2d())), config);
         }
 
-        return trajectory; 
+        return pathTrajectory; 
 
     }
 

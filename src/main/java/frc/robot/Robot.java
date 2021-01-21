@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
+import frc.lightning.auto.Autonomous;
 import frc.robot.robots.GregContainer;
 import frc.robot.robots.NebulaContainer;
 import frc.robot.robots.QuasarContainer;
@@ -30,13 +31,6 @@ public class Robot extends LightningRobot {
     @Override
     public void robotInit() {
         super.robotInit();
-
-        Set<String> names = getContainer().getAutonomousCommands().keySet();
-        for(var name : names) {
-            registerAutonomousCommmand(name, getContainer().getAutonomousCommands().get(name));
-            System.out.println("Registered " + name + " command for auton");
-        }
-        
     }
 
     @Override

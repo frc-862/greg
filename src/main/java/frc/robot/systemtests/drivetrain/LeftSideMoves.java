@@ -2,7 +2,7 @@ package frc.robot.systemtests.drivetrain;
 
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.testing.AbstractTimedSystemTest;
-import frc.lightning.util.FaultCode;
+import frc.lightning.fault.FaultCode;
 
 public class LeftSideMoves extends AbstractTimedSystemTest {
     private static final double testLength = 1.0;
@@ -10,7 +10,7 @@ public class LeftSideMoves extends AbstractTimedSystemTest {
     private double startPosition;
 
     public LeftSideMoves(LightningDrivetrain drivetrain) {
-       super(testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
+       super("", testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
        this.drivetrain = drivetrain;
        addRequirements(drivetrain);
     }

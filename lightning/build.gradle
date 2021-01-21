@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "edu.wpi.first:GradleRIO:2021.1.2"
+    }
+}
+
+plugins {
+    id "java"
+}
+
+def gradleRioPluginId = 'edu.wpi.first.GradleRIO'
+final gradleRioInstalled = project.getPlugins().hasPlugin(gradleRioPluginId)
+if(gradleRioInstalled) {
+    final Plugin plugin = project.getPlugins().getPlugin(gradleRioPluginId)
+    println 'Plugin already applied'
+} else {
+    apply plugin: "edu.wpi.first.GradleRIO"
+}
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+dependencies {
+    implementation wpi.deps.wpilib()
+    nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)
+    implementation wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:3.2.4'
+    simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+}

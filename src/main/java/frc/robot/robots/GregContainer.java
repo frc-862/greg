@@ -30,6 +30,7 @@ import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.auton.AutonGenerator;
+import frc.robot.auton.skillschallenge.SkillsChallengeAutonGenerator;
 import frc.robot.commands.*;
 import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.commands.shooter.FireThree;
@@ -71,6 +72,7 @@ public class GregContainer extends LightningContainer {
     private final Joystick climberController = new Joystick(JoystickConstants.CLIMBER); 
 
     private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain,collector, indexer, shooter, shooterAngle, vision);
+    private final SkillsChallengeAutonGenerator skillsChallengeAutonGenerator = new SkillsChallengeAutonGenerator(drivetrain,collector,indexer,shooter,shooterAngle,vision);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -153,7 +155,11 @@ public class GregContainer extends LightningContainer {
     }
 
     @Override
-    public HashMap<String, Command> getAutonomousCommands() { return autonGenerator.getCommands(); }
+    public HashMap<String, Command> getAutonomousCommands() 
+    {
+         //return autonGenerator.getCommands();
+         return skillsChallengeAutonGenerator.getCommands();
+    }
 
     public double getCollectPower() {
         return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);

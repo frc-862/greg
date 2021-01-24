@@ -1,4 +1,6 @@
-package com.revrobotics;
+package frc.robot.misc;
+
+import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
 
@@ -10,6 +12,6 @@ public class LightningColorSensor extends ColorSensorV3 {
      */
     public LightningColorSensor(I2C.Port port) {
         super(port);
-        configureColorSensor(ColorSensorResolution.kColorSensorRes17bit,ColorSensorMeasurementRate.kColorRate25ms,GainFactor.kGain9x);
+        configureColorSensor(ColorSensorResolution.kColorSensorRes17bit, ColorSensorMeasurementRate.kColorRate25ms, GainFactor.kGain9x);
     }
 }

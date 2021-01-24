@@ -1,7 +1,0 @@
-language: java
-install: true
-
-jdk: openjdk13
-
-script:
-  - ./gradlew build --scan -s

@@ -1,7 +1,7 @@
 package frc.robot;
 
+import frc.lightning.util.REVGains;
 import frc.lightning.util.RamseteGains;
-import frc.robot.misc.REVGains;
 
 public class Constants {
 

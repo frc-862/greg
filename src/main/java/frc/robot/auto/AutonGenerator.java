@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.auton;
+package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.robot.auton.PathGenerator.Paths;
+import frc.robot.auto.PathGenerator.Paths;
 import frc.robot.commands.FullAutoFireMagazine;
 import frc.robot.commands.shooter.FireFive;
 import frc.robot.commands.shooter.FireThree;

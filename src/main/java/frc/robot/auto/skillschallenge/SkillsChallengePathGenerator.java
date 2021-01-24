@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.auton.skillschallenge;
+package frc.robot.auto.skillschallenge;
 
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
@@ -29,18 +29,18 @@ import java.util.function.DoubleSupplier;
 
 public class SkillsChallengePathGenerator {
 
-    static{
-        Paths.register("IR Blue A", new Path("Blue A", "paths/output/BlueA.wpilib.json", false));
-        Paths.register("IR Blue B", new Path("Blue B","paths/output/BlueB.wpilib.json", false));
-        Paths.register("IR Red A", new Path("Red A","paths/output/RedA.wpilib.json", false));
-        Paths.register("IR Red B", new Path("Red B","paths/output/RedB.wpilib.json", false));
-        Paths.register("IR Barrel Racing", new Path("Barrel Racing","paths/output/BarrelRacing.wpilib.json", false));
-        Paths.register("IR Slalom", new Path("Slalom","paths/output/Slalom.wpilib.json", false));
-        Paths.register("IR Bounce 1", new Path("Bounce 1","paths/output/Bounce1.wpilib.json", false));
-        Paths.register("IR Bounce 2", new Path("Bounce 2","paths/output/Bounce2.wpilib.json", false));
-        Paths.register("IR Bounce 3", new Path("Bounce 3","paths/output/Bounce3.wpilib.json", false));
-        Paths.register("IR Bounce 4", new Path("Bounce 4","paths/output/Bounce4.wpilib.json", false));
-    }
+    // static{
+    //     Paths.register("IR Blue A", new Path("Blue A", "paths/output/BlueA.wpilib.json", false));
+    //     Paths.register("IR Blue B", new Path("Blue B","paths/output/BlueB.wpilib.json", false));
+    //     Paths.register("IR Red A", new Path("Red A","paths/output/RedA.wpilib.json", false));
+    //     Paths.register("IR Red B", new Path("Red B","paths/output/RedB.wpilib.json", false));
+    //     Paths.register("IR Barrel Racing", new Path("Barrel Racing","paths/output/BarrelRacing.wpilib.json", false));
+    //     Paths.register("IR Slalom", new Path("Slalom","paths/output/Slalom.wpilib.json", false));
+    //     Paths.register("IR Bounce 1", new Path("Bounce 1","paths/output/Bounce1.wpilib.json", false));
+    //     Paths.register("IR Bounce 2", new Path("Bounce 2","paths/output/Bounce2.wpilib.json", false));
+    //     Paths.register("IR Bounce 3", new Path("Bounce 3","paths/output/Bounce3.wpilib.json", false));
+    //     Paths.register("IR Bounce 4", new Path("Bounce 4","paths/output/Bounce4.wpilib.json", false));
+    // }
 /*
     private static Trajectory Path(String jsonPath){
         

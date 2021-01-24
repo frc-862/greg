@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.util.LightningMath;
+import frc.lightning.util.REVGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.misc.REVGains;
 
 import java.util.function.IntConsumer;
 

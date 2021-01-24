@@ -5,20 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.auton.skillschallenge;
+package frc.robot.auto.skillschallenge;
 
 import edu.wpi.first.wpilibj2.command.*;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Autonomous;
 import frc.lightning.auto.Path;
 import frc.lightning.auto.Paths;
+import frc.robot.auto.InitAuto;
+import frc.robot.auto.skillschallenge.SkillsChallengeAutoDriveCollect;
 import frc.robot.commands.FullAutoFireMagazine;
 import frc.robot.commands.shooter.FireFive;
 import frc.robot.commands.shooter.FireThree;
 import frc.robot.commands.shooter.SetIndexAngle;
 import frc.robot.commands.shooter.SpinUpFlywheelManual;
-import frc.robot.auton.skillschallenge.SkillsChallengeAutoDriveCollect;
-import frc.robot.auton.InitAuto;
 import frc.robot.subsystems.*;
 
 import java.util.Map;

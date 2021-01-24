@@ -5,33 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.robots;
+package frc.robot.containers;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lightning.LightningContainer;
-//import frc.lightning.subsystems.DrivetrainLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.LightningConfig;
-//import frc.lightning.subsystems.SmartDashDrivetrain;
 import frc.robot.JoystickConstants;
 import frc.robot.Robot;
 import frc.robot.commands.CollectEject;
 import frc.robot.commands.drivetrain.TankDrive;
 import frc.robot.commands.drivetrain.VelocityTankDrive;
-import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.PrototypeShooter;
 import frc.robot.subsystems.drivetrains.NebulaDrivetrain;
-
-import java.util.HashMap;
-
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -50,7 +41,6 @@ public class NebulaContainer extends LightningContainer {
 
   private final XboxController driver = new XboxController(JoystickConstants.DRIVER);
   private final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
-  private double dv;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -111,7 +101,6 @@ public class NebulaContainer extends LightningContainer {
 
   protected void configureSystemTests(){};
 
-  // TODO: Add LightningConfig
   public LightningConfig getConfig(){ return null; }
   
   protected void configureAutonomousCommands(){};

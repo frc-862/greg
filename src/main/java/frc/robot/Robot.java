@@ -7,18 +7,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
-import frc.lightning.auto.Autonomous;
-import frc.robot.robots.GregContainer;
-import frc.robot.robots.NebulaContainer;
-import frc.robot.robots.QuasarContainer;
-import frc.robot.robots.TwikiContainer;
+import frc.robot.containers.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Set;
 
 public class Robot extends LightningRobot {
 
@@ -28,46 +22,20 @@ public class Robot extends LightningRobot {
         super(getRobot());
     }
 
-    @Override
-    public void robotInit() {
-        super.robotInit();
-    }
-
-    @Override
-    public void teleopInit() {
-        super.teleopInit();
-        // getContainer().getDrivetrain().resetSensorVals();
-    }
-
-    @Override
-    public void autonomousInit() {
-        super.autonomousInit();
-        // getContainer().getDrivetrain().resetSensorVals();
-    }
-
     private static LightningContainer getRobot() {
-        if (isNebula()) {
-            System.out.println("Initializing Nebula");
-            SmartDashboard.putString("Robot: ", "My Name is Nebula");
-            return new NebulaContainer();
-        }
+        if(isGreg() || isIllusion()) return new GregContainer();
+        if(isNebula()) return new NebulaContainer();
+        if(isQuasar()) return new QuasarContainer();
+        if(isTwiki()) return new TwikiContainer();
+        return null;
+    }
 
-        if (isTwiki()) {
-            System.out.println("Initializing Twiki");
-            SmartDashboard.putString("Robot: ", "My Name is Twiki");
-            return new TwikiContainer();
-        }
+    public static boolean isGreg() {
+        return Files.exists(Paths.get("/home/lvuser/greg"));
+    }
 
-        if (isQuasar()) {
-            System.out.println("Initializing Quasar");
-            SmartDashboard.putString("Robot: ", "My Name is Quasar");
-            return new QuasarContainer();
-        }
-        else {
-            System.out.println("Initializing Greg");
-            SmartDashboard.putString("Robot: ", "Hello, My Name is Greg");
-            return new GregContainer();
-        }
+    public static boolean isIllusion() {
+        return Files.exists(Paths.get("/home/lvuser/illusion"));
     }
 
     public static boolean isNebula() {
@@ -80,14 +48,6 @@ public class Robot extends LightningRobot {
 
     public static boolean isQuasar() {
         return Files.exists(Paths.get("/home/lvuser/quasar"));
-    }
-
-    public static boolean isIllusion() {
-        return Files.exists(Paths.get("/home/lvuser/illusion"));
-    }
-
-    public static boolean isGreg() {
-        return !(isNebula() || isTwiki() || isIllusion() || isQuasar());
     }
 
 }

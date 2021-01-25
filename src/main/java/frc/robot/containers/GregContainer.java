@@ -46,7 +46,7 @@ public class GregContainer extends LightningContainer {
     // SUBSYSTEMS
     private static final IMU imu = IMU.navX();
     private static final Vision vision = new Vision();
-    private static final LightningDrivetrain drivetrain = new GregDrivetrain(config, imu.heading(), imu.zero()); // TODO update this class
+    private static final LightningDrivetrain drivetrain = new GregDrivetrain(config, imu.heading(), imu.zero());
     private static final Collector collector = new Collector();
     private static final Indexer indexer = new Indexer();
     private static final Shooter shooter = new Shooter();

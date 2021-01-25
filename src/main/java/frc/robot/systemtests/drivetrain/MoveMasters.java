@@ -4,11 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.revrobotics.CANSparkMax;
 
-import frc.lightning.subsystems.CTREDriveTrain;
+import frc.lightning.subsystems.CTREDrivetrain;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.testing.AbstractTimedSystemTest;
-import frc.lightning.util.FaultCode;
+import frc.lightning.fault.FaultCode;
 
 public class MoveMasters extends AbstractTimedSystemTest {
     private final double testSpeed = 0.25;
@@ -24,7 +24,7 @@ public class MoveMasters extends AbstractTimedSystemTest {
     BaseMotorController rightMotor;
 
     public MoveMasters(LightningDrivetrain drivetrain) {
-       super(testLength, FaultCode.Codes.DRIVE_MASTER_ERROR);
+       super("", testLength, FaultCode.Codes.DRIVE_MASTER_ERROR);
        this.drivetrain = drivetrain;
        addRequirements(drivetrain);
     }
@@ -41,8 +41,8 @@ public class MoveMasters extends AbstractTimedSystemTest {
             leftNeo = neoDrivetrain.getLeftMotors()[0];
             rightNeo = neoDrivetrain.getRightMotors()[0];
         }
-        if(drivetrain instanceof CTREDriveTrain) {
-            CTREDriveTrain ctreDriveTrain = (CTREDriveTrain) drivetrain;
+        if(drivetrain instanceof CTREDrivetrain) {
+            CTREDrivetrain ctreDriveTrain = (CTREDrivetrain) drivetrain;
             leftMotor = ctreDriveTrain.getLeftMotors()[0];
             rightMotor = ctreDriveTrain.getRightMotors()[0];
         }
@@ -55,7 +55,7 @@ public class MoveMasters extends AbstractTimedSystemTest {
             leftNeo.set(testSpeed);
             rightNeo.set(testSpeed);
         }
-        if(drivetrain instanceof CTREDriveTrain) {
+        if(drivetrain instanceof CTREDrivetrain) {
             leftMotor.set(ControlMode.PercentOutput, testSpeed);
             rightMotor.set(ControlMode.PercentOutput, testSpeed);            
         }

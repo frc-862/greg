@@ -12,9 +12,9 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import frc.lightning.subsystems.CTREDriveTrain;
+import frc.lightning.subsystems.CTREDrivetrain;
 
-public class NebulaDrivetrain extends CTREDriveTrain {
+public class NebulaDrivetrain extends CTREDrivetrain {
 
     public static NebulaDrivetrain create() {
         VictorSPX[] left = { new VictorSPX(1) };
@@ -24,7 +24,7 @@ public class NebulaDrivetrain extends CTREDriveTrain {
     }
 
     public NebulaDrivetrain(TalonSRX leftMaster, TalonSRX rightMaster, BaseMotorController[] left, BaseMotorController[] right) {
-        super(leftMaster, rightMaster, left, right);
+        super(null, leftMaster, rightMaster, left, right, null, null);
         rightMaster.setInverted(true);
         for (var rmotor : right) rmotor.setInverted(true);
         leftMaster.setInverted(false);

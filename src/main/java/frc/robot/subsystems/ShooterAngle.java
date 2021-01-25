@@ -78,13 +78,13 @@ public class ShooterAngle extends SubsystemBase {
 
         final var rawPosition = adjuster.getSelectedSensorPosition();
         if (atUpperLimit()) {
-            FORWARD_SENSOR_LIMIT = rawPosition;
+            FORWARD_SENSOR_LIMIT = (int)rawPosition; //TODO: verify that this works in 2021 wpilib
             high_angle = getAngle();
             writeLimits();
         }
 
         if (atLowerLimit()) {
-            REVERSE_SENSOR_LIMIT = rawPosition;
+            REVERSE_SENSOR_LIMIT = (int)rawPosition;
             writeLimits();
         }
     }

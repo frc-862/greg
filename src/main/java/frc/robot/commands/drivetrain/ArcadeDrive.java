@@ -9,7 +9,7 @@ package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.util.CurvatureDrive;
+import frc.lightning.commands.CurvatureDrive;
 import frc.lightning.util.JoystickFilter;
 
 import java.util.function.DoubleSupplier;

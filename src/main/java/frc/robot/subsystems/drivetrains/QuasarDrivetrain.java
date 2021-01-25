@@ -1,68 +1,29 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems.drivetrains;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lightning.subsystems.NeoDrivetrain;
-import frc.lightning.util.RamseteGains;
-import frc.robot.Constants;
+import java.util.function.Supplier;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import frc.lightning.LightningConfig;
+import frc.lightning.subsystems.CTREDrivetrain;
+import frc.lightning.subsystems.IMU.IMUFunction;
 import frc.robot.RobotMap;
-import frc.robot.misc.REVGains;
 
-public class QuasarDrivetrain extends NeoDrivetrain {
+public class QuasarDrivetrain extends CTREDrivetrain {
 
-    /**
-     * Creates a new QuasarDrivetrain.
-     */
-
-    public QuasarDrivetrain() {
-        super(RobotMap.MOTORS_PER_SIDE, RobotMap.LEFT_1_CAN_ID, RobotMap.RIGHT_1_CAN_ID, Constants.QUASAR.getTrackWidth(), Constants.QUASAR);
+    public QuasarDrivetrain(LightningConfig config, Supplier<Rotation2d> heading, IMUFunction zeroHeading) {
+        super(config, new TalonFX(RobotMap.LEFT_1_CAN_ID), new TalonFX(RobotMap.RIGHT_1_CAN_ID), new TalonFX[]{new TalonFX(RobotMap.LEFT_2_CAN_ID), new TalonFX(RobotMap.LEFT_3_CAN_ID)},
+                new TalonFX[]{new TalonFX(RobotMap.RIGHT_2_CAN_ID), new TalonFX(RobotMap.RIGHT_3_CAN_ID)}, heading, zeroHeading);
         initMotorDirections();
-
-        setLeftGains(Constants.quasarLeftGains);
-        setRightGains(Constants.quasarRightGains);
-
-        REVGains.putGainsToBeTunedOnDash((getName() + "_RIGHT"), Constants.quasarRightGains, getRightPIDFC());
-        REVGains.putGainsToBeTunedOnDash((getName() + "_LEFT"), Constants.quasarLeftGains, getLeftPIDFC());
-
-
-    }
-
-    public void init() {
-        this.resetDistance();
-        SmartDashboard.putNumber("Test Smartdash Power", 0);
     }
 
     @Override
     public void initMotorDirections() {
-        getLeftMaster().setInverted(false);
-        getRightMaster().setInverted(true);
-
-        withEachLeftSlaveMotorIndexed((m, i) -> {
-            if (i == 1) {
-                m.follow(getLeftMaster(), true);
-            } else {
-                m.follow(getLeftMaster(), false);
-            }
-        });
-
-        withEachRightSlaveMotorIndexed((m, i) -> {
-            if (i == 1) {
-                m.follow(getRightMaster(), true);
-            } else {
-                m.follow(getRightMaster(), false);
-            }
-        });
-
+        getLeftMaster().setInverted(true);
+        getRightMaster().setInverted(false);
+        withEachLeftSlave((m) -> m.setInverted(false));
+        withEachRightSlave((m) -> m.setInverted(true));
     }
 
-    @Override
-    public RamseteGains getConstants() {
-        return Constants.QUASAR;
-    }
 }

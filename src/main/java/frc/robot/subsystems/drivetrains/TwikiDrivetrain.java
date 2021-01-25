@@ -7,22 +7,15 @@
 
 package frc.robot.subsystems.drivetrains;
 
-import com.revrobotics.*;
-import com.revrobotics.CANSparkMax.IdleMode;
+import java.util.function.Supplier;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import com.revrobotics.*;
+
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.util.RamseteGains;
-import frc.robot.Constants;
-import frc.robot.RobotMap;
-import frc.robot.misc.REVGains;
+import frc.robot.config.TwikiConfig;
 import frc.lightning.subsystems.NeoDrivetrain;
+import frc.lightning.subsystems.IMU.IMUFunction;
 
 public class TwikiDrivetrain extends NeoDrivetrain {
     // DRIVETRAIN
@@ -31,8 +24,8 @@ public class TwikiDrivetrain extends NeoDrivetrain {
 
     Encoder rightEncoder = new Encoder(0, 1);
 
-    public TwikiDrivetrain() {
-        super(1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, Constants.TWIKI);
+    public TwikiDrivetrain(Supplier<Rotation2d> heading, IMUFunction zeroHeading) {
+        super(new TwikiConfig(), 1, LEFT_1_CAN_ID, RIGHT_1_CAN_ID, heading, zeroHeading);
         initMotorDirections();
     }
 
@@ -46,4 +39,5 @@ public class TwikiDrivetrain extends NeoDrivetrain {
         CANSparkMax.ExternalFollower f = new CANSparkMax.ExternalFollower(0,0);
         getLeftMaster().follow(f, 0);
     }
+    
 }

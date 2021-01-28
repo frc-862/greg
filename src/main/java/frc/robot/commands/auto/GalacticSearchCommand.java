@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import frc.robot.auto.GalacticCollectCommand;
+import frc.robot.auto.CollectPathCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Path;
 import frc.lightning.auto.Paths;
@@ -29,7 +29,7 @@ import frc.robot.subsystems.Indexer;
  */
 public class GalacticSearchCommand extends CommandBase {
 
-  private final String nullState = "NULL";
+  private final String nullState = "NONE";
 
   private LightningDrivetrain drivetrain;
 
@@ -41,7 +41,7 @@ public class GalacticSearchCommand extends CommandBase {
 
   public GalacticSearchCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer) {
     final var vision_tab = Shuffleboard.getTab("Vision");
-    vision_tab.addBoolean("DetermimePath", this::isPathNull);
+    vision_tab.addBoolean("DeterminePath", this::isPathNull);
 
     this.drivetrain = drivetrain;
     this.collector = collector;
@@ -63,8 +63,7 @@ public class GalacticSearchCommand extends CommandBase {
   }
 
   @Override
-  public boolean isFinished() 
-  {
+  public boolean isFinished() {
     return !isPathNull();
   }
 
@@ -72,10 +71,7 @@ public class GalacticSearchCommand extends CommandBase {
   public void end(boolean interrupted) {
     super.end(interrupted);
     Path path = Paths.getPath(pathName.getString(nullState));
-    new ParallelCommandGroup(
-      new GalacticCollectCommand(drivetrain, collector, indexer, path),
-      path.getCommand(drivetrain)
-    ).schedule();
+    (new CollectPathCommand(drivetrain, collector, indexer, path)).schedule();
    
   }
   

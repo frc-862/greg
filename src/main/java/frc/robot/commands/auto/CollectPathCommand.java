@@ -21,15 +21,11 @@ import frc.robot.subsystems.Indexer;
 /**
  * Drives given path while collecting and indexing.
  */
-public class GalacticCollectCommand extends SequentialCommandGroup {
+public class CollectPathCommand extends SequentialCommandGroup {
 
   private static final double COLLECT_PWR = 1d;
 
-  private final double WAIT_TIME = 0d;
-
-  private static PathGenerator pathGenerator = new PathGenerator();
-
-  private double initTime = 0d;
+  private static final double WAIT_TIME = 0d;
 
   private double duration;
 
@@ -39,13 +35,16 @@ public class GalacticCollectCommand extends SequentialCommandGroup {
 
   private Indexer indexer;
 
-  public GalacticCollectCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, Path path) {
+  private double initTime;
+
+  public CollectPathCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, Path path) {
 
     super(
       new InstantCommand(indexer::safteyClosed, indexer),
       new ParallelCommandGroup(
         new Collect(collector, () -> COLLECT_PWR),
-        new IndexerCommand(indexer)
+        new IndexerCommand(indexer),
+        path.getCommand(drivetrain)
       )
     );
 
@@ -54,7 +53,6 @@ public class GalacticCollectCommand extends SequentialCommandGroup {
     this.indexer = indexer;
 
     duration = path.getDuration(drivetrain);
-
   }
 
   @Override
@@ -73,6 +71,5 @@ public class GalacticCollectCommand extends SequentialCommandGroup {
     collector.stop();
     // collector.puterOuterOut();
     drivetrain.stop();
-  }
-  
+  } 
 }

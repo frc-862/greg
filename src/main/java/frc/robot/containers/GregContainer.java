@@ -24,6 +24,7 @@ import frc.lightning.auto.Path;
 import frc.lightning.auto.Paths;
 import frc.lightning.commands.RumbleCommand;
 import frc.lightning.commands.VoltDrive;
+import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
 import frc.robot.JoystickConstants;
@@ -198,6 +199,7 @@ public class GregContainer extends LightningContainer {
         Autonomous.register("Test PathWeaver Paths", Paths.getPathCommand(drivetrain, "Test PathWeaver"));
         Autonomous.register("Slalom", Paths.getPathCommand(drivetrain, "Slalom"));
         Autonomous.register("Barrel Racing", Paths.getPathCommand(drivetrain, "Barrel Racing"));
+        Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
 
     }
 

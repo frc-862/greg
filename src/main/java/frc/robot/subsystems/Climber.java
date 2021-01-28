@@ -69,4 +69,12 @@ public class Climber extends SubsystemBase {
         setAllPower(0d);
     }
 
+    public double getLeft() {
+        return climberLeft.get();
+    }
+
+    public double getRight() {
+        return climberRight.get();
+    }
+
 }

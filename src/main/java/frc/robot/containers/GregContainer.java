@@ -36,6 +36,7 @@ import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
+import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
@@ -213,6 +214,16 @@ public class GregContainer extends LightningContainer {
             Paths.getPathCommand(drivetrain, "Bounce 4")
         ));
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
+        Autonomous.register("Interstellar Accuracy", new SequentialCommandGroup(
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                null, Paths.getPath("Interstellar Green")),
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                Paths.getPath("Interstellar Yellow Fwr"), Paths.getPath("Interstellar Yellow Back")),
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                Paths.getPath("Interstellar Blue Fwr"), Paths.getPath("Interstellar Blue Back")),
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                Paths.getPath("Interstellar Red Fwr"), Paths.getPath("Interstellar Red Back"))
+        ));
     }
 
     @Override

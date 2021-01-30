@@ -190,6 +190,13 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Bounce 2", "paths/output/Bounce2.wpilib.json", true));
         Paths.register(new Path("Bounce 3", "paths/output/Bounce3.wpilib.json"));
         Paths.register(new Path("Bounce 4", "paths/output/Bounce4.wpilib.json", true));
+        Paths.register(new Path("Interstellar Green", "paths/output/InterstellarGreen.wpilib.json"));
+        Paths.register(new Path("Interstellar Yellow Fwr", "paths/output/InterstellarYellow.wpilib.json"));
+        Paths.register(new Path("Interstellar Yellow Back", "paths/output/InterstellarYellow.wpilib.json", true));
+        Paths.register(new Path("Interstellar Blue Fwr", "paths/output/InterstellarBlue.wpilib.json"));
+        Paths.register(new Path("Interstellar Blue Back", "paths/output/InterstellarBlue.wpilib.json", true));
+        Paths.register(new Path("Interstellar Red Fwr", "paths/output/InterstellarRed.wpilib.json"));
+        Paths.register(new Path("Interstellar Red Back", "paths/output/InterstellarRed.wpilib.json", true));
         Paths.register(new Path("Test PathWeaver", "paths/output/TestFwd.wpilib.json"));
         Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));

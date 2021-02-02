@@ -28,6 +28,7 @@ import frc.lightning.commands.VoltDrive;
 import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
+import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;
 import frc.robot.commands.Collect;
 import frc.robot.commands.CollectEject;
@@ -40,6 +41,7 @@ import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
+import frc.robot.systemtests.drivetrain.IndexerSystemTest;
 
 public class GregContainer extends LightningContainer {
 
@@ -118,7 +120,7 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureSystemTests() {
-
+        SystemTest.register(new IndexerSystemTest(indexer));
     }
 
     @Override

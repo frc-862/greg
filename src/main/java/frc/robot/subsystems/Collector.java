@@ -34,6 +34,14 @@ public class Collector extends SubsystemBase {
         putterOutter = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.COLLECTOR_IN_CHANNEL, RobotMap.COLLECTOR_OUT_CHANNEL);
     }
 
+    public double getLinearVelocity(){
+        return linearMotor.getMotorOutputPercent();
+    }
+
+    public double getLongitudinalVelocity(){
+        return longitudinalMotor.getMotorOutputPercent();
+    }
+
     public void deployGround() {
     }
 

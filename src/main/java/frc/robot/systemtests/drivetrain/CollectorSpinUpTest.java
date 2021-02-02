@@ -4,12 +4,13 @@ import frc.lightning.fault.FaultCode;
 import frc.lightning.testing.AbstractTimedSystemTest;
 import frc.robot.subsystems.Collector;
 
-public class CollectorSystemTest extends AbstractTimedSystemTest {
+public class CollectorSpinUpTest extends AbstractTimedSystemTest {
     private static final double testLength = 1.0;
     private final Collector collector;
-    private double startPosition;
+    private double startPosition1;
+    private double startPosition2;
 
-    public CollectorSystemTest(Collector collector) {
+    public CollectorSpinUpTest(Collector collector) {
        super("", testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
        this.collector = collector;
        addRequirements(collector);
@@ -18,19 +19,19 @@ public class CollectorSystemTest extends AbstractTimedSystemTest {
     @Override
     public void initialize() {
         super.initialize();
-        collector.initMotorDirections();
-        startPosition = collector.getLeftDistance();
+        startPosition1 = collector.getLinearVelocity();
+        startPosition2 = collector.getLongitudinalVelocity();
     }
 
     @Override
     public void execute() {
         super.execute();
-        collector.setPower(0.5, 0.0);
+        collector.collect();
     }
 
     @Override
     public boolean didPass() {
-        return startPosition < collector.getLeftDistance();
+        return  startPosition1 < collector.getLinearVelocity() && startPosition2 < collector.getLongitudinalVelocity();
     }
 
 

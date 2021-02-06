@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -66,6 +67,13 @@ public class GregContainer extends LightningContainer {
     private static final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
     private static final Joystick climberController = new Joystick(JoystickConstants.CLIMBER);
     private static final XboxController testController = new XboxController(0);
+
+
+    // WAYPOINTS
+    private static final List<Pose2d> greenWaypoints = Arrays.asList(new Pose2d(8d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
+    private static final List<Pose2d> yellowWaypoints = Arrays.asList(new Pose2d(5.5d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
+    private static final List<Pose2d> blueWaypoints = Arrays.asList(new Pose2d(3.96d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
+    private static final List<Pose2d> redWaypoints = Arrays.asList(new Pose2d(3.44d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
 
     public GregContainer() {
         super();
@@ -180,7 +188,7 @@ public class GregContainer extends LightningContainer {
     @Override
     protected void configureAutonomousCommands() {
 
-        // CONFIGURE PATHS
+        //CONFIGURE PATHS
         Paths.register(new Path("Blue A", "paths/output/BlueA.wpilib.json"));
         Paths.register(new Path("Blue B", "paths/output/BlueB.wpilib.json"));
         Paths.register(new Path("Red A", "paths/output/RedA.wpilib.json"));
@@ -191,6 +199,7 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Bounce 2", "paths/output/Bounce2.wpilib.json", true));
         Paths.register(new Path("Bounce 3", "paths/output/Bounce3.wpilib.json"));
         Paths.register(new Path("Bounce 4", "paths/output/Bounce4.wpilib.json", true));
+        /*
         Paths.register(new Path("Interstellar Green", "paths/output/InterstellarGreen.wpilib.json"));
         Paths.register(new Path("Interstellar Yellow Fwr", "paths/output/InterstellarYellow.wpilib.json"));
         Paths.register(new Path("Interstellar Yellow Back", "paths/output/InterstellarYellow.wpilib.json", true));
@@ -201,6 +210,7 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Test PathWeaver", "paths/output/TestFwd.wpilib.json"));
         Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
+        */
 
         // CONFIGURE AUTON COMMANDS
         Autonomous.register("Test Auton Driving", Paths.getPathCommand(drivetrain, "Test Path"));
@@ -213,17 +223,20 @@ public class GregContainer extends LightningContainer {
             Paths.getPathCommand(drivetrain, "Bounce 3"),
             Paths.getPathCommand(drivetrain, "Bounce 4")
         ));
+        
+
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
         Autonomous.register("Interstellar Accuracy", new SequentialCommandGroup(
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, null, 
+                new Path("Interstellar Green Back", greenWaypoints)),
             new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                null, Paths.getPath("Interstellar Green")),
+                new Path("Interstellar Yellow Fwr", yellowWaypoints, true), new Path("Interstellar Yellow Back", yellowWaypoints)),
             new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                Paths.getPath("Interstellar Yellow Fwr"), Paths.getPath("Interstellar Yellow Back")),
+                new Path("Interstellar Blue Fwr", blueWaypoints, true), new Path("Interstellar Blue Back", blueWaypoints)),
             new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                Paths.getPath("Interstellar Blue Fwr"), Paths.getPath("Interstellar Blue Back")),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                Paths.getPath("Interstellar Red Fwr"), Paths.getPath("Interstellar Red Back"))
-        ));
+                new Path("Interstellar Red Fwr", redWaypoints, true), new Path("Interstellar Red Back", redWaypoints))
+            )
+        );
     }
 
     @Override

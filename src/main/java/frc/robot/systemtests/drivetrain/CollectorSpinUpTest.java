@@ -26,7 +26,7 @@ public class CollectorSpinUpTest extends AbstractTimedSystemTest {
     @Override
     public void execute() {
         super.execute();
-        collector.collect();
+        collector.setPower(1);
     }
 
     @Override

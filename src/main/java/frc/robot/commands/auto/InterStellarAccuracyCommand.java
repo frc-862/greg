@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Path;
 import frc.robot.commands.Collect;
+import frc.robot.commands.FullAutoFireMagazine;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.shooter.FireThree;
 import frc.robot.subsystems.Collector;
@@ -65,16 +67,16 @@ public class InterStellarAccuracyCommand extends SequentialCommandGroup {
   
     if(shootPath != null){ super.addCommands(shootPath.getCommand(drivetrain)); }
 
-    CommandBase[] commandArray = new CommandBase[]{ 
+    Command[] commandArray = new Command[]{ 
         new CommandBase(){
             @Override
             public boolean isFinished(){
                 return indexer.getBallCount() >= 3;
             }
         },
-        new FireThree(shooter, indexer, shooterAngle, vision, collector),
+        new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
         new InstantCommand(() -> initTime = Timer.getFPGATimestamp()),
-        (CommandBase)returnPath.getCommand(drivetrain)}; 
+        returnPath.getCommand(drivetrain)}; 
 
     super.addCommands(commandArray); 
 

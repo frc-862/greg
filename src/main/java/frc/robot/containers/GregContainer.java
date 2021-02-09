@@ -119,11 +119,7 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureSystemTests() {
-<<<<<<< HEAD
-
-=======
         SystemTest.register(new ShooterMotorTest(shooter));
->>>>>>> SC2-39-shooter-systems-test
     }
 
     @Override

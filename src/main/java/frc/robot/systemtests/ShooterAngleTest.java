@@ -5,10 +5,9 @@ import frc.lightning.fault.FaultCode;
 import frc.robot.subsystems.ShooterAngle;
 
 public class ShooterAngleTest extends AbstractTimedSystemTest {
-
-    private static final double testLength = 1.0;
-
+    private static final double testLength = 2.0;
     private ShooterAngle shooterAngle;
+    private double initialAngle;
 
     public ShooterAngleTest(ShooterAngle shooterAngle) {
        super("Testing Lead Screw", testLength, FaultCode.Codes.GENERAL);
@@ -19,17 +18,19 @@ public class ShooterAngleTest extends AbstractTimedSystemTest {
     @Override
     public void initialize() {
         super.initialize();
+        initialAngle = shooterAngle.getAngle();
     }
 
     @Override
     public void execute() {
         super.execute();
-        // shooterAngle.setShooterAngle(360);
+        shooterAngle.setAngle(30d);
+        shooterAngle.adjusterControlLoop();
     }
 
     @Override
     public boolean didPass() {
-        return true;
+        return shooterAngle.getAngle() == 30d;
     }
 
     @Override
@@ -39,8 +40,7 @@ public class ShooterAngleTest extends AbstractTimedSystemTest {
 
     @Override
     public void end(boolean interrupted) {
-        shooterAngle.stop();
-        shooterAngle.resetDistance();
+        shooterAngle.setAngle(initialAngle);
+        shooterAngle.adjusterControlLoop();
     }
-
 }

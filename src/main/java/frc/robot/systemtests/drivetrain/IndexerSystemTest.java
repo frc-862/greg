@@ -5,11 +5,11 @@ import frc.robot.subsystems.Indexer;
 import frc.lightning.fault.FaultCode;
 
 public class IndexerSystemTest extends AbstractTimedSystemTest {
-    private static final double testLength = 1.0;
+    private static final double testLength = 2.0;
     private final Indexer indexer;
 
     public IndexerSystemTest(Indexer indexer) {
-       super("", testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
+       super("Testing Indexer", testLength, FaultCode.Codes.GENERAL);
        this.indexer = indexer;
        addRequirements(indexer);
     }
@@ -17,12 +17,17 @@ public class IndexerSystemTest extends AbstractTimedSystemTest {
     @Override
     public void execute() {
         super.execute();
-        indexer.toShooter();
+        indexer.setPower(1d);
     }
 
     @Override
     public boolean didPass() {
-        return indexer.getPower() > 0;
+        return indexer.getPower() == 1d;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || didPass();
     }
 
     @Override

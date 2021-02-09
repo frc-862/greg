@@ -7,8 +7,9 @@ import frc.lightning.fault.FaultCode;
 
 public class ClimberTestDown extends AbstractTimedSystemTest {
     private final Climber climber;
+    private static final double testLength = 5;
 
-    public ClimberTest(Climber climber) {
+    public ClimberTestDown(Climber climber) {
        super("", testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
        this.climber = climber;
        addRequirements(climber);

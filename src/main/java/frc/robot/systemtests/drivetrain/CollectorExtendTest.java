@@ -5,11 +5,11 @@ import frc.lightning.testing.AbstractTimedSystemTest;
 import frc.robot.subsystems.Collector;
 
 public class CollectorExtendTest extends AbstractTimedSystemTest {
-    private static final double testLength = 1.0;
+    private static final double testLength = 5.0;
     private final Collector collector;
 
     public CollectorExtendTest(Collector collector) {
-       super("", testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
+       super("Testing Collector Extension", testLength, FaultCode.Codes.GENERAL);
        this.collector = collector;
        addRequirements(collector);
     }
@@ -17,20 +17,24 @@ public class CollectorExtendTest extends AbstractTimedSystemTest {
     @Override
     public void initialize() {
         super.initialize();
-        collector.puterOuterIn();
     }
 
     @Override
     public void execute() {
         super.execute();
-        collector.toggleCollector();
+        collector.puterOuterIn();
+        collector.puterOuterOut();
     }
 
     @Override
     public boolean didPass() {
-        return  collector.isOut();
+        return collector.isOut();
     }
 
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || didPass();
+    }
 
     @Override
     public void end(boolean interrupted) {

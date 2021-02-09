@@ -1,18 +1,17 @@
-package frc.robot.systemtests.drivetrain;
+package frc.robot.systemtests;
 
-import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.testing.AbstractTimedSystemTest;
 import frc.lightning.fault.FaultCode;
 import frc.robot.subsystems.Shooter;
 
-public class ShooterMotor3Test extends AbstractTimedSystemTest {
-    private static final double testLength = 1.0;
-    private double startPosition;
-    private Shooter shooter;
-    private int tolerance = 5; 
+public class ShooterMotorTest extends AbstractTimedSystemTest {
 
-    public ShooterMotor3Test(Shooter shooter) {
-       super("", testLength, FaultCode.Codes.LEFT_DRIVE_FAILURE);
+    private static final double testLength = 1.0;
+
+    private Shooter shooter;
+
+    public ShooterMotorTest(Shooter shooter) {
+       super("Testing Shooter Motors", testLength, FaultCode.Codes.GENERAL);
        this.shooter = shooter;
        addRequirements(shooter);
     }
@@ -30,13 +29,20 @@ public class ShooterMotor3Test extends AbstractTimedSystemTest {
 
     @Override
     public boolean didPass() {
-        return shooter.getFlywheelMotor3Velocity() >= 2000 - tolerance;
+        return shooter.getFlywheelMotor1Velocity() > 400 
+                    && shooter.getFlywheelMotor2Velocity() > 1900
+                    && shooter.getFlywheelMotor3Velocity() > 400;
     }
 
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || didPass();
+    }
 
     @Override
     public void end(boolean interrupted) {
         shooter.stop();
         shooter.resetDistance();
     }
+
 }

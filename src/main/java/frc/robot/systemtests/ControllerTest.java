@@ -1,4 +1,4 @@
-package frc.robot.systemtests.drivetrain;
+package frc.robot.systemtests;
 
 import frc.lightning.testing.SystemTest;
 import frc.robot.JoystickConstants;

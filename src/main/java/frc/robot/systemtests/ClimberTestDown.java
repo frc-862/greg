@@ -1,4 +1,4 @@
-package frc.robot.systemtests.drivetrain;
+package frc.robot.systemtests;
 
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.testing.AbstractTimedSystemTest;

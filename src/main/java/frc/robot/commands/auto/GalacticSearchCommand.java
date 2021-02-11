@@ -52,7 +52,10 @@ public class GalacticSearchCommand extends CommandBase {
   }
 
   private boolean isPathNull(){
-      return pathName.getString(nullState).equals(nullState);
+      if(pathName != null) {
+        return pathName.getString(nullState).equals(nullState);
+      }
+      return false;
   }
 
   @Override

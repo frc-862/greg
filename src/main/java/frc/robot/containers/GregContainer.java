@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -36,6 +37,7 @@ import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
+import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
@@ -64,7 +66,14 @@ public class GregContainer extends LightningContainer {
     private static final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private static final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
     private static final Joystick climberController = new Joystick(JoystickConstants.CLIMBER);
-    private static final XboxController testController = new XboxController(0);
+    // private static final XboxController testController = new XboxController(0);
+
+
+    // WAYPOINTS
+    private static final List<Pose2d> greenWaypoints = Arrays.asList(new Pose2d(8d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
+    private static final List<Pose2d> yellowWaypoints = Arrays.asList(new Pose2d(5.5d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
+    private static final List<Pose2d> blueWaypoints = Arrays.asList(new Pose2d(3.96d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
+    private static final List<Pose2d> redWaypoints = Arrays.asList(new Pose2d(3.44d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
 
     public GregContainer() {
         super();
@@ -75,43 +84,43 @@ public class GregContainer extends LightningContainer {
 
         // DRIVER
         // (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
-        // (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
-        // // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
-        // (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
+        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
+        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
 
         // OPERATOR
-        // (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
-        // (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
-        // (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
-        // (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        // (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
-        // (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
-        // (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
-        // (new POVButton(operator, 0)).whenPressed(new RumbleCommand(operator, vision::biasUp));
-        // (new POVButton(operator, 90)).whenPressed(new RumbleCommand(operator, vision::biasRight));
-        // (new POVButton(operator, 180)).whenPressed(new RumbleCommand(operator, vision::biasDown));
-        // (new POVButton(operator, 270)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
+        (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
+        (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
+        (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
+        (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
+        (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
+        (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
+        (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
+        (new POVButton(operator, 0)).whenPressed(new RumbleCommand(operator, vision::biasUp));
+        (new POVButton(operator, 90)).whenPressed(new RumbleCommand(operator, vision::biasRight));
+        (new POVButton(operator, 180)).whenPressed(new RumbleCommand(operator, vision::biasDown));
+        (new POVButton(operator, 270)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
 
         // CLIMB CONTROLLER
         // (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
         // (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
 
         // TEST CONTROLLER
-        (new Trigger((() -> testController.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
-        (new JoystickButton(testController, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
-        (new JoystickButton(testController, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
-        (new JoystickButton(testController, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        (new JoystickButton(testController, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
-        (new JoystickButton(testController, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
-        (new JoystickButton(testController, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
-        (new POVButton(testController, 0)).whenPressed(new RumbleCommand(testController, vision::biasUp));
-        (new POVButton(testController, 90)).whenPressed(new RumbleCommand(testController, vision::biasRight));
-        (new POVButton(testController, 180)).whenPressed(new RumbleCommand(testController, vision::biasDown));
-        (new POVButton(testController, 270)).whenPressed(new RumbleCommand(testController, vision::biasLeft));
-        (new JoystickButton(testController, JoystickConstants.A)).whileHeld(climber::up, climber);
-        (new JoystickButton(testController, JoystickConstants.B)).whileHeld(climber::down, climber);
-        (new JoystickButton(testController, JoystickConstants.A)).whenReleased(climber::stop, climber);
-        (new JoystickButton(testController, JoystickConstants.B)).whenReleased(climber::stop, climber);
+        // (new Trigger((() -> testController.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
+        // (new JoystickButton(testController, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
+        // (new JoystickButton(testController, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
+        // (new JoystickButton(testController, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
+        // (new JoystickButton(testController, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
+        // (new JoystickButton(testController, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
+        // (new JoystickButton(testController, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
+        // (new POVButton(testController, 0)).whenPressed(new RumbleCommand(testController, vision::biasUp));
+        // (new POVButton(testController, 90)).whenPressed(new RumbleCommand(testController, vision::biasRight));
+        // (new POVButton(testController, 180)).whenPressed(new RumbleCommand(testController, vision::biasDown));
+        // (new POVButton(testController, 270)).whenPressed(new RumbleCommand(testController, vision::biasLeft));
+        // (new JoystickButton(testController, JoystickConstants.A)).whileHeld(climber::up, climber);
+        // (new JoystickButton(testController, JoystickConstants.B)).whileHeld(climber::down, climber);
+        // (new JoystickButton(testController, JoystickConstants.A)).whenReleased(climber::stop, climber);
+        // (new JoystickButton(testController, JoystickConstants.B)).whenReleased(climber::stop, climber);
 
     }
 
@@ -122,11 +131,11 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureDefaultCommands() {
-        drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
-        // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
+        drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
-        // climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));
+        climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));
         // //shooter.setWhenBallShot((n) -> shooter.shotBall());
         // //shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
     }
@@ -179,7 +188,7 @@ public class GregContainer extends LightningContainer {
     @Override
     protected void configureAutonomousCommands() {
 
-        // CONFIGURE PATHS
+        //CONFIGURE PATHS
         Paths.register(new Path("Blue A", "paths/output/BlueA.wpilib.json"));
         Paths.register(new Path("Blue B", "paths/output/BlueB.wpilib.json"));
         Paths.register(new Path("Red A", "paths/output/RedA.wpilib.json"));
@@ -206,6 +215,17 @@ public class GregContainer extends LightningContainer {
             Paths.getPathCommand(drivetrain, "Bounce 4")
         ));
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
+        Autonomous.register("Interstellar Accuracy", new SequentialCommandGroup(
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, null, 
+                new Path("Interstellar Green Back", greenWaypoints)),
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                new Path("Interstellar Yellow Fwr", yellowWaypoints, true), new Path("Interstellar Yellow Back", yellowWaypoints)),
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                new Path("Interstellar Blue Fwr", blueWaypoints, true), new Path("Interstellar Blue Back", blueWaypoints)),
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+                new Path("Interstellar Red Fwr", redWaypoints, true), new Path("Interstellar Red Back", redWaypoints))
+            )
+        );
     }
 
     @Override
@@ -219,8 +239,8 @@ public class GregContainer extends LightningContainer {
     }
 
     public double getCollectPower() {
-        return testController.getTriggerAxis(GenericHID.Hand.kRight) - testController.getTriggerAxis(GenericHID.Hand.kLeft);
-        // return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
+        // return testController.getTriggerAxis(GenericHID.Hand.kRight) - testController.getTriggerAxis(GenericHID.Hand.kLeft);
+        return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 
 }

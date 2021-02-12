@@ -38,7 +38,9 @@ public class Vision extends SubsystemBase {
 
     private double verticalBias=startVertBias;
     private double horizontalBias=startHorizBias;
-    NetworkTable table ;
+    
+    NetworkTable table;
+
     InterpolatedMap shooterAngle = new InterpolatedMap();
     InterpolatedMap flyWheelSpeed = new InterpolatedMap();
     InterpolatedMap backspinData = new InterpolatedMap();

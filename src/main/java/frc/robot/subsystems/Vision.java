@@ -63,13 +63,13 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
-        XValue = table.getEntry("VisionX").getNumber(0);  //SmartDashboard.getNumber("VisionX",0);
-        YValue = table.getEntry("VisionY").getNumber(0); //SmartDashboard.getNumber("VisionY",0);
-        Height = table.getEntry("VisionHeight").getNumber(0); //SmartDashboard.Number("VisionHeight",0);
+        XValue = table.getEntry("VisionX").getDouble(0);  //SmartDashboard.getNumber("VisionX",0);
+        YValue = table.getEntry("VisionY").getDouble(0); //SmartDashboard.getNumber("VisionY",0);
+        Height = table.getEntry("VisionHeight").getDouble(0); //SmartDashboard.Number("VisionHeight",0);
         SmartDashboard.putNumber("Best Shooter Angle",getBestShooterAngle());
         SmartDashboard.putNumber("Best Shooter backspin",getBestShooterBackspin());
         SmartDashboard.putNumber("Best Shooter speed",getBestShooterVelocity());
-        Found = table.getEntry("VisionFound").getNumber(0); //SmartDashboard.getNumber("VisionFound",0);
+        Found = table.getEntry("VisionFound").getDouble(0); //SmartDashboard.getNumber("VisionFound",0);
         SmartDashboard.putNumber("X value",XValue-320);
         SmartDashboard.putNumber("found",Found);
 

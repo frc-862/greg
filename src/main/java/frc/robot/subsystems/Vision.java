@@ -15,6 +15,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.util.InterpolatedMap;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard; 
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
 
 public class Vision extends SubsystemBase {
     double XValue = 0;
@@ -35,6 +38,8 @@ public class Vision extends SubsystemBase {
 
     private double verticalBias=startVertBias;
     private double horizontalBias=startHorizBias;
+    
+    NetworkTable table;
 
     InterpolatedMap shooterAngle = new InterpolatedMap();
     InterpolatedMap flyWheelSpeed = new InterpolatedMap();
@@ -53,19 +58,20 @@ public class Vision extends SubsystemBase {
         DataLogger.addDataElement("YValue", () -> YValue);
         DataLogger.addDataElement("Found", () -> Found);
         DataLogger.addDataElement("VisionHeight", () -> Height);
+        table = NetworkTableInstance.getDefault().getTable("Vision");
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
 
-        XValue = SmartDashboard.getNumber("VisionX",0);
-        YValue = SmartDashboard.getNumber("VisionY",0);
-        Height = SmartDashboard.getNumber("VisionHeight",0);
+        XValue = table.getEntry("VisionX").getDouble(0);  //SmartDashboard.getNumber("VisionX",0);
+        YValue = table.getEntry("VisionY").getDouble(0); //SmartDashboard.getNumber("VisionY",0);
+        Height = table.getEntry("VisionHeight").getDouble(0); //SmartDashboard.Number("VisionHeight",0);
         SmartDashboard.putNumber("Best Shooter Angle",getBestShooterAngle());
         SmartDashboard.putNumber("Best Shooter backspin",getBestShooterBackspin());
         SmartDashboard.putNumber("Best Shooter speed",getBestShooterVelocity());
-        Found = SmartDashboard.getNumber("VisionFound",0);
+        Found = table.getEntry("VisionFound").getDouble(0); //SmartDashboard.getNumber("VisionFound",0);
         SmartDashboard.putNumber("X value",XValue-320);
         SmartDashboard.putNumber("found",Found);
 

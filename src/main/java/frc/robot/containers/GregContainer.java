@@ -199,20 +199,125 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Bounce 2", "paths/output/Bounce2.wpilib.json", true));
         Paths.register(new Path("Bounce 3", "paths/output/Bounce3.wpilib.json"));
         Paths.register(new Path("Bounce 4", "paths/output/Bounce4.wpilib.json", true));
+        Paths.register(new Path("Straight", "paths/output/Straight.wpilib.json"));
+        Paths.register(new Path("TurnLeft", "paths/output/TurnLeft.wpilib.json"));
+        Paths.register(new Path("TurnRight", "paths/output/TurnRight.wpilib.json"));
+        Paths.register(new Path("CurveLeft", "paths/output/CurveLeft.wpilib.json"));
+        Paths.register(new Path("CurveRight", "paths/output/CurveRight.wpilib.json"));
         Paths.register(new Path("Test PathWeaver", "paths/output/TestFwd.wpilib.json"));
         Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
 
+        Paths.register(new Path("Manual Blue A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(13.605d, 0.157d, Rotation2d.fromDegrees(42.306d)),
+                                                            new Pose2d(14.237d, 7.511d, Rotation2d.fromDegrees(8.746d)),
+                                                            new Pose2d(21.055d, 5.087d, Rotation2d.fromDegrees(-14.524d)),
+                                                            new Pose2d(27.69d, 3.937d, Rotation2d.fromDegrees(0.0d)))));
+        
+        Paths.register(new Path("Manual Blue B", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(12.738d, -1.022d, Rotation2d.fromDegrees(28.824d)),
+                                                            new Pose2d(18.861d, 4.967d, Rotation2d.fromDegrees(-12.51d)),
+                                                            new Pose2d(23.486d, 0.375d, Rotation2d.fromDegrees(-36.236d)),
+                                                            new Pose2d(28.088d, -2.212d, Rotation2d.fromDegrees(-26.565d)))));
+
+        Paths.register(new Path("Manual Red A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(7.033d, -0.133d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(12.164d, -2.566d, Rotation2d.fromDegrees(4.53d)),
+                                                            new Pose2d(14.622d, 5.097d, Rotation2d.fromDegrees(50.548d)),
+                                                            new Pose2d(28.221d, 5.087d, Rotation2d.fromDegrees(-4.399d)))));
+
+        Paths.register(new Path("Manual Red B", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(5.74d, -0.704d, Rotation2d.fromDegrees(-27.198d)),
+                                                            new Pose2d(10.598d, -6.228d, Rotation2d.fromDegrees(-1.637d)),
+                                                            new Pose2d(15.822d, -1.203d, Rotation2d.fromDegrees(25.712d)),
+                                                            new Pose2d(27.248d, -2.654d, Rotation2d.fromDegrees(0.0d)))));
+
+        Paths.register(new Path("Manual BarrelRacing", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(16.327d)),
+                                                            new Pose2d(5.69d, 1.098d, Rotation2d.fromDegrees(-6.437d)),
+                                                            new Pose2d(8.918d, 0.166d, Rotation2d.fromDegrees(-44.045d)),
+                                                            new Pose2d(9.95d, -1.564d, Rotation2d.fromDegrees(-54.866d)),
+                                                            new Pose2d(8.452d, -3.627d, Rotation2d.fromDegrees(178.047d)),
+                                                            new Pose2d(6.688d, -2.329d, Rotation2d.fromDegrees(106.165d)),
+                                                            new Pose2d(8.086d, -0.233d, Rotation2d.fromDegrees(24.193d)),
+                                                            new Pose2d(12.212d, 0.366d, Rotation2d.fromDegrees(11.514d)),
+                                                            new Pose2d(17.47d, 2.263d, Rotation2d.fromDegrees(42.856d)),
+                                                            new Pose2d(18.202d, 3.993d, Rotation2d.fromDegrees(120.964d)),
+                                                            new Pose2d(15.007d, 4.426d, Rotation2d.fromDegrees(-138.18d)),
+                                                            new Pose2d(14.176d, 3.128d, Rotation2d.fromDegrees(-112.549d)),
+                                                            new Pose2d(16.139d, -1.364d, Rotation2d.fromDegrees(-30.018d)),
+                                                            new Pose2d(18.368d, -2.762d, Rotation2d.fromDegrees(-22.203d)),
+                                                            new Pose2d(22.661d, -2.329d, Rotation2d.fromDegrees(60.385d)),
+                                                            new Pose2d(21.763d, 0.299d, Rotation2d.fromDegrees(150.068d)),
+                                                            new Pose2d(19.1d, 0.433d, Rotation2d.fromDegrees(176.82d)),
+                                                            new Pose2d(15.34d, 0.566d, Rotation2d.fromDegrees(174.181d)),
+                                                            new Pose2d(9.184d, 1.897d, Rotation2d.fromDegrees(172.673d)),
+                                                            new Pose2d(0.033d, 1.93d, Rotation2d.fromDegrees(-177.184d)))));
+
+        Paths.register(new Path("Manual Slalom", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-1.597d)),      
+                                                            new Pose2d(5.857d, 5.491d, Rotation2d.fromDegrees(36.444d)),
+                                                            new Pose2d(11.247d, 6.988d, Rotation2d.fromDegrees(-3.926d)),
+                                                            new Pose2d(16.738d, 4.526d, Rotation2d.fromDegrees(-47.203d)),
+                                                            new Pose2d(19.333d, 0.399d, Rotation2d.fromDegrees(-10.235d)),
+                                                            new Pose2d(21.43d, 0.0d, Rotation2d.fromDegrees(4.824d)),
+                                                            new Pose2d(23.792d, 1.065d, Rotation2d.fromDegrees(51.766d)),
+                                                            new Pose2d(24.425d, 2.895d, Rotation2d.fromDegrees(85.426d)),
+                                                            new Pose2d(22.228d, 6.023d, Rotation2d.fromDegrees(163.386d)),
+                                                            new Pose2d(19.566d, 5.723d, Rotation2d.fromDegrees(-163.009d)),
+                                                            new Pose2d(16.571d, 0.998d, Rotation2d.fromDegrees(-132.754d)),
+                                                            new Pose2d(11.247d, -0.266d, Rotation2d.fromDegrees(-177.666d)),
+                                                            new Pose2d(5.158d, 0.832d, Rotation2d.fromDegrees(145.739d)),
+                                                            new Pose2d(0.765d, 5.391d, Rotation2d.fromDegrees(160.648d)),
+                                                            new Pose2d(-2.429d, 5.79d, Rotation2d.fromDegrees(-175.986d)))));
+
+        Paths.register(new Path("Manual Bounce1", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(3.061d, 1.93d, Rotation2d.fromDegrees(74.745d)),
+                                                            new Pose2d(3.747d, 5.148d, Rotation2d.fromDegrees(79.263d)))));
+
+        Paths.register(new Path("Manual Bounce2", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-85.692d)),
+                                                            new Pose2d(1.278d, -6.146d, Rotation2d.fromDegrees(-62.879d)),
+                                                            new Pose2d(4.173d, -10.073d, Rotation2d.fromDegrees(-29.578d)),
+                                                            new Pose2d(7.168d, -8.442d, Rotation2d.fromDegrees(72.474d)),
+                                                            new Pose2d(7.234d, -5.314d, Rotation2d.fromDegrees(88.549d)),
+                                                            new Pose2d(7.401d, -0.123d, Rotation2d.fromDegrees(78.977d)))));
+    
+        Paths.register(new Path("Manual Bounce3", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-90.0d)),
+                                                            new Pose2d(2.154d, -9.341d, Rotation2d.fromDegrees(-9.853d)),
+                                                            new Pose2d(5.814d, -9.141d, Rotation2d.fromDegrees(22.341d)),
+                                                            new Pose2d(7.412d, 0.176d, Rotation2d.fromDegrees(90.0d)))));
+
+        Paths.register(new Path("Manual Bounce4", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-90.119d)),
+                                                            new Pose2d(1.257d, -3.186d, Rotation2d.fromDegrees(-48.538d)),
+                                                            new Pose2d(4.718d, -4.85d, Rotation2d.fromDegrees(0.0d)))));
+
+
+
         // CONFIGURE AUTON COMMANDS
         Autonomous.register("Test Auton Driving", Paths.getPathCommand(drivetrain, "Test Path"));
+        Autonomous.register("Test Straight", Paths.getPathCommand(drivetrain, "Straight"));
+        Autonomous.register("Test Turn Left", Paths.getPathCommand(drivetrain, "TurnLeft"));
+        Autonomous.register("Test Turn Right", Paths.getPathCommand(drivetrain, "TurnRight"));
+        Autonomous.register("Test Curve Left", Paths.getPathCommand(drivetrain, "CurveLeft"));
+        Autonomous.register("Test Curve Right", Paths.getPathCommand(drivetrain, "CurveRight"));
+        Autonomous.register("Manual BlueA path", Paths.getPathCommand(drivetrain, "Manual BlueA"));
+        Autonomous.register("Manual BlueB path", Paths.getPathCommand(drivetrain, "Manual BlueB"));
+        Autonomous.register("Manual RedA path", Paths.getPathCommand(drivetrain, "Manual RedA"));
+        Autonomous.register("Manual RedB path", Paths.getPathCommand(drivetrain, "Manual RedB"));
         Autonomous.register("Test PathWeaver Paths", Paths.getPathCommand(drivetrain, "Test PathWeaver"));
         Autonomous.register("Slalom", Paths.getPathCommand(drivetrain, "Slalom"));
+        Autonomous.register("Manual Slalom path", Paths.getPathCommand(drivetrain, "Manual Slalom"));
         Autonomous.register("Barrel Racing", Paths.getPathCommand(drivetrain, "Barrel Racing"));
+        Autonomous.register("Manual Barrel Racing", Paths.getPathCommand(drivetrain, "Manual BarrelRacing"));
         Autonomous.register("Bounce Path", new SequentialCommandGroup(
             Paths.getPathCommand(drivetrain, "Bounce 1"),
             Paths.getPathCommand(drivetrain, "Bounce 2"),
             Paths.getPathCommand(drivetrain, "Bounce 3"),
             Paths.getPathCommand(drivetrain, "Bounce 4")
+        ));
+        Autonomous.register("Manul Bounce Path", new SequentialCommandGroup(
+            Paths.getPathCommand(drivetrain, "Manual Bounce1"),
+            Paths.getPathCommand(drivetrain, "Manual Bounce2"),
+            Paths.getPathCommand(drivetrain, "Manual Bounce3"),
+            Paths.getPathCommand(drivetrain, "Manual Bounce4")
         ));
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
         Autonomous.register("Interstellar Accuracy", new SequentialCommandGroup(

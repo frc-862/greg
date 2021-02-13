@@ -17,6 +17,7 @@ import java.io.*;
 import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
+    
     // Greg is at 9º
     public static double low_angle = (Robot.isIllusion() ? 11 : 9);
     public static double high_angle = 38;    // ?? for illusion
@@ -149,10 +150,10 @@ public class ShooterAngle extends SubsystemBase {
     }
 
     public DoubleSupplier getMin(){
-        return ()->REVERSE_SENSOR_LIMIT;
+        return () -> REVERSE_SENSOR_LIMIT;
     }
     public DoubleSupplier getMax(){
-        return ()->FORWARD_SENSOR_LIMIT;
+        return () -> FORWARD_SENSOR_LIMIT;
     }
 
     public boolean atUpperLimit() {

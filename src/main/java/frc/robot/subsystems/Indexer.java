@@ -100,7 +100,7 @@ public class Indexer extends SubsystemBase {
         if (ballsHeld == 0 && !emptyTimer) {
             isEmptyTimer = Timer.getFPGATimestamp();
             emptyTimer=true;
-        }else {
+        } else {
             emptyTimer =false;
             isEmptyTimer = 0;
         }
@@ -184,7 +184,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public void reastBallsHeld(){
-        ballCount=0;
-        ballsFired=0;
+        ballCount = 0;
+        ballsFired = 0;
     }
 }

@@ -12,17 +12,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Core extends SubsystemBase {
-    private final String name = "CORE";
 
-    Compressor compressor;
+    private Compressor compressor;
 
     public Core() {
-        setName(name);
         compressor = new Compressor(RobotMap.COMPRESSOR_ID);
-    }
-
-    @Override
-    public void periodic() {
     }
 
     public void enableComperser(){

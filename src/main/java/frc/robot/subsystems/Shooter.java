@@ -20,16 +20,19 @@ import frc.robot.RobotMap;
 import java.util.function.IntConsumer;
 
 public class Shooter extends SubsystemBase {
-    // Components
+    
     private CANSparkMax motor1;
     private CANSparkMax motor2;
     private CANSparkMax motor3;
+
     private CANEncoder motor1encoder;
     private CANEncoder motor2encoder;
     private CANEncoder motor3encoder;
+
     private CANPIDController motor1PIDFController;
     private CANPIDController motor2PIDFController;
     private CANPIDController motor3PIDFController;
+
     private double setSpeed = 0;
     public double motor1setpoint = 0;
     public double motor2setpoint = 0;

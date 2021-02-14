@@ -111,7 +111,7 @@ public class Vision extends SubsystemBase {
 
     public double getBestShooterBackspin() {
         if (Height > 0) {
-        return backspinInterpolationTable.get(Height);
+            return backspinInterpolationTable.get(Height);
         } else {
             return DEFAULT_SHOOTER_BACKSPIN;
         }
@@ -163,6 +163,7 @@ public class Vision extends SubsystemBase {
         shooterAngleInterpolationTable.put(62.0,  26.5); // close trench-2
         shooterAngleInterpolationTable.put(39.0,  23.0);
     }
+    
     private void configShooterSpeed() {
         // input in target height pixels TODO verify this is correct interpretation
         // output RPM
@@ -171,6 +172,7 @@ public class Vision extends SubsystemBase {
         flywheelSpeedInterpolationTable.put(62.0,  3500.0);
         flywheelSpeedInterpolationTable.put(39.0,  3500.0);
     }
+
     private void configShooterBackspin() {
         // input in target height pixels TODO verify this is correct interpretation
         // output RPM

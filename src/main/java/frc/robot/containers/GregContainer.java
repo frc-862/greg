@@ -208,6 +208,23 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
 
+        Paths.register(new Path("Manual straight", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(6.5d, 0.0d, Rotation2d.fromDegrees(0.0d)))));
+
+        Paths.register(new Path("Manual Curve Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(5.67d, -3.264d, Rotation2d.fromDegrees(-82.171d)))));
+
+        Paths.register(new Path("Manual Curve Left", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.64d)),
+                                                            new Pose2d(4.343d, 3.681d, Rotation2d.fromDegrees(79.38d)))));
+
+        Paths.register(new Path("Manual Turn Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(5.5d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(7.5d, -3.5d, Rotation2d.fromDegrees(-90.0d)))));
+
+        Paths.register(new Path("Manual Turn Left", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(6.325d, 0.0d, Rotation2d.fromDegrees(0.876d)),
+                                                            new Pose2d(7.476d, 2.5d, Rotation2d.fromDegrees(90.0d)))));
+
         Paths.register(new Path("Manual Blue A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(13.605d, 0.157d, Rotation2d.fromDegrees(42.306d)),
                                                             new Pose2d(14.237d, 7.511d, Rotation2d.fromDegrees(8.746d)),
@@ -298,13 +315,18 @@ public class GregContainer extends LightningContainer {
         Autonomous.register("Test Turn Right", Paths.getPathCommand(drivetrain, "TurnRight"));
         Autonomous.register("Test Curve Left", Paths.getPathCommand(drivetrain, "CurveLeft"));
         Autonomous.register("Test Curve Right", Paths.getPathCommand(drivetrain, "CurveRight"));
+        Autonomous.register("Manual Curve Right Path", Paths.getPathCommand(drivetrain, "Manual Curve Right"));
+        Autonomous.register("Manual Curve left Path", Paths.getPathCommand(drivetrain, "Manual Curve Left"));
+        Autonomous.register("Manual Turn Right Path", Paths.getPathCommand(drivetrain, "Manual Turn Right"));
+        Autonomous.register("Manual Turn Left Path", Paths.getPathCommand(drivetrain, "Manual Turn Left"));
+        Autonomous.register("Manual Straight Path", Paths.getPathCommand(drivetrain, "Manual Straight"));
         Autonomous.register("Manual BlueA path", Paths.getPathCommand(drivetrain, "Manual BlueA"));
         Autonomous.register("Manual BlueB path", Paths.getPathCommand(drivetrain, "Manual BlueB"));
         Autonomous.register("Manual RedA path", Paths.getPathCommand(drivetrain, "Manual RedA"));
         Autonomous.register("Manual RedB path", Paths.getPathCommand(drivetrain, "Manual RedB"));
         Autonomous.register("Test PathWeaver Paths", Paths.getPathCommand(drivetrain, "Test PathWeaver"));
         Autonomous.register("Slalom", Paths.getPathCommand(drivetrain, "Slalom"));
-        Autonomous.register("Manual Slalom path", Paths.getPathCommand(drivetrain, "Manual Slalom"));
+        Autonomous.register("Manual Slalom Path", Paths.getPathCommand(drivetrain, "Manual Slalom"));
         Autonomous.register("Barrel Racing", Paths.getPathCommand(drivetrain, "Barrel Racing"));
         Autonomous.register("Manual Barrel Racing", Paths.getPathCommand(drivetrain, "Manual BarrelRacing"));
         Autonomous.register("Bounce Path", new SequentialCommandGroup(

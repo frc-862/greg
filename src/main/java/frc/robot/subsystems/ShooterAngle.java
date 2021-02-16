@@ -18,9 +18,12 @@ import java.util.function.DoubleSupplier;
 
 public class ShooterAngle extends SubsystemBase {
     
-    // Greg is at 9º
-    public static double low_angle = (Robot.isIllusion() ? 11 : 9);
-    public static double high_angle = 38;    // ?? for illusion
+    // Greg is at 9
+    private static final int ILLUSION_MIN_ANGLE = 11;
+    private static final int GREG_MIN_ANGLE = 9;
+
+    public static double low_angle = (Robot.isIllusion() ? ILLUSION_MIN_ANGLE : GREG_MIN_ANGLE);
+    public static double high_angle = 38;   // TODO find illusion Angle
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
@@ -30,23 +33,25 @@ public class ShooterAngle extends SubsystemBase {
     private double Kp = .4;
     private double offset = 0;
 
+    private static final int MOTION_MAGIC_SENSOR_UNITS_PER100MS_PER_SEC = 8;
+
     private TalonSRX adjuster;
 
-    public ShooterAngle () {
+    public ShooterAngle() {
         adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
         setPoint = getAngle();
         readLimits();
-
+        
+        // config for adjuster limits
         adjuster.configForwardSoftLimitEnable(false);
-        adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT + SENSOR_SAFETY);
+        adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
+        // adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT + SENSOR_SAFETY);
         adjuster.configReverseSoftLimitEnable(false);
-        adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT - SENSOR_SAFETY);
-
+        adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
+        // adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT - SENSOR_SAFETY);
+// TODO: can we remove
 //        adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
 //        adjuster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
-
-        adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
-        adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
 
         //motion magic configs
         adjuster.config_kF(0, Constants.kAdjusterF);
@@ -54,8 +59,8 @@ public class ShooterAngle extends SubsystemBase {
         adjuster.config_kI(0, Constants.kAdjusterI);
         adjuster.config_kP(0, Constants.kAdjusterP);
 
-        adjuster.configMotionCruiseVelocity(8, 0);
-        adjuster.configMotionAcceleration(8, 0);
+        adjuster.configMotionCruiseVelocity(MOTION_MAGIC_SENSOR_UNITS_PER100MS_PER_SEC, 0);
+        adjuster.configMotionAcceleration(MOTION_MAGIC_SENSOR_UNITS_PER100MS_PER_SEC, 0);
 
         //encoder config
         adjuster.configSelectedFeedbackSensor(FeedbackDevice.Analog,
@@ -79,7 +84,7 @@ public class ShooterAngle extends SubsystemBase {
 
         final var rawPosition = adjuster.getSelectedSensorPosition();
         if (atUpperLimit()) {
-            FORWARD_SENSOR_LIMIT = (int)rawPosition; //TODO: verify that this works in 2021 wpilib
+            FORWARD_SENSOR_LIMIT = (int)rawPosition;
             high_angle = getAngle();
             writeLimits();
         }
@@ -107,7 +112,7 @@ public class ShooterAngle extends SubsystemBase {
 
     public void readLimits() {
         if (new File(filename).canRead()) {
-            try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) {
+            try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) { // TODO: is this the best thing to do 
                 FORWARD_SENSOR_LIMIT = dis.readInt();
                 REVERSE_SENSOR_LIMIT = dis.readInt();
                 high_angle = dis.readDouble();
@@ -124,7 +129,9 @@ public class ShooterAngle extends SubsystemBase {
         SmartDashboard.putNumber("Angle getAngle", getAngle());
         SmartDashboard.putNumber("Angle offset", offset);
 
-        if (!(LightningMath.epsilonEqual(setPoint, offset,2))) {
+        final double EPSILON_RANGE = 2;
+
+        if (!(LightningMath.epsilonEqual(setPoint, offset, EPSILON_RANGE))) {
             SmartDashboard.putNumber("Angle setPower", LightningMath.constrain((offset)*Kp,-1,1));
             setPower(LightningMath.constrain((offset)*Kp,-1,1));
         } else {
@@ -134,7 +141,7 @@ public class ShooterAngle extends SubsystemBase {
 
     public void setAngle(double angle) {
         System.out.println("Set Angle " + angle);
-        setPoint = LightningMath.constrain(angle, low_angle, 38);
+        setPoint = LightningMath.constrain(angle, low_angle, high_angle);
     }
 
     public void setPower(double pwr){
@@ -144,8 +151,9 @@ public class ShooterAngle extends SubsystemBase {
     private final MovingAverageFilter filter = new MovingAverageFilter(1);
     public double getAngle() {
         double pos = filter.filter(adjuster.getSelectedSensorPosition());
-        return (pos - REVERSE_SENSOR_LIMIT) / 2d
-                + low_angle;
+        double setAngle = (pos - REVERSE_SENSOR_LIMIT) / 2d + low_angle;
+        return (setAngle);
+        // TODO: should we remove this 
 //        return adjuster.getSelectedSensorPosition(Constants.kPIDLoopIdx);
     }
 

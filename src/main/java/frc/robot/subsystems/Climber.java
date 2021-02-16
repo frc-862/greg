@@ -16,15 +16,14 @@ import frc.robot.RobotMap;
 
 public class Climber extends SubsystemBase {
 
-    // Components
+    public static final double CLIMB_PWR = 0.75;
+    public static final double CLIMB_PWR_DEADZONE = 0.1;
 
     private CANSparkMax climberLeft; 
     private CANSparkMax climberRight; 
 
-    /**
-     * Creates a new Climber.
-     */
     public Climber() {
+
         climberLeft = new CANSparkMax(RobotMap.CLIMBER_LEFT, CANSparkMaxLowLevel.MotorType.kBrushless);
         climberRight = new CANSparkMax(RobotMap.CLIMBER_RIGHT, CANSparkMaxLowLevel.MotorType.kBrushless); 
 
@@ -33,19 +32,16 @@ public class Climber extends SubsystemBase {
 
         climberLeft.setInverted(true);
         climberRight.setInverted(false);
-        //Init
 
         climberLeft.burnFlash();
         climberRight.burnFlash();
+        
     }
 
     public void setPwr(double leftPwr, double rightPwr) {
-        if(Math.abs(leftPwr) <= 0.1) {
-            leftPwr = 0d; 
-        }
-        if(Math.abs(rightPwr) <= 0.1) {
-            rightPwr = 0d; 
-        }
+        if(Math.abs(leftPwr) <= CLIMB_PWR_DEADZONE) leftPwr = 0d;
+        if(Math.abs(rightPwr) <= CLIMB_PWR_DEADZONE) rightPwr = 0d; 
+        
         climberLeft.set(leftPwr);
         climberRight.set(rightPwr);
     }
@@ -56,13 +52,13 @@ public class Climber extends SubsystemBase {
     }
  
     public void up() {
-        climberLeft.set(0.75);
-        climberRight.set(0.75);
+        climberLeft.set(CLIMB_PWR);
+        climberRight.set(CLIMB_PWR);
     }
 
     public void down() {
-        climberLeft.set(-0.75);
-        climberRight.set(-0.75);
+        climberLeft.set(-CLIMB_PWR);
+        climberRight.set(-CLIMB_PWR);
     }
 
     public void stop() {

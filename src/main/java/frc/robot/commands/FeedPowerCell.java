@@ -20,7 +20,6 @@ public class FeedPowerCell extends CommandBase {
 
     @Override
     public void initialize() {
-        shooter.resetBallsFired();
         startingPCCount = indexer.getPowerCellCount();
         indexer.safteyOpen();
         startingPCCount = indexer.getBallsHeld();
@@ -38,7 +37,6 @@ public class FeedPowerCell extends CommandBase {
             indexer.safteyClosed();
         }
         indexer.stop();
-        shooter.resetBallsFired();
     }
 
     @Override

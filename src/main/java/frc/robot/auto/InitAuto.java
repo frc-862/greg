@@ -29,7 +29,7 @@ public class InitAuto extends InstantCommand {
   public void initialize() {
     vision.bothRingsOn();
     indexer.setBallsHeld();
-    collector.puterOuterIn();
+    collector.extend();
   }
 
 }

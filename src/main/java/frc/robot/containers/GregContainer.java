@@ -205,6 +205,7 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("CurveLeft", "paths/output/CurveLeft.wpilib.json"));
         Paths.register(new Path("CurveRight", "paths/output/CurveRight.wpilib.json"));
         Paths.register(new Path("Test PathWeaver", "paths/output/TestFwd.wpilib.json"));
+        Paths.register(new Path("Circle", "paths/output/Circle.wpilib.json"));
         Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
 
@@ -329,6 +330,7 @@ public class GregContainer extends LightningContainer {
         Autonomous.register("Manual Slalom Path", Paths.getPathCommand(drivetrain, "Manual Slalom"));
         Autonomous.register("Barrel Racing", Paths.getPathCommand(drivetrain, "Barrel Racing"));
         Autonomous.register("Manual Barrel Racing", Paths.getPathCommand(drivetrain, "Manual BarrelRacing"));
+        Autonomous.register("Circle Path", Paths.getPathCommand(drivetrain, "Circle"));
         Autonomous.register("Bounce Path", new SequentialCommandGroup(
             Paths.getPathCommand(drivetrain, "Bounce 1"),
             Paths.getPathCommand(drivetrain, "Bounce 2"),

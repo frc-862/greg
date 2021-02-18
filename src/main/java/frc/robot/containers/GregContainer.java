@@ -209,13 +209,13 @@ public class GregContainer extends LightningContainer {
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
 
         Paths.register(new Path("Manual straight", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(6.5d, 0.0d, Rotation2d.fromDegrees(0.0d)))));
+                                                            new Pose2d(5.889d, 0.004d, Rotation2d.fromDegrees(0.0d)))));
 
         Paths.register(new Path("Manual Curve Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(5.67d, -3.264d, Rotation2d.fromDegrees(-82.171d)))));
 
         Paths.register(new Path("Manual Curve Left", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.64d)),
-                                                            new Pose2d(4.343d, 3.681d, Rotation2d.fromDegrees(79.38d)))));
+                                                            new Pose2d(3.574d, 3.711d, Rotation2d.fromDegrees(79.38d)))));
 
         Paths.register(new Path("Manual Turn Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(5.5d, 0.0d, Rotation2d.fromDegrees(0.0d)),
@@ -268,7 +268,7 @@ public class GregContainer extends LightningContainer {
                                                             new Pose2d(21.061d, 0.639d, Rotation2d.fromDegrees(176.82d)),
                                                             new Pose2d(16.252d, 0.172d, Rotation2d.fromDegrees(-178.794d)),
                                                             new Pose2d(9.15d, 0.822d, Rotation2d.fromDegrees(177.51d)),
-                                                            new Pose2d(0.546d, 0.7d, Rotation2d.fromDegrees(-177.184d))))));
+                                                            new Pose2d(0.546d, 0.7d, Rotation2d.fromDegrees(-177.184d)))));
 
         Paths.register(new Path("Manual Slalom", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(7.625d, 5.137d, Rotation2d.fromDegrees(36.444d)),  

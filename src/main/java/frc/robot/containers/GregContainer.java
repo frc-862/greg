@@ -209,13 +209,13 @@ public class GregContainer extends LightningContainer {
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
 
         Paths.register(new Path("Manual straight", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(6.5d, 0.0d, Rotation2d.fromDegrees(0.0d)))));
+                                                            new Pose2d(5.889d, 0.004d, Rotation2d.fromDegrees(0.0d)))));
 
         Paths.register(new Path("Manual Curve Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(5.67d, -3.264d, Rotation2d.fromDegrees(-82.171d)))));
 
         Paths.register(new Path("Manual Curve Left", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.64d)),
-                                                            new Pose2d(4.343d, 3.681d, Rotation2d.fromDegrees(79.38d)))));
+                                                            new Pose2d(3.574d, 3.711d, Rotation2d.fromDegrees(79.38d)))));
 
         Paths.register(new Path("Manual Turn Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(5.5d, 0.0d, Rotation2d.fromDegrees(0.0d)),
@@ -226,69 +226,69 @@ public class GregContainer extends LightningContainer {
                                                             new Pose2d(7.476d, 2.5d, Rotation2d.fromDegrees(90.0d)))));
 
         Paths.register(new Path("Manual Blue A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(13.605d, 0.157d, Rotation2d.fromDegrees(42.306d)),
-                                                            new Pose2d(14.237d, 7.511d, Rotation2d.fromDegrees(8.746d)),
-                                                            new Pose2d(21.055d, 5.087d, Rotation2d.fromDegrees(-14.524d)),
-                                                            new Pose2d(27.69d, 3.937d, Rotation2d.fromDegrees(0.0d)))));
+                                                            new Pose2d(13.866d, 1.329d, Rotation2d.fromDegrees(42.306d)),
+                                                            new Pose2d(14.499d, 8.683d, Rotation2d.fromDegrees(8.746d)),
+                                                            new Pose2d(21.317d, 6.259d, Rotation2d.fromDegrees(-14.524d)),
+                                                            new Pose2d(27.952d, 5.109d, Rotation2d.fromDegrees(0.0d)))));
         
         Paths.register(new Path("Manual Blue B", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(12.738d, -1.022d, Rotation2d.fromDegrees(28.824d)),
-                                                            new Pose2d(18.861d, 4.967d, Rotation2d.fromDegrees(-12.51d)),
-                                                            new Pose2d(23.486d, 0.375d, Rotation2d.fromDegrees(-36.236d)),
-                                                            new Pose2d(28.088d, -2.212d, Rotation2d.fromDegrees(-26.565d)))));
+                                                            new Pose2d(12.469d, 1.51d, Rotation2d.fromDegrees(28.824d)),
+                                                            new Pose2d(18.592d, 7.499d, Rotation2d.fromDegrees(-12.51d)),
+                                                            new Pose2d(23.217d, 2.907d, Rotation2d.fromDegrees(-36.236d)),
+                                                            new Pose2d(27.819d, 0.32d, Rotation2d.fromDegrees(-26.565d)))));
 
         Paths.register(new Path("Manual Red A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(7.033d, -0.133d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(12.164d, -2.566d, Rotation2d.fromDegrees(4.53d)),
-                                                            new Pose2d(14.622d, 5.097d, Rotation2d.fromDegrees(50.548d)),
-                                                            new Pose2d(28.221d, 5.087d, Rotation2d.fromDegrees(-4.399d)))));
+                                                            new Pose2d(6.41d, -0.035d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(11.541d, -2.468d, Rotation2d.fromDegrees(4.53d)),
+                                                            new Pose2d(14.0d, 5.195d, Rotation2d.fromDegrees(50.548d)),
+                                                            new Pose2d(27.598d, 5.185d, Rotation2d.fromDegrees(-4.399d)))));
 
         Paths.register(new Path("Manual Red B", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(5.74d, -0.704d, Rotation2d.fromDegrees(-27.198d)),
-                                                            new Pose2d(10.598d, -6.228d, Rotation2d.fromDegrees(-1.637d)),
-                                                            new Pose2d(15.822d, -1.203d, Rotation2d.fromDegrees(25.712d)),
-                                                            new Pose2d(27.248d, -2.654d, Rotation2d.fromDegrees(0.0d)))));
+                                                            new Pose2d(5.611d, -2.993d, Rotation2d.fromDegrees(-41.987d)),
+                                                            new Pose2d(10.639d, -8.842d, Rotation2d.fromDegrees(0.507d)),
+                                                            new Pose2d(15.863d, -3.817d, Rotation2d.fromDegrees(25.712d)),
+                                                            new Pose2d(27.289d, -5.268d, Rotation2d.fromDegrees(0.0d)))));
 
-        Paths.register(new Path("Manual BarrelRacing", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(16.327d)),
-                                                            new Pose2d(5.69d, 1.098d, Rotation2d.fromDegrees(-6.437d)),
-                                                            new Pose2d(8.918d, 0.166d, Rotation2d.fromDegrees(-44.045d)),
-                                                            new Pose2d(9.95d, -1.564d, Rotation2d.fromDegrees(-54.866d)),
-                                                            new Pose2d(8.452d, -3.627d, Rotation2d.fromDegrees(178.047d)),
-                                                            new Pose2d(6.688d, -2.329d, Rotation2d.fromDegrees(106.165d)),
-                                                            new Pose2d(8.086d, -0.233d, Rotation2d.fromDegrees(24.193d)),
-                                                            new Pose2d(12.212d, 0.366d, Rotation2d.fromDegrees(11.514d)),
-                                                            new Pose2d(17.47d, 2.263d, Rotation2d.fromDegrees(42.856d)),
-                                                            new Pose2d(18.202d, 3.993d, Rotation2d.fromDegrees(120.964d)),
-                                                            new Pose2d(15.007d, 4.426d, Rotation2d.fromDegrees(-138.18d)),
-                                                            new Pose2d(14.176d, 3.128d, Rotation2d.fromDegrees(-112.549d)),
-                                                            new Pose2d(16.139d, -1.364d, Rotation2d.fromDegrees(-30.018d)),
-                                                            new Pose2d(18.368d, -2.762d, Rotation2d.fromDegrees(-22.203d)),
-                                                            new Pose2d(22.661d, -2.329d, Rotation2d.fromDegrees(60.385d)),
-                                                            new Pose2d(21.763d, 0.299d, Rotation2d.fromDegrees(150.068d)),
-                                                            new Pose2d(19.1d, 0.433d, Rotation2d.fromDegrees(176.82d)),
-                                                            new Pose2d(15.34d, 0.566d, Rotation2d.fromDegrees(174.181d)),
-                                                            new Pose2d(9.184d, 1.897d, Rotation2d.fromDegrees(172.673d)),
-                                                            new Pose2d(0.033d, 1.93d, Rotation2d.fromDegrees(-177.184d)))));
+        Paths.register(new Path("Manual BarrelRacing", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(7.425d, 0.503d, Rotation2d.fromDegrees(-5.248d)),   
+                                                            new Pose2d(10.611d, -0.01d, Rotation2d.fromDegrees(-31.45d)),  
+                                                            new Pose2d(12.295d, -1.897d, Rotation2d.fromDegrees(-62.835d)),
+                                                            new Pose2d(10.347d, -4.718d, Rotation2d.fromDegrees(178.047d)),
+                                                            new Pose2d(8.054d, -3.764d, Rotation2d.fromDegrees(127.857d)), 
+                                                            new Pose2d(9.17d, -0.497d, Rotation2d.fromDegrees(26.694d)),   
+                                                            new Pose2d(13.948d, -0.229d, Rotation2d.fromDegrees(11.514d)), 
+                                                            new Pose2d(20.108d, 0.903d, Rotation2d.fromDegrees(42.856d)),  
+                                                            new Pose2d(19.702d, 4.353d, Rotation2d.fromDegrees(145.196d)),
+                                                            new Pose2d(16.272d, 5.124d, Rotation2d.fromDegrees(-154.772d)),
+                                                            new Pose2d(14.71d, 2.344d, Rotation2d.fromDegrees(-81.529d)),
+                                                            new Pose2d(17.348d, -1.938d, Rotation2d.fromDegrees(-37.488d)),
+                                                            new Pose2d(20.676d, -4.048d, Rotation2d.fromDegrees(-22.203d)),
+                                                            new Pose2d(25.607d, -2.79d, Rotation2d.fromDegrees(60.385d)),
+                                                            new Pose2d(24.552d, 0.436d, Rotation2d.fromDegrees(167.376d)),
+                                                            new Pose2d(21.061d, 0.639d, Rotation2d.fromDegrees(176.82d)),
+                                                            new Pose2d(16.252d, 0.172d, Rotation2d.fromDegrees(-178.794d)),
+                                                            new Pose2d(9.15d, 0.822d, Rotation2d.fromDegrees(177.51d)),
+                                                            new Pose2d(0.546d, 0.7d, Rotation2d.fromDegrees(-177.184d)))));
 
-        Paths.register(new Path("Manual Slalom", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-1.597d)),      
-                                                            new Pose2d(5.857d, 5.491d, Rotation2d.fromDegrees(36.444d)),
-                                                            new Pose2d(11.247d, 6.988d, Rotation2d.fromDegrees(-3.926d)),
-                                                            new Pose2d(16.738d, 4.526d, Rotation2d.fromDegrees(-47.203d)),
-                                                            new Pose2d(19.333d, 0.399d, Rotation2d.fromDegrees(-10.235d)),
-                                                            new Pose2d(21.43d, 0.0d, Rotation2d.fromDegrees(4.824d)),
-                                                            new Pose2d(23.792d, 1.065d, Rotation2d.fromDegrees(51.766d)),
-                                                            new Pose2d(24.425d, 2.895d, Rotation2d.fromDegrees(85.426d)),
-                                                            new Pose2d(22.228d, 6.023d, Rotation2d.fromDegrees(163.386d)),
-                                                            new Pose2d(19.566d, 5.723d, Rotation2d.fromDegrees(-163.009d)),
-                                                            new Pose2d(16.571d, 0.998d, Rotation2d.fromDegrees(-132.754d)),
-                                                            new Pose2d(11.247d, -0.266d, Rotation2d.fromDegrees(-177.666d)),
-                                                            new Pose2d(5.158d, 0.832d, Rotation2d.fromDegrees(145.739d)),
-                                                            new Pose2d(0.765d, 5.391d, Rotation2d.fromDegrees(160.648d)),
-                                                            new Pose2d(-2.429d, 5.79d, Rotation2d.fromDegrees(-175.986d)))));
+        Paths.register(new Path("Manual Slalom", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+                                                            new Pose2d(7.625d, 5.137d, Rotation2d.fromDegrees(36.444d)),  
+                                                            new Pose2d(13.016d, 6.634d, Rotation2d.fromDegrees(-3.926d)), 
+                                                            new Pose2d(18.506d, 4.172d, Rotation2d.fromDegrees(-47.203d)),
+                                                            new Pose2d(21.102d, 0.046d, Rotation2d.fromDegrees(-10.235d)),
+                                                            new Pose2d(23.198d, -0.354d, Rotation2d.fromDegrees(4.824d)), 
+                                                            new Pose2d(25.561d, 0.711d, Rotation2d.fromDegrees(51.766d)), 
+                                                            new Pose2d(26.193d, 2.541d, Rotation2d.fromDegrees(85.426d)), 
+                                                            new Pose2d(23.997d, 5.669d, Rotation2d.fromDegrees(163.386d)),
+                                                            new Pose2d(21.335d, 5.37d, Rotation2d.fromDegrees(-163.009d)),
+                                                            new Pose2d(18.34d, 0.645d, Rotation2d.fromDegrees(-132.754d)),
+                                                            new Pose2d(13.016d, -0.62d, Rotation2d.fromDegrees(-177.666d)),
+                                                            new Pose2d(6.926d, 0.478d, Rotation2d.fromDegrees(145.739d)),
+                                                            new Pose2d(2.534d, 5.037d, Rotation2d.fromDegrees(160.648d)),
+                                                            new Pose2d(-0.661d, 5.436d, Rotation2d.fromDegrees(-175.986d)))));
 
         Paths.register(new Path("Manual Bounce1", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(3.061d, 1.93d, Rotation2d.fromDegrees(74.745d)),
-                                                            new Pose2d(3.747d, 5.148d, Rotation2d.fromDegrees(79.263d)))));
+                                                            new Pose2d(3.935d, 1.268d, Rotation2d.fromDegrees(52.306d)),
+                                                            new Pose2d(5.116d, 5.185d, Rotation2d.fromDegrees(79.263d)))));
 
         Paths.register(new Path("Manual Bounce2", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-85.692d)),
                                                             new Pose2d(1.278d, -6.146d, Rotation2d.fromDegrees(-62.879d)),

@@ -83,7 +83,7 @@ public class GregContainer extends LightningContainer {
     protected void configureButtonBindings() {
 
         // DRIVER
-        // (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
         // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
@@ -209,7 +209,7 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
                                                             new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
 
-        Paths.register(new Path("Manual straight", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+        Paths.register(new Path("Manual Straight", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(5.889d, 0.004d, Rotation2d.fromDegrees(0.0d)))));
 
         Paths.register(new Path("Manual Curve Right", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
@@ -226,25 +226,25 @@ public class GregContainer extends LightningContainer {
                                                             new Pose2d(6.325d, 0.0d, Rotation2d.fromDegrees(0.876d)),
                                                             new Pose2d(7.476d, 2.5d, Rotation2d.fromDegrees(90.0d)))));
 
-        Paths.register(new Path("Manual Blue A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+        Paths.register(new Path("Manual BlueA", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(13.866d, 1.329d, Rotation2d.fromDegrees(42.306d)),
                                                             new Pose2d(14.499d, 8.683d, Rotation2d.fromDegrees(8.746d)),
                                                             new Pose2d(21.317d, 6.259d, Rotation2d.fromDegrees(-14.524d)),
                                                             new Pose2d(27.952d, 5.109d, Rotation2d.fromDegrees(0.0d)))));
         
-        Paths.register(new Path("Manual Blue B", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+        Paths.register(new Path("Manual BlueB", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(12.469d, 1.51d, Rotation2d.fromDegrees(28.824d)),
                                                             new Pose2d(18.592d, 7.499d, Rotation2d.fromDegrees(-12.51d)),
                                                             new Pose2d(23.217d, 2.907d, Rotation2d.fromDegrees(-36.236d)),
                                                             new Pose2d(27.819d, 0.32d, Rotation2d.fromDegrees(-26.565d)))));
 
-        Paths.register(new Path("Manual Red A", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+        Paths.register(new Path("Manual RedA", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(6.41d, -0.035d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(11.541d, -2.468d, Rotation2d.fromDegrees(4.53d)),
                                                             new Pose2d(14.0d, 5.195d, Rotation2d.fromDegrees(50.548d)),
                                                             new Pose2d(27.598d, 5.185d, Rotation2d.fromDegrees(-4.399d)))));
 
-        Paths.register(new Path("Manual Red B", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
+        Paths.register(new Path("Manual RedB", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(5.611d, -2.993d, Rotation2d.fromDegrees(-41.987d)),
                                                             new Pose2d(10.639d, -8.842d, Rotation2d.fromDegrees(0.507d)),
                                                             new Pose2d(15.863d, -3.817d, Rotation2d.fromDegrees(25.712d)),

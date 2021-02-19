@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.util.InterpolatedMap;
 import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard; 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
 
@@ -37,7 +37,7 @@ public class Vision extends SubsystemBase {
     private final Solenoid outerLEDRing;
 
     private double startVertBias = 0;
-    private double startHorizBias = 14.;
+    private double startHorizBias = -28.; //14.;
 
     private double verticalBias = startVertBias;
     private double horizontalBias = startHorizBias;
@@ -158,10 +158,10 @@ public class Vision extends SubsystemBase {
     private void configShooterAngle(){
         // input in target height pixels TODO verify this is correct interpretation
         // output degrees
-        shooterAngleInterpolationTable.put(115.0, 46.5); // closet shot-2
-        shooterAngleInterpolationTable.put(95.0,  35.0); // 10ft-2
-        shooterAngleInterpolationTable.put(62.0,  26.5); // close trench-2
-        shooterAngleInterpolationTable.put(39.0,  23.0);
+        shooterAngleInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
+        shooterAngleInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
+        shooterAngleInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
+        shooterAngleInterpolationTable.put(39.0,  26.5); // 23.0);
     }
     
     private void configShooterSpeed() {

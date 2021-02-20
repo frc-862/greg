@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lightning.util.StatefulCommand;
 import frc.robot.subsystems.Indexer;
 
@@ -35,7 +36,7 @@ public class IndexerCommand extends StatefulCommand {
     @Override
     public void execute() {
         super.execute();
-        SmartDashboard.putString("Index State", getState().toString());
+        Shuffleboard.getTab("Indexer").add("Index State", getState().toString());
     }
 
     public void idleEnter() {

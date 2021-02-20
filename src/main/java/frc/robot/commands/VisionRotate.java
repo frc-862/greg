@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.logging.CommandLogger;
 import frc.lightning.subsystems.LightningDrivetrain;
@@ -86,7 +87,7 @@ public class VisionRotate extends CommandBase {
         }
 
         drivetrain.setOutput(12 * pwr, -pwr * 12);
-        SmartDashboard.putBoolean("in tolerance", inTolerance());
+        Shuffleboard.getTab("Vision").add("in tolerance", inTolerance());
     }
 
     private boolean inTolerance() {

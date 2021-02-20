@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -32,6 +34,8 @@ public class Indexer extends SubsystemBase {
 
     private double isEmptyTimer =0;
 
+    private SimpleWidget indexerBallCount;
+
     /**
      * Creates a new Indexer.
      */
@@ -44,8 +48,8 @@ public class Indexer extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        final var tab = Shuffleboard.getTab("Autonomous");
-        tab.add("StartingBallCount", 3);
+        final var tab = Shuffleboard.getTab("Indexer"); // tab was under autonomas
+        indexerBallCount = tab.add("StartingBallCount", 3);
 
     }
 
@@ -66,11 +70,11 @@ public class Indexer extends SubsystemBase {
     public void periodic() {
         ballSeen = !collectSensor.get();
         ballSeenShooter = !ejectSensor.get();
-        SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
-        // SmartDashboard.putNumber("BallsHeld", ballCount);
-        SmartDashboard.putNumber("BallsHeld", ballsHeld);
-        SmartDashboard.putBoolean("IndexerArmed", armed);
-        SmartDashboard.putBoolean("is Empty", isEmpty());
+        Shuffleboard.getTab("Indexer").add("BallSeenBeamBreak", ballSeen);
+                // SmartDashboard.putNumber("BallsHeld", ballCount);
+        Shuffleboard.getTab("Indexer").add("BallsHeld", ballsHeld);
+        Shuffleboard.getTab("Indexer").add("IndexerArmed", armed);
+        Shuffleboard.getTab("Indexer").add("is Empty", isEmpty());
 
         
         if(ballSeen) {
@@ -120,7 +124,7 @@ public class Indexer extends SubsystemBase {
     public void resetBallCount() { /*ballCount = 0;*/ }
 
     public void setBallsHeld() { 
-        int balls = (int) SmartDashboard.getNumber("StartingBallCount", 3);
+        int balls = (int) indexerBallCount.getEntry().getNumber(3);
         this.ballCount = balls;
         this.ballsFired = 0;
         this.ballsHeld = balls;

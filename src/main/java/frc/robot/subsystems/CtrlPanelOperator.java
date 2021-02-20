@@ -12,6 +12,7 @@ import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -61,10 +62,10 @@ public class CtrlPanelOperator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Blue",getColorSensorBlue());
-        SmartDashboard.putNumber("Red",getColorSensorRed());
-        SmartDashboard.putNumber("Green",getColorSensorGreen());
-        SmartDashboard.putNumber("color",color);
+        Shuffleboard.getTab("ColorWheel").add("Blue",getColorSensorBlue());
+        Shuffleboard.getTab("ColorWheel").add("Red",getColorSensorRed());
+        Shuffleboard.getTab("ColorWheel").add("Green",getColorSensorGreen());
+        Shuffleboard.getTab("ColorWheel").add("color",color);
         Color detectedColor = I_Can_Taste_Color.getColor();
 
         // Run the color match algorithm on our detected color
@@ -86,10 +87,11 @@ public class CtrlPanelOperator extends SubsystemBase {
         //green=3
         //yellow=4
         //???=0
-        SmartDashboard.putBoolean("is Yellow",color==3);
-        SmartDashboard.putBoolean("is Red",color==2);
-        SmartDashboard.putBoolean("is Green",color==1);
-        SmartDashboard.putBoolean("is Blue",color==0);
+        
+        Shuffleboard.getTab("ColorWheel").add("is Yellow",color==3);
+        Shuffleboard.getTab("ColorWheel").add("is Red",color==2);
+        Shuffleboard.getTab("ColorWheel").add("is Green",color==1);
+        Shuffleboard.getTab("ColorWheel").add("is Blue",color==0);
     }
 
     /**

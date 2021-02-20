@@ -9,6 +9,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
@@ -55,9 +57,11 @@ public class Shooter extends SubsystemBase {
         controller.setOutputRange(gains.getkMinOutput(), gains.getkMaxOutput());
     }
 
+    SimpleWidget backSpinWidget; 
+
     public Shooter() {
         // Init
-        SmartDashboard.putNumber("backspin", backspin);
+        backSpinWidget = Shuffleboard.getTab("Shooter").add("backspin", backspin);
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
@@ -97,10 +101,10 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
-        SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
-        SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
-        backspin=SmartDashboard.getNumber("backspin", backspin); // updating backspin from smartdashboard 
+        Shuffleboard.getTab("Shooter").add("motor 1 speed",motor1encoder.getVelocity());
+        Shuffleboard.getTab("Shooter").add("motor 2 speed",motor2encoder.getVelocity());
+        Shuffleboard.getTab("Shooter").add("motor 3 speed",motor3encoder.getVelocity());
+        backspin=backSpinWidget.getEntry().getDouble(750); // default backspin
         
         // TODO: maybe check all the motors
         if (setSpeed > 400) { 

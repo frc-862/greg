@@ -43,13 +43,7 @@ import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
-import frc.robot.systemtests.ClimberTestDown;
-import frc.robot.systemtests.ClimberTestUp;
-import frc.robot.systemtests.CollectorExtendTest;
-import frc.robot.systemtests.CollectorSpinUpTest;
-import frc.robot.systemtests.ControllerTest;
-import frc.robot.systemtests.IndexerSystemTest;
-import frc.robot.systemtests.ShooterAngleTest;
+import frc.robot.systemtests.*;
 
 public class GregContainer extends LightningContainer {
 

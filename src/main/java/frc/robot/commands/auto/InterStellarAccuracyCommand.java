@@ -21,7 +21,7 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Path;
 import frc.robot.commands.Collect;
 import frc.robot.commands.FullAutoFireMagazine;
-import frc.robot.commands.IndexerCommand;
+import frc.robot.commands.AutoIndex;
 import frc.robot.commands.shooter.FireThree;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
@@ -55,7 +55,7 @@ public class InterStellarAccuracyCommand extends SequentialCommandGroup {
         new InstantCommand(indexer::safteyClosed, indexer),
         new ParallelCommandGroup(
           new Collect(collector, () -> COLLECT_PWR),
-          new IndexerCommand(indexer),
+          new AutoIndex(indexer),
           new CommandBase(){
             @Override
             public boolean isFinished(){

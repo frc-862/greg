@@ -12,8 +12,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
 
+@Deprecated
 public class AutoCollectThree extends CommandBase {
 
   final Collector collector;
@@ -23,9 +23,6 @@ public class AutoCollectThree extends CommandBase {
 
   double indexTimer = 0d;
 
-  /**
-   * Creates a new Collect.
-   */
   public AutoCollectThree(Collector collector, DoubleSupplier collectPwr) {
     this.collector = collector;
     this.collectPwr = collectPwr;
@@ -37,7 +34,6 @@ public class AutoCollectThree extends CommandBase {
     initTime = Timer.getFPGATimestamp();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
@@ -54,7 +50,6 @@ public class AutoCollectThree extends CommandBase {
     return false;
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     super.end(interrupted);

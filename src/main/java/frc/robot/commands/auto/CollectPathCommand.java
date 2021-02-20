@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lightning.auto.Path;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.commands.Collect;
-import frc.robot.commands.IndexerCommand;
+import frc.robot.commands.AutoIndex;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 
@@ -43,7 +43,7 @@ public class CollectPathCommand extends SequentialCommandGroup {
       new InstantCommand(indexer::safteyClosed, indexer),
       new ParallelCommandGroup(
         new Collect(collector, () -> COLLECT_PWR),
-        new IndexerCommand(indexer),
+        new AutoIndex(indexer),
         path.getCommand(drivetrain)
       )
     );

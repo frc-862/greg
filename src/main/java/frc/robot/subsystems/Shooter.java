@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -18,8 +17,6 @@ import frc.lightning.util.LightningMath;
 import frc.lightning.util.REVGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-
-import java.util.function.IntConsumer;
 
 public class Shooter extends SubsystemBase {
     

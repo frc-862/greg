@@ -13,53 +13,53 @@ import frc.robot.subsystems.*;
 
 public class FireFive extends CommandBase {
 
-  private Shooter shooter;
-  private Indexer indexer;
-  private LeadScrew leadscrew;
-  private Vision vision;
-  private Collector collector;
-  
-  private double time;
+	private Shooter shooter;
+	private Indexer indexer;
+	private LeadScrew leadscrew;
+	private Vision vision;
+	private Collector collector;
 
-  /**
-   * Creates a new FireThree.
-   */
-  public FireFive(Shooter shooter, Indexer indexer, LeadScrew leadScrew, Vision vision, Collector collector) {
-    this.shooter = shooter;
-    this.indexer = indexer;
-    this.leadscrew = leadScrew;
-    this.vision = vision;
-    this.collector = collector;
-    addRequirements(shooter, indexer, leadScrew, vision, collector);
-  }
+	private double time;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    shooter.setShooterVelocity(3000);
-    leadscrew.setAngle(39);
-    time = Timer.getFPGATimestamp();
-    indexer.safteyOpen();
-  }
+	/**
+	 * Creates a new FireThree.
+	 */
+	public FireFive(Shooter shooter, Indexer indexer, LeadScrew leadScrew, Vision vision, Collector collector) {
+		this.shooter = shooter;
+		this.indexer = indexer;
+		this.leadscrew = leadScrew;
+		this.vision = vision;
+		this.collector = collector;
+		addRequirements(shooter, indexer, leadScrew, vision, collector);
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    indexer.toShooter();
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		shooter.setShooterVelocity(3000);
+		leadscrew.setAngle(39);
+		time = Timer.getFPGATimestamp();
+		indexer.safteyOpen();
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    System.out.println("I am ending " + interrupted);
-    shooter.setShooterVelocity(0d);
-    shooter.stop();
-    indexer.stop();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		indexer.toShooter();
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - time) > 3.6);
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		System.out.println("I am ending " + interrupted);
+		shooter.setShooterVelocity(0d);
+		shooter.stop();
+		indexer.stop();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return ((Timer.getFPGATimestamp() - time) > 3.6);
+	}
 }

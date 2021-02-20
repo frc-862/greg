@@ -14,35 +14,33 @@ import frc.robot.subsystems.Collector;
 
 public class Collect extends CommandBase {
 
-  final Collector collector;
-  final DoubleSupplier collectPwr;
+	final Collector collector;
+	final DoubleSupplier collectPwr;
 
-  /**
-   * Creates a new Collect.
-   */
-  public Collect(Collector collector, DoubleSupplier collectPwr) {
-    this.collector = collector;
-    this.collectPwr = collectPwr;
-    addRequirements(collector);
-  }
+	/**
+	 * Creates a new Collect.
+	 */
+	public Collect(Collector collector, DoubleSupplier collectPwr) {
+		this.collector = collector;
+		this.collectPwr = collectPwr;
+		addRequirements(collector);
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+	@Override
+	public void execute() {
 
-    if (collectPwr.getAsDouble() > .2) {
-      collector.collect();
-    } else {
-      collector.setPower(collectPwr.getAsDouble());
-    }
+		if (collectPwr.getAsDouble() > .2) {
+			collector.collect();
+		} else {
+			collector.setPower(collectPwr.getAsDouble());
+		}
 
-  }
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    super.end(interrupted);
-    collector.stop();
-  }
+	@Override
+	public void end(boolean interrupted) {
+		super.end(interrupted);
+		collector.stop();
+	}
 
 }

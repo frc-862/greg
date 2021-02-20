@@ -3,7 +3,7 @@ package frc.robot.commands.utility;
 import frc.lightning.util.StatefulCommand;
 import frc.robot.subsystems.LeadScrew;
 
-
+@Deprecated
 public class SetAngleLimitsCommand extends StatefulCommand {
     final private double power = 0.2;
 

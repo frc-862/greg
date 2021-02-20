@@ -35,7 +35,7 @@ public class FullAutoFireOne extends SequentialCommandGroup {
                 new VisionLeadScrew(leadScrew, vision),
                 new SpinUpFlywheelVelocity(shooter, vision)
             ),
-            new FeedPowerCell(indexer, shooter, fullAuto)
+            new FeedPowerCell(indexer, fullAuto)
         );
     }
 }

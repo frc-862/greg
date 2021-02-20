@@ -11,7 +11,6 @@ import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -69,7 +68,6 @@ public class CtrlPanelOperator extends SubsystemBase {
         Color detectedColor = I_Can_Taste_Color.getColor();
 
         // Run the color match algorithm on our detected color
-        String colorString;
         ColorMatchResult match = colorMatch.matchClosestColor(detectedColor);
         if (match.color == kBlueTarget ||match.color == kFalseGreenTarget) {
             color=0;
@@ -163,10 +161,5 @@ public class CtrlPanelOperator extends SubsystemBase {
         }
         return targetColor;
     }
-
-    private String getCurrentColor() {
-        return null;
-    }
-
 
 }

@@ -33,7 +33,7 @@ import frc.robot.JoystickConstants;
 import frc.robot.commands.Collect;
 import frc.robot.commands.CollectEject;
 import frc.robot.commands.FullAutoFireOne;
-import frc.robot.commands.IndexerCommand;
+import frc.robot.commands.AutoIndex;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
@@ -133,7 +133,7 @@ public class GregContainer extends LightningContainer {
     protected void configureDefaultCommands() {
         // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        indexer.setDefaultCommand(new IndexerCommand(indexer));
+        indexer.setDefaultCommand(new AutoIndex(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));
         // //shooter.setWhenBallShot((n) -> shooter.shotBall());

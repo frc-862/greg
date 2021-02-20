@@ -13,15 +13,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Indexer extends SubsystemBase {
-    private final double pwrThreshold = 0.05;
+    
     private VictorSPX indexer;
     private DoubleSolenoid safty;
 
@@ -144,20 +142,6 @@ public class Indexer extends SubsystemBase {
         indexer.set(ControlMode.PercentOutput,pwr);
     }
 
-    /**
-     * if ball passes through beam break and indexer moving forward, then add ball
-     * if ball passes through beam break and indexer moving backward, then bye bye ball
-     * else do nothing - ideling
-     */
-    private void updateBallCount() {
-        // if(getBeamBreak() && (getPower() > pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() + 1);
-        // else if (getBeamBreak() && (getPower() < -pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() - 1);
-    }
-
-    private boolean getBeamBreak() {
-        return false;
-    }
-
     public double getPower() {
         return 0d;
     }
@@ -191,4 +175,5 @@ public class Indexer extends SubsystemBase {
         ballCount = 0;
         ballsFired = 0;
     }
+    
 }

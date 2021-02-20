@@ -19,7 +19,7 @@ import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Path;
 import frc.lightning.auto.Paths;
 import frc.robot.commands.Collect;
-import frc.robot.commands.IndexerCommand;
+import frc.robot.commands.AutoIndex;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 

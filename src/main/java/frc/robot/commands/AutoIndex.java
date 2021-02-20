@@ -1,11 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lightning.util.StatefulCommand;
 import frc.robot.subsystems.Indexer;
 
-public class IndexerCommand extends StatefulCommand {
+public class AutoIndex extends StatefulCommand {
     final private double indexTime = 0.2;
     final private double finalIndexTime = 0.08;
     final private int maxBallCount = 5;
@@ -14,7 +13,7 @@ public class IndexerCommand extends StatefulCommand {
 
     private final Indexer indexer;
 
-    public IndexerCommand(Indexer indexer) {
+    public AutoIndex(Indexer indexer) {
         super(States.idle);
 
         this.indexer = indexer;
@@ -29,7 +28,6 @@ public class IndexerCommand extends StatefulCommand {
     public void initialize() {
         this.setState(States.idle);
         super.initialize();
-//        SmartDashboard.putData("state index",()->this.getState().toString());
 
     }
 

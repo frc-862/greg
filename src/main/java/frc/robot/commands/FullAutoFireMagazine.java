@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterAngle;
+import frc.robot.subsystems.LeadScrew;
 import frc.robot.subsystems.Vision;
 
 public class FullAutoFireMagazine extends CommandBase {
@@ -16,8 +16,8 @@ public class FullAutoFireMagazine extends CommandBase {
     private final Shooter shooter;
     private final Vision vision;
 
-    public FullAutoFireMagazine(LightningDrivetrain dt, Vision v, Shooter s, ShooterAngle sa, Indexer i) {
-        cmd = new FullAutoFireOne(dt, v, s, sa, i, true);
+    public FullAutoFireMagazine(LightningDrivetrain dt, Vision v, Shooter s, LeadScrew ls, Indexer i) {
+        cmd = new FullAutoFireOne(dt, v, s, ls, i, true);
         // note not requiring indexer because we know FullAutoFireOne does
         this.indexer = i;
         this.shooter = s;

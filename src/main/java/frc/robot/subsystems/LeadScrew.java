@@ -16,14 +16,14 @@ import frc.robot.RobotMap;
 import java.io.*;
 import java.util.function.DoubleSupplier;
 
-public class ShooterAngle extends SubsystemBase {
-    
+public class LeadScrew extends SubsystemBase {
+
     // Greg is at 9
     private static final int ILLUSION_MIN_ANGLE = 11;
     private static final int GREG_MIN_ANGLE = 9;
 
     public static double low_angle = (Robot.isIllusion() ? ILLUSION_MIN_ANGLE : GREG_MIN_ANGLE);
-    public static double high_angle = 38;   // TODO find illusion Angle
+    public static double high_angle = 38; // TODO find illusion Angle
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
@@ -37,8 +37,8 @@ public class ShooterAngle extends SubsystemBase {
 
     private TalonSRX adjuster;
 
-    public ShooterAngle() {
-        adjuster = new TalonSRX(RobotMap.SHOOTER_ANGLE);
+    public LeadScrew() {
+        adjuster = new TalonSRX(RobotMap.LEAD_SCREW);
         setPoint = getAngle();
         readLimits();
         
@@ -69,7 +69,7 @@ public class ShooterAngle extends SubsystemBase {
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
-        Shuffleboard.getTab("Shooter").addNumber("Shooter Angle", this::getAngle);
+        Shuffleboard.getTab("Shooter").addNumber("Lead Screw", this::getAngle);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Rev Limit", this::atLowerLimit);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Fwd Limit", this::atUpperLimit);
 

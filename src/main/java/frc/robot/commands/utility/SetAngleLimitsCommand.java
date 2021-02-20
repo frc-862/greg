@@ -1,7 +1,7 @@
 package frc.robot.commands.utility;
 
 import frc.lightning.util.StatefulCommand;
-import frc.robot.subsystems.ShooterAngle;
+import frc.robot.subsystems.LeadScrew;
 
 
 public class SetAngleLimitsCommand extends StatefulCommand {
@@ -9,12 +9,12 @@ public class SetAngleLimitsCommand extends StatefulCommand {
 
     enum States { checkUpper, checkLower, done };
 
-    private final ShooterAngle shooterAngle;
+    private final LeadScrew leadScrew;
 
-    public SetAngleLimitsCommand(ShooterAngle shooterAngle) {
+    public SetAngleLimitsCommand(LeadScrew leadScrew) {
         super(States.checkUpper);
-        this.shooterAngle = shooterAngle;
-        addRequirements(this.shooterAngle);
+        this.leadScrew = leadScrew;
+        addRequirements(this.leadScrew);
     }
 
     /**
@@ -28,38 +28,38 @@ public class SetAngleLimitsCommand extends StatefulCommand {
 
     private double previousAngle = 0;
     public void checkUpperEnter() {
-        previousAngle = shooterAngle.getAngle();
-        shooterAngle.setPower(power);
+        previousAngle = leadScrew.getAngle();
+        leadScrew.setPower(power);
     }
 
     public void checkUpper() {
-        if (shooterAngle.atUpperLimit()) {
+        if (leadScrew.atUpperLimit()) {
             setState(States.checkLower);
         }
 
-        if (timeInState() > 0.5 && previousAngle == shooterAngle.getAngle()) {
+        if (timeInState() > 0.5 && previousAngle == leadScrew.getAngle()) {
             setState(States.done);
         }
     }
 
     public void checkLowerEnter() {
-        previousAngle = shooterAngle.getAngle();
-        shooterAngle.setPower(-power);
+        previousAngle = leadScrew.getAngle();
+        leadScrew.setPower(-power);
     }
 
     public void checkLower() {
-        if (shooterAngle.atLowerLimit()) {
-            shooterAngle.writeLimits();
+        if (leadScrew.atLowerLimit()) {
+            leadScrew.writeLimits();
             setState(States.done);
         }
 
-        if (timeInState() > 0.5 && previousAngle == shooterAngle.getAngle()) {
+        if (timeInState() > 0.5 && previousAngle == leadScrew.getAngle()) {
             setState(States.done);
         }
     }
 
     public void done() {
-        shooterAngle.setPower(0);
+        leadScrew.setPower(0);
     }
 
     @Override
@@ -69,6 +69,6 @@ public class SetAngleLimitsCommand extends StatefulCommand {
 
     @Override
     public void end(boolean interrupted) {
-        shooterAngle.setPower(0);
+        leadScrew.setPower(0);
     }
 }

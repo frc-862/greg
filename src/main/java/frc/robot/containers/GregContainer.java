@@ -54,7 +54,7 @@ public class GregContainer extends LightningContainer {
     private static final Collector collector = new Collector();
     private static final Indexer indexer = new Indexer();
     private static final Shooter shooter = new Shooter();
-    private static final ShooterAngle shooterAngle = new ShooterAngle();
+    private static final LeadScrew leadScrew = new LeadScrew();
     private static final Climber climber = new Climber();
 
     // LOGGERS
@@ -84,8 +84,8 @@ public class GregContainer extends LightningContainer {
 
         // DRIVER
         (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
-        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
-        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
+        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,leadScrew,indexer,true));
+        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
 
         // OPERATOR
@@ -137,7 +137,7 @@ public class GregContainer extends LightningContainer {
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));
         // //shooter.setWhenBallShot((n) -> shooter.shotBall());
-        // //shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+        // //leadScrew.setDefaultCommand(new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
     }
 
     @Override
@@ -155,11 +155,11 @@ public class GregContainer extends LightningContainer {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-        // SHOOTER ANGLE DASHBOARD
+        // LEAD SCREW DASHBOARD
         // final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
         //         .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)).getEntry();
         // flyWheelAngle.addListener((n) -> {
-        //     shooterAngle.setAngle(flyWheelAngle.getDouble(100)); // setDesiredAngle?
+        //     leadScrew.setAngle(flyWheelAngle.getDouble(100)); // setDesiredAngle?
         // }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         // GENERAL DASHBOARD COMMANDS
@@ -174,14 +174,14 @@ public class GregContainer extends LightningContainer {
         indexer_tab.add("safety out", new InstantCommand(indexer::safteyOpen));
         indexer_tab.add("zero balls held", new InstantCommand(indexer::resetBallCount));
         indexer_tab.add("collect",  new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight), () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));
-        indexer_tab.add("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
+        indexer_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
 
         final var pose_tab = Shuffleboard.getTab("Pose");
         pose_tab.add("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
 
         final var shooter_tab = Shuffleboard.getTab("Shooter");
-        shooter_tab.add("Manual shooter angle", new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
-        shooter_tab.add("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
+        shooter_tab.add("Manual lead screw", new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
+        shooter_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
 
     }
 
@@ -343,13 +343,13 @@ public class GregContainer extends LightningContainer {
         ));
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
         Autonomous.register("Interstellar Accuracy", new SequentialCommandGroup(
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, null, 
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, leadScrew, vision, null, 
                 new Path("Interstellar Green Back", greenWaypoints)),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, leadScrew, vision, 
                 new Path("Interstellar Yellow Fwr", yellowWaypoints, true), new Path("Interstellar Yellow Back", yellowWaypoints)),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, leadScrew, vision, 
                 new Path("Interstellar Blue Fwr", blueWaypoints, true), new Path("Interstellar Blue Back", blueWaypoints)),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
+            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, leadScrew, vision, 
                 new Path("Interstellar Red Fwr", redWaypoints, true), new Path("Interstellar Red Back", redWaypoints))
             )
         );

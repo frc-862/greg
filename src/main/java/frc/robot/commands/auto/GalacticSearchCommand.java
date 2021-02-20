@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import frc.robot.commands.auto.CollectPathCommand;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Path;
 import frc.lightning.auto.Paths;

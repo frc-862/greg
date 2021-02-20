@@ -29,6 +29,8 @@ import frc.lightning.commands.VoltDrive;
 import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
+import frc.lightning.testing.SystemTest;
+import frc.robot.systemtests.ShooterMotorTest;
 import frc.robot.JoystickConstants;
 import frc.robot.commands.Collect;
 import frc.robot.commands.CollectEject;
@@ -126,7 +128,7 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureSystemTests() {
-
+        SystemTest.register(new ShooterMotorTest(shooter));
     }
 
     @Override

@@ -43,7 +43,13 @@ import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
-import frc.robot.systemtests.drivetrain.IndexerSystemTest;
+import frc.robot.systemtests.ClimberTestDown;
+import frc.robot.systemtests.ClimberTestUp;
+import frc.robot.systemtests.CollectorExtendTest;
+import frc.robot.systemtests.CollectorSpinUpTest;
+import frc.robot.systemtests.ControllerTest;
+import frc.robot.systemtests.IndexerSystemTest;
+import frc.robot.systemtests.ShooterAngleTest;
 
 public class GregContainer extends LightningContainer {
 
@@ -129,11 +135,14 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureSystemTests() {
-<<<<<<< HEAD
         SystemTest.register(new ShooterMotorTest(shooter));
-=======
+        SystemTest.register(new ShooterAngleTest(shooterAngle));
         SystemTest.register(new IndexerSystemTest(indexer));
->>>>>>> SC2-41-indexer-system-test
+        SystemTest.register(new ClimberTestDown(climber));
+        SystemTest.register(new ClimberTestUp(climber));
+        SystemTest.register(new CollectorExtendTest(collector));
+        SystemTest.register(new CollectorSpinUpTest(collector));
+        SystemTest.register(new ControllerTest(driverLeft, driverRight, operator, climberController));
     }
 
     @Override

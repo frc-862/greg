@@ -55,6 +55,14 @@ public class Collector extends SubsystemBase {
         longitudinalMotor.set(ControlMode.PercentOutput,pwr);
     }
 
+    public double getPowerLinear(){
+        return linearMotor.getMotorOutputPercent();
+    }
+
+    public double getPowerLongitudinal(){
+        return longitudinalMotor.getMotorOutputPercent();
+    }
+
     public void stop() {
         linearMotor.set(ControlMode.PercentOutput, 0d);
         longitudinalMotor.set(ControlMode.PercentOutput, 0d);

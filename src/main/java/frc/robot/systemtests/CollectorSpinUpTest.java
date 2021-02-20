@@ -19,21 +19,24 @@ public class CollectorSpinUpTest extends AbstractTimedSystemTest {
     @Override
     public void initialize() {
         super.initialize();
-        startPosition1 = collector.getLinearVelocity();
-        startPosition2 = collector.getLongitudinalVelocity();
     }
 
     @Override
     public void execute() {
         super.execute();
-        collector.setPower(1);
+        collector.collect();
     }
 
     @Override
     public boolean didPass() {
-        return  startPosition1 < collector.getLinearVelocity() && startPosition2 < collector.getLongitudinalVelocity();
+        return collector.getPowerLinear() >= 1 && collector.getPowerLongitudinal() >= 1;
     }
 
+
+    @Override
+    public boolean isFinished() {
+        return super.isFinished() || didPass();
+    }
 
     @Override
     public void end(boolean interrupted) {

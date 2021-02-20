@@ -136,7 +136,7 @@ public class GregContainer extends LightningContainer {
     @Override
     protected void configureSystemTests() {
         SystemTest.register(new ShooterMotorTest(shooter));
-        SystemTest.register(new ShooterAngleTest(shooterAngle));
+        SystemTest.register(new ShooterAngleTest(leadScrew));
         SystemTest.register(new IndexerSystemTest(indexer));
         SystemTest.register(new ClimberTestDown(climber));
         SystemTest.register(new ClimberTestUp(climber));

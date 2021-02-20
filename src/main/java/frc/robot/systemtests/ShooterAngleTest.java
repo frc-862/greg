@@ -2,35 +2,35 @@ package frc.robot.systemtests;
 
 import frc.lightning.testing.AbstractTimedSystemTest;
 import frc.lightning.fault.FaultCode;
-import frc.robot.subsystems.ShooterAngle;
+import frc.robot.subsystems.LeadScrew;
 
 public class ShooterAngleTest extends AbstractTimedSystemTest {
     private static final double testLength = 2.0;
-    private ShooterAngle shooterAngle;
+    private LeadScrew leadScrew;
     private double initialAngle;
 
-    public ShooterAngleTest(ShooterAngle shooterAngle) {
+    public ShooterAngleTest(LeadScrew leadScrew) {
        super("Testing Lead Screw", testLength, FaultCode.Codes.GENERAL);
-       this.shooterAngle = shooterAngle;
-       addRequirements(shooterAngle);
+       this.leadScrew = leadScrew;
+       addRequirements(leadScrew);
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        initialAngle = shooterAngle.getAngle();
+        initialAngle = leadScrew.getAngle();
     }
 
     @Override
     public void execute() {
         super.execute();
-        shooterAngle.setAngle(30d);
-        shooterAngle.adjusterControlLoop();
+        leadScrew.setAngle(30d);
+        leadScrew.adjusterControlLoop();
     }
 
     @Override
     public boolean didPass() {
-        return shooterAngle.getAngle() == 30d;
+        return leadScrew.getAngle() == 30d;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class ShooterAngleTest extends AbstractTimedSystemTest {
 
     @Override
     public void end(boolean interrupted) {
-        shooterAngle.setAngle(initialAngle);
-        shooterAngle.adjusterControlLoop();
+        leadScrew.setAngle(initialAngle);
+        leadScrew.adjusterControlLoop();
     }
 }

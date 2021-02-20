@@ -22,8 +22,8 @@ public class CollectorExtendTest extends AbstractTimedSystemTest {
     @Override
     public void execute() {
         super.execute();
-        collector.puterOuterIn();
-        collector.puterOuterOut();
+        collector.retract();
+        collector.extend();
     }
 
     @Override

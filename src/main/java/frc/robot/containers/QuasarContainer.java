@@ -68,5 +68,8 @@ public class QuasarContainer extends LightningContainer {
 
     @Override
     public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
+    @Override
+    protected void configureAutonomousPaths() { }
     
 }

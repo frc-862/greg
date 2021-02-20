@@ -186,9 +186,7 @@ public class GregContainer extends LightningContainer {
     }
 
     @Override
-    protected void configureAutonomousCommands() {
-
-        //CONFIGURE PATHS
+    protected void configureAutonomousPaths() {
         Paths.register(new Path("Blue A", "paths/output/BlueA.wpilib.json"));
         Paths.register(new Path("Blue B", "paths/output/BlueB.wpilib.json"));
         Paths.register(new Path("Red A", "paths/output/RedA.wpilib.json"));
@@ -306,10 +304,10 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Manual Bounce4", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-90.119d)),
                                                             new Pose2d(1.257d, -3.186d, Rotation2d.fromDegrees(-48.538d)),
                                                             new Pose2d(4.718d, -4.85d, Rotation2d.fromDegrees(0.0d)))));
+    }
 
-
-
-        // CONFIGURE AUTON COMMANDS
+    @Override
+    protected void configureAutonomousCommands() {
         Autonomous.register("Test Auton Driving", Paths.getPathCommand(drivetrain, "Test Path"));
         Autonomous.register("Test Straight", Paths.getPathCommand(drivetrain, "Straight"));
         Autonomous.register("Test Turn Left", Paths.getPathCommand(drivetrain, "TurnLeft"));

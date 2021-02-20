@@ -90,4 +90,7 @@ public class TwikiContainer extends LightningContainer {
 		return config;
 	}
 
+	@Override
+	protected void configureAutonomousPaths() { }
+
 }

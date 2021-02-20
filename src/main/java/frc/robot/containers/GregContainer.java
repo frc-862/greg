@@ -227,10 +227,10 @@ public class GregContainer extends LightningContainer {
                                                             new Pose2d(7.476d, 2.5d, Rotation2d.fromDegrees(90.0d)))));
 
         Paths.register(new Path("Manual BlueA", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-                                                            new Pose2d(13.866d, 1.329d, Rotation2d.fromDegrees(42.306d)),
-                                                            new Pose2d(14.499d, 8.683d, Rotation2d.fromDegrees(8.746d)),
-                                                            new Pose2d(21.317d, 6.259d, Rotation2d.fromDegrees(-14.524d)),
-                                                            new Pose2d(27.952d, 5.109d, Rotation2d.fromDegrees(0.0d)))));
+                                                            new Pose2d(13.866d, 0.079d, Rotation2d.fromDegrees(42.306d)),
+                                                            new Pose2d(14.499d, 7.433d, Rotation2d.fromDegrees(8.746d)),
+                                                            new Pose2d(21.317d, 5.009d, Rotation2d.fromDegrees(-14.524d)),
+                                                            new Pose2d(27.952d, 3.859d, Rotation2d.fromDegrees(0.0d)))));
         
         Paths.register(new Path("Manual BlueB", Arrays.asList(new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
                                                             new Pose2d(12.469d, 1.51d, Rotation2d.fromDegrees(28.824d)),

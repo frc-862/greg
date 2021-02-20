@@ -29,21 +29,21 @@ public class AutonGenerator {
     private Collector collector;
     private Indexer indexer; 
     private Shooter shooter;
-    private ShooterAngle shooterAngle;
+    private LeadScrew leadScrew;
     private Vision vision;
 
     public AutonGenerator(LightningDrivetrain drivetrain, 
                             Collector collector, 
                             Indexer indexer, 
                             Shooter shooter,
-                            ShooterAngle shooterAngle,
+                            LeadScrew leadScrew,
                             Vision vision) {
 
         this.drivetrain = drivetrain;
         this.collector = collector;
         this.indexer = indexer;
         this.shooter = shooter;
-        this.shooterAngle = shooterAngle;
+        this.leadScrew = leadScrew;
         this.vision = vision;
 
         pathGenerator = new PathGenerator();
@@ -87,8 +87,8 @@ public class AutonGenerator {
          */
         map.put("3 Ball Off Line Collector Fwd", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+            new FireThree(shooter, indexer, leadScrew, vision, collector),
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
         ));
 
@@ -98,8 +98,8 @@ public class AutonGenerator {
          */
         map.put("3 Ball Off Line -> Alliance Wall", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+            new FireThree(shooter, indexer, leadScrew, vision, collector),
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
         ));
 
@@ -110,8 +110,8 @@ public class AutonGenerator {
          */
         map.put("3 Ball Off Line Collector Fwd w/VIS", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 4d),
+            new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_COLLECT_FWD)
         ));
 
@@ -122,8 +122,8 @@ public class AutonGenerator {
          */
         map.put("3 Ball Off Line -> Alliance Wall w/VIS", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 4d),
+            new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
             pathGenerator.getRamseteCommand(drivetrain, Paths.INIT_LINE_FWD2SHOOT)
         ));
 
@@ -137,8 +137,8 @@ public class AutonGenerator {
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             // pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TR_ADJUST),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
-            new FireFive(shooter, indexer, shooterAngle, vision, collector)
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
+            new FireFive(shooter, indexer, leadScrew, vision, collector)
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
         ));
 
         /*
@@ -151,9 +151,9 @@ public class AutonGenerator {
             new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_OUTER),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
-            // new FireFive(shooter, indexer, shooterAngle, vision, collector)
+            new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 4d)
+            // new FireFive(shooter, indexer, leadScrew, vision, collector)
         ));
 
         /*
@@ -165,8 +165,8 @@ public class AutonGenerator {
             new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_INNER),
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-            new FireFive(shooter, indexer, shooterAngle, vision, collector)
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
+            new FireFive(shooter, indexer, leadScrew, vision, collector)
         ));
 
         /*
@@ -179,9 +179,9 @@ public class AutonGenerator {
             new InitAuto(vision, indexer, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_OPP_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.OPP_TRENCHRUN_2_SHOOTING_POSE_INNER),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
-            // new FireFive(shooter, indexer, shooterAngle, vision, collector)
+            new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 4d)
+            // new FireFive(shooter, indexer, leadScrew, vision, collector)
         ));
 
         map.put("Test Auto", new SequentialCommandGroup(
@@ -197,12 +197,12 @@ public class AutonGenerator {
          */
         map.put("6 Ball TR Inner", new SequentialCommandGroup(
             new InitAuto(vision, indexer, collector),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+            new FireThree(shooter, indexer, leadScrew, vision, collector),
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-            new FireThree(shooter, indexer, shooterAngle, vision, collector)
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
+            new FireThree(shooter, indexer, leadScrew, vision, collector)
         ));
 
         /* 
@@ -215,17 +215,17 @@ public class AutonGenerator {
             new ParallelCommandGroup(
                     new InitAuto(vision, indexer, collector),
                     new SpinUpFlywheelManual(shooter, 3000),
-                    new SetIndexAngle(shooterAngle, 39)
+                    new SetIndexAngle(leadScrew, 39)
             ),
-            // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
-            new FireThree(shooter, indexer, shooterAngle, vision, collector),
+            // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 3.5d),
+            new FireThree(shooter, indexer, leadScrew, vision, collector),
             new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
             pathGenerator.getRamseteCommand(drivetrain, Paths.TRENCHRUN_2_SHOOTING_POSE),
-            new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
+            new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
+            // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 4d)
             // new InstantCommand(collector::puterOuterOut, collector),
-            // new FireThree(shooter, indexer, shooterAngle, vision, collector)
+            // new FireThree(shooter, indexer, leadScrew, vision, collector)
         ));
 
         /* 
@@ -237,17 +237,17 @@ public class AutonGenerator {
                 new ParallelCommandGroup(
                         new InitAuto(vision, indexer, collector),
                         new SpinUpFlywheelManual(shooter, 3000),
-                        new SetIndexAngle(shooterAngle, 39)
+                        new SetIndexAngle(leadScrew, 39)
                 ),
-                // new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
-                // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 3.5d),
-                new FireThree(shooter, indexer, shooterAngle, vision, collector),
+                // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
+                // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 3.5d),
+                new FireThree(shooter, indexer, leadScrew, vision, collector),
                 new AutoDriveCollect(drivetrain, collector, indexer, Paths.INIT_LINE_2_TRENCHRUN),
                 pathGenerator.getRamseteCommand(drivetrain, Paths.BACK_TR_2_FRONT_TR),
-                new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer)
-                // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, shooterAngle, indexer, false), 4d)
+                new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer)
+                // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 4d)
                 // new InstantCommand(collector::puterOuterOut, collector),
-                // new FireThree(shooter, indexer, shooterAngle, vision, collector)
+                // new FireThree(shooter, indexer, leadScrew, vision, collector)
         ));
 
         // Return New List

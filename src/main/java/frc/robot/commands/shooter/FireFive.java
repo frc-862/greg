@@ -15,7 +15,7 @@ public class FireFive extends CommandBase {
 
   private Shooter shooter;
   private Indexer indexer;
-  private ShooterAngle shooterAngle;
+  private LeadScrew leadscrew;
   private Vision vision;
   private Collector collector;
   
@@ -24,20 +24,20 @@ public class FireFive extends CommandBase {
   /**
    * Creates a new FireThree.
    */
-  public FireFive(Shooter shooter, Indexer indexer, ShooterAngle shooterAngle, Vision vision, Collector collector) {
+  public FireFive(Shooter shooter, Indexer indexer, LeadScrew leadScrew, Vision vision, Collector collector) {
     this.shooter = shooter;
     this.indexer = indexer;
-    this.shooterAngle = shooterAngle;
+    this.leadscrew = leadScrew;
     this.vision = vision;
     this.collector = collector;
-    addRequirements(shooter, indexer, shooterAngle, vision, collector);
+    addRequirements(shooter, indexer, leadScrew, vision, collector);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     shooter.setShooterVelocity(3000);
-    shooterAngle.setAngle(39);
+    leadscrew.setAngle(39);
     time = Timer.getFPGATimestamp();
     indexer.safteyOpen();
   }

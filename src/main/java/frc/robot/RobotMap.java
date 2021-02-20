@@ -26,7 +26,7 @@ public class RobotMap {
     public static final int SHOOTER_1 = 7; // TOP LEFT
     public static final int SHOOTER_2 = 8; // BOTTOM
     public static final int SHOOTER_3 = 9; // TOP RIGHT
-    public static final int SHOOTER_ANGLE = 13;
+    public static final int LEAD_SCREW = 13;
 
     // CORE
     public static final int COMPRESSOR_ID = 20;

@@ -27,7 +27,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.ShooterAngle;
+import frc.robot.subsystems.LeadScrew;
 
 /**
  * Drives given path while collecting and indexing.
@@ -50,7 +50,7 @@ public class InterStellarAccuracyCommand extends SequentialCommandGroup {
 
     private double duration;
 
-  public InterStellarAccuracyCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, Shooter shooter, ShooterAngle shooterAngle, Vision vision, Path shootPath, Path returnPath) {
+  public InterStellarAccuracyCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, Shooter shooter, LeadScrew leadScrew, Vision vision, Path shootPath, Path returnPath) {
     super(
         new InstantCommand(indexer::safteyClosed, indexer),
         new ParallelCommandGroup(
@@ -74,7 +74,7 @@ public class InterStellarAccuracyCommand extends SequentialCommandGroup {
                 return indexer.getBallCount() >= 3;
             }
         },
-        new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer),
+        new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
         new InstantCommand(() -> initTime = Timer.getFPGATimestamp()),
         returnPath.getCommand(drivetrain)}; 
 

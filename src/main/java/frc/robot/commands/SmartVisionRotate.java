@@ -32,7 +32,7 @@ public class SmartVisionRotate extends ProfiledPIDCommand {
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
     getController()
-        .setTolerance(Constants.shooterAngleTolerance, kTurnRateToleranceDegPerS);
+        .setTolerance(Constants.leadScrewTolerance, kTurnRateToleranceDegPerS);
   }
 
   @Override

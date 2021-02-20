@@ -21,7 +21,7 @@ public class Vision extends SubsystemBase {
 
     public static final int IMG_CNTR_COL = 320;
     
-    public static final int DEFAULT_SHOOTER_ANGLE = 20;
+    public static final int DEFAULT_LEAD_SCREW = 20;
     public static final int DEFAULT_SHOOTER_VELOCITY = 1000;
     public static final int DEFAULT_SHOOTER_BACKSPIN = 500;
 
@@ -44,7 +44,7 @@ public class Vision extends SubsystemBase {
     
     private NetworkTable table;
 
-    private InterpolatedMap shooterAngleInterpolationTable  = new InterpolatedMap();
+    private InterpolatedMap leadScrewInterpolationTable  = new InterpolatedMap();
     private InterpolatedMap flywheelSpeedInterpolationTable = new InterpolatedMap();
     private InterpolatedMap backspinInterpolationTable      = new InterpolatedMap();
     
@@ -54,7 +54,7 @@ public class Vision extends SubsystemBase {
 
         configShooterSpeed();
         configShooterBackspin();
-        configShooterAngle();
+        configLeadScrew();
 
         innerLEDRing = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_BIG_SOLENOID);
         outerLEDRing = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SMALL_SOLENOID);
@@ -67,7 +67,7 @@ public class Vision extends SubsystemBase {
         table = NetworkTableInstance.getDefault().getTable("Vision");
 
         var tab = Shuffleboard.getTab("Vision");
-        tab.addNumber("Best Shooter Angle",    this::getBestShooterAngle);
+        tab.addNumber("Best Lead Screw",    this::getBestLeadScrew);
         tab.addNumber("Best Shooter Backspin", this::getBestShooterBackspin);
         tab.addNumber("Best Shooter Speed",    this::getBestShooterVelocity);
         tab.addNumber("Image Offset Center Pixel", this::getOffsetAngle);
@@ -93,11 +93,11 @@ public class Vision extends SubsystemBase {
         return (Found > 0d);
     }
 
-    public double getBestShooterAngle() {
+    public double getBestLeadScrew() {
         if (Height > 0) {
-            return shooterAngleInterpolationTable.get(Height) + verticalBias;
+            return leadScrewInterpolationTable.get(Height) + verticalBias;
         } else {
-            return DEFAULT_SHOOTER_ANGLE;
+            return DEFAULT_LEAD_SCREW;
         }
     }
 
@@ -155,13 +155,13 @@ public class Vision extends SubsystemBase {
 
     // Interpolation Table Data Configuration
 
-    private void configShooterAngle(){
+    private void configLeadScrew(){
         // input in target height pixels TODO verify this is correct interpretation
         // output degrees
-        shooterAngleInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
-        shooterAngleInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
-        shooterAngleInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
-        shooterAngleInterpolationTable.put(39.0,  26.5); // 23.0);
+        leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
+        leadScrewInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
+        leadScrewInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
+        leadScrewInterpolationTable.put(39.0,  26.5); // 23.0);
     }
     
     private void configShooterSpeed() {

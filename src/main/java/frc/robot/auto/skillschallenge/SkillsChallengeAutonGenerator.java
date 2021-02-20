@@ -34,21 +34,21 @@ public class SkillsChallengeAutonGenerator {
     private Collector collector;
     private Indexer indexer; 
     private Shooter shooter;
-    private ShooterAngle shooterAngle;
+    private LeadScrew leadScrew;
     private Vision vision;
 
     public SkillsChallengeAutonGenerator(LightningDrivetrain drivetrain, 
                             Collector collector, 
                             Indexer indexer, 
                             Shooter shooter,
-                            ShooterAngle shooterAngle,
+                            LeadScrew leadScrew,
                             Vision vision) {
 
         this.drivetrain = drivetrain;
         this.collector = collector;
         this.indexer = indexer;
         this.shooter = shooter;
-        this.shooterAngle = shooterAngle;
+        this.leadScrew = leadScrew;
         this.vision = vision;
 
         pathGenerator = new SkillsChallengePathGenerator();

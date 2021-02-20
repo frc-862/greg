@@ -86,7 +86,7 @@ public class Constants {
     public static REVGains Motor1Gains = new REVGains(.00026, 0.000000004, 0.0, 0.000175, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static REVGains Motor2Gains = new REVGains(.00026, 0.000000004, 0.0, 0.000175, 0.0, 1.0, -1.0, NEO_MAX_RPM);
     public static REVGains Motor3Gains = new REVGains(.00026, 0.000000004, 0.0, 0.000175, 0.0, 1.0, -1.0, NEO_MAX_RPM);
-    public static final double shooterAngleTolerance = 5.0;
+    public static final double leadScrewTolerance = 5.0;
 
     //PROTOTYPE SHOOTER
     public static double PShooterKp = 1000 / 5000; // (1200/5000);
@@ -96,7 +96,7 @@ public class Constants {
     public static double M2shooterKf = 0.00024250;
     public static double M3shooterKf = 0.0002350;
 
-    //Shooter Angle
+    //LEAD SCREW
     public static int kTimeoutMs = 100;
     public static int kPIDLoopIdx = 0;
     public static double kAdjusterF = 0;

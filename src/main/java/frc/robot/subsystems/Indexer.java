@@ -155,7 +155,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public double getPower() {
-        return 0d;
+        return indexer.getMotorOutputPercent();
     }
 
     public void safteyClosed() {

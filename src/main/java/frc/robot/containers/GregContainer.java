@@ -43,6 +43,7 @@ import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
+import frc.robot.systemtests.drivetrain.IndexerSystemTest;
 
 public class GregContainer extends LightningContainer {
 
@@ -128,7 +129,11 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureSystemTests() {
+<<<<<<< HEAD
         SystemTest.register(new ShooterMotorTest(shooter));
+=======
+        SystemTest.register(new IndexerSystemTest(indexer));
+>>>>>>> SC2-41-indexer-system-test
     }
 
     @Override

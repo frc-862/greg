@@ -20,3 +20,7 @@ jobs:
       run: chmod +x ./gradlew
     - name: execute build
       run: ./gradlew build
+      env:
+        USERNAME: ${{ github.actor }}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

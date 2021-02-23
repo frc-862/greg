@@ -1,6 +1,17 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2021.2.1"
+    id "edu.wpi.first.GradleRIO" version "2021.2.2"
+}
+
+repositories {
+    maven {
+        name = "GitHubPackages"
+        url = "https://maven.pkg.github.com/frc-862/lightning"
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -102,7 +113,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.2.4'
     simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
     simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
-    compile(project(':lightning'))
+    implementation 'frc:lightning:0.0.0-beta'
 }
 
 // Simulation configuration (e.g. environment variables).

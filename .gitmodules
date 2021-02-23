@@ -1,6 +1,3 @@
 [submodule "skills-challenge-paths"]
 	path = skills-challenge-paths
 	url = https://github.com/frc-862/skills-challenge-paths.git
-[submodule "lightning"]
-	path = lightning
-	url = https://github.com/frc-862/lightning.git

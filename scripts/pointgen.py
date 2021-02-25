@@ -22,5 +22,5 @@ for index in range(len(read["X"])):
     print("new Pose2d(" + str(x_val) + "d, " + str(y_val) + "d, " + "Rotation2d.fromDegrees(" + str(angle) + "d" ")),")
 
 numpy.set_printoptions(suppress=True, precision=3)
-print("points relative to 0: ")
-print(numpy.array(combined_output))
+# print("points relative to 0: ")
+# print(numpy.array(combined_output))

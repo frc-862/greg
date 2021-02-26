@@ -26,6 +26,7 @@ import frc.lightning.auto.*;
 import frc.lightning.commands.RumbleCommand;
 import frc.lightning.commands.VoltDrive;
 import frc.robot.commands.auto.GalacticSearchCommand;
+import frc.robot.commands.auto.PathConfigCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
 import frc.robot.JoystickConstants;
@@ -157,6 +158,9 @@ public class GregContainer extends LightningContainer {
         final var shooter_tab = Shuffleboard.getTab("Shooter");
         shooter_tab.add("Manual lead screw", new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
         shooter_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
+
+        final var path_config_tab = Shuffleboard.getTab("Path Config");
+        path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
 
     }
 

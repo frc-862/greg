@@ -77,7 +77,8 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
         (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,leadScrew,indexer,true));
         // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
-        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
         (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.extend(); }, collector));
@@ -168,11 +169,24 @@ public class GregContainer extends LightningContainer {
             new Pose2d(1d, 1d, Rotation2d.fromDegrees(90d))
         )));
 
+        Paths.register(new Path("Orange Line", Arrays.asList(
+            new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
+            new Pose2d(5.8d, 0d, Rotation2d.fromDegrees(0d))
+        )));
+
         Paths.register(new Path("Circle", Arrays.asList(
             new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
             new Pose2d(1d, 1d, Rotation2d.fromDegrees(90d)),
             new Pose2d(0d, 2d, Rotation2d.fromDegrees(-180d)),
             new Pose2d(-1d, 1d, Rotation2d.fromDegrees(-90d)),
+            new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d))
+        )));
+
+        Paths.register(new Path("Other Circle", Arrays.asList(
+            new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)),
+            new Pose2d(1d, -1d, Rotation2d.fromDegrees(-90d)),
+            new Pose2d(0d, -2d, Rotation2d.fromDegrees(180d)),
+            new Pose2d(-1d, -1d, Rotation2d.fromDegrees(90d)),
             new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d))
         )));
 
@@ -235,17 +249,17 @@ public class GregContainer extends LightningContainer {
 
         Paths.register(new Path("Slalom", Arrays.asList(
             new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
-            new Pose2d(2.324d, 1.566d, Rotation2d.fromDegrees(36.444d)),
-            new Pose2d(3.967d, 2.022d, Rotation2d.fromDegrees(-3.926d)),
+            new Pose2d(2.253d, 1.448d, Rotation2d.fromDegrees(11.447d)),
+            new Pose2d(3.839d, 1.655d, Rotation2d.fromDegrees(-3.926d)),
             new Pose2d(5.641d, 1.272d, Rotation2d.fromDegrees(-47.207d)),
-            new Pose2d(6.432d, 0.014d, Rotation2d.fromDegrees(-10.25d)),
-            new Pose2d(7.071d, -0.108d, Rotation2d.fromDegrees(4.878d)),
+            new Pose2d(6.432d, 0.014d, Rotation2d.fromDegrees(-42.349d)),
+            new Pose2d(7.172d, -0.138d, Rotation2d.fromDegrees(14.797d)),
             new Pose2d(7.791d, 0.217d, Rotation2d.fromDegrees(51.782d)),
             new Pose2d(7.984d, 0.775d, Rotation2d.fromDegrees(85.417d)),
-            new Pose2d(7.47d, 1.603d, Rotation2d.fromDegrees(150.05d)),
-            new Pose2d(6.503d, 1.637d, Rotation2d.fromDegrees(-162.993d)),
-            new Pose2d(5.59d, 0.196d, Rotation2d.fromDegrees(-132.758d)),
-            new Pose2d(3.967d, -0.189d, Rotation2d.fromDegrees(-177.678d)),
+            new Pose2d(7.47d, 1.603d, Rotation2d.fromDegrees(158.579d)),
+            new Pose2d(6.712d, 1.548d, Rotation2d.fromDegrees(-162.993d)),
+            new Pose2d(5.59d, 0.196d, Rotation2d.fromDegrees(-149.105d)),
+            new Pose2d(3.923d, -0.092d, Rotation2d.fromDegrees(-177.678d)),
             new Pose2d(2.111d, 0.146d, Rotation2d.fromDegrees(145.728d)),
             new Pose2d(0.772d, 1.535d, Rotation2d.fromDegrees(160.635d)),
             new Pose2d(-0.201d, 1.657d, Rotation2d.fromDegrees(-175.943d))
@@ -276,29 +290,29 @@ public class GregContainer extends LightningContainer {
         Paths.register(new Path("Bounce 1", Arrays.asList(
             new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
             new Pose2d(1.199d, 0.387d, Rotation2d.fromDegrees(52.286d)),
-            new Pose2d(1.559d, 1.58d, Rotation2d.fromDegrees(79.28d))
+            new Pose2d(1.559d, 1.58d, Rotation2d.fromDegrees(90d))
         )));
 
         Paths.register(new SubsequentPath("Bounce 2", Arrays.asList(
-            new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-85.674d)),
-            new Pose2d(0.39d, -1.873d, Rotation2d.fromDegrees(-62.873d)),
-            new Pose2d(1.272d, -3.07d, Rotation2d.fromDegrees(-29.564d)),
-            new Pose2d(2.185d, -2.573d, Rotation2d.fromDegrees(72.497d)),
-            new Pose2d(2.205d, -1.619d, Rotation2d.fromDegrees(88.576d)),
-            new Pose2d(2.256d, -0.037d, Rotation2d.fromDegrees(78.987d))
+            new Pose2d(1.559d, 1.58d, Rotation2d.fromDegrees(90d)),
+            new Pose2d(1.949d, -0.293d, Rotation2d.fromDegrees(62.873d)),
+            new Pose2d(2.831d, -1.49d, Rotation2d.fromDegrees(29.564d)),
+            new Pose2d(3.744d, -0.993d, Rotation2d.fromDegrees(-72.497d)),
+            new Pose2d(3.764d, -0.039d, Rotation2d.fromDegrees(-88.576d)),
+            new Pose2d(3.815d, 1.543d, Rotation2d.fromDegrees(-90d))
         ), true));
 
         Paths.register(new SubsequentPath("Bounce 3", Arrays.asList(
-            new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-90.0d)),
-            new Pose2d(0.657d, -2.847d, Rotation2d.fromDegrees(-9.845d)),
-            new Pose2d(1.772d, -2.786d, Rotation2d.fromDegrees(22.333d)),
-            new Pose2d(2.259d, 0.054d, Rotation2d.fromDegrees(90.0d))
+            new Pose2d(3.815d, 1.543d, Rotation2d.fromDegrees(-90d)),
+            new Pose2d(4.495d, -1.348d, Rotation2d.fromDegrees(-9.845d)),
+            new Pose2d(5.61d, -1.287d, Rotation2d.fromDegrees(22.333d)),
+            new Pose2d(6.097d, 1.553d, Rotation2d.fromDegrees(90.0d))
         )));
 
         Paths.register(new SubsequentPath("Bounce 4", Arrays.asList(
-            new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(-90.0d)),
-            new Pose2d(0.383d, -0.972d, Rotation2d.fromDegrees(-48.54d)),
-            new Pose2d(1.438d, -1.479d, Rotation2d.fromDegrees(0.0d))
+            new Pose2d(6.097d, 1.553d, Rotation2d.fromDegrees(90.0d)),
+            new Pose2d(6.513d, 0.447d, Rotation2d.fromDegrees(48.54d)),
+            new Pose2d(7.568d, -0.06d, Rotation2d.fromDegrees(0.0d))
         ), true));
 
         Paths.register(new Path("A-BLUE", Arrays.asList(
@@ -334,9 +348,11 @@ public class GregContainer extends LightningContainer {
         )));
                                                         
         // CONFIGURE AUTON COMMANDS
-        // Autonomous.register("TEST - Circle", Paths.getPathCommand(drivetrain, "Circle"));
-        // Autonomous.register("TEST - Straight", Paths.getPathCommand(drivetrain, "Test Path"));
-        // Autonomous.register("BASE - Slalom", Paths.getPathCommand(drivetrain, "Base Slalom"));
+        Autonomous.register("TEST - Circle", Paths.getPathCommand(drivetrain, "Circle"));
+        Autonomous.register("TEST - Other Circle", Paths.getPathCommand(drivetrain, "Other Circle"));
+        Autonomous.register("TEST - Straight", Paths.getPathCommand(drivetrain, "Test Path"));
+        Autonomous.register("TEST - To Orange Line", Paths.getPathCommand(drivetrain, "Orange Line"));
+        Autonomous.register("BASE - Slalom", Paths.getPathCommand(drivetrain, "Base Slalom"));
         // Autonomous.register("BASE - Barrel Racing", Paths.getPathCommand(drivetrain, "Base Barrel Racing"));
         // Autonomous.register("BASE - Bounce Path", Paths.getPathCommand(drivetrain, "Base Bounce"));
         Autonomous.register("Slalom", Paths.getPathCommand(drivetrain, "Slalom"));

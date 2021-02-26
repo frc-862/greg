@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.lightning.LightningConfig;
 import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.subsystems.IMU.IMUFunction;
-import frc.lightning.util.RamseteGains;
 import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 
@@ -35,6 +34,8 @@ public class GregDrivetrain extends NeoDrivetrain {
         rightEncoder.setDistancePerPulse(RobotConstants.ENCODER_PULSE_TO_METERS);
 
         withEachMotor((m) -> m.burnFlash());
+
+        brake();
         
     }
 

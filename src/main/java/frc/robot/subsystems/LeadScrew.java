@@ -23,7 +23,7 @@ public class LeadScrew extends SubsystemBase {
     private static final int GREG_MIN_ANGLE = 9;
 
     public static double low_angle = (Robot.isIllusion() ? ILLUSION_MIN_ANGLE : GREG_MIN_ANGLE);
-    public static double high_angle = 38; // TODO find illusion Angle
+    public static double high_angle = 41; // TODO find illusion Angle
     public static int REVERSE_SENSOR_LIMIT = 256;
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;

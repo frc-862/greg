@@ -22,7 +22,7 @@ public class GregConfig extends LightningConfig {
 
     @Override
     public double getWheelDiameterInches() {
-        return 6;
+        return 6.13;
     }
 
     @Override

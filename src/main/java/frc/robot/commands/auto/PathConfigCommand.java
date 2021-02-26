@@ -18,9 +18,13 @@ import frc.lightning.util.JoystickFilter;
  * File format: X Y Theta\n
  */
 public class PathConfigCommand extends CommandBase {
+	
+	private final double WRITE_FREQ = 50; // Processes 50 times a second, so this is once a second
 
 	private final double DEADBAND = 0.1;
+
     private final double MIN_PWR = 0.1;
+
     private final double MAX_PWR = 0.2;
 
 	private final LightningDrivetrain drivetrain;
@@ -85,18 +89,22 @@ public class PathConfigCommand extends CommandBase {
 		}
 	}
 
+	private int counter = 0;
 	@Override
 	public void execute() {
 
 		// Write Pose
-		try {
-			double x = drivetrain.getPose().getX();
-			double y = drivetrain.getPose().getY();
-			double theta = drivetrain.getPose().getRotation().getDegrees();
-			write(x + " " + y + " " + theta);
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
+		if ((counter % WRITE_FREQ) == 0) {
+			try {
+				double x = drivetrain.getPose().getX();
+				double y = drivetrain.getPose().getY();
+				double theta = drivetrain.getPose().getRotation().getDegrees();
+				write(x + " " + y + " " + theta);
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 		}
+		counter++;
 
 		// Drive
 		double left = filter.filter(leftThrottle.getAsDouble());

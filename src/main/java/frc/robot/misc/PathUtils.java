@@ -3,6 +3,7 @@ package frc.robot.misc;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import edu.wpi.first.wpilibj.Filesystem;
@@ -20,7 +21,7 @@ public class PathUtils {
      * @param reversed True if the path needs to be driven backwards, false otherwise.
      * @return A {@link frc.lightning.auto.Path Path} object of the given list of waypoints.
      */
-    public static Path pathFromWaypointCSV(String pathName, String fname, boolean reversed) {
+    public static Path pathFromWaypointFile(String pathName, String fname, boolean reversed) {
 
         var waypoints = new ArrayList<Pose2d>();
 
@@ -29,10 +30,11 @@ public class PathUtils {
         try {
             Scanner in = new Scanner(file);
             in.nextLine(); // Skip first line with "X Y Theta"
-            while(in.hasNextLine()) {
+            while(in.hasNextDouble()) {
                 double x = in.nextDouble();
                 double y = in.nextDouble();
                 double theta = in.nextDouble();
+                System.out.println(x + " | " + y + " | " + theta);
                 waypoints.add(new Pose2d(x, y, Rotation2d.fromDegrees(theta)));
             }
             in.close();
@@ -44,8 +46,8 @@ public class PathUtils {
         return new Path(pathName, waypoints, reversed);
     }
 
-    public static Path pathFromWaypointCSV(String pathName, String fname) {
-        return pathFromWaypointCSV(pathName,fname, false);
+    public static Path pathFromWaypointFile(String pathName, String fname) {
+        return pathFromWaypointFile(pathName, fname, false);
     }
 
 }

@@ -67,8 +67,7 @@ public class PathConfigCommand extends CommandBase {
 		System.out.println("Write paths to " + base);
 		base.mkdirs();
 		String name = pathNameEntry.getString("path") + ".waypoints";
-		String destFile = base.getAbsolutePath() + name;
-		return new File(destFile);
+		return new File(base, name);
 	}
 
 	private FileWriter getWriter() throws IOException {
@@ -87,6 +86,7 @@ public class PathConfigCommand extends CommandBase {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		drivetrain.resetSensorVals();
 	}
 
 	private int counter = 0;

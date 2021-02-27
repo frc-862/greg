@@ -25,6 +25,7 @@ import frc.lightning.auto.Autonomous;
 import frc.lightning.auto.*;
 import frc.lightning.commands.RumbleCommand;
 import frc.lightning.commands.VoltDrive;
+import frc.robot.commands.auto.DrivetrainCharacterization;
 import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.robot.commands.auto.PathConfigCommand;
 import frc.lightning.subsystems.*;
@@ -38,6 +39,7 @@ import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
 import frc.robot.config.GregConfig;
+import frc.robot.misc.PathUtils;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -350,8 +352,12 @@ public class GregContainer extends LightningContainer {
             new Pose2d(4.835d, -1.163d, Rotation2d.fromDegrees(25.703d)),
             new Pose2d(8.318d, -1.606d, Rotation2d.fromDegrees(0.0d))
         )));
+        
+        Paths.register(PathUtils.pathFromWaypointFile("New Circle", "circle.waypoints"));
                                                         
         // CONFIGURE AUTON COMMANDS
+        Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
+        Autonomous.register("TEST - New Circle", Paths.getPathCommand(drivetrain, "New Circle"));
         Autonomous.register("TEST - Circle", Paths.getPathCommand(drivetrain, "Circle"));
         Autonomous.register("TEST - Other Circle", Paths.getPathCommand(drivetrain, "Other Circle"));
         Autonomous.register("TEST - Straight", Paths.getPathCommand(drivetrain, "Test Path"));

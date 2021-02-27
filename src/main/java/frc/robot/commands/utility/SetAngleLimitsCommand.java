@@ -5,6 +5,7 @@ import frc.robot.subsystems.LeadScrew;
 
 
 public class SetAngleLimitsCommand extends StatefulCommand {
+
     final private double power = 0.2;
 
     enum States { checkUpper, checkLower, done };
@@ -17,9 +18,6 @@ public class SetAngleLimitsCommand extends StatefulCommand {
         addRequirements(this.leadScrew);
     }
 
-    /**
-     * The initial subroutine of a command.  Called once when the command is initially scheduled.
-     */
     @Override
     public void initialize() {
         setState(States.checkUpper);
@@ -49,7 +47,7 @@ public class SetAngleLimitsCommand extends StatefulCommand {
 
     public void checkLower() {
         if (leadScrew.atLowerLimit()) {
-            leadScrew.writeLimits();
+            // leadScrew.writeLimits(); // TODO add back?
             setState(States.done);
         }
 
@@ -71,4 +69,5 @@ public class SetAngleLimitsCommand extends StatefulCommand {
     public void end(boolean interrupted) {
         leadScrew.setPower(0);
     }
+    
 }

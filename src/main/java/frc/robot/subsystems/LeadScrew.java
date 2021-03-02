@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,9 @@ public class LeadScrew extends SubsystemBase {
     public static int FORWARD_SENSOR_LIMIT = 311;
     private final int SENSOR_SAFETY = 4;
     private boolean autoAdjust = false;
+
+    SimpleWidget low_angle_on_dashboard = Shuffleboard.getTab("Shooter").add("Shooter Min angle", getLowAngle());        
+    SimpleWidget high_angle_on_dashboard = Shuffleboard.getTab("Shooter").add("Shooter Max angle", getHighAngle());
 
     private double setPoint;
     private double Kp = .4;
@@ -80,14 +84,16 @@ public class LeadScrew extends SubsystemBase {
 
     @Override
     public void periodic() {
+        high_angle  = high_angle_on_dashboard.getEntry().getDouble(high_angle);
+        low_angle = low_angle_on_dashboard.getEntry().getDouble(low_angle);
+
         if (autoAdjust) {
             adjusterControlLoop();
         }
 
-        final var rawPosition = adjuster.getSelectedSensorPosition(); // TODO change to getAngle()?
+        final var rawPosition = getAngle();  // used to be getSelectedSensorPosition()
         if (atUpperLimit()) {
             FORWARD_SENSOR_LIMIT = (int) rawPosition;
-            high_angle = getAngle();
             // writeLimits();
         }
 
@@ -157,6 +163,14 @@ public class LeadScrew extends SubsystemBase {
         return (setAngle);
         // TODO: should we remove this 
 //        return adjuster.getSelectedSensorPosition(Constants.kPIDLoopIdx);
+    }
+
+    public DoubleSupplier getHighAngle(){
+        return() -> high_angle;
+    }
+
+    public DoubleSupplier getLowAngle(){
+        return() -> low_angle;
     }
 
     public DoubleSupplier getMin(){

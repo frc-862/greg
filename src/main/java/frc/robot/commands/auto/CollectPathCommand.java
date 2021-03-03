@@ -23,53 +23,56 @@ import frc.robot.subsystems.Indexer;
  */
 public class CollectPathCommand extends SequentialCommandGroup {
 
-  private static final double COLLECT_PWR = 1d;
+	private static final double COLLECT_PWR = 1d;
 
-  private static final double WAIT_TIME = 0d;
+	private static final double WAIT_TIME = 0d;
 
-  private double duration;
+	private double duration;
 
-  private LightningDrivetrain drivetrain;
+	private LightningDrivetrain drivetrain;
 
-  private Collector collector;
+	private Collector collector;
 
-  private Indexer indexer;
+	private Indexer indexer;
 
-  private double initTime;
+	private double initTime;
 
-  public CollectPathCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, Path path) {
+	public CollectPathCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer, Path path) {
 
-    super(
-      new InstantCommand(indexer::safteyClosed, indexer),
-      new ParallelCommandGroup(
-        new Collect(collector, () -> COLLECT_PWR),
-        new IndexerCommand(indexer),
-        path.getCommand(drivetrain)
-      )
-    );
+		super(
+			new InstantCommand(indexer::safteyClosed, indexer), 
+			new ParallelCommandGroup(
+				new Collect(collector, () -> COLLECT_PWR), 
+				new IndexerCommand(indexer), 
+				path.getCommand(drivetrain)
+			)
+		);
 
-    this.drivetrain = drivetrain;
-    this.collector = collector;
-    this.indexer = indexer;
+		this.drivetrain = drivetrain;
+		this.collector = collector;
+		this.indexer = indexer;
 
-    duration = path.getDuration(drivetrain);
-  }
+		duration = path.getDuration(drivetrain);
 
-  @Override
-  public void initialize() {
-    super.initialize();
-    initTime = Timer.getFPGATimestamp();
-  }
+	}
 
-  @Override
-  public boolean isFinished() { return (Timer.getFPGATimestamp() - initTime) > (duration + WAIT_TIME); }
+	@Override
+	public void initialize() {
+		super.initialize();
+		initTime = Timer.getFPGATimestamp();
+		collector.extend();
+	}
 
-  @Override
-  public void end(boolean interrupted) {
-    super.end(interrupted);
-    indexer.stop();
-    collector.stop();
-    // collector.puterOuterOut();
-    drivetrain.stop();
-  } 
+	@Override
+	public boolean isFinished() {
+		return (Timer.getFPGATimestamp() - initTime) > (duration + WAIT_TIME);
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		super.end(interrupted);
+		indexer.stop();
+		collector.stop();
+		drivetrain.stop();
+	}
 }

@@ -25,7 +25,9 @@ import frc.lightning.auto.Autonomous;
 import frc.lightning.auto.*;
 import frc.lightning.commands.RumbleCommand;
 import frc.lightning.commands.VoltDrive;
+import frc.robot.commands.auto.DrivetrainCharacterization;
 import frc.robot.commands.auto.GalacticSearchCommand;
+import frc.robot.commands.auto.PathConfigCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
 import frc.robot.JoystickConstants;
@@ -37,6 +39,7 @@ import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
 import frc.robot.config.GregConfig;
+import frc.robot.misc.PathUtils;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -158,6 +161,9 @@ public class GregContainer extends LightningContainer {
         shooter_tab.add("Manual lead screw", new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
         shooter_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
 
+        final var path_config_tab = Shuffleboard.getTab("Path Config");
+        path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+
     }
 
     @Override
@@ -247,7 +253,7 @@ public class GregContainer extends LightningContainer {
             new Pose2d(8.2d, -.369d, Rotation2d.fromDegrees(-22.5d))
         )));
 
-        Paths.register(new Path("Slalom", Arrays.asList(
+        Paths.register(new Path("Manual Slalom", Arrays.asList(
             new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
             new Pose2d(2.253d, 1.448d, Rotation2d.fromDegrees(11.447d)),
             new Pose2d(3.839d, 1.655d, Rotation2d.fromDegrees(-3.926d)),
@@ -265,7 +271,7 @@ public class GregContainer extends LightningContainer {
             new Pose2d(-0.201d, 1.657d, Rotation2d.fromDegrees(-175.943d))
         )));
 
-        Paths.register(new Path("Barrel Racing", Arrays.asList(
+        Paths.register(new Path("Manual Barrel Racing", Arrays.asList(
             new Pose2d(0.0d, 0.0d, Rotation2d.fromDegrees(0.0d)),
             new Pose2d(2.263d, 0.153d, Rotation2d.fromDegrees(-1.695d)),
             new Pose2d(3.234d, -0.003d, Rotation2d.fromDegrees(-31.446d)),
@@ -346,8 +352,16 @@ public class GregContainer extends LightningContainer {
             new Pose2d(4.835d, -1.163d, Rotation2d.fromDegrees(25.703d)),
             new Pose2d(8.318d, -1.606d, Rotation2d.fromDegrees(0.0d))
         )));
+        
+        Paths.register(PathUtils.pathFromDeployedWaypointFile("New Circle", "circle.waypoints"));
+        Paths.register(new Path("NONE", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))));
+        
+        Autonomous.register("Slalom", PathUtils.pathFromDeployedWaypointFile("Slalom", "slalom.waypoints").getCommand(drivetrain));
+        Autonomous.register("Barrel Racing", PathUtils.pathFromDeployedWaypointFile("Barrle Racing", "barrel.waypoints").getCommand(drivetrain));
                                                         
         // CONFIGURE AUTON COMMANDS
+        Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
+        Autonomous.register("TEST - New Circle", Paths.getPathCommand(drivetrain, "New Circle"));
         Autonomous.register("TEST - Circle", Paths.getPathCommand(drivetrain, "Circle"));
         Autonomous.register("TEST - Other Circle", Paths.getPathCommand(drivetrain, "Other Circle"));
         Autonomous.register("TEST - Straight", Paths.getPathCommand(drivetrain, "Test Path"));
@@ -355,11 +369,11 @@ public class GregContainer extends LightningContainer {
         Autonomous.register("BASE - Slalom", Paths.getPathCommand(drivetrain, "Base Slalom"));
         // Autonomous.register("BASE - Barrel Racing", Paths.getPathCommand(drivetrain, "Base Barrel Racing"));
         // Autonomous.register("BASE - Bounce Path", Paths.getPathCommand(drivetrain, "Base Bounce"));
-        Autonomous.register("Slalom", Paths.getPathCommand(drivetrain, "Slalom"));
-        Autonomous.register("Barrel Racing", Paths.getPathCommand(drivetrain, "Barrel Racing"));
+        Autonomous.register("Manual Slalom", Paths.getPathCommand(drivetrain, "Manual Slalom"));
+        Autonomous.register("Manual Barrel Racing", Paths.getPathCommand(drivetrain, "Manual Barrel Racing"));
 
         double bounceWaitDuration = 0.1d; // TODO 0?
-        Autonomous.register("Bounce", new SequentialCommandGroup(
+        Autonomous.register("Manual Slalom Bounce", new SequentialCommandGroup(
             Paths.getPathCommand(drivetrain, "Bounce 1"),
             new WaitCommand(bounceWaitDuration),
             Paths.getPathCommand(drivetrain, "Bounce 2"),

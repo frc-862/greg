@@ -23,7 +23,7 @@ public class PathConfigCommand extends CommandBase {
 
 	private final double DEADBAND = 0.1;
 
-    private final double MIN_PWR = 0.1;
+    private final double MIN_PWR = 0.05;
 
     private final double MAX_PWR = 0.2;
 

@@ -47,6 +47,7 @@ public class DrivetrainCharacterization extends CommandBase {
 		gyroAngleRadians = () -> drivetrain.getPose().getRotation().getRadians();
 		
 		addRequirements(drivetrain);
+
 	}
 
 	@Override
@@ -72,10 +73,7 @@ public class DrivetrainCharacterization extends CommandBase {
 		priorAutospeed = autospeed; // Set Prior Speed
 
 		// Set Drivetrain Output
-		drivetrain.setPower((rotateEntry.getBoolean(false) ? 1 : -1) * autospeed, autospeed);
-		// drivetrain.setPower((rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, autospeed); // TODO why does turn when it should be going straight?
-		// drive.tankDrive((rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, autospeed, false); // TODO why does turn when it should be going straight?
-		// drive.tankDrive((rotateEntry.getBoolean(false) ? 1 : -1) * autospeed, autospeed, false);
+		drivetrain.setPower((rotateEntry.getBoolean(false) ? -1 : 1) * autospeed, autospeed);
 
 		numberArray[0] = timestamp;
 		numberArray[1] = robotVoltage;

@@ -17,8 +17,6 @@ import frc.lightning.util.REVGains;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 
-import java.util.function.IntConsumer;
-
 public class Shooter extends SubsystemBase {
     
     private CANSparkMax motor1;

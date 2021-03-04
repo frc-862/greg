@@ -25,7 +25,7 @@ public class PathConfigCommand extends CommandBase {
 
     private final double MIN_PWR = 0.05;
 
-    private final double MAX_PWR = 0.2;
+    private final double MAX_PWR = 0.3;
 
 	private final LightningDrivetrain drivetrain;
 

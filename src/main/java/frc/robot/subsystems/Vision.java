@@ -75,6 +75,8 @@ public class Vision extends SubsystemBase {
         tab.addNumber("BiasVert", () -> verticalBias);
         tab.addNumber("BiasHoriz", () -> horizontalBias);
 
+        Shuffleboard.getTab("Shooter").addNumber("Requested Lead Screw", this::getBestLeadScrew);
+
     }
 
     @Override
@@ -158,11 +160,11 @@ public class Vision extends SubsystemBase {
     private void configLeadScrew(){
         // input in target height pixels TODO verify this is correct interpretation
         // output degrees
-        leadScrewInterpolationTable.put(120.0, 43.0); // leadScrewInterpolationTable.put(120.0, 40.0);
-        leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
-        leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
-        leadScrewInterpolationTable.put(62.0,  27.5); // leadScrewInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
-        leadScrewInterpolationTable.put(39.0,  26.5); // leadScrewInterpolationTable.put(39.0,  26.5); // 23.0);
+        leadScrewInterpolationTable.put(120.0, 40.0); // leadScrewInterpolationTable.put(120.0, 43.0);  // leadScrewInterpolationTable.put(120.0, 40.0);
+        leadScrewInterpolationTable.put(115.0, 33.75); // leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
+        leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
+        leadScrewInterpolationTable.put(62.0,  27.5); // leadScrewInterpolationTable.put(62.0,  27.5);  // leadScrewInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
+        leadScrewInterpolationTable.put(39.0,  26.5); // leadScrewInterpolationTable.put(39.0,  26.5);  // leadScrewInterpolationTable.put(39.0,  26.5); // 23.0);
     }
     
     private void configShooterSpeed() {

@@ -24,8 +24,8 @@ public class LeadScrew extends SubsystemBase {
 
     public static double low_angle = (Robot.isIllusion() ? ILLUSION_MIN_ANGLE : GREG_MIN_ANGLE);
     public static double high_angle = 41; // TODO find illusion Angle
-    public static int REVERSE_SENSOR_LIMIT = 256;
-    public static int FORWARD_SENSOR_LIMIT = 311;
+    public static int REVERSE_SENSOR_LIMIT = 626; // 256;
+    public static int FORWARD_SENSOR_LIMIT = 696; // 311;
     private final int SENSOR_SAFETY = 4;
     private boolean autoAdjust = false;
 
@@ -40,14 +40,14 @@ public class LeadScrew extends SubsystemBase {
     public LeadScrew() {
         adjuster = new TalonSRX(RobotMap.LEAD_SCREW);
         setPoint = getAngle();
-        readLimits();
+        //readLimits();
         
         // config for adjuster limits
-        adjuster.configForwardSoftLimitEnable(false);
-        adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
+        // adjuster.configForwardSoftLimitEnable(false);
+        // adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT);
         // adjuster.configForwardSoftLimitThreshold(FORWARD_SENSOR_LIMIT + SENSOR_SAFETY);
-        adjuster.configReverseSoftLimitEnable(false);
-        adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
+        // adjuster.configReverseSoftLimitEnable(false);
+        // adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT);
         // adjuster.configReverseSoftLimitThreshold(REVERSE_SENSOR_LIMIT - SENSOR_SAFETY);
 // TODO: can we remove
 //        adjuster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 10);
@@ -70,10 +70,11 @@ public class LeadScrew extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
 
         Shuffleboard.getTab("Shooter").addNumber("Lead Screw", this::getAngle);
+        Shuffleboard.getTab("Shooter").addNumber("Lead Screw RAW", adjuster::getSelectedSensorPosition);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Rev Limit", this::atLowerLimit);
         Shuffleboard.getTab("Shooter").addBoolean("Shooter Fwd Limit", this::atUpperLimit);
 
-        readLimits();
+        //readLimits();
     }
 
     @Override
@@ -86,42 +87,42 @@ public class LeadScrew extends SubsystemBase {
         if (atUpperLimit()) {
             FORWARD_SENSOR_LIMIT = (int)rawPosition;
             high_angle = getAngle();
-            writeLimits();
+            //writeLimits();
         }
 
         if (atLowerLimit()) {
             REVERSE_SENSOR_LIMIT = (int)rawPosition;
-            writeLimits();
+            //writeLimits();
         }
     }
 
     public void enableAutoAdjust() { autoAdjust = true; }
     public void disableAutoAdjust() { autoAdjust = false; }
 
-    final String filename = "/home/lvuser/angle_limits.dat";
-    public void writeLimits() {
-        try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
-            dos.writeInt(FORWARD_SENSOR_LIMIT);
-            dos.writeInt(REVERSE_SENSOR_LIMIT);
-            dos.writeDouble(high_angle);
-        } catch (IOException e) {
-            System.err.println(e);
-            e.printStackTrace();
-        }
-    }
+    // final String filename = "/home/lvuser/angle_limits.dat";
+    // public void writeLimits() {
+    //     try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(filename))) {
+    //         dos.writeInt(FORWARD_SENSOR_LIMIT);
+    //         dos.writeInt(REVERSE_SENSOR_LIMIT);
+    //         dos.writeDouble(high_angle);
+    //     } catch (IOException e) {
+    //         System.err.println(e);
+    //         e.printStackTrace();
+    //     }
+    // }
 
-    public void readLimits() {
-        if (new File(filename).canRead()) {
-            try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) { // TODO: is this the best thing to do 
-                FORWARD_SENSOR_LIMIT = dis.readInt();
-                REVERSE_SENSOR_LIMIT = dis.readInt();
-                high_angle = dis.readDouble();
-            } catch (IOException e) {
-                System.err.println(e);
-                e.printStackTrace();
-            }
-        }
-    }
+    // public void readLimits() {
+    //     if (new File(filename).canRead()) {
+    //         try (DataInputStream dis = new DataInputStream(new FileInputStream(filename))) { // TODO: is this the best thing to do 
+    //             FORWARD_SENSOR_LIMIT = dis.readInt();
+    //             REVERSE_SENSOR_LIMIT = dis.readInt();
+    //             high_angle = dis.readDouble();
+    //         } catch (IOException e) {
+    //             System.err.println(e);
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 
     public void adjusterControlLoop() {
         offset = setPoint - getAngle();

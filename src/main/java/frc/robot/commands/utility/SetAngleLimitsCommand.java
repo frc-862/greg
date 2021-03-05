@@ -49,7 +49,7 @@ public class SetAngleLimitsCommand extends StatefulCommand {
 
     public void checkLower() {
         if (leadScrew.atLowerLimit()) {
-            leadScrew.writeLimits();
+            // leadScrew.writeLimits();
             setState(States.done);
         }
 

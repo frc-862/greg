@@ -24,7 +24,7 @@ import frc.lightning.LightningContainer;
 import frc.lightning.auto.Autonomous;
 import frc.lightning.auto.*;
 import frc.lightning.commands.RumbleCommand;
-import frc.lightning.commands.VoltDrive;
+import frc.robot.commands.drivetrain.VoltDrive;
 import frc.robot.commands.auto.DrivetrainCharacterization;
 import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.robot.commands.auto.GalacticSearchIdentifier;

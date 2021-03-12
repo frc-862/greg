@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lightning.subsystems.LightningDrivetrain;
 import frc.lightning.auto.Path;
 import frc.lightning.auto.Paths;
@@ -40,6 +42,8 @@ public class GalacticSearchCommand extends CommandBase {
 
     private NetworkTableEntry processRes;
 
+	private double startTime, endTime = 0d;
+
 	public GalacticSearchCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer) {
 
 		// Vision Network Table
@@ -55,6 +59,8 @@ public class GalacticSearchCommand extends CommandBase {
 		this.collector = collector;
 		this.indexer = indexer;
 
+		Shuffleboard.getTab("Autonomous").addNumber("Inference Time -> Path Start", () -> endTime);
+
 	}
 
 	private boolean isPathNull() {
@@ -68,6 +74,7 @@ public class GalacticSearchCommand extends CommandBase {
 		processRes.setString(nullState);
 		processReq.setBoolean(true);
 		indexer.resetBallCount();
+		startTime = Timer.getFPGATimestamp();
 	}
 
 	@Override
@@ -80,6 +87,7 @@ public class GalacticSearchCommand extends CommandBase {
 		super.end(interrupted);
 		processReq.setBoolean(false);
 		Path path = Paths.getPath(processRes.getString(nullState));
+		endTime = Timer.getFPGATimestamp() - startTime;
 		(new CollectPathCommand(drivetrain, collector, indexer, path)).schedule();
 	}
 

@@ -26,7 +26,7 @@ public class LeadScrew extends SubsystemBase {
     public static double high_angle = 50; // TODO find illusion Angle
     public static int REVERSE_SENSOR_LIMIT = 626; // 256;
     public static int FORWARD_SENSOR_LIMIT = 712; // 311;
-    private final int SENSOR_SAFETY = 4;
+    // private final int SENSOR_SAFETY = 4;
     private boolean autoAdjust = false;
 
     private double setPoint = 20;

@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Indexer extends SubsystemBase {
-    private final double pwrThreshold = 0.05;
+    // private final double pwrThreshold = 0.05;
     private VictorSPX indexer;
     private DoubleSolenoid safty;
 
@@ -145,14 +145,14 @@ public class Indexer extends SubsystemBase {
      * if ball passes through beam break and indexer moving backward, then bye bye ball
      * else do nothing - ideling
      */
-    private void updateBallCount() {
-        // if(getBeamBreak() && (getPower() > pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() + 1);
-        // else if (getBeamBreak() && (getPower() < -pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() - 1);
-    }
+    // private void updateBallCount() {
+    //     // if(getBeamBreak() && (getPower() > pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() + 1);
+    //     // else if (getBeamBreak() && (getPower() < -pwrThreshold)) GregContainer.setPowerCellCapacity(GregContainer.getPowerCellCapacity() - 1);
+    // }
 
-    private boolean getBeamBreak() {
-        return false;
-    }
+    // private boolean getBeamBreak() {
+    //     return false;
+    // }
 
     public double getPower() {
         return 0d;

@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,6 +18,7 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class Vision extends SubsystemBase {
 
@@ -27,6 +30,11 @@ public class Vision extends SubsystemBase {
 
     public static final double VERT_BIAS_STEP = 0.5;
     public static final double HORIZ_BIAS_STEP = 2d;
+    
+    public static final String PROCESS_REQUEST_ENTRY_NAME = "DeterminePath";
+    public static final String INFERENCE_RESULT_ENTRY_NAME = "DeterminedPath";
+
+	private static final String nullState = "NONE";
 
     private double XValue = 0d;
     private double YValue = 0d;
@@ -44,10 +52,16 @@ public class Vision extends SubsystemBase {
     
     private NetworkTable table;
 
-    private InterpolatedMap leadScrewInterpolationTable  = new InterpolatedMap();
+    private InterpolatedMap leadScrewInterpolationTable = new InterpolatedMap();
     private InterpolatedMap flywheelSpeedInterpolationTable = new InterpolatedMap();
-    private InterpolatedMap backspinInterpolationTable      = new InterpolatedMap();
-    
+    private InterpolatedMap backspinInterpolationTable = new InterpolatedMap();
+
+    private NetworkTable ntab;
+
+    private NetworkTableEntry processReq;
+
+    private NetworkTableEntry processRes;
+
     public Vision() {
 
         CommandScheduler.getInstance().registerSubsystem(this);
@@ -77,10 +91,22 @@ public class Vision extends SubsystemBase {
 
         Shuffleboard.getTab("Shooter").addNumber("Requested Lead Screw", this::getBestLeadScrew);
 
+        ntab = NetworkTableInstance.getDefault().getTable("Vision");
+        processReq = ntab.getEntry(PROCESS_REQUEST_ENTRY_NAME);
+        processRes = ntab.getEntry(INFERENCE_RESULT_ENTRY_NAME);
+
     }
 
     @Override
     public void periodic() {
+        
+        if(DriverStation.getInstance().isDisabled()) {
+            processRes.setString(nullState);
+            processReq.setBoolean(true);
+        } else {
+            processReq.setBoolean(false);
+        }
+        
         XValue = table.getEntry("VisionX").getDouble(0);
         YValue = table.getEntry("VisionY").getDouble(0);
         Height = table.getEntry("VisionHeight").getDouble(0); 

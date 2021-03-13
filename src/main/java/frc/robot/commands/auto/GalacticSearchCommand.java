@@ -71,8 +71,6 @@ public class GalacticSearchCommand extends CommandBase {
 	@Override
 	public void initialize() {
 		super.initialize();
-		processRes.setString(nullState);
-		processReq.setBoolean(true);
 		indexer.resetBallCount();
 		startTime = Timer.getFPGATimestamp();
 	}

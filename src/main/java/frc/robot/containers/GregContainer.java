@@ -187,7 +187,7 @@ public class GregContainer extends LightningContainer {
         // AutoNav
         Autonomous.register("Slalom", PathUtils.pathFromDeployedWaypointFile("Slalom", "slalom.waypoints").getCommand(drivetrain));
         Autonomous.register("Barrel Racing", PathUtils.pathFromDeployedWaypointFile("Barrle Racing", "barrel.waypoints").getCommand(drivetrain)); 
-        double bounceWaitDuration = 0.1d; // TODO 0?
+        double bounceWaitDuration = 0.01d; // TODO 0?
         Autonomous.register("Bounce", new SequentialCommandGroup(
             PathUtils.pathFromDeployedWaypointFile("Bounce 1", "bounce1.waypoints").getCommand(drivetrain),
             new WaitCommand(bounceWaitDuration),
@@ -202,28 +202,7 @@ public class GregContainer extends LightningContainer {
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
         
         // Testing/Tuning
-        Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
-        Autonomous.register("TEST - New Circle", Paths.getPathCommand(drivetrain, "New Circle"));
-        // Autonomous.register("TEST - Circle", Paths.getPathCommand(drivetrain, "Circle"));
-        // Autonomous.register("TEST - Other Circle", Paths.getPathCommand(drivetrain, "Other Circle"));
-        // Autonomous.register("TEST - Straight", Paths.getPathCommand(drivetrain, "Test Path"));
-        // Autonomous.register("TEST - To Orange Line", Paths.getPathCommand(drivetrain, "Orange Line"));
-        // Autonomous.register("BASE - Slalom", Paths.getPathCommand(drivetrain, "Base Slalom"));
-        // Autonomous.register("BASE - Barrel Racing", Paths.getPathCommand(drivetrain, "Base Barrel Racing"));
-        // Autonomous.register("BASE - Bounce Path", Paths.getPathCommand(drivetrain, "Base Bounce"));
-        // Autonomous.register("Manual Slalom", Paths.getPathCommand(drivetrain, "Manual Slalom"));
-        // Autonomous.register("Manual Barrel Racing", Paths.getPathCommand(drivetrain, "Manual Barrel Racing"));
-
-        // double bounceWaitDuration = 0.1d; // TODO 0?
-        // Autonomous.register("Manual Slalom Bounce", new SequentialCommandGroup(
-        //     Paths.getPathCommand(drivetrain, "Bounce 1"),
-        //     new WaitCommand(bounceWaitDuration),
-        //     Paths.getPathCommand(drivetrain, "Bounce 2"),
-        //     new WaitCommand(bounceWaitDuration),
-        //     Paths.getPathCommand(drivetrain, "Bounce 3"),
-        //     new WaitCommand(bounceWaitDuration),
-        //     Paths.getPathCommand(drivetrain, "Bounce 4")
-        // ));
+        // Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
 
     }
 

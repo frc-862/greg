@@ -85,6 +85,7 @@ public class GregContainer extends LightningContainer {
         // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
+        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
         (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.extend(); }, collector));
@@ -180,7 +181,6 @@ public class GregContainer extends LightningContainer {
         Paths.register(PathUtils.pathFromDeployedWaypointFile("B-RED", "bred.waypoints"));
         Paths.register(PathUtils.pathFromDeployedWaypointFile("B-BLUE", "bblue.waypoints"));
         Paths.register(new Path("NONE", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))));
-
 
         // CONFIGURE AUTON COMMANDS
 

@@ -160,31 +160,31 @@ public class Vision extends SubsystemBase {
     private void configLeadScrew(){
         // input in target height pixels TODO verify this is correct interpretation
         // output degrees
-        leadScrewInterpolationTable.put(120.0, 49.5); // leadScrewInterpolationTable.put(120.0, 43.0);  // leadScrewInterpolationTable.put(120.0, 40.0);
-        leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
-        leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
-        leadScrewInterpolationTable.put(62.0,  27.5); // leadScrewInterpolationTable.put(62.0,  27.5);  // leadScrewInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
-        leadScrewInterpolationTable.put(39.0,  26.5); // leadScrewInterpolationTable.put(39.0,  26.5);  // leadScrewInterpolationTable.put(39.0,  26.5); // 23.0);
+        leadScrewInterpolationTable.put(120.0, 49.5);  // leadScrewInterpolationTable.put(145.0, 49.0); // leadScrewInterpolationTable.put(120.0, 43.0);  // leadScrewInterpolationTable.put(120.0, 40.0);
+        leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(107.0, 33.0);  // leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
+        leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(87.0,  30.0);  // leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
+        leadScrewInterpolationTable.put(62.0,  27.5);  // leadScrewInterpolationTable.put(50.0,  27.5); // leadScrewInterpolationTable.put(62.0,  27.5);  // leadScrewInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
+        leadScrewInterpolationTable.put(39.0,  26.5);  // leadScrewInterpolationTable.put(30.0,  28.0); // leadScrewInterpolationTable.put(39.0,  26.5);  // leadScrewInterpolationTable.put(39.0,  26.5); // 23.0);
     }
     
     private void configShooterSpeed() {
         // input in target height pixels TODO verify this is correct interpretation
         // output RPM
-        flywheelSpeedInterpolationTable.put(120.0, 1550.0);
-        flywheelSpeedInterpolationTable.put(115.0, 3250.0);
-        flywheelSpeedInterpolationTable.put(95.0,  3500.0);
-        flywheelSpeedInterpolationTable.put(62.0,  3500.0);
-        flywheelSpeedInterpolationTable.put(39.0,  3500.0);
+        flywheelSpeedInterpolationTable.put(120.0, 1550.0); // flywheelSpeedInterpolationTable.put(145.0, 1225.0);
+        flywheelSpeedInterpolationTable.put(115.0, 3250.0); // flywheelSpeedInterpolationTable.put(107.0, 2000.0);
+        flywheelSpeedInterpolationTable.put(95.0,  3500.0); // flywheelSpeedInterpolationTable.put(87.0,  2500.0);
+        flywheelSpeedInterpolationTable.put(62.0,  3500.0); // flywheelSpeedInterpolationTable.put(50.0,  3000.0);
+        flywheelSpeedInterpolationTable.put(39.0,  3500.0); // flywheelSpeedInterpolationTable.put(30.0,  3500.0);
     }
 
     private void configShooterBackspin() {
         // input in target height pixels TODO verify this is correct interpretation
         // output RPM
-        backspinInterpolationTable.put(120.0, 1500.0);
-        backspinInterpolationTable.put(115.0, 750.0); // closest shot
-        backspinInterpolationTable.put(95.0,  750.0); // 10ft
-        backspinInterpolationTable.put(62.0,  1000.0); // close trench
-        backspinInterpolationTable.put(39.0,  1000.0);
+        backspinInterpolationTable.put(120.0, 1500.0); // backspinInterpolationTable.put(145.0, 1000.0); //
+        backspinInterpolationTable.put(115.0, 750.0);  // backspinInterpolationTable.put(107.0, 1000.0); //// closest shot
+        backspinInterpolationTable.put(95.0,  750.0);  // backspinInterpolationTable.put(87.0,  1500.0); //// 10ft
+        backspinInterpolationTable.put(62.0,  1000.0); // backspinInterpolationTable.put(50.0,  1500.0); // // close trench
+        backspinInterpolationTable.put(39.0,  1000.0); // backspinInterpolationTable.put(30.0,  1500.0); //
     }
 
 }

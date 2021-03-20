@@ -94,23 +94,21 @@ public class Vision extends SubsystemBase {
         ntab = NetworkTableInstance.getDefault().getTable("Vision");
         processReq = ntab.getEntry(PROCESS_REQUEST_ENTRY_NAME);
         processRes = ntab.getEntry(INFERENCE_RESULT_ENTRY_NAME);
+        processRes.setString(nullState);
 
     }
 
     @Override
     public void periodic() {
         
-        if(DriverStation.getInstance().isDisabled()) {
-            processRes.setString(nullState);
-            processReq.setBoolean(true);
-        } else {
-            processReq.setBoolean(false);
-        }
+        if(DriverStation.getInstance().isDisabled()) processReq.setBoolean(true);
+        else processReq.setBoolean(false);
         
         XValue = table.getEntry("VisionX").getDouble(0);
         YValue = table.getEntry("VisionY").getDouble(0);
         Height = table.getEntry("VisionHeight").getDouble(0); 
         Found  = table.getEntry("VisionFound").getDouble(0);
+        
     }
 
     public double getOffsetAngle() {

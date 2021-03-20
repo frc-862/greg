@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.*;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -55,7 +58,8 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         // Init
-        SmartDashboard.putNumber("backspin", backspin);
+        //SmartDashboard.putNumber("backspin", backspin);
+        NetworkTableInstance.getDefault().getTable("Shooter").getEntry("Backspin").setDouble(backspin);
 
         CommandScheduler.getInstance().registerSubsystem(this);
 
@@ -98,7 +102,7 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
         SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
         SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
-        backspin=SmartDashboard.getNumber("backspin", backspin); // updating backspin from smartdashboard 
+        backspin = NetworkTableInstance.getDefault().getTable("Shooter").getEntry("Backspin").getDouble(backspin); //SmartDashboard.getNumber("backspin", backspin); // updating backspin from smartdashboard 
         
         // TODO: maybe check all the motors
         if (setSpeed > 400) { 

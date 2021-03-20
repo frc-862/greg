@@ -27,7 +27,6 @@ public class PathUtils {
                 double x = in.nextDouble();
                 double y = in.nextDouble();
                 double theta = in.nextDouble();
-                System.out.println(x + " | " + y + " | " + theta);
                 waypoints.add(new Pose2d(x, y, Rotation2d.fromDegrees(theta)));
             }
             in.close();

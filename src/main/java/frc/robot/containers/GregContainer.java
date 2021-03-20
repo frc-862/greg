@@ -85,6 +85,7 @@ public class GregContainer extends LightningContainer {
         // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
+        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
         (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.extend(); }, collector));
@@ -181,13 +182,12 @@ public class GregContainer extends LightningContainer {
         Paths.register(PathUtils.pathFromDeployedWaypointFile("B-BLUE", "bblue.waypoints"));
         Paths.register(new Path("NONE", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))));
 
-
         // CONFIGURE AUTON COMMANDS
 
         // AutoNav
         Autonomous.register("Slalom", PathUtils.pathFromDeployedWaypointFile("Slalom", "slalom.waypoints").getCommand(drivetrain));
         Autonomous.register("Barrel Racing", PathUtils.pathFromDeployedWaypointFile("Barrle Racing", "barrel.waypoints").getCommand(drivetrain)); 
-        double bounceWaitDuration = 0.1d; // TODO 0?
+        double bounceWaitDuration = 0.01d; // TODO 0?
         Autonomous.register("Bounce", new SequentialCommandGroup(
             PathUtils.pathFromDeployedWaypointFile("Bounce 1", "bounce1.waypoints").getCommand(drivetrain),
             new WaitCommand(bounceWaitDuration),
@@ -202,28 +202,7 @@ public class GregContainer extends LightningContainer {
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
         
         // Testing/Tuning
-        Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
-        Autonomous.register("TEST - New Circle", Paths.getPathCommand(drivetrain, "New Circle"));
-        // Autonomous.register("TEST - Circle", Paths.getPathCommand(drivetrain, "Circle"));
-        // Autonomous.register("TEST - Other Circle", Paths.getPathCommand(drivetrain, "Other Circle"));
-        // Autonomous.register("TEST - Straight", Paths.getPathCommand(drivetrain, "Test Path"));
-        // Autonomous.register("TEST - To Orange Line", Paths.getPathCommand(drivetrain, "Orange Line"));
-        // Autonomous.register("BASE - Slalom", Paths.getPathCommand(drivetrain, "Base Slalom"));
-        // Autonomous.register("BASE - Barrel Racing", Paths.getPathCommand(drivetrain, "Base Barrel Racing"));
-        // Autonomous.register("BASE - Bounce Path", Paths.getPathCommand(drivetrain, "Base Bounce"));
-        // Autonomous.register("Manual Slalom", Paths.getPathCommand(drivetrain, "Manual Slalom"));
-        // Autonomous.register("Manual Barrel Racing", Paths.getPathCommand(drivetrain, "Manual Barrel Racing"));
-
-        // double bounceWaitDuration = 0.1d; // TODO 0?
-        // Autonomous.register("Manual Slalom Bounce", new SequentialCommandGroup(
-        //     Paths.getPathCommand(drivetrain, "Bounce 1"),
-        //     new WaitCommand(bounceWaitDuration),
-        //     Paths.getPathCommand(drivetrain, "Bounce 2"),
-        //     new WaitCommand(bounceWaitDuration),
-        //     Paths.getPathCommand(drivetrain, "Bounce 3"),
-        //     new WaitCommand(bounceWaitDuration),
-        //     Paths.getPathCommand(drivetrain, "Bounce 4")
-        // ));
+        // Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
 
     }
 

@@ -68,7 +68,7 @@ public class CtrlPanelOperator extends SubsystemBase {
         Color detectedColor = I_Can_Taste_Color.getColor();
 
         // Run the color match algorithm on our detected color
-        String colorString;
+        // String colorString;
         ColorMatchResult match = colorMatch.matchClosestColor(detectedColor);
         if (match.color == kBlueTarget ||match.color == kFalseGreenTarget) {
             color=0;
@@ -162,9 +162,9 @@ public class CtrlPanelOperator extends SubsystemBase {
         return targetColor;
     }
 
-    private String getCurrentColor() {
-        return null;
-    }
+    // private String getCurrentColor() {
+    //     return null;
+    // }
 
 
 }

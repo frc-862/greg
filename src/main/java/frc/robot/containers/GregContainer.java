@@ -173,21 +173,19 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureAutonomousCommands() {
-        
-        Paths.register(PathUtils.pathFromDeployedWaypointFile("New Circle", "circle.waypoints"));
 
+        // Galactic Search
+        Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
         Paths.register(PathUtils.pathFromDeployedWaypointFile("A-RED", "ared.waypoints"));
         Paths.register(PathUtils.pathFromDeployedWaypointFile("A-BLUE", "ablue.waypoints"));
         Paths.register(PathUtils.pathFromDeployedWaypointFile("B-RED", "bred.waypoints"));
         Paths.register(PathUtils.pathFromDeployedWaypointFile("B-BLUE", "bblue.waypoints"));
         Paths.register(new Path("NONE", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))));
 
-        // CONFIGURE AUTON COMMANDS
-
         // AutoNav
         Autonomous.register("Slalom", PathUtils.pathFromDeployedWaypointFile("Slalom", "slalom.waypoints").getCommand(drivetrain));
         Autonomous.register("Barrel Racing", PathUtils.pathFromDeployedWaypointFile("Barrle Racing", "barrel.waypoints").getCommand(drivetrain)); 
-        double bounceWaitDuration = 0.01d; // TODO 0?
+        double bounceWaitDuration = 0.01d; 
         Autonomous.register("Bounce", new SequentialCommandGroup(
             PathUtils.pathFromDeployedWaypointFile("Bounce 1", "bounce1.waypoints").getCommand(drivetrain),
             new WaitCommand(bounceWaitDuration),
@@ -197,27 +195,16 @@ public class GregContainer extends LightningContainer {
             new WaitCommand(bounceWaitDuration),
             PathUtils.subsequentPathFromDeployedWaypointFile("Bounce 4", "bounce4.waypoints", true).getCommand(drivetrain)
         ));
-        
-        // Galactic Search
-        Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
-        
-        // Testing/Tuning
-        // Autonomous.register("Drivetrain Characterization", new DrivetrainCharacterization(drivetrain));
 
     }
 
     @Override
-    public LightningConfig getConfig() {
-        return config;
-    }
+    public LightningConfig getConfig() { return config; }
 
     @Override
-    public LightningDrivetrain getDrivetrain() {
-        return drivetrain;
-    }
+    public LightningDrivetrain getDrivetrain() { return drivetrain; }
 
-    public double getCollectPower() {
-        // return testController.getTriggerAxis(GenericHID.Hand.kRight) - testController.getTriggerAxis(GenericHID.Hand.kLeft);
+    public double getCollectPower() { 
         return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 

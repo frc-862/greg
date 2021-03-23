@@ -53,7 +53,7 @@ public class GregConfig extends LightningConfig {
                 0d, // right_kI
                 0d, // right_kD
                 8d, //7d, // 5.4d, //8d, // 5.4d, // maxVelocity (ft/sec)
-                5d );// 5d); // maxAcceleration (ft/sec^2)
+                8d );// 5d); // maxAcceleration (ft/sec^2)
     }
 
 }

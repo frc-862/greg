@@ -32,7 +32,7 @@ public class GregConfig extends LightningConfig {
 
     @Override
     public double getOpenLoopRamp() {
-        return 0.6; // 0.5
+        return 0.5; // 0.6
     }
 
     @Override

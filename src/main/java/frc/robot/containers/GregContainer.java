@@ -86,11 +86,11 @@ public class GregContainer extends LightningContainer {
         // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
-
+        (new JoystickButton(driverRight, 2)).whileHeld(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
         (new JoystickButton(driverLeft, 1)).whenPressed(new InstantCommand(collector::extend, collector));
         (new JoystickButton(driverLeft, 1)).whenPressed(new InstantCommand(indexer::safteyClosed, indexer));
         (new JoystickButton(driverLeft, 1)).whileHeld(new Collect(collector, () -> 1));
-
+        (new JoystickButton(driverLeft, 2)).whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         // (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
@@ -120,8 +120,8 @@ public class GregContainer extends LightningContainer {
     @Override
     protected void configureDefaultCommands() {
         // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
-        drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -driverRight.getY(), () -> driverRight.getX()));
+        // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -driverRight.getY(), () -> driverLeft.getX()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         // collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));

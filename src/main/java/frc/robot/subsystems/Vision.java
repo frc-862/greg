@@ -193,7 +193,7 @@ public class Vision extends SubsystemBase {
     private void configShooterSpeed() {
         // input in target height pixels TODO verify this is correct interpretation
         // output RPM
-        flywheelSpeedInterpolationTable.put(150.0, 3000.0); // flywheelSpeedInterpolationTable.put(120.0, 1550.0); // 1550.0 for 3d  // flywheelSpeedInterpolationTable.put(145.0, 1225.0);
+        flywheelSpeedInterpolationTable.put(150.0, 5000.0); // flywheelSpeedInterpolationTable.put(120.0, 1550.0); // 1550.0 for 3d  // flywheelSpeedInterpolationTable.put(145.0, 1225.0);
         flywheelSpeedInterpolationTable.put(115.0, 3250.0); // flywheelSpeedInterpolationTable.put(107.0, 2000.0);
         flywheelSpeedInterpolationTable.put(95.0,  3500.0); // flywheelSpeedInterpolationTable.put(87.0,  2500.0);
         flywheelSpeedInterpolationTable.put(62.0,  3500.0); // flywheelSpeedInterpolationTable.put(50.0,  3000.0);

@@ -120,8 +120,8 @@ public class GregContainer extends LightningContainer {
     @Override
     protected void configureDefaultCommands() {
         // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
-        // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -driverRight.getY(), () -> driverLeft.getX()));
+        drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -driverRight.getY(), () -> driverLeft.getX()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         // collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));

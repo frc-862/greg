@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -19,22 +18,19 @@ import java.util.Map;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.networktables.EntryListenerFlags;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.lightning.LightningConfig;
 import frc.lightning.LightningContainer;
 import frc.lightning.auto.Autonomous;
 import frc.lightning.auto.*;
 import frc.lightning.commands.RumbleCommand;
-import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.drivetrain.VoltDrive;
-import frc.robot.commands.auto.DrivetrainCharacterization;
 import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.robot.commands.auto.GalacticSearchIdentifier;
-import frc.robot.commands.auto.PathConfigCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
 import frc.robot.JoystickConstants;
+import frc.robot.auto.AutonGenerator;
 import frc.robot.commands.Collect;
 import frc.robot.commands.CollectEject;
 import frc.robot.commands.FullAutoFireOne;
@@ -71,27 +67,21 @@ public class GregContainer extends LightningContainer {
     private static final Joystick driverRight = new Joystick(JoystickConstants.DRIVER_RIGHT);
     private static final XboxController operator = new XboxController(JoystickConstants.OPERATOR);
     private static final Joystick climberController = new Joystick(JoystickConstants.CLIMBER);
-    // private static final XboxController testController = new XboxController(0);
 
-    public GregContainer() {
-        super();
-    }
+    // AUTON GENERATOR
+    private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain, collector, indexer, shooter, leadScrew, vision);
+
+    public GregContainer() { super(); }
 
     @Override
     protected void configureButtonBindings() {
 
         // DRIVER
-        // (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
-        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,leadScrew,indexer,true));
-        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
+        (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, true));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
         (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
-        (new JoystickButton(driverRight, 2)).whileHeld(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        (new JoystickButton(driverLeft, 1)).whenPressed(new InstantCommand(collector::extend, collector));
-        (new JoystickButton(driverLeft, 1)).whenPressed(new InstantCommand(indexer::safteyClosed, indexer));
-        (new JoystickButton(driverLeft, 1)).whileHeld(new Collect(collector, () -> 1));
-        (new JoystickButton(driverLeft, 2)).whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
-        // (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
+        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
         (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.extend(); }, collector));
@@ -107,8 +97,8 @@ public class GregContainer extends LightningContainer {
         (new POVButton(operator, 270)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
 
         // CLIMB CONTROLLER
-        // (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
-        // (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
+        (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
+        (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
 
     }
 
@@ -119,14 +109,15 @@ public class GregContainer extends LightningContainer {
 
     @Override
     protected void configureDefaultCommands() {
-        // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
+
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-        // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -driverRight.getY(), () -> driverLeft.getX()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
-        // collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
+        collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));
-        // //shooter.setWhenBallShot((n) -> shooter.shotBall());
-        // //leadScrew.setDefaultCommand(new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
+
+        // FOR TESTING
+        // leadScrew.setDefaultCommand(new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
+
     }
 
     @Override
@@ -173,13 +164,37 @@ public class GregContainer extends LightningContainer {
         shooter_tab.add("Manual lead screw", new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
         shooter_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
 
-        final var path_config_tab = Shuffleboard.getTab("Path Config");
-        path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        // final var path_config_tab = Shuffleboard.getTab("Path Config");
+        // path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
 
     }
 
     @Override
     protected void configureAutonomousCommands() {
+
+        // FOR SKILLS CHALLENGE
+        skillsChallengeAutoConfig();
+
+        // FOR COMPETITION
+        var autoCmds = autonGenerator.getCommands();
+        for(var key : autoCmds.keySet()) {
+            var cmd = autoCmds.get(key);
+            Autonomous.register(key, cmd);
+        }
+
+    }
+
+    @Override
+    public LightningConfig getConfig() { return config; }
+
+    @Override
+    public LightningDrivetrain getDrivetrain() { return drivetrain; }
+
+    public double getCollectPower() { 
+        return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
+    }
+
+    private void skillsChallengeAutoConfig() {
 
         // Galactic Search
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
@@ -203,16 +218,6 @@ public class GregContainer extends LightningContainer {
             PathUtils.subsequentPathFromDeployedWaypointFile("Bounce 4", "bounce4.waypoints", true).getCommand(drivetrain)
         ));
 
-    }
-
-    @Override
-    public LightningConfig getConfig() { return config; }
-
-    @Override
-    public LightningDrivetrain getDrivetrain() { return drivetrain; }
-
-    public double getCollectPower() { 
-        return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 
 }

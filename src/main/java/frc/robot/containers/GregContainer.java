@@ -69,7 +69,7 @@ public class GregContainer extends LightningContainer {
     private static final Joystick climberController = new Joystick(JoystickConstants.CLIMBER);
 
     // AUTON GENERATOR
-    private final AutonGenerator autonGenerator = new AutonGenerator(drivetrain, collector, indexer, shooter, leadScrew, vision);
+    private static final AutonGenerator autonGenerator = new AutonGenerator(drivetrain, collector, indexer, shooter, leadScrew, vision);
 
     public GregContainer() { super(); }
 
@@ -173,7 +173,10 @@ public class GregContainer extends LightningContainer {
     protected void configureAutonomousCommands() {
 
         // FOR SKILLS CHALLENGE
-        skillsChallengeAutoConfig();
+        boolean isSkillsChallenge = false;
+        if(isSkillsChallenge) {
+            skillsChallengeAutoConfig();
+        }
 
         // FOR COMPETITION
         var autoCmds = autonGenerator.getCommands();

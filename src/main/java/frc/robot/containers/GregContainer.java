@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -13,20 +14,24 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.lightning.LightningConfig;
 import frc.lightning.LightningContainer;
 import frc.lightning.auto.Autonomous;
-import frc.lightning.auto.Path;
-import frc.lightning.auto.Paths;
+import frc.lightning.auto.*;
 import frc.lightning.commands.RumbleCommand;
-import frc.lightning.commands.VoltDrive;
+import frc.robot.commands.drivetrain.ArcadeDrive;
+import frc.robot.commands.drivetrain.VoltDrive;
+import frc.robot.commands.auto.DrivetrainCharacterization;
 import frc.robot.commands.auto.GalacticSearchCommand;
+import frc.robot.commands.auto.GalacticSearchIdentifier;
+import frc.robot.commands.auto.PathConfigCommand;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
 import frc.robot.JoystickConstants;
@@ -37,8 +42,8 @@ import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
-import frc.robot.commands.auto.InterStellarAccuracyCommand;
 import frc.robot.config.GregConfig;
+import frc.robot.misc.PathUtils;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.drivetrains.GregDrivetrain;
 
@@ -54,7 +59,7 @@ public class GregContainer extends LightningContainer {
     private static final Collector collector = new Collector();
     private static final Indexer indexer = new Indexer();
     private static final Shooter shooter = new Shooter();
-    private static final ShooterAngle shooterAngle = new ShooterAngle();
+    private static final LeadScrew leadScrew = new LeadScrew();
     private static final Climber climber = new Climber();
 
     // LOGGERS
@@ -68,13 +73,6 @@ public class GregContainer extends LightningContainer {
     private static final Joystick climberController = new Joystick(JoystickConstants.CLIMBER);
     // private static final XboxController testController = new XboxController(0);
 
-
-    // WAYPOINTS
-    private static final List<Pose2d> greenWaypoints = Arrays.asList(new Pose2d(8d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
-    private static final List<Pose2d> yellowWaypoints = Arrays.asList(new Pose2d(5.5d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
-    private static final List<Pose2d> blueWaypoints = Arrays.asList(new Pose2d(3.96d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
-    private static final List<Pose2d> redWaypoints = Arrays.asList(new Pose2d(3.44d, 2.286d, Rotation2d.fromDegrees(0d)), new Pose2d(0.75d, 2.286d, Rotation2d.fromDegrees(0d)));
-
     public GregContainer() {
         super();
     }
@@ -84,12 +82,19 @@ public class GregContainer extends LightningContainer {
 
         // DRIVER
         // (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
-        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,shooterAngle,indexer,true));
-        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, shooterAngle, indexer));
-        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()->shooter.stop(),shooter));
+        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain,vision,shooter,leadScrew,indexer,true));
+        // (new JoystickButton(driverRight, 1)).whenPressed(new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
+        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
+        (new JoystickButton(driverRight, 2)).whileHeld(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        (new JoystickButton(driverLeft, 1)).whenPressed(new InstantCommand(collector::extend, collector));
+        (new JoystickButton(driverLeft, 1)).whenPressed(new InstantCommand(indexer::safteyClosed, indexer));
+        (new JoystickButton(driverLeft, 1)).whileHeld(new Collect(collector, () -> 1));
+        (new JoystickButton(driverLeft, 2)).whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
+        // (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
-        (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
+        (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.extend(); }, collector));
         (new JoystickButton(operator, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
         (new JoystickButton(operator, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
@@ -105,23 +110,6 @@ public class GregContainer extends LightningContainer {
         // (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
         // (new JoystickButton(climberController, JoystickConstants.B)).whileHeld(climber::down, climber);
 
-        // TEST CONTROLLER
-        // (new Trigger((() -> testController.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.puterOuterIn(); }, collector));
-        // (new JoystickButton(testController, JoystickConstants.RIGHT_BUMPER)).whenPressed(new InstantCommand(collector::toggleCollector, collector));
-        // (new JoystickButton(testController, JoystickConstants.Y)) .whenPressed(new InstantCommand(indexer::toggleSaftey, indexer));
-        // (new JoystickButton(testController, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
-        // (new JoystickButton(testController, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
-        // (new JoystickButton(testController, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
-        // (new JoystickButton(testController, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
-        // (new POVButton(testController, 0)).whenPressed(new RumbleCommand(testController, vision::biasUp));
-        // (new POVButton(testController, 90)).whenPressed(new RumbleCommand(testController, vision::biasRight));
-        // (new POVButton(testController, 180)).whenPressed(new RumbleCommand(testController, vision::biasDown));
-        // (new POVButton(testController, 270)).whenPressed(new RumbleCommand(testController, vision::biasLeft));
-        // (new JoystickButton(testController, JoystickConstants.A)).whileHeld(climber::up, climber);
-        // (new JoystickButton(testController, JoystickConstants.B)).whileHeld(climber::down, climber);
-        // (new JoystickButton(testController, JoystickConstants.A)).whenReleased(climber::stop, climber);
-        // (new JoystickButton(testController, JoystickConstants.B)).whenReleased(climber::stop, climber);
-
     }
 
     @Override
@@ -133,11 +121,12 @@ public class GregContainer extends LightningContainer {
     protected void configureDefaultCommands() {
         // drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -testController.getY(GenericHID.Hand.kLeft), () -> -testController.getY(GenericHID.Hand.kRight)));
         drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        // drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, () -> -driverRight.getY(), () -> driverLeft.getX()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
-        collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
+        // collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));
         // //shooter.setWhenBallShot((n) -> shooter.shotBall());
-        // //shooterAngle.setDefaultCommand(new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
+        // //leadScrew.setDefaultCommand(new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
     }
 
     @Override
@@ -155,11 +144,11 @@ public class GregContainer extends LightningContainer {
             shooter.setShooterVelocity(flyWheelSpeed.getDouble(0));
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
-        // SHOOTER ANGLE DASHBOARD
+        // LEAD SCREW DASHBOARD
         // final var flyWheelAngle = Shuffleboard.getTab("Shooter").add("SetAngle", 100)
         //         .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 80, "max", 155)).getEntry();
         // flyWheelAngle.addListener((n) -> {
-        //     shooterAngle.setAngle(flyWheelAngle.getDouble(100)); // setDesiredAngle?
+        //     leadScrew.setAngle(flyWheelAngle.getDouble(100)); // setDesiredAngle?
         // }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
 
         // GENERAL DASHBOARD COMMANDS
@@ -168,78 +157,61 @@ public class GregContainer extends LightningContainer {
         vision_tab.add("Ring 1 on", new InstantCommand(vision::ringOn));
         vision_tab.add("Ring 2 on", new InstantCommand(vision::bothRingsOn));
         vision_tab.add("Ring off", new InstantCommand(vision::ringOff));
+        vision_tab.add("Galactic Search Inference", new GalacticSearchIdentifier());
 
         final var indexer_tab = Shuffleboard.getTab("Indexer");
         indexer_tab.add("safety in", new InstantCommand(indexer::safteyClosed));
         indexer_tab.add("safety out", new InstantCommand(indexer::safteyOpen));
         indexer_tab.add("zero balls held", new InstantCommand(indexer::resetBallCount));
         indexer_tab.add("collect",  new CollectEject(collector, () -> operator.getTriggerAxis(GenericHID.Hand.kRight), () -> operator.getTriggerAxis(GenericHID.Hand.kLeft)));
-        indexer_tab.add("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
+        indexer_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
 
         final var pose_tab = Shuffleboard.getTab("Pose");
         pose_tab.add("ResetPose", new InstantCommand(drivetrain::resetSensorVals, drivetrain));
 
         final var shooter_tab = Shuffleboard.getTab("Shooter");
-        shooter_tab.add("Manual shooter angle", new RunCommand(() -> shooterAngle.setPower(-operator.getY(GenericHID.Hand.kLeft)), shooterAngle));
-        shooter_tab.add("Fire 3", new FireThree(shooter, indexer, shooterAngle, vision, collector));
+        shooter_tab.add("Manual lead screw", new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
+        shooter_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
+
+        final var path_config_tab = Shuffleboard.getTab("Path Config");
+        path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
 
     }
 
     @Override
     protected void configureAutonomousCommands() {
 
-        //CONFIGURE PATHS
-        Paths.register(new Path("Blue A", "paths/output/BlueA.wpilib.json"));
-        Paths.register(new Path("Blue B", "paths/output/BlueB.wpilib.json"));
-        Paths.register(new Path("Red A", "paths/output/RedA.wpilib.json"));
-        Paths.register(new Path("Red B", "paths/output/RedB.wpilib.json"));
-        Paths.register(new Path("Barrel Racing", "paths/output/BarrelRacing.wpilib.json"));
-        Paths.register(new Path("Slalom", "paths/output/Slalom.wpilib.json"));
-        Paths.register(new Path("Bounce 1", "paths/output/Bounce1.wpilib.json"));
-        Paths.register(new Path("Bounce 2", "paths/output/Bounce2.wpilib.json", true));
-        Paths.register(new Path("Bounce 3", "paths/output/Bounce3.wpilib.json"));
-        Paths.register(new Path("Bounce 4", "paths/output/Bounce4.wpilib.json", true));
-        Paths.register(new Path("Test PathWeaver", "paths/output/TestFwd.wpilib.json"));
-        Paths.register(new Path("Test Path", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), 
-                                                            new Pose2d(0.75d, 0d, Rotation2d.fromDegrees(0d)))));
-
-        // CONFIGURE AUTON COMMANDS
-        Autonomous.register("Test Auton Driving", Paths.getPathCommand(drivetrain, "Test Path"));
-        Autonomous.register("Test PathWeaver Paths", Paths.getPathCommand(drivetrain, "Test PathWeaver"));
-        Autonomous.register("Slalom", Paths.getPathCommand(drivetrain, "Slalom"));
-        Autonomous.register("Barrel Racing", Paths.getPathCommand(drivetrain, "Barrel Racing"));
-        Autonomous.register("Bounce Path", new SequentialCommandGroup(
-            Paths.getPathCommand(drivetrain, "Bounce 1"),
-            Paths.getPathCommand(drivetrain, "Bounce 2"),
-            Paths.getPathCommand(drivetrain, "Bounce 3"),
-            Paths.getPathCommand(drivetrain, "Bounce 4")
-        ));
+        // Galactic Search
         Autonomous.register("Galactic Search", new GalacticSearchCommand(drivetrain, collector, indexer));
-        Autonomous.register("Interstellar Accuracy", new SequentialCommandGroup(
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, null, 
-                new Path("Interstellar Green Back", greenWaypoints)),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                new Path("Interstellar Yellow Fwr", yellowWaypoints, true), new Path("Interstellar Yellow Back", yellowWaypoints)),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                new Path("Interstellar Blue Fwr", blueWaypoints, true), new Path("Interstellar Blue Back", blueWaypoints)),
-            new InterStellarAccuracyCommand(drivetrain, collector, indexer, shooter, shooterAngle, vision, 
-                new Path("Interstellar Red Fwr", redWaypoints, true), new Path("Interstellar Red Back", redWaypoints))
-            )
-        );
+        Paths.register(PathUtils.pathFromDeployedWaypointFile("A-RED", "ared.waypoints"));
+        Paths.register(PathUtils.pathFromDeployedWaypointFile("A-BLUE", "ablue.waypoints"));
+        Paths.register(PathUtils.pathFromDeployedWaypointFile("B-RED", "bred.waypoints"));
+        Paths.register(PathUtils.pathFromDeployedWaypointFile("B-BLUE", "bblue.waypoints"));
+        Paths.register(new Path("NONE", Arrays.asList(new Pose2d(0d, 0d, Rotation2d.fromDegrees(0d)), new Pose2d(1d, 0d, Rotation2d.fromDegrees(0d)))));
+
+        // AutoNav
+        Autonomous.register("Slalom", PathUtils.pathFromDeployedWaypointFile("Slalom", "slalom.waypoints").getCommand(drivetrain));
+        Autonomous.register("Barrel Racing", PathUtils.pathFromDeployedWaypointFile("Barrle Racing", "barrel.waypoints").getCommand(drivetrain)); 
+        double bounceWaitDuration = 0.01d; 
+        Autonomous.register("Bounce", new SequentialCommandGroup(
+            PathUtils.pathFromDeployedWaypointFile("Bounce 1", "bounce1.waypoints").getCommand(drivetrain),
+            new WaitCommand(bounceWaitDuration),
+            PathUtils.subsequentPathFromDeployedWaypointFile("Bounce 2", "bounce2.waypoints", true).getCommand(drivetrain),
+            new WaitCommand(bounceWaitDuration),
+            PathUtils.subsequentPathFromDeployedWaypointFile("Bounce 3", "bounce3.waypoints").getCommand(drivetrain),
+            new WaitCommand(bounceWaitDuration),
+            PathUtils.subsequentPathFromDeployedWaypointFile("Bounce 4", "bounce4.waypoints", true).getCommand(drivetrain)
+        ));
+
     }
 
     @Override
-    public LightningConfig getConfig() {
-        return config;
-    }
+    public LightningConfig getConfig() { return config; }
 
     @Override
-    public LightningDrivetrain getDrivetrain() {
-        return drivetrain;
-    }
+    public LightningDrivetrain getDrivetrain() { return drivetrain; }
 
-    public double getCollectPower() {
-        // return testController.getTriggerAxis(GenericHID.Hand.kRight) - testController.getTriggerAxis(GenericHID.Hand.kLeft);
+    public double getCollectPower() { 
         return operator.getTriggerAxis(GenericHID.Hand.kRight) - operator.getTriggerAxis(GenericHID.Hand.kLeft);
     }
 

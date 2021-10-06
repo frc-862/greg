@@ -14,7 +14,6 @@ public class LED extends SubsystemBase {
     //private final AddressableLED led;
     private final AddressableLEDBuffer buffer;
 
-
     enum Mode {
         Manual,
         OrangeAndBlue,
@@ -24,7 +23,6 @@ public class LED extends SubsystemBase {
         SolidGreen,
         BlinkGreen
     };
-
 
     private Mode mode = Mode.Off;
 
@@ -58,16 +56,23 @@ public class LED extends SubsystemBase {
     public void goOrangeAndBlue() {
         mode = Mode.OrangeAndBlue;
     }
+    
     public void goOff() {
         mode = Mode.Off;
     }
-    public void goRainbow() { mode = Mode.Rainbow; }
+
+    public void goRainbow() { 
+        mode = Mode.Rainbow; 
+    }
+
     public void goYellow() {
         mode = Mode.Yellow;
     }
+
     public void goBlinkGreen() {
         mode = Mode.BlinkGreen;
     }
+
     public void goSolidGreen() {
         mode = Mode.SolidGreen;
     }

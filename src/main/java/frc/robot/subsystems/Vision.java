@@ -7,208 +7,207 @@
 
 package frc.robot.subsystems;
 
-//import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
 import frc.lightning.util.InterpolatedMap;
 import frc.robot.RobotMap;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard; 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class Vision extends SubsystemBase {
-    double XValue = 0;
-    double YValue = 0;
-    double Found = 0;
-    double Height = 0;
-    private final Solenoid blindedByScience;
-    private final Solenoid blindedByTheLight;
 
-    private int requestedLight = 0;
-    private int actualLight = 0;
-    private boolean bothRings = false;
-    private boolean readyForBoth =false;
-    private boolean theOneRing = false;
-
-    private double startVertBias= 0;
-    private double startHorizBias=14.;
-
-    private double verticalBias=startVertBias;
-    private double horizontalBias=startHorizBias;
+    public static final int IMG_CNTR_COL = 320;
     
-    NetworkTable table;
+    public static final int DEFAULT_LEAD_SCREW = 20;
+    public static final int DEFAULT_SHOOTER_VELOCITY = 1000;
+    public static final int DEFAULT_SHOOTER_BACKSPIN = 500;
 
-    InterpolatedMap shooterAngle = new InterpolatedMap();
-    InterpolatedMap flyWheelSpeed = new InterpolatedMap();
-    InterpolatedMap backspinData = new InterpolatedMap();
-    /**
-     * Creates a new Vision.
-     */
+    public static final double VERT_BIAS_STEP = 0.5;
+    public static final double HORIZ_BIAS_STEP = 2d;
+    
+    public static final String PROCESS_REQUEST_ENTRY_NAME = "DeterminePath";
+    public static final String INFERENCE_RESULT_ENTRY_NAME = "DeterminedPath";
+
+	private static final String nullState = "NONE";
+
+    private double XValue = 0d;
+    private double YValue = 0d;
+    private double Found  = 0d;
+    private double Height = 0d;
+
+    private final Solenoid innerLEDRing;
+    private final Solenoid outerLEDRing;
+
+    private double startVertBias = 0;
+    private double startHorizBias = -28.; //14.;
+
+    private double verticalBias = startVertBias;
+    private double horizontalBias = startHorizBias;
+    
+    private NetworkTable table;
+
+    private InterpolatedMap leadScrewInterpolationTable = new InterpolatedMap();
+    private InterpolatedMap flywheelSpeedInterpolationTable = new InterpolatedMap();
+    private InterpolatedMap backspinInterpolationTable = new InterpolatedMap();
+
+    private NetworkTable ntab;
+
+    private NetworkTableEntry processReq;
+
+    private NetworkTableEntry processRes;
+
     public Vision() {
+
+        CommandScheduler.getInstance().registerSubsystem(this);
+
         configShooterSpeed();
         configShooterBackspin();
-        shooterAngleConfig();
-        blindedByScience = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_BIG_SOLENOID);
-        blindedByTheLight = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SMALL_SOLENOID); // 21
-        CommandScheduler.getInstance().registerSubsystem(this);
+        configLeadScrew();
+
+        innerLEDRing = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_BIG_SOLENOID);
+        outerLEDRing = new Solenoid(RobotMap.COMPRESSOR_ID, RobotMap.VISION_SMALL_SOLENOID);
+        
         DataLogger.addDataElement("XValue", () -> XValue);
         DataLogger.addDataElement("YValue", () -> YValue);
         DataLogger.addDataElement("Found", () -> Found);
         DataLogger.addDataElement("VisionHeight", () -> Height);
+
         table = NetworkTableInstance.getDefault().getTable("Vision");
+
+        var tab = Shuffleboard.getTab("Vision");
+        tab.addNumber("Best Lead Screw",    this::getBestLeadScrew);
+        tab.addNumber("Best Shooter Backspin", this::getBestShooterBackspin);
+        tab.addNumber("Best Shooter Speed",    this::getBestShooterVelocity);
+        tab.addNumber("Image Offset Center Pixel", this::getOffsetAngle);
+
+        tab.addNumber("BiasVert", () -> verticalBias);
+        tab.addNumber("BiasHoriz", () -> horizontalBias);
+
+        Shuffleboard.getTab("Shooter").addNumber("Requested Lead Screw", this::getBestLeadScrew);
+
+        ntab = NetworkTableInstance.getDefault().getTable("Vision");
+        processReq = ntab.getEntry(PROCESS_REQUEST_ENTRY_NAME);
+        processRes = ntab.getEntry(INFERENCE_RESULT_ENTRY_NAME);
+        processRes.setString(nullState);
+
     }
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-
-        XValue = table.getEntry("VisionX").getDouble(0);  //SmartDashboard.getNumber("VisionX",0);
-        YValue = table.getEntry("VisionY").getDouble(0); //SmartDashboard.getNumber("VisionY",0);
-        Height = table.getEntry("VisionHeight").getDouble(0); //SmartDashboard.Number("VisionHeight",0);
-        SmartDashboard.putNumber("Best Shooter Angle",getBestShooterAngle());
-        SmartDashboard.putNumber("Best Shooter backspin",getBestShooterBackspin());
-        SmartDashboard.putNumber("Best Shooter speed",getBestShooterVelocity());
-        Found = table.getEntry("VisionFound").getDouble(0); //SmartDashboard.getNumber("VisionFound",0);
-        SmartDashboard.putNumber("X value",XValue-320);
-        SmartDashboard.putNumber("found",Found);
-
-//        if(seePortTarget()){
-//            led.goSolidGreen();
-//        }else {led.goOrangeAndBlue();}
-
-        if (requestedLight > actualLight) {
-            if (actualLight == 0) {
-                blindedByScience.set(true);
-                actualLight += 1;
-            } else {
-                blindedByTheLight.set(true);
-                actualLight += 1;
-            }
-        } else if (requestedLight < actualLight) {
-            blindedByScience.set(requestedLight > 0);
-            blindedByTheLight.set(requestedLight > 1);
-            actualLight = requestedLight;
-        }
-
-        SmartDashboard.putNumber("BiasVert", verticalBias);
-        SmartDashboard.putNumber("BiasHoriz", horizontalBias);
-
-    }
-
-    public double getDistanceFromTarget() {
-        return 0d;
+        
+        if(DriverStation.getInstance().isDisabled()) processReq.setBoolean(true);
+        else processReq.setBoolean(false);
+        
+        XValue = table.getEntry("VisionX").getDouble(0);
+        YValue = table.getEntry("VisionY").getDouble(0);
+        Height = table.getEntry("VisionHeight").getDouble(0); 
+        Found  = table.getEntry("VisionFound").getDouble(0);
+        
     }
 
     public double getOffsetAngle() {
-        return XValue - 320 + horizontalBias;
+        return ((XValue - IMG_CNTR_COL) + horizontalBias);
     }
 
     public boolean seePortTarget() {
-         if (Found > 0) {
-             return true;
-         } else {
-             return false;
-         }
+        return (Found > 0d);
     }
 
-    public static double getTargetFlywheelSpeed() {
-        return 0d;
-    }
-
-    public boolean seeBayTarget() {
-        return false;
-    }
-
-    public double getBestShooterAngle() {
+    public double getBestLeadScrew() {
         if (Height > 0) {
-            return shooterAngle.get(Height) + verticalBias;
+            return leadScrewInterpolationTable.get(Height) + verticalBias;
         } else {
-            return 20;
+            return DEFAULT_LEAD_SCREW;
         }
     }
 
     public double getBestShooterVelocity() {
         if (Height > 0) {
-            return flyWheelSpeed.get(Height);
+            return flywheelSpeedInterpolationTable.get(Height);
         } else {
-            return 1000;
+            return DEFAULT_SHOOTER_VELOCITY;
         }
     }
 
     public double getBestShooterBackspin() {
         if (Height > 0) {
-        return backspinData.get(Height);
+            return backspinInterpolationTable.get(Height);
         } else {
-            return 500;
+            return DEFAULT_SHOOTER_BACKSPIN;
         }
     }
 
     public void ringOn(){
-        blindedByTheLight.set(false);
-        blindedByScience.set(true);
+        outerLEDRing.set(false);
+        innerLEDRing.set(true);
     }
 
-    public void   ringOff(){
-        blindedByTheLight.set(false);
-        blindedByScience.set(false);
+    public void ringOff(){
+        outerLEDRing.set(false);
+        innerLEDRing.set(false);
     }
 
-    public  void bothRingsOn(){
-        blindedByTheLight.set(true);
-        blindedByScience.set(true);
+    public void bothRingsOn(){
+        outerLEDRing.set(true);
+        innerLEDRing.set(true);
     }
-
-    //data sheet
-
-    private void shooterAngleConfig(){
-        //left input      right outputb    256
-
-        shooterAngle.put(115.0, 46.5);//closet shot-2
-        shooterAngle.put(95.0, 35.0);//10ft-2
-        shooterAngle.put(62.0, 26.5);//close trench-2
-        shooterAngle.put(39.0,23.0);
-
-//        shooterAngle.put(45.0, 200.0);
-    }
-    private void configShooterSpeed() {
-        //left input      right output
-        flyWheelSpeed.put(115.0,3250.0);
-        flyWheelSpeed.put(95.0,3500.0);
-        flyWheelSpeed.put(62.0,3500.0);
-        flyWheelSpeed.put(39.0,3500.0);
-//        flyWheelSpeed.put(45.0,3500.0);
-    }
-    private void configShooterBackspin() {
-        //left input      right output
-        backspinData.put(115.0,750.0);//closest shot
-        backspinData.put(95.0,750.0);//10ft
-        backspinData.put(62.0,1000.0);//close trench
-        backspinData.put(39.0,1000.0);
-//        backspinData.put(45.0,1500.0);
-
-    }
-
+    
     public void biasUp() {
-        verticalBias += 0.5;
+        verticalBias += VERT_BIAS_STEP;
     }
 
     public void biasDown() {
-        verticalBias -= 0.5;
+        verticalBias -= VERT_BIAS_STEP;
     }
 
     public void biasLeft() {
-        horizontalBias -= 2;
+        horizontalBias -= HORIZ_BIAS_STEP;
     }
 
     public void biasRight() {
-        horizontalBias += 2;
+        horizontalBias += HORIZ_BIAS_STEP;
     }
 
     public void biasReset() {
         verticalBias = startVertBias;
         horizontalBias = startHorizBias;
     }
+
+    // Interpolation Table Data Configuration
+
+    private void configLeadScrew(){
+        // input in target height pixels TODO verify this is correct interpretation
+        // output degrees
+        leadScrewInterpolationTable.put(150.0, 49.50); // leadScrewInterpolationTable.put(120.0, 49.5);  // leadScrewInterpolationTable.put(145.0, 49.0); // leadScrewInterpolationTable.put(120.0, 43.0);  // leadScrewInterpolationTable.put(120.0, 40.0);
+        leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(107.0, 33.0);  // leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
+        leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(87.0,  30.0);  // leadScrewInterpolationTable.put(95.0,  29.75); // leadScrewInterpolationTable.put(95.0,  29.75); // 35.0); // 10ft-2
+        leadScrewInterpolationTable.put(62.0,  27.5);  // leadScrewInterpolationTable.put(50.0,  27.5); // leadScrewInterpolationTable.put(62.0,  27.5);  // leadScrewInterpolationTable.put(62.0,  27.5); // 26.5); // close trench-2
+        leadScrewInterpolationTable.put(39.0,  26.5);  // leadScrewInterpolationTable.put(30.0,  28.0); // leadScrewInterpolationTable.put(39.0,  26.5);  // leadScrewInterpolationTable.put(39.0,  26.5); // 23.0);
+    }
+    
+    private void configShooterSpeed() {
+        // input in target height pixels TODO verify this is correct interpretation
+        // output RPM
+        flywheelSpeedInterpolationTable.put(150.0, 5000.0); // flywheelSpeedInterpolationTable.put(120.0, 1550.0); // 1550.0 for 3d  // flywheelSpeedInterpolationTable.put(145.0, 1225.0);
+        flywheelSpeedInterpolationTable.put(115.0, 3250.0); // flywheelSpeedInterpolationTable.put(107.0, 2000.0);
+        flywheelSpeedInterpolationTable.put(95.0,  3500.0); // flywheelSpeedInterpolationTable.put(87.0,  2500.0);
+        flywheelSpeedInterpolationTable.put(62.0,  3500.0); // flywheelSpeedInterpolationTable.put(50.0,  3000.0);
+        flywheelSpeedInterpolationTable.put(39.0,  3500.0); // flywheelSpeedInterpolationTable.put(30.0,  3500.0);
+    }
+
+    private void configShooterBackspin() {
+        // input in target height pixels TODO verify this is correct interpretation
+        // output RPM
+        backspinInterpolationTable.put(150.0, 750.0); // backspinInterpolationTable.put(120.0, 1500.0); // 1500.0 for 3d // backspinInterpolationTable.put(145.0, 1000.0); //
+        backspinInterpolationTable.put(115.0, 750.0);  // backspinInterpolationTable.put(107.0, 1000.0); //// closest shot
+        backspinInterpolationTable.put(95.0,  750.0);  // backspinInterpolationTable.put(87.0,  1500.0); //// 10ft
+        backspinInterpolationTable.put(62.0,  1000.0); // backspinInterpolationTable.put(50.0,  1500.0); // // close trench
+        backspinInterpolationTable.put(39.0,  1000.0); // backspinInterpolationTable.put(30.0,  1500.0); //
+    }
+
 }

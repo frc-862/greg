@@ -24,7 +24,6 @@ public class Robot extends LightningRobot {
 
     private static LightningContainer getRobot() {
         if(isGreg() || isIllusion()) return new GregContainer();
-        if(isNebula()) return new NebulaContainer();
         if(isQuasar()) return new QuasarContainer();
         if(isTwiki()) return new TwikiContainer();
         return null;
@@ -36,10 +35,6 @@ public class Robot extends LightningRobot {
 
     public static boolean isIllusion() {
         return Files.exists(Paths.get("/home/lvuser/illusion"));
-    }
-
-    public static boolean isNebula() {
-        return Files.exists(Paths.get("/home/lvuser/nebula"));
     }
 
     public static boolean isTwiki() {

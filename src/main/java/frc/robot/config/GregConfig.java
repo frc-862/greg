@@ -22,7 +22,7 @@ public class GregConfig extends LightningConfig {
 
     @Override
     public double getWheelDiameterInches() {
-        return 6;
+        return 6.13;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class GregConfig extends LightningConfig {
 
     @Override
     public double getOpenLoopRamp() {
-        return 0.6; // 0.5
+        return 0.5; // 0.6
     }
 
     @Override
@@ -52,8 +52,8 @@ public class GregConfig extends LightningConfig {
                 0.0353, // right_kP
                 0d, // right_kI
                 0d, // right_kD
-                5.4d, // maxVelocity (ft/sec)
-                5d); // maxAcceleration (ft/sec^2)
+                9d, //7d, // 5.4d, //8d, // 5.4d, // maxVelocity (ft/sec)
+                8d );// 5d); // maxAcceleration (ft/sec^2)
     }
 
 }

@@ -11,18 +11,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import frc.lightning.subsystems.LightningDrivetrain;
-import frc.lightning.auto.Path;
-import frc.lightning.auto.Paths;
-import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
-
 /**
  * Drives given path while collecting and indexing.
  */
-public class GalacticSearchCommand extends CommandBase {
+public class GalacticSearchIdentifier extends CommandBase {
 
 	private final String nullState = "NONE";
 
@@ -30,21 +22,13 @@ public class GalacticSearchCommand extends CommandBase {
 
     public static final String INFERENCE_RESULT_ENTRY_NAME = "DeterminedPath";
 
-	private LightningDrivetrain drivetrain;
-
-	private Collector collector;
-
-	private Indexer indexer;
-
     private NetworkTable ntab;
 
     private NetworkTableEntry processReq;
 
     private NetworkTableEntry processRes;
 
-	private double startTime, endTime = 0d;
-
-	public GalacticSearchCommand(LightningDrivetrain drivetrain, Collector collector, Indexer indexer) {
+	public GalacticSearchIdentifier() {
 
 		// Vision Network Table
         ntab = NetworkTableInstance.getDefault().getTable("Vision");
@@ -54,12 +38,6 @@ public class GalacticSearchCommand extends CommandBase {
 
         // Process Results Entry
         processRes = ntab.getEntry(INFERENCE_RESULT_ENTRY_NAME);
-
-		this.drivetrain = drivetrain;
-		this.collector = collector;
-		this.indexer = indexer;
-
-		Shuffleboard.getTab("Autonomous").addNumber("Inference Time -> Path Start", () -> endTime);
 
 	}
 
@@ -71,8 +49,8 @@ public class GalacticSearchCommand extends CommandBase {
 	@Override
 	public void initialize() {
 		super.initialize();
-		indexer.resetBallCount();
-		startTime = Timer.getFPGATimestamp();
+		processRes.setString(nullState);
+		processReq.setBoolean(true);
 	}
 
 	@Override
@@ -84,9 +62,6 @@ public class GalacticSearchCommand extends CommandBase {
 	public void end(boolean interrupted) {
 		super.end(interrupted);
 		processReq.setBoolean(false);
-		Path path = Paths.getPath(processRes.getString(nullState));
-		endTime = Timer.getFPGATimestamp() - startTime;
-		(new CollectPathCommand(drivetrain, collector, indexer, path)).schedule();
 	}
 
 }

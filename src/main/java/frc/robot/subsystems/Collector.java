@@ -17,39 +17,25 @@ import frc.robot.RobotMap;
 
 public class Collector extends SubsystemBase {
 
-    //Components
     private VictorSPX linearMotor;
     private VictorSPX longitudinalMotor;
-    private DoubleSolenoid putterOutter;
+    private DoubleSolenoid pistons;
 
-    /**
-     * Creates a new Collector.
-     */
     public Collector() {
-        // Init
+
         linearMotor = new WPI_VictorSPX(RobotMap.LINEAR_MOTOR);
         linearMotor.setInverted(true);
+
         longitudinalMotor = new WPI_VictorSPX(RobotMap.LONGITUDNAL_MOTOR);
         longitudinalMotor.setInverted(true);
-        putterOutter = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.COLLECTOR_IN_CHANNEL, RobotMap.COLLECTOR_OUT_CHANNEL);
+
+        pistons = new DoubleSolenoid(RobotMap.COMPRESSOR_ID, RobotMap.COLLECTOR_IN_CHANNEL, RobotMap.COLLECTOR_OUT_CHANNEL);
+
     }
 
-    public void deployGround() {
-    }
+    public void collect() { collect(1d); }
 
-    public void deployPort() {
-    }
-
-    public void retract() {
-    }
-
-    public void collect() {
-        collect(1d);
-    }
-
-    public void eject() {
-        eject(-1d);
-    }
+    public void eject() { eject(1d); }
 
 
     public void collect(double pwr) {
@@ -57,12 +43,12 @@ public class Collector extends SubsystemBase {
     }
 
     public void eject(double pwr) {
-        linearMotor.set(ControlMode.PercentOutput,pwr);
+        linearMotor.set(ControlMode.PercentOutput, -pwr);
     }
 
     public void setPower(double pwr) {
-        linearMotor.set(ControlMode.PercentOutput,pwr);
-        longitudinalMotor.set(ControlMode.PercentOutput,-pwr);
+        linearMotor.set(ControlMode.PercentOutput, pwr);
+        longitudinalMotor.set(ControlMode.PercentOutput, -pwr);
     }
 
     public void setPowerLongitudinal(double pwr) {
@@ -70,26 +56,25 @@ public class Collector extends SubsystemBase {
     }
 
     public void stop() {
-        linearMotor.set(ControlMode.PercentOutput, 0);
-        longitudinalMotor.set(ControlMode.PercentOutput, 0);
+        linearMotor.set(ControlMode.PercentOutput, 0d);
+        longitudinalMotor.set(ControlMode.PercentOutput, 0d);
     }
     
-    public void puterOuterOut() {
-        putterOutter.set(DoubleSolenoid.Value.kForward);
+    public void retract() {
+        pistons.set(DoubleSolenoid.Value.kForward);
     }
 
-    public void puterOuterIn() {
-        putterOutter.set(DoubleSolenoid.Value.kReverse);
+    public void extend() {
+        pistons.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void toggleCollector() {
-        if(putterOutter.get().equals(DoubleSolenoid.Value.kForward)) puterOuterIn();
-        else puterOuterOut();
+        if(pistons.get().equals(DoubleSolenoid.Value.kForward)) extend();
+        else retract();
     }
 
     public boolean isOut() {
-        // return putterOutter.get().equals(DoubleSolenoid.Value.kForward);
-        return putterOutter.get().equals(DoubleSolenoid.Value.kReverse);
+        return pistons.get().equals(DoubleSolenoid.Value.kReverse);
     }
 
 }

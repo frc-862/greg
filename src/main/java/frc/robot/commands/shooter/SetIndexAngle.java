@@ -2,13 +2,13 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lightning.util.LightningMath;
-import frc.robot.subsystems.ShooterAngle;
+import frc.robot.subsystems.LeadScrew;
 
 public class SetIndexAngle extends CommandBase {
-    private final ShooterAngle indexer;
+    private final LeadScrew indexer;
     private final double angle;
 
-    public SetIndexAngle(ShooterAngle indexer, double angle) {
+    public SetIndexAngle(LeadScrew indexer, double angle) {
         this.indexer = indexer;
         this.angle = angle;
     }

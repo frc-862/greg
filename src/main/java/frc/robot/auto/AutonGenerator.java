@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 public class AutonGenerator {
 
-    public final boolean TESTING = false;
+    public final boolean TESTING = true;
 
     private PathGenerator pathGenerator;
 

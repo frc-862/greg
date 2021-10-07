@@ -6,4 +6,4 @@
 Yes, we named our robot greg. No, we don't know why.
 
 ## Joystick Mappings
-<img src="https://github.com/frc-862/greg/raw/master/README/JoystickMapping.jpg" width="100%">
+<img src="https://github.com/frc-862/greg/blob/feature/EOPRE-15-comp-ready/README/joystick-map.png" width="100%">

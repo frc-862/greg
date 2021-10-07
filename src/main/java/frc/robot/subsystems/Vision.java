@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,7 +16,6 @@ import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 
 public class Vision extends SubsystemBase {
 
@@ -29,11 +27,6 @@ public class Vision extends SubsystemBase {
 
     public static final double VERT_BIAS_STEP = 0.5;
     public static final double HORIZ_BIAS_STEP = 2d;
-    
-    public static final String PROCESS_REQUEST_ENTRY_NAME = "DeterminePath";
-    public static final String INFERENCE_RESULT_ENTRY_NAME = "DeterminedPath";
-
-	private static final String nullState = "NONE";
 
     private double XValue = 0d;
     private double YValue = 0d;
@@ -54,12 +47,6 @@ public class Vision extends SubsystemBase {
     private InterpolatedMap leadScrewInterpolationTable = new InterpolatedMap();
     private InterpolatedMap flywheelSpeedInterpolationTable = new InterpolatedMap();
     private InterpolatedMap backspinInterpolationTable = new InterpolatedMap();
-
-    private NetworkTable ntab;
-
-    private NetworkTableEntry processReq;
-
-    private NetworkTableEntry processRes;
 
     public Vision() {
 
@@ -90,18 +77,10 @@ public class Vision extends SubsystemBase {
 
         Shuffleboard.getTab("Shooter").addNumber("Requested Lead Screw", this::getBestLeadScrew);
 
-        ntab = NetworkTableInstance.getDefault().getTable("Vision");
-        processReq = ntab.getEntry(PROCESS_REQUEST_ENTRY_NAME);
-        processRes = ntab.getEntry(INFERENCE_RESULT_ENTRY_NAME);
-        processRes.setString(nullState);
-
     }
 
     @Override
     public void periodic() {
-        
-        if(DriverStation.getInstance().isDisabled()) processReq.setBoolean(true);
-        else processReq.setBoolean(false);
         
         XValue = table.getEntry("VisionX").getDouble(0);
         YValue = table.getEntry("VisionY").getDouble(0);
@@ -181,7 +160,7 @@ public class Vision extends SubsystemBase {
     // Interpolation Table Data Configuration
 
     private void configLeadScrew(){
-        // input in target height pixels TODO verify this is correct interpretation
+        // input in target height pixels
         // output degrees
         leadScrewInterpolationTable.put(150.0, 49.50); // leadScrewInterpolationTable.put(120.0, 49.5);  // leadScrewInterpolationTable.put(145.0, 49.0); // leadScrewInterpolationTable.put(120.0, 43.0);  // leadScrewInterpolationTable.put(120.0, 40.0);
         leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(107.0, 33.0);  // leadScrewInterpolationTable.put(115.0, 35.75); // leadScrewInterpolationTable.put(115.0, 33.75); // 46.5); // closet shot-2
@@ -191,7 +170,7 @@ public class Vision extends SubsystemBase {
     }
     
     private void configShooterSpeed() {
-        // input in target height pixels TODO verify this is correct interpretation
+        // input in target height pixels
         // output RPM
         flywheelSpeedInterpolationTable.put(150.0, 5000.0); // flywheelSpeedInterpolationTable.put(120.0, 1550.0); // 1550.0 for 3d  // flywheelSpeedInterpolationTable.put(145.0, 1225.0);
         flywheelSpeedInterpolationTable.put(115.0, 3250.0); // flywheelSpeedInterpolationTable.put(107.0, 2000.0);
@@ -201,7 +180,7 @@ public class Vision extends SubsystemBase {
     }
 
     private void configShooterBackspin() {
-        // input in target height pixels TODO verify this is correct interpretation
+        // input in target height pixels
         // output RPM
         backspinInterpolationTable.put(150.0, 750.0); // backspinInterpolationTable.put(120.0, 1500.0); // 1500.0 for 3d // backspinInterpolationTable.put(145.0, 1000.0); //
         backspinInterpolationTable.put(115.0, 750.0);  // backspinInterpolationTable.put(107.0, 1000.0); //// closest shot

@@ -3,6 +3,7 @@ package frc.robot;
 import frc.lightning.util.REVGains;
 import frc.lightning.util.RamseteGains;
 
+//WARNING: GregConfig.java WILL REPLACE THIS
 public class Constants {
 
     // DEVELOPMENT
@@ -43,8 +44,8 @@ public class Constants {
                                                                 0.0353, // right_kP
                                                                 0d, // right_kI
                                                                 0d, // right_kD  
-                                                                5.4d, // maxVelocity (ft/sec)
-                                                                5d); // maxAcceleration (ft/sec^2)
+                                                                1d, // maxVelocity (ft/sec)
+                                                                1d); // maxAcceleration (ft/sec^2)
 
     public static final RamseteGains TWIKI = new RamseteGains(0.5583711759, // trackWidth
             0.136, // kS

@@ -23,6 +23,8 @@ public class AutonGenerator {
 
     public final boolean TESTING = true;
 
+    int indxAngle = 36;
+
     private PathGenerator pathGenerator;
 
     private LightningDrivetrain drivetrain;
@@ -215,7 +217,7 @@ public class AutonGenerator {
             new ParallelCommandGroup(
                     new InitAuto(vision, indexer, collector),
                     new SpinUpFlywheelManual(shooter, 3000),
-                    new SetIndexAngle(leadScrew, 39)
+                    new SetIndexAngle(leadScrew, indxAngle)
             ),
             // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
             // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 3.5d),
@@ -237,7 +239,7 @@ public class AutonGenerator {
                 new ParallelCommandGroup(
                         new InitAuto(vision, indexer, collector),
                         new SpinUpFlywheelManual(shooter, 3000),
-                        new SetIndexAngle(leadScrew, 39)
+                        new SetIndexAngle(leadScrew, indxAngle)
                 ),
                 // new FullAutoFireMagazine(drivetrain, vision, shooter, leadScrew, indexer),
                 // new RunCommandTime(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, false), 3.5d),

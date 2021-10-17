@@ -36,7 +36,7 @@ public class Vision extends SubsystemBase {
     private final Solenoid innerLEDRing;
     private final Solenoid outerLEDRing;
 
-    private double startVertBias = 0;
+    private double startVertBias = 1.0;
     private double startHorizBias = -28.; //14.;
 
     private double verticalBias = startVertBias;

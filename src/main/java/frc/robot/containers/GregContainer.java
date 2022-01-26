@@ -38,6 +38,7 @@ import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
+import frc.robot.commands.DeleteLogCommand;
 import frc.robot.config.GregConfig;
 import frc.robot.misc.PathUtils;
 import frc.robot.subsystems.*;
@@ -163,6 +164,9 @@ public class GregContainer extends LightningContainer {
         final var shooter_tab = Shuffleboard.getTab("Shooter");
         shooter_tab.add("Manual lead screw", new RunCommand(() -> leadScrew.setPower(-operator.getY(GenericHID.Hand.kLeft)), leadScrew));
         shooter_tab.add("Fire 3", new FireThree(shooter, indexer, leadScrew, vision, collector));
+
+        final var logging_tab = Shuffleboard.getTab("Logging");
+        logging_tab.add("Delete Old Logs", new DeleteLogCommand(50));
 
         // final var path_config_tab = Shuffleboard.getTab("Path Config");
         // path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));

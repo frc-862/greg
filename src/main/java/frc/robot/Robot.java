@@ -9,6 +9,7 @@ package frc.robot;
 
 import frc.lightning.LightningContainer;
 import frc.lightning.LightningRobot;
+import frc.robot.commands.DeleteLogCommand;
 import frc.robot.containers.*;
 
 import java.nio.file.Files;
@@ -45,4 +46,9 @@ public class Robot extends LightningRobot {
         return Files.exists(Paths.get("/home/lvuser/quasar"));
     }
 
+    @Override
+    public void teleopInit() {
+        super.teleopInit();
+        (new DeleteLogCommand(50)).schedule();
+    }
 }

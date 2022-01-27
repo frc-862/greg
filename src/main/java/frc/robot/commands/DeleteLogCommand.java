@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.io.File;
 import java.util.Arrays;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DeleteLogCommand extends CommandBase {
@@ -29,6 +30,7 @@ public class DeleteLogCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("logFileCount", getLogAmount());
     Arrays.sort(logFiles);
 
     if (logFiles.length > filesToKeep) {
@@ -46,6 +48,10 @@ public class DeleteLogCommand extends CommandBase {
 
       isDone = true;
     }
+  }
+
+  public int getLogAmount() {
+    return logFiles.length;
   }
 
   // Called once the command ends or is interrupted.

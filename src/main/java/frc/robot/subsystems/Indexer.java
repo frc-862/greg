@@ -66,11 +66,11 @@ public class Indexer extends SubsystemBase {
     public void periodic() {
         ballSeen = !collectSensor.get();
         ballSeenShooter = !ejectSensor.get();
-        SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
+      //SmartDashboard.putBoolean("BallSeenBeamBreak", ballSeen);
         // SmartDashboard.putNumber("BallsHeld", ballCount);
-        SmartDashboard.putNumber("BallsHeld", ballsHeld);
-        SmartDashboard.putBoolean("IndexerArmed", armed);
-        SmartDashboard.putBoolean("is Empty", isEmpty());
+      //SmartDashboard.putNumber("BallsHeld", ballsHeld);
+      //SmartDashboard.putBoolean("IndexerArmed", armed);
+      //SmartDashboard.putBoolean("is Empty", isEmpty());
 
         
         if(ballSeen) {
@@ -120,7 +120,8 @@ public class Indexer extends SubsystemBase {
     public void resetBallCount() { /*ballCount = 0;*/ }
 
     public void setBallsHeld() { 
-        int balls = (int) SmartDashboard.getNumber("StartingBallCount", 3);
+        // int balls = (int) SmartDashboard.getNumber("StartingBallCount", 3);
+        int balls = 0;
         this.ballCount = balls;
         this.ballsFired = 0;
         this.ballsHeld = balls;

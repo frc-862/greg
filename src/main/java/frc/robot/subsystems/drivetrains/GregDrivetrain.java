@@ -2,12 +2,15 @@ package frc.robot.subsystems.drivetrains;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.lightning.LightningConfig;
-import frc.lightning.subsystems.NeoDrivetrain;
 import frc.lightning.subsystems.IMU.IMUFunction;
+import frc.lightning.subsystems.NeoDrivetrain;
+import frc.robot.Constants;
 import frc.robot.RobotConstants;
 import frc.robot.RobotMap;
 

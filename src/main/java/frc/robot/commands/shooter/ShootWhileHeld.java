@@ -7,13 +7,7 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.LeadScrew;
 import frc.robot.subsystems.Shooter;
@@ -23,37 +17,34 @@ public class ShootWhileHeld extends CommandBase {
   private Shooter shooter;
   private Indexer indexer;
   private LeadScrew leadscrew;
-  private Collector collector;
 
   /**
    * Creates a new FireThree.
    */
-  public ShootWhileHeld(Shooter shooter, Indexer indexer, LeadScrew leadScrew, Collector collector) {
+  public ShootWhileHeld(Shooter shooter, Indexer indexer, LeadScrew leadScrew) {
     this.shooter = shooter;
     this.indexer = indexer;
     this.leadscrew = leadScrew;
-    this.collector = collector;
-    addRequirements(shooter, indexer, leadScrew, collector);
+    addRequirements(shooter, indexer, leadScrew);
+
   }
 
   @Override
     public void initialize() {
-        
-  
-
       leadscrew.enableAutoAdjust();
-      shooter.setShooterVelocity(SmartDashboard.getNumber("RPM", 2000));
-      leadscrew.setAngle(SmartDashboard.getNumber("angle", 39));
-      indexer.safteyOpen();
-      indexer.setPower(1);
-
+      shooter.setShooterVelocity(shooter.getRPM());
+      leadscrew.setAngle(shooter.getScrewAngle());
     }
 
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    indexer.toShooter();
+    if(Math.abs(shooter.getScrewAngle() - leadscrew.getAngle()) <= 2) {
+      indexer.safteyOpen();
+      indexer.setPower(1);
+      } //wait until the lead screw is at the right position
+      
   }
 
   // Called once the command ends or is interrupted.

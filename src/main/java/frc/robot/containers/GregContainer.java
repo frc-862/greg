@@ -94,10 +94,10 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
         // (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
         // (new POVButton(operator, -1)).whenPressed(new RumbleCommand(operator, vision::biasUp));
-        (new POVButton(operator, 89)).whenPressed(new RumbleCommand(operator, vision::biasRight));
+        // (new POVButton(operator, 89)).whenPressed(new RumbleCommand(operator, vision::biasRight));
         // (new POVButton(operator, 179)).whenPressed(new RumbleCommand(operator, vision::biasDown));
         // (new POVButton(ope`rator, 269)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
-        (new JoystickButton(operator, JoystickConstants.A)).whileHeld(new ShootWhileHeld(shooter, indexer, leadScrew, collector));
+        (new JoystickButton(operator, JoystickConstants.A)).whileHeld(new ShootWhileHeld(shooter, indexer, leadScrew));
 
         // CLIMB CONTROLLER
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
@@ -113,7 +113,7 @@ public class GregContainer extends LightningContainer {
     @Override
     protected void configureDefaultCommands() {
 
-        drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
+        drivetrain.setDefaultCommand(new VoltDrive(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY(), () -> shooter.getSpeedMult()));
         indexer.setDefaultCommand(new IndexerCommand(indexer));
         collector.setDefaultCommand(new Collect(collector, this::getCollectPower));
         climber.setDefaultCommand(new ManualClimb(climber, () -> -climberController.getRawAxis(1), () -> -climberController.getRawAxis(5)));

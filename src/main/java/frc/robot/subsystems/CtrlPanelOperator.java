@@ -61,10 +61,10 @@ public class CtrlPanelOperator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Blue",getColorSensorBlue());
-        SmartDashboard.putNumber("Red",getColorSensorRed());
-        SmartDashboard.putNumber("Green",getColorSensorGreen());
-        SmartDashboard.putNumber("color",color);
+      //SmartDashboard.putNumber("Blue",getColorSensorBlue());
+      //SmartDashboard.putNumber("Red",getColorSensorRed());
+      //SmartDashboard.putNumber("Green",getColorSensorGreen());
+      //SmartDashboard.putNumber("color",color);
         Color detectedColor = I_Can_Taste_Color.getColor();
 
         // Run the color match algorithm on our detected color
@@ -86,10 +86,10 @@ public class CtrlPanelOperator extends SubsystemBase {
         //green=3
         //yellow=4
         //???=0
-        SmartDashboard.putBoolean("is Yellow",color==3);
-        SmartDashboard.putBoolean("is Red",color==2);
-        SmartDashboard.putBoolean("is Green",color==1);
-        SmartDashboard.putBoolean("is Blue",color==0);
+      //SmartDashboard.putBoolean("is Yellow",color==3);
+      //SmartDashboard.putBoolean("is Red",color==2);
+      //SmartDashboard.putBoolean("is Green",color==1);
+      //SmartDashboard.putBoolean("is Blue",color==0);
     }
 
     /**

@@ -86,7 +86,7 @@ public class VisionRotate extends CommandBase {
         }
 
         drivetrain.setOutput(12 * pwr, -pwr * 12);
-        SmartDashboard.putBoolean("in tolerance", inTolerance());
+      //SmartDashboard.putBoolean("in tolerance", inTolerance());
     }
 
     private boolean inTolerance() {

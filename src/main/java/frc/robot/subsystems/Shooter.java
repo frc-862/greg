@@ -7,10 +7,15 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.*;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.ControlType;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lightning.logging.DataLogger;
@@ -42,6 +47,11 @@ public class Shooter extends SubsystemBase {
 
     private boolean armed = false;
     double backspin = 1500;
+
+
+    NetworkTableEntry driveSpeedMult = Shuffleboard.getTab("demo").add("speed mult", Constants.SLOWMODEMULT).getEntry();
+    NetworkTableEntry RPM = Shuffleboard.getTab("demo").add("RPM", 2000).getEntry();
+    NetworkTableEntry screwAngle = Shuffleboard.getTab("demo").add("angle", 20).getEntry();
 
     /**
      * Creates a new Shooter.
@@ -98,9 +108,9 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
-        SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
-        SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
+      //SmartDashboard.putNumber("motor 1 speed",motor1encoder.getVelocity());
+      //SmartDashboard.putNumber("motor 2 speed",motor2encoder.getVelocity());
+      //SmartDashboard.putNumber("motor 3 speed",motor3encoder.getVelocity());
         backspin = NetworkTableInstance.getDefault().getTable("Shooter").getEntry("Backspin").getDouble(backspin); //SmartDashboard.getNumber("backspin", backspin); // updating backspin from smartdashboard 
         
         // TODO: maybe check all the motors
@@ -169,6 +179,18 @@ public class Shooter extends SubsystemBase {
 
     public double getFlywheelMotor3Velocity() {
         return motor3encoder.getVelocity();
+    }
+
+    public double getSpeedMult() {
+        return driveSpeedMult.getDouble(Constants.SLOWMODEMULT);
+    }
+
+    public double getRPM() {
+        return RPM.getDouble(2000);
+    }
+
+    public double getScrewAngle() {
+        return screwAngle.getDouble(20);
     }
 
 }

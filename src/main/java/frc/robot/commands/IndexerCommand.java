@@ -28,14 +28,14 @@ public class IndexerCommand extends StatefulCommand {
     public void initialize() {
         this.setState(States.idle);
         super.initialize();
-//        SmartDashboard.putData("state index",()->this.getState().toString());
+//      //SmartDashboard.putData("state index",()->this.getState().toString());
 
     }
 
     @Override
     public void execute() {
         super.execute();
-        SmartDashboard.putString("Index State", getState().toString());
+      //SmartDashboard.putString("Index State", getState().toString());
     }
 
     public void idleEnter() {

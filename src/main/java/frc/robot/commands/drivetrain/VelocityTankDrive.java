@@ -37,8 +37,8 @@ public class VelocityTankDrive extends CommandBase {
         final double targetLeft = (filter.filter(leftThrottle.getAsDouble()) * Constants.NEO_MAX_RPM);
         final double targetRight = (filter.filter(rightThrottle.getAsDouble()) * Constants.NEO_MAX_RPM);
 
-        SmartDashboard.putNumber("Left Target", targetLeft);
-        SmartDashboard.putNumber("Right Target", targetRight);
+      //SmartDashboard.putNumber("Left Target", targetLeft);
+      //SmartDashboard.putNumber("Right Target", targetRight);
 
         drivetrain.setVelocity(targetLeft, targetRight);
     }

@@ -18,6 +18,7 @@ import java.util.Map;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import frc.lightning.LightningConfig;
 import frc.lightning.LightningContainer;
@@ -29,6 +30,7 @@ import frc.robot.commands.auto.GalacticSearchCommand;
 import frc.robot.commands.auto.GalacticSearchIdentifier;
 import frc.lightning.subsystems.*;
 import frc.lightning.subsystems.IMU;
+import frc.robot.Constants;
 import frc.robot.JoystickConstants;
 import frc.robot.auto.AutonGenerator;
 import frc.robot.commands.Collect;
@@ -38,6 +40,7 @@ import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.ManualClimb;
 import frc.robot.commands.VisionRotate;
 import frc.robot.commands.shooter.FireThree;
+import frc.robot.commands.shooter.ShootWhileHeld;
 import frc.robot.config.GregConfig;
 import frc.robot.misc.PathUtils;
 import frc.robot.subsystems.*;
@@ -77,11 +80,10 @@ public class GregContainer extends LightningContainer {
     protected void configureButtonBindings() {
 
         // DRIVER
-        (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
-        (new JoystickButton(driverRight, 1)).whileHeld(new FullAutoFireOne(drivetrain, vision, shooter, leadScrew, indexer, true));
-        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
-        (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
-        (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
+        // (new JoystickButton(driverLeft, 1)).whileHeld(new VisionRotate(drivetrain,vision));
+        //  (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> shooter.stop(), shooter));
+        // (new JoystickButton(driverRight, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
+        // (new JoystickButton(driverLeft, 1)).whenReleased(new InstantCommand(()-> vision.ringOff(), vision));
 
         // OPERATOR
         (new Trigger((() -> operator.getTriggerAxis(GenericHID.Hand.kRight) > 0.03))).whenActive(new InstantCommand(() -> { if(!collector.isOut()) collector.extend(); }, collector));
@@ -90,11 +92,12 @@ public class GregContainer extends LightningContainer {
         (new JoystickButton(operator, JoystickConstants.LEFT_BUMPER)).whileHeld(indexer::spit, indexer);
         (new JoystickButton(operator, JoystickConstants.START)).whenPressed(() -> { indexer.reastBallsHeld(); }, indexer, shooter);
         (new JoystickButton(operator, JoystickConstants.BACK)).whileHeld(indexer::toShooter, indexer);
-        (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
-        (new POVButton(operator, 0)).whenPressed(new RumbleCommand(operator, vision::biasUp));
-        (new POVButton(operator, 90)).whenPressed(new RumbleCommand(operator, vision::biasRight));
-        (new POVButton(operator, 180)).whenPressed(new RumbleCommand(operator, vision::biasDown));
-        (new POVButton(operator, 270)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
+        // (new JoystickButton(operator, JoystickConstants.X)).whenPressed(new InstantCommand(vision::biasReset));
+        // (new POVButton(operator, -1)).whenPressed(new RumbleCommand(operator, vision::biasUp));
+        (new POVButton(operator, 89)).whenPressed(new RumbleCommand(operator, vision::biasRight));
+        // (new POVButton(operator, 179)).whenPressed(new RumbleCommand(operator, vision::biasDown));
+        // (new POVButton(ope`rator, 269)).whenPressed(new RumbleCommand(operator, vision::biasLeft));
+        (new JoystickButton(operator, JoystickConstants.A)).whileHeld(new ShootWhileHeld(shooter, indexer, leadScrew, collector));
 
         // CLIMB CONTROLLER
         (new JoystickButton(climberController, JoystickConstants.A)).whileHeld(climber::up, climber);
@@ -166,7 +169,6 @@ public class GregContainer extends LightningContainer {
 
         // final var path_config_tab = Shuffleboard.getTab("Path Config");
         // path_config_tab.add("Path Config Command", new PathConfigCommand(drivetrain, () -> -driverLeft.getY(), () -> -driverRight.getY()));
-
     }
 
     @Override

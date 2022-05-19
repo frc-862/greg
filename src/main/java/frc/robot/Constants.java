@@ -104,6 +104,8 @@ public class Constants {
     public static double kAdjusterD = 0;
     public static double kAdjusterI = 0;
     public static double kAdjusterP = 0.013333333333;
+
+    public static double SLOWMODEMULT = 0.3;
 }
 //    public static double M1ShooterKf = 0.0002150;
 //    public static double M2shooterKf=0.0002220;
@@ -114,5 +116,3 @@ public class Constants {
 //    public static double M3shooterKf = 1/4500;
 //
 //}
-
-
